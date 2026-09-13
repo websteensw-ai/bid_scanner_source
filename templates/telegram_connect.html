@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>텔레그램 연결 - 공공 입찰 매칭 서비스</title>
+<style>
+  body { font-family: "맑은 고딕", sans-serif; background: #f5f6fa; margin: 0; padding: 0; }
+  .top-nav { max-width: 460px; margin: 0 auto; padding: 40px 24px 0; font-size: 13px; }
+  .top-nav a { color: #1f4e78; }
+  .wrap { max-width: 460px; margin: 16px auto 0; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); text-align: center; }
+  h1 { font-size: 20px; color: #1f2937; margin-bottom: 8px; }
+  .sub { font-size: 13px; color: #6b7280; margin-bottom: 28px; line-height: 1.6; }
+  .steps { text-align: left; background: #f9fafb; border-radius: 8px; padding: 16px 20px; font-size: 13px; color: #374151; margin-bottom: 24px; line-height: 1.8; }
+  .telegram-btn {
+    display: inline-block; width: 100%; box-sizing: border-box; padding: 14px; background: #229ED9; color: #fff;
+    border-radius: 8px; font-size: 15px; font-weight: bold; text-decoration: none;
+  }
+  .telegram-btn:hover { background: #1b87bd; }
+  .status { margin-top: 20px; font-size: 13px; color: #6b7280; }
+  .status.connected { color: #059669; font-weight: bold; }
+</style>
+</head>
+<body>
+  <div class="top-nav"><a href="/">← 홈으로</a></div>
+  <div class="wrap">
+    <h1>텔레그램으로 알림 받기</h1>
+    <div class="sub">분석이 끝나면 텔레그램으로 바로 알려드릴게요.</div>
+    <div class="steps">
+      1. 아래 버튼을 눌러 텔레그램 앱을 엽니다<br>
+      2. 봇과의 대화창에서 <b>시작</b> 버튼을 누릅니다<br>
+      3. 이 화면으로 돌아오면 자동으로 연결 완료 표시됩니다
+    </div>
+    <a class="telegram-btn" id="connect-btn" href="{{ connect_url }}" target="_blank" rel="noopener">텔레그램에서 연결하기</a>
+    <div class="status" id="status-text">연결 대기 중...</div>
+  </div>
+
+<script>
+async function poll() {
+  try {
+    const res = await fetch("/api/telegram/status");
+    const data = await res.json();
+    if (data.connected) {
+      document.getElementById("status-text").textContent = "✅ 연결 완료! 홈으로 이동합니다...";
+      document.getElementById("status-text").classList.add("connected");
+      setTimeout(() => { window.location.href = "/"; }, 1200);
+      return;
+    }
+  } catch (e) { /* 무시하고 계속 폴링 */ }
+  setTimeout(poll, 2000);
+}
+poll();
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>공공 입찰 매칭 서비스</title>
+<style>
+  body { font-family: "맑은 고딕", sans-serif; background: #f5f6fa; margin: 0; padding: 0; }
+  .wrap { max-width: 680px; margin: 60px auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  h1 { font-size: 22px; color: #1f2937; margin-bottom: 8px; }
+  p.desc { color: #6b7280; font-size: 14px; margin-bottom: 28px; }
+  label { display: block; font-size: 13px; color: #374151; margin-bottom: 6px; margin-top: 16px; }
+  input[type=text], input[type=number], select, textarea {
+    width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; font-family: inherit;
+  }
+  textarea { resize: vertical; min-height: 64px; }
+  .row { display: flex; gap: 16px; }
+  .row > div { flex: 1; }
+  button { margin-top: 28px; width: 100%; padding: 12px; background: #1f4e78; color: #fff; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; }
+  button:hover { background: #163a5a; }
+  .error { color: #dc2626; font-size: 13px; margin-top: 8px; }
+  .nav { max-width: 680px; margin: 20px auto 0; display: flex; justify-content: flex-end; gap: 14px; font-size: 13px; }
+  .nav a { color: #1f4e78; }
+  .toast {
+    max-width: 680px; margin: 20px auto 0; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;
+    border-radius: 10px; padding: 14px 18px; font-size: 14px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .toast button { all: unset; cursor: pointer; color: #065f46; font-size: 16px; margin: 0; padding: 0 4px; }
+
+  .mode-tabs { display: flex; gap: 6px; margin-top: 8px; border-bottom: 1px solid #e5e7eb; }
+  .mode-tab { flex: 1; text-align: center; padding: 10px 4px; font-size: 13px; color: #6b7280; cursor: pointer; border-bottom: 2px solid transparent; }
+  .mode-tab.active { color: #1f4e78; border-bottom-color: #1f4e78; font-weight: bold; }
+  .mode-pane { display: none; }
+  .mode-pane.active { display: block; }
+  .hint { color: #9ca3af; font-size: 12px; margin-top: 4px; }
+
+  .source-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; }
+  .source-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; }
+  .source-item input { width: auto; }
+</style>
+</head>
+<body>
+  <div class="nav">
+    {% if current_user_email %}
+      <span>{{ current_company_name or current_user_email }}님</span>
+      {% if telegram_configured %}
+        {% if telegram_connected %}
+          <span title="분석 완료 시 텔레그램으로 알림을 받습니다">📨 텔레그램 연결됨</span>
+        {% else %}
+          <a href="/telegram/connect">📨 텔레그램 연결하기</a>
+        {% endif %}
+      {% endif %}
+      <a href="/reports">내 리포트</a>
+      <a href="/logout">로그아웃</a>
+    {% else %}
+      <a href="/login">로그인</a>
+    {% endif %}
+  </div>
+  {% if welcome %}
+  <div class="toast" id="welcome-toast">
+    <span>🎉 가입이 완료되었습니다! 이제 회사 홈페이지 주소로 바로 분석을 시작해보세요.</span>
+    <button onclick="document.getElementById('welcome-toast').remove()">✕</button>
+  </div>
+  {% endif %}
+  <div class="wrap">
+    <h1>공공 입찰 매칭 서비스</h1>
+    <p class="desc">회사 정보를 입력하면 사업 영역을 파악해서, 선택한 출처의 최근 공고 중 실제로 수주 가능한 항목을 찾아드립니다.</p>
+
+    <div class="mode-tabs">
+      <div class="mode-tab active" data-mode="url">홈페이지 주소</div>
+      <div class="mode-tab" data-mode="industry">업종 선택</div>
+      <div class="mode-tab" data-mode="keywords">키워드 입력</div>
+    </div>
+
+    <form method="post" action="/analyze">
+      <input type="hidden" name="mode" id="mode-input" value="url">
+
+      <div class="mode-pane active" data-mode="url">
+        <label for="url">회사 웹사이트 주소</label>
+        <input type="text" id="url" name="url" placeholder="https://example.com" value="{{ company_url or '' }}">
+        <div class="hint">AI가 홈페이지 내용을 읽어 사업 영역과 키워드를 자동으로 파악합니다.</div>
+      </div>
+
+      <div class="mode-pane" data-mode="industry">
+        <label for="industry">업종 선택</label>
+        <select id="industry" name="industry">
+          <option value="">업종을 선택하세요</option>
+          {% for key, info in industries.items() %}
+          <option value="{{ key }}">{{ info.label }}</option>
+          {% endfor %}
+        </select>
+        <div class="hint">업종에 맞는 기본 키워드/기준으로 바로 검색합니다.</div>
+      </div>
+
+      <div class="mode-pane" data-mode="keywords">
+        <label for="keywords">키워드 입력</label>
+        <textarea id="keywords" name="keywords" placeholder="예: AI 에이전트, 스마트공장, 데이터 플랫폼"></textarea>
+        <div class="hint">쉼표(,) 또는 줄바꿈으로 구분해서 입력하세요.</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="days">조회 기간 (일)</label>
+          <input type="number" id="days" name="days" value="7" min="1" max="30">
+        </div>
+        <div>
+          <label for="min_score">최소 관련도 점수</label>
+          <input type="number" id="min_score" name="min_score" value="70" min="0" max="100">
+        </div>
+      </div>
+
+      <label>매칭할 공고 출처</label>
+      <div class="source-grid">
+        {% for key, info in sources.items() %}
+        <label class="source-item">
+          <input type="checkbox" name="sources" value="{{ key }}" checked>
+          {{ info.label }}
+        </label>
+        {% endfor %}
+      </div>
+
+      <button type="submit">분석 시작</button>
+      {% if error %}<div class="error">{{ error }}</div>{% endif %}
+    </form>
+  </div>
+
+<script>
+  const tabs = document.querySelectorAll(".mode-tab");
+  const panes = document.querySelectorAll(".mode-pane");
+  const modeInput = document.getElementById("mode-input");
+  const urlInput = document.getElementById("url");
+  const industrySelect = document.getElementById("industry");
+  const keywordsInput = document.getElementById("keywords");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const mode = tab.dataset.mode;
+      tabs.forEach(t => t.classList.toggle("active", t === tab));
+      panes.forEach(p => p.classList.toggle("active", p.dataset.mode === mode));
+      modeInput.value = mode;
+
+      urlInput.required = (mode === "url");
+      industrySelect.required = (mode === "industry");
+      keywordsInput.required = (mode === "keywords");
+    });
+  });
+  urlInput.required = true;
+</script>
+</body>
+</html>

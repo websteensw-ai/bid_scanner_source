@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>내 리포트 - 공공 입찰 매칭 서비스</title>
+<style>
+  body { font-family: "맑은 고딕", sans-serif; background: #f5f6fa; margin: 0; padding: 0; color: #1f2937; }
+  .wrap { max-width: 900px; margin: 60px auto; padding: 0 20px 60px; }
+  .card { background: #fff; padding: 32px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  h1 { font-size: 20px; margin: 0 0 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { border: 1px solid #e5e7eb; padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #1f4e78; color: #fff; }
+  tr:nth-child(even) { background: #f9fafb; }
+  a.dl { color: #1f4e78; font-weight: bold; }
+  .empty { color: #6b7280; font-size: 14px; }
+  .error { color: #dc2626; font-size: 13px; }
+  .top-links { margin-bottom: 16px; font-size: 13px; }
+  .top-links a { color: #1f4e78; margin-right: 12px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top-links"><a href="/">← 새로 분석하기</a></div>
+    <div class="card">
+      <h1>내 리포트</h1>
+      {% if error %}<div class="error">{{ error }}</div>{% endif %}
+      {% if rows %}
+      <table>
+        <thead>
+          <tr><th>생성일시</th><th>분석 대상 URL</th><th>조회기간</th><th>최소 관련도</th><th>매칭 건수</th><th>다운로드</th></tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>{{ r.created_at }}</td>
+            <td>{{ r.url }}</td>
+            <td>{{ r.days }}일</td>
+            <td>{{ r.min_score }}점</td>
+            <td>{{ r.result_count }}건</td>
+            <td><a class="dl" href="/reports/{{ r.id }}/download">엑셀</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty">저장된 리포트가 없습니다. 분석을 실행하면 자동으로 저장됩니다.</div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

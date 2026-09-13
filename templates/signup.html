@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회원가입 - 공공 입찰 매칭 서비스</title>
+<style>
+  :root { --navy: #1f4e78; --navy-dark: #163a5a; }
+  * { box-sizing: border-box; }
+  body { font-family: "맑은 고딕", sans-serif; background: #f5f6fa; margin: 0; padding: 0; }
+  .top-nav { max-width: 460px; margin: 0 auto; padding: 20px 24px 0; font-size: 13px; }
+  .top-nav a { color: var(--navy); }
+  .wrap { max-width: 460px; margin: 16px auto 60px; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  h1 { font-size: 20px; color: #1f2937; margin-bottom: 4px; }
+  .sub { font-size: 13px; color: #6b7280; margin-bottom: 24px; }
+  fieldset { border: none; padding: 0; margin: 0; }
+  legend { font-size: 13px; font-weight: bold; color: #1f2937; margin-top: 22px; padding: 0; }
+  label { display: block; font-size: 13px; color: #374151; margin-bottom: 6px; margin-top: 16px; }
+  label .req { color: #dc2626; margin-left: 2px; }
+  input[type=email], input[type=password], input[type=text], input[type=tel] {
+    width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px;
+  }
+  .hint { color: #9ca3af; font-size: 12px; margin-top: 4px; }
+  .error { color: #dc2626; font-size: 13px; margin-top: 8px; }
+  .alt { margin-top: 20px; font-size: 13px; text-align: center; }
+  .alt a { color: var(--navy); }
+
+  .consent-box { margin-top: 18px; border: 1px solid #e5e7eb; border-radius: 10px; padding: 16px; background: #fafbfc; }
+  .consent-all { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: bold; color: #1f2937; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+  .consent-item { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #374151; padding: 6px 0; }
+  .consent-item .left { display: flex; align-items: center; gap: 8px; }
+  .consent-item .tag { font-size: 11px; padding: 1px 6px; border-radius: 4px; margin-right: 2px; }
+  .tag.required { background: #fee2e2; color: #b91c1c; }
+  .tag.optional { background: #e0f2fe; color: #075985; }
+  .consent-item a { color: #9ca3af; font-size: 12px; }
+  input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--navy); cursor: pointer; }
+
+  button { margin-top: 26px; width: 100%; padding: 12px; background: var(--navy); color: #fff; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; }
+  button:hover { background: var(--navy-dark); }
+</style>
+</head>
+<body>
+  <div class="top-nav"><a href="/">← 홈으로</a></div>
+  <div class="wrap">
+    <h1>회원가입</h1>
+    <div class="sub">가입 후 회사 홈페이지 주소만 등록하면 AI가 맞춤 사업기회를 찾아드립니다.</div>
+    <form method="post">
+      <fieldset>
+        <legend>계정 정보</legend>
+        <label for="email">이메일<span class="req">*</span></label>
+        <input type="email" id="email" name="email" value="{{ form.get('email', '') if form else '' }}" required>
+        <div class="hint">비밀번호 없이, 이 이메일로 받는 인증코드로 가입·로그인합니다</div>
+      </fieldset>
+
+      <fieldset>
+        <legend>회사 정보</legend>
+        <label for="company_name">회사명<span class="req">*</span></label>
+        <input type="text" id="company_name" name="company_name" value="{{ form.get('company_name', '') if form else '' }}" required>
+
+        <label for="company_url">회사 홈페이지 주소<span class="req">*</span></label>
+        <input type="text" id="company_url" name="company_url" placeholder="https://example.com" value="{{ form.get('company_url', '') if form else '' }}" required>
+        <div class="hint">가입 시 한 번만 입력하면 분석할 때마다 자동으로 채워집니다</div>
+
+        <label for="contact_name">담당자명<span class="req">*</span></label>
+        <input type="text" id="contact_name" name="contact_name" value="{{ form.get('contact_name', '') if form else '' }}" required>
+
+        <label for="contact_phone">담당자 연락처<span class="req">*</span></label>
+        <input type="tel" id="contact_phone" name="contact_phone" placeholder="010-0000-0000" value="{{ form.get('contact_phone', '') if form else '' }}" required>
+      </fieldset>
+
+      <div class="consent-box">
+        <label class="consent-all">
+          <input type="checkbox" id="agree_all">
+          전체 동의
+        </label>
+        <div class="consent-item">
+          <span class="left"><input type="checkbox" class="agree-required" id="agree_service" name="agree_service"><span><span class="tag required">필수</span>AI 서비스 이용약관 동의</span></span>
+          <a href="/terms" target="_blank" rel="noopener">보기</a>
+        </div>
+        <div class="consent-item">
+          <span class="left"><input type="checkbox" class="agree-required" id="agree_privacy" name="agree_privacy"><span><span class="tag required">필수</span>개인정보 수집·이용 동의</span></span>
+          <a href="/privacy" target="_blank" rel="noopener">보기</a>
+        </div>
+        <div class="consent-item">
+          <span class="left"><input type="checkbox" id="agree_marketing" name="agree_marketing"><span><span class="tag optional">선택</span>마케팅 정보 수신 동의</span></span>
+        </div>
+      </div>
+
+      <button type="submit">인증코드 받기</button>
+      {% if error %}<div class="error">{{ error }}</div>{% endif %}
+    </form>
+    <div class="alt">이미 계정이 있으신가요? <a href="/login">로그인</a></div>
+  </div>
+
+<script>
+  const allBox = document.getElementById("agree_all");
+  const requiredBoxes = Array.from(document.querySelectorAll(".agree-required"));
+  const marketingBox = document.getElementById("agree_marketing");
+  const everyBox = [...requiredBoxes, marketingBox];
+
+  allBox.addEventListener("change", () => {
+    everyBox.forEach(b => b.checked = allBox.checked);
+  });
+  everyBox.forEach(b => b.addEventListener("change", () => {
+    allBox.checked = everyBox.every(x => x.checked);
+  }));
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>인증코드 확인 - 공공 입찰 매칭 서비스</title>
+<style>
+  body { font-family: "맑은 고딕", sans-serif; background: #f5f6fa; margin: 0; padding: 0; }
+  .top-nav { max-width: 400px; margin: 0 auto; padding: 40px 24px 0; font-size: 13px; }
+  .top-nav a { color: #1f4e78; }
+  .wrap { max-width: 400px; margin: 16px auto 0; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  h1 { font-size: 20px; color: #1f2937; margin-bottom: 8px; }
+  .sub { font-size: 13px; color: #6b7280; margin-bottom: 24px; }
+  .sub strong { color: #1f4e78; }
+  label { display: block; font-size: 13px; color: #374151; margin-bottom: 6px; margin-top: 16px; }
+  input[type=text] {
+    width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px;
+    font-size: 20px; letter-spacing: 6px; text-align: center;
+  }
+  button { margin-top: 28px; width: 100%; padding: 12px; background: #1f4e78; color: #fff; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; }
+  button:hover { background: #163a5a; }
+  .error { color: #dc2626; font-size: 13px; margin-top: 8px; }
+  .info { color: #1f4e78; font-size: 13px; margin-top: 8px; }
+  .alt { margin-top: 20px; font-size: 13px; text-align: center; }
+  .alt a { color: #1f4e78; }
+  .alt form { display: inline; }
+  .alt button.link { background: none; border: none; color: #1f4e78; cursor: pointer; font-size: 13px; padding: 0; margin: 0; text-decoration: underline; }
+</style>
+</head>
+<body>
+  <div class="top-nav"><a href="/login">← 뒤로</a></div>
+  <div class="wrap">
+    <h1>인증코드 확인</h1>
+    <div class="sub"><strong>{{ email }}</strong>(으)로 받은 6자리 인증코드를 입력해주세요.</div>
+    <form method="post">
+      <label for="code">인증코드</label>
+      <input type="text" id="code" name="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" autofocus required>
+      <button type="submit">확인</button>
+      {% if error %}<div class="error">{{ error }}</div>{% endif %}
+      {% if info %}<div class="info">{{ info }}</div>{% endif %}
+    </form>
+    <div class="alt">
+      코드를 못 받으셨나요?
+      <form method="post" action="/otp/resend"><button type="submit" class="link">재발송</button></form>
+    </div>
+  </div>
+</body>
+</html>

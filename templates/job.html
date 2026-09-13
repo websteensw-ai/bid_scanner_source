@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>분석 진행 중 - 공공 입찰 매칭 서비스</title>
+<script src="/static/vendor/chart.umd.min.js"></script>
+<style>
+  body { font-family: "맑은 고딕", sans-serif; background: #f5f6fa; margin: 0; padding: 0; color: #1f2937; }
+  .wrap { max-width: 1000px; margin: 60px auto; padding: 0 20px 60px; }
+  .card { background: #fff; padding: 32px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 24px; }
+  h1 { font-size: 20px; margin: 0 0 4px; word-break: break-all; }
+  .sub { color: #6b7280; font-size: 13px; margin-bottom: 20px; }
+  .bar-bg { background: #e5e7eb; border-radius: 999px; height: 14px; overflow: hidden; }
+  .bar-fg { background: #1f4e78; height: 100%; width: 0%; transition: width 0.4s; }
+  .stage { margin-top: 12px; font-size: 14px; color: #374151; }
+  .profile-box { background: #f9fafb; border-radius: 8px; padding: 16px; font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { border: 1px solid #e5e7eb; padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #1f4e78; color: #fff; }
+  tr:nth-child(even) { background: #f9fafb; }
+  .score { font-weight: bold; color: #1f4e78; }
+  .download-btn { display: inline-block; margin-top: 16px; padding: 10px 20px; background: #1f4e78; color: #fff; text-decoration: none; border-radius: 8px; font-size: 14px; }
+  .error-box { color: #dc2626; }
+  a.new-search { color: #1f4e78; font-size: 13px; }
+
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .chart-box { background: #f9fafb; border-radius: 10px; padding: 16px; }
+  .chart-box h3 { margin: 0 0 12px; font-size: 14px; color: #374151; }
+  .chart-box canvas { max-height: 240px; }
+
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; align-items: flex-end; }
+  .filter-item { display: flex; flex-direction: column; gap: 4px; }
+  .filter-item label { font-size: 12px; color: #6b7280; }
+  .filter-item select { padding: 7px 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; min-width: 140px; }
+  .filter-reset { font-size: 12px; color: #1f4e78; background: none; border: none; cursor: pointer; text-decoration: underline; padding: 8px 0; }
+  .filtered-count { font-size: 12px; color: #9ca3af; margin-left: 4px; }
+
+  @media (max-width: 720px) { .chart-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1 id="job-label">{{ job.label or '분석 준비 중...' }}</h1>
+      <div class="sub">최근 {{ job.days }}일 · 최소 관련도 {{ job.min_score }}점 이상</div>
+      <div id="progress-section">
+        <div class="bar-bg"><div class="bar-fg" id="bar"></div></div>
+        <div class="stage" id="stage-text">준비 중...</div>
+      </div>
+      <div id="error-section" style="display:none" class="error-box"></div>
+    </div>
+
+    <div class="card" id="profile-card" style="display:none">
+      <h1>사업 영역 분석 결과</h1>
+      <div class="profile-box" id="profile-text"></div>
+    </div>
+
+    <div class="card" id="charts-card" style="display:none">
+      <h1>결과 요약</h1>
+      <div class="chart-grid">
+        <div class="chart-box">
+          <h3>관련도 점수 분포</h3>
+          <canvas id="scoreChart"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3>지역별 공고 수</h3>
+          <canvas id="regionChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="results-card" style="display:none">
+      <h1>매칭된 공고 (<span id="result-count">0</span>건)<span class="filtered-count" id="filtered-count"></span></h1>
+      <a id="download-link" class="download-btn" href="#">엑셀로 다운로드</a>
+
+      <div class="filter-bar" style="margin-top:20px;">
+        <div class="filter-item">
+          <label for="filter-authority">소관부처/기관</label>
+          <select id="filter-authority"><option value="">전체</option></select>
+        </div>
+        <div class="filter-item">
+          <label for="filter-region">지역</label>
+          <select id="filter-region"><option value="">전체</option></select>
+        </div>
+        <div class="filter-item">
+          <label for="filter-budget">공고 규모</label>
+          <select id="filter-budget">
+            <option value="">전체</option>
+            <option value="1억 미만">1억 미만</option>
+            <option value="1~5억">1~5억</option>
+            <option value="5~10억">5~10억</option>
+            <option value="10억 이상">10억 이상</option>
+            <option value="확인불가">확인불가</option>
+          </select>
+        </div>
+        <button type="button" class="filter-reset" id="filter-reset">필터 초기화</button>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table id="results-table">
+          <thead>
+            <tr><th>번호</th><th>공고명</th><th>소관부처</th><th>지자체</th><th>신청기간</th><th>사업개요</th><th>사업비</th><th>신청방법</th><th>문의처</th><th>수주전략</th><th>링크</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <a class="new-search" href="/">← 새로 분석하기</a>
+    <span style="margin: 0 8px; color:#d1d5db;">|</span>
+    <a class="new-search" href="/reports">내 리포트</a>
+  </div>
+
+<script>
+const jobId = "{{ job_id }}";
+let allResults = [];
+let scoreChart = null;
+let regionChart = null;
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str == null ? "" : String(str);
+  return div.innerHTML;
+}
+
+function parseBudgetWon(text) {
+  if (!text) return null;
+  const t = String(text).replace(/,/g, "");
+  let total = 0;
+  let found = false;
+  const eok = t.match(/([\d.]+)\s*억/);
+  if (eok) { total += parseFloat(eok[1]) * 1e8; found = true; }
+  const cheonman = t.match(/([\d.]+)\s*천만/);
+  if (cheonman) { total += parseFloat(cheonman[1]) * 1e7; found = true; }
+  const baekman = t.match(/([\d.]+)\s*백만/);
+  if (baekman && !cheonman) { total += parseFloat(baekman[1]) * 1e6; found = true; }
+  if (!found) {
+    const man = t.match(/([\d.]+)\s*만\s*원/);
+    if (man) { total += parseFloat(man[1]) * 1e4; found = true; }
+  }
+  if (!found) {
+    const won = t.match(/(\d{5,})\s*원/);
+    if (won) { total = parseFloat(won[1]); found = true; }
+  }
+  return found ? total : null;
+}
+
+function budgetBucket(text) {
+  const won = parseBudgetWon(text);
+  if (won == null) return "확인불가";
+  if (won < 1e8) return "1억 미만";
+  if (won < 5e8) return "1~5억";
+  if (won < 10e8) return "5~10억";
+  return "10억 이상";
+}
+
+async function poll() {
+  try {
+    const res = await fetch(`/api/jobs/${jobId}`);
+    const data = await res.json();
+
+    if (data.label) document.getElementById("job-label").textContent = data.label;
+
+    if (data.status === "error") {
+      document.getElementById("error-section").style.display = "block";
+      document.getElementById("error-section").textContent = "오류가 발생했습니다: " + data.error;
+      return;
+    }
+
+    const total = data.total || 1;
+    const current = data.current || 0;
+    const pct = data.status === "done" ? 100 : Math.min(99, Math.round((current / total) * 100));
+    document.getElementById("bar").style.width = pct + "%";
+    document.getElementById("stage-text").textContent =
+      data.status === "done" ? "완료" : `${data.stage} (${current}/${total})`;
+
+    if (data.status === "done") {
+      renderProfile(data.profile);
+      setupResults(data.results || []);
+      return;
+    }
+
+    setTimeout(poll, 1500);
+  } catch (e) {
+    setTimeout(poll, 3000);
+  }
+}
+
+function renderProfile(profile) {
+  if (!profile) return;
+  const card = document.getElementById("profile-card");
+  const box = document.getElementById("profile-text");
+  box.textContent =
+    `회사명: ${profile.company_name || "-"}\n\n` +
+    `[사업 영역]\n${profile.business_summary || "-"}\n\n` +
+    `[제외 기준]\n${profile.exclusion_criteria || "-"}\n\n` +
+    `[키워드] ${(profile.keywords || []).join(", ")}`;
+  card.style.display = "block";
+}
+
+function uniqueSorted(values) {
+  return [...new Set(values.filter(v => v && v !== "확인필요"))].sort();
+}
+
+function setupResults(results) {
+  allResults = [...results].sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
+
+  document.getElementById("result-count").textContent = allResults.length;
+  const downloadLink = document.getElementById("download-link");
+  if (allResults.length > 0) {
+    downloadLink.href = `/jobs/${jobId}/download`;
+    downloadLink.style.display = "inline-block";
+  } else {
+    downloadLink.style.display = "none";
+  }
+
+  const authoritySelect = document.getElementById("filter-authority");
+  uniqueSorted(allResults.map(r => r.competent_authority)).forEach(v => {
+    const opt = document.createElement("option");
+    opt.value = v; opt.textContent = v;
+    authoritySelect.appendChild(opt);
+  });
+
+  const regionSelect = document.getElementById("filter-region");
+  uniqueSorted(allResults.map(r => r.local_government)).forEach(v => {
+    const opt = document.createElement("option");
+    opt.value = v; opt.textContent = v;
+    regionSelect.appendChild(opt);
+  });
+
+  [authoritySelect, regionSelect, document.getElementById("filter-budget")].forEach(el => {
+    el.addEventListener("change", applyFilters);
+  });
+  document.getElementById("filter-reset").addEventListener("click", () => {
+    authoritySelect.value = ""; regionSelect.value = ""; document.getElementById("filter-budget").value = "";
+    applyFilters();
+  });
+
+  document.getElementById("charts-card").style.display = allResults.length ? "block" : "none";
+  document.getElementById("results-card").style.display = "block";
+  applyFilters();
+}
+
+function applyFilters() {
+  const authority = document.getElementById("filter-authority").value;
+  const region = document.getElementById("filter-region").value;
+  const budget = document.getElementById("filter-budget").value;
+
+  const filtered = allResults.filter(r => {
+    if (authority && r.competent_authority !== authority) return false;
+    if (region && r.local_government !== region) return false;
+    if (budget && budgetBucket(r.budget) !== budget) return false;
+    return true;
+  });
+
+  const countLabel = document.getElementById("filtered-count");
+  countLabel.textContent = filtered.length === allResults.length ? "" : `(필터 적용: ${filtered.length}건 표시)`;
+
+  renderTable(filtered);
+  renderCharts(filtered);
+}
+
+function renderTable(results) {
+  const tbody = document.querySelector("#results-table tbody");
+  tbody.innerHTML = "";
+  results.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${escapeHtml(r.title)}</td>
+      <td>${escapeHtml(r.competent_authority)}</td>
+      <td>${escapeHtml(r.local_government)}</td>
+      <td>${escapeHtml(r.application_period)}</td>
+      <td>${escapeHtml(r.project_overview)}</td>
+      <td>${escapeHtml(r.budget)}</td>
+      <td>${escapeHtml(r.application_method)}</td>
+      <td>${escapeHtml(r.contact)}</td>
+      <td>${escapeHtml(r.bid_strategy)}</td>
+      <td><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener">원문</a></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderCharts(results) {
+  if (typeof Chart === "undefined") return;
+
+  const buckets = ["70-79", "80-89", "90-100"];
+  const bucketCounts = [0, 0, 0];
+  results.forEach(r => {
+    const s = r.relevance_score || 0;
+    if (s >= 90) bucketCounts[2]++;
+    else if (s >= 80) bucketCounts[1]++;
+    else if (s >= 70) bucketCounts[0]++;
+  });
+
+  const regionCounts = {};
+  results.forEach(r => {
+    const region = r.local_government && r.local_government !== "확인필요" ? r.local_government : "기타/미상";
+    regionCounts[region] = (regionCounts[region] || 0) + 1;
+  });
+  const regionEntries = Object.entries(regionCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+
+  const barColor = "#1f4e78";
+
+  if (scoreChart) scoreChart.destroy();
+  scoreChart = new Chart(document.getElementById("scoreChart"), {
+    type: "bar",
+    data: { labels: buckets, datasets: [{ label: "건수", data: bucketCounts, backgroundColor: barColor }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } },
+  });
+
+  if (regionChart) regionChart.destroy();
+  regionChart = new Chart(document.getElementById("regionChart"), {
+    type: "bar",
+    data: {
+      labels: regionEntries.map(e => e[0]),
+      datasets: [{ label: "건수", data: regionEntries.map(e => e[1]), backgroundColor: barColor }],
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { x: { beginAtZero: true, ticks: { precision: 0 } } },
+    },
+  });
+}
+
+poll();
+</script>
+</body>
+</html>

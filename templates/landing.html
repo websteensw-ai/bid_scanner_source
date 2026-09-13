@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공공 입찰 매칭 서비스</title>
+<style>
+  :root {
+    --navy: #1f4e78;
+    --navy-dark: #163a5a;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --hint: #9ca3af;
+    --border: #e5e7eb;
+    --bg: #f5f6fa;
+    --tint: #eef4fb;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: "맑은 고딕", sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--ink); }
+  a { text-decoration: none; }
+
+  .nav { max-width: 1080px; margin: 0 auto; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .nav .brand { font-weight: bold; font-size: 16px; color: var(--navy); }
+  .nav .links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
+  .nav .links a { color: var(--navy); }
+  .nav .cta { background: var(--navy); color: #fff !important; padding: 9px 18px; border-radius: 8px; font-weight: bold; }
+  .nav .cta:hover { background: var(--navy-dark); }
+
+  .hero { max-width: 780px; margin: 40px auto 0; padding: 0 24px; text-align: center; }
+  .hero h1 { font-size: 34px; line-height: 1.4; margin: 0 0 22px; color: var(--ink); }
+  .hero .lead { font-size: 16px; line-height: 1.9; color: #374151; margin: 0 auto 12px; }
+  .hero .lead strong { color: var(--navy); }
+  .hero .closing { font-size: 15px; line-height: 1.9; color: var(--muted); margin: 28px auto 0; }
+  .hero .closing strong { color: var(--ink); }
+
+  .hero-ctas { margin-top: 34px; display: flex; gap: 12px; justify-content: center; }
+  .test-login-note { margin-top: 16px; text-align: center; }
+  .test-login-note a { font-size: 13px; color: var(--hint); }
+  .test-login-note a:hover { color: var(--muted); }
+  .btn-primary { background: var(--navy); color: #fff; padding: 14px 30px; border-radius: 10px; font-size: 15px; font-weight: bold; box-shadow: 0 6px 16px rgba(31,78,120,0.25); }
+  .btn-primary:hover { background: var(--navy-dark); }
+  .btn-secondary { background: #fff; color: var(--navy); padding: 14px 30px; border-radius: 10px; font-size: 15px; font-weight: bold; border: 1px solid #d6e0ea; }
+  .btn-secondary:hover { background: var(--tint); }
+
+  .stat-bar { max-width: 720px; margin: 56px auto 0; padding: 0 24px; }
+  .stat-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 26px 32px; display: flex; align-items: center; gap: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .stat-card .num { font-size: 32px; font-weight: bold; color: var(--navy); white-space: nowrap; }
+  .stat-card .desc { font-size: 14px; color: #374151; line-height: 1.7; text-align: left; }
+  .stat-card .desc strong { color: var(--ink); }
+
+  .trust-row { max-width: 780px; margin: 22px auto 0; padding: 0 24px; display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; }
+  .trust-item { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+
+  .steps { max-width: 960px; margin: 76px auto 0; padding: 0 24px; }
+  .steps h2 { text-align: center; font-size: 22px; margin-bottom: 36px; color: var(--ink); }
+  .step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .step-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 28px 22px; }
+  .step-card .badge { width: 34px; height: 34px; border-radius: 50%; background: var(--tint); color: var(--navy); font-weight: bold; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .step-card h3 { font-size: 16px; margin: 0 0 8px; color: var(--ink); }
+  .step-card p { font-size: 13px; color: var(--muted); line-height: 1.7; margin: 0; }
+
+  .cta-banner { max-width: 780px; margin: 76px auto 0; padding: 40px 24px; text-align: center; }
+  .cta-banner .btn-primary { display: inline-block; }
+
+  footer { max-width: 1080px; margin: 20px auto 0; padding: 28px 24px 40px; text-align: center; font-size: 12px; color: var(--hint); border-top: 1px solid var(--border); }
+  footer a { color: var(--muted); margin: 0 8px; }
+
+  @media (max-width: 680px) {
+    .hero h1 { font-size: 26px; }
+    .step-grid { grid-template-columns: 1fr; }
+    .stat-card { flex-direction: column; text-align: center; }
+    .stat-card .desc { text-align: center; }
+  }
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div class="brand">공공 입찰 매칭 서비스</div>
+    <div class="links">
+      <a href="/login">로그인</a>
+      <a class="cta" href="/signup">무료로 시작하기</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>우리 회사에 맞는 사업,<br>AI가 찾아드립니다.</h1>
+    <p class="lead">회원가입 후 <strong>회사 홈페이지 주소만 입력하세요.</strong></p>
+    <p class="lead">
+      AI가 홈페이지를 분석해 우리 회사의 <strong>사업 분야와 주요 역량을 파악하고</strong>,
+      20여 개 국가의 공공사업 사이트에서 <strong>기업에 적합한 사업 기회를 자동으로 찾아드립니다.</strong>
+    </p>
+    <p class="closing">
+      복잡하게 검색하고 일일이 확인할 필요 없이,<br>
+      <strong>AI와 함께 우리 회사에 맞는 새로운 사업기회를 발견해보세요.</strong>
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="/signup">무료로 시작하기</a>
+      <a class="btn-secondary" href="/login">로그인</a>
+    </div>
+    {% if test_login_enabled %}
+    <div class="test-login-note">
+      <a href="/test-login">서비스 준비 중 · 로그인 없이 테스트 해보기 →</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="stat-bar">
+    <div class="stat-card">
+      <div class="num">100+</div>
+      <div class="desc">
+        현재 <strong>100여 개 기업</strong>이 서비스를 이용하고 있으며,<br>
+        새롭게 참여하는 기업도 지속적으로 늘어나고 있습니다.
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-row">
+    <div class="trust-item">🔒 개인정보 안전 보호</div>
+    <div class="trust-item">🌐 20여 개국 공공사업 데이터 연동</div>
+    <div class="trust-item">🤖 AI 자동 분석 · 매칭</div>
+  </div>
+
+  <div class="steps">
+    <h2>이렇게 진행됩니다</h2>
+    <div class="step-grid">
+      <div class="step-card">
+        <div class="badge">1</div>
+        <h3>회원가입 &amp; 홈페이지 입력</h3>
+        <p>가입 시 회사 홈페이지 주소를 한 번만 입력하면, 다음부터는 별도 입력 없이 바로 분석할 수 있습니다.</p>
+      </div>
+      <div class="step-card">
+        <div class="badge">2</div>
+        <h3>AI 사업영역 분석</h3>
+        <p>AI가 홈페이지를 읽고 우리 회사의 사업 분야와 핵심 역량을 자동으로 파악합니다.</p>
+      </div>
+      <div class="step-card">
+        <div class="badge">3</div>
+        <h3>맞춤 사업기회 리포트</h3>
+        <p>공공사업 공고 중 실제로 지원 가능한 항목만 선별해 리포트로 받아보세요.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-banner">
+    <a class="btn-primary" href="/signup">무료로 시작하기</a>
+  </div>
+
+  <footer>
+    &copy; 2026 공공 입찰 매칭 서비스
+    <a href="/terms">이용약관</a>·<a href="/privacy">개인정보처리방침</a>
+  </footer>
+</body>
+</html>
