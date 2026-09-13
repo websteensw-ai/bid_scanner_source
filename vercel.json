@@ -4,7 +4,7 @@
       "src": "app.py",
       "use": "@vercel/python",
       "config": {
-        "excludeFiles": "{venv/**,.venv/**,__pycache__/**}"
+        "excludeFiles": "{.git/**,venv/**,.venv/**,__pycache__/**}"
       }
     }
   ],
