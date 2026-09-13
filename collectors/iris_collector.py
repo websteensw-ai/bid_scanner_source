@@ -1,5 +1,6 @@
 import os
 import re
+import tempfile
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -27,7 +28,8 @@ class IrisCollector:
     # 공고 진행상태: 접수예정 + 접수중 (등록일 기준으로 최근 공고를 찾기 위해 둘 다 조회)
     ANCM_PRG_TYPES = ("ancmPre", "ancmIng")
 
-    def __init__(self, download_dir: str = "./data/attachments", keywords: List[str] = None):
+    def __init__(self, download_dir: str = None, keywords: List[str] = None):
+        download_dir = download_dir or os.path.join(tempfile.gettempdir(), "bid_scanner_attachments")
         self.download_dir = download_dir
         os.makedirs(self.download_dir, exist_ok=True)
         self.keywords = keywords or self.DEFAULT_KEYWORDS
