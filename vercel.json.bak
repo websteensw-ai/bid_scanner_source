@@ -2,10 +2,7 @@
   "builds": [
     {
       "src": "app.py",
-      "use": "@vercel/python",
-      "config": {
-        "excludeFiles": "{venv/**,.venv/**,*.pth,*.bin,*.onnx}"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
