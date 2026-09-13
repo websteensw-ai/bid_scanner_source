@@ -10,3 +10,7 @@ __pycache__/
 *.bin
 *.safetensors
 models/
+data/attachments/
+data/outputs/
+node_modules/
+.cache/
