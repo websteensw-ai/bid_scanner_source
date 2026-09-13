@@ -51,7 +51,7 @@ def inject_user():
         "telegram_connected": bool(session.get("telegram_chat_id")),
     }
 
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "outputs")
+OUTPUT_DIR = os.path.join(tempfile.gettempdir(), "bid_scanner_outputs")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 

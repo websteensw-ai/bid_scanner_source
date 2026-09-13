@@ -4,7 +4,7 @@
       "src": "app.py",
       "use": "@vercel/python",
       "config": {
-        "excludeFiles": "{.git/**,venv/**,.venv/**,__pycache__/**}"
+        "excludeFiles": "{.git/**,venv/**,.venv/**,__pycache__/**,data/attachments/**,data/outputs/**,bid_scanner_source/**,README.md}"
       }
     }
   ],

@@ -1,5 +1,6 @@
 import os
 import re
+import tempfile
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -19,7 +20,8 @@ class BizInfoCollector:
     # 1차 스크리닝 키워드
     DEFAULT_KEYWORDS = DEFAULT_KEYWORDS
 
-    def __init__(self, download_dir: str = "./data/attachments", keywords: List[str] = None):
+    def __init__(self, download_dir: str = None, keywords: List[str] = None):
+        download_dir = download_dir or os.path.join(tempfile.gettempdir(), "bid_scanner_attachments")
         self.download_dir = download_dir
         os.makedirs(self.download_dir, exist_ok=True)
         self.keywords = keywords or self.DEFAULT_KEYWORDS
