@@ -1,6 +1,12 @@
-.git/
-venv/
+.vercel/
 .venv/
+venv/
 __pycache__/
 *.pyc
 .env
+.env.*
+*.pt
+*.pth
+*.bin
+*.safetensors
+models/

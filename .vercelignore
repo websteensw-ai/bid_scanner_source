@@ -3,3 +3,12 @@ venv/
 .venv/
 __pycache__/
 *.pyc
+
+*.pt
+*.pth
+*.bin
+*.safetensors
+models/
+
+node_modules/
+.cache/
