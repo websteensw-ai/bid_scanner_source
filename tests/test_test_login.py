@@ -17,7 +17,8 @@ def test_test_login_succeeds_without_supabase():
     at = _login(AppTest.from_file("../app.py").run(), "test", "testpoc")
     assert not at.exception
     assert at.session_state["user"]["is_demo"] is True
-    assert any("테스트 사용자" in s.value for s in at.success)
+    # 로그인 후 홈 대시보드가 그려져야 함
+    assert any("테스트 사용자" in h.proto.body for h in at.get("html"))
 
 
 def test_wrong_password_is_rejected():

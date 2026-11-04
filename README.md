@@ -1,4 +1,4 @@
-# 📝 AI 논술 첨삭 프로그램
+# 📝 논술랩 · AI 논술 첨삭 프로그램
 
 학생이 논술문을 **작성·제출**하면 AI(Claude / OpenAI)가 **루브릭 기반 채점과 문장 첨삭**을 해 주는 웹 프로그램입니다.
 
@@ -12,11 +12,15 @@
 
 ```
 .
-├── app.py                      # 진입점: 홈 / 로그인 / 회원가입
-├── pages/                      # Streamlit 멀티페이지 (파일명 순서 = 메뉴 순서)
-│   ├── 1_논술_작성.py          # 학생: 과제 선택 → 작성 → 제출 → AI 첨삭
-│   ├── 2_제출_내역.py          # 학생: 지난 제출물·피드백 조회
-│   └── 3_교사_대시보드.py      # 교사: 과제 출제, 전체 제출물 확인
+├── app.py                      # 진입점: 테마 적용 + 로그인/역할별 메뉴(st.navigation)
+├── views/                      # 화면
+│   ├── login.py                # 로그인 / 회원가입 (브랜드 패널 + 폼 카드)
+│   ├── home.py                 # 대시보드: 통계 카드, 과제 목록
+│   ├── write.py                # 학생: 논제 → 에디터 → 제출 → AI 첨삭
+│   ├── history.py              # 학생: 첨삭 기록
+│   └── teacher.py              # 교사: 제출물 확인, 과제 출제
+├── assets/                     # 로고·아이콘 SVG
+├── static/fonts/               # Pretendard 글꼴(자체 호스팅, SIL OFL)
 ├── src/
 │   ├── core/
 │   │   ├── config.py           # 환경설정 (.env / st.secrets → Settings)
@@ -37,7 +41,8 @@
 │   │   ├── auth_service.py     # 로그인/가입/권한 체크
 │   │   └── feedback_service.py # 제출 → AI 평가 → 저장 흐름
 │   └── ui/
-│       └── components.py       # 글자수 카운터, 피드백 렌더러
+│       ├── theme.py            # 디자인 토큰(색·모서리·그림자) + 전역 CSS + 반응형
+│       └── components.py       # 카드, 통계, 상태칩, 분량 진행바, 점수 링, 피드백
 ├── supabase/
 │   ├── migrations/0001_init.sql  # 테이블·트리거·RLS 정책
 │   └── seed.sql                  # 샘플 과제
@@ -52,7 +57,7 @@
 └── pyproject.toml              # pytest / ruff 설정
 ```
 
-**계층 규칙:** `pages` → `services` → `db` / `ai` → `core`. 페이지에서 Supabase 쿼리나 AI SDK를 직접 호출하지 않습니다.
+**계층 규칙:** `views` → `services` → `db` / `ai` → `core`. 페이지에서 Supabase 쿼리나 AI SDK를 직접 호출하지 않습니다.
 
 ## 🗄 데이터 모델
 
@@ -78,9 +83,27 @@ pip install -r requirements.txt
 streamlit run app.py      # http://localhost:8501 → test / testpoc
 ```
 
-| 로그인 | AI 첨삭 결과 |
-|---|---|
-| ![로그인](docs/screenshots/01_login.png) | ![첨삭](docs/screenshots/04_feedback.png) |
+| 로그인 | 대시보드 | 모바일 |
+|---|---|---|
+| ![로그인](docs/screenshots/desktop_01_login.png) | ![홈](docs/screenshots/desktop_02_home.png) | ![모바일](docs/screenshots/mobile_02_home.png) |
+
+## 🎨 디자인 시스템
+
+모든 스타일 값은 `src/ui/theme.py`의 `TOKENS`에 모여 있습니다 (`.streamlit/config.toml`도 같은 값 사용).
+
+| 역할 | 값 | 용도 |
+|---|---|---|
+| Navy 900 / 800 | `#0F1C3F` / `#14254F` | 제목, 히어로·브랜드 패널 |
+| Primary | `#2B50D6` | 주요 버튼, 선택 상태, 진행바 |
+| Primary 50 | `#EEF2FE` | 선택된 메뉴·탭 배경, 포커스 링 |
+| Background | `#F6F7FB` | 앱 배경 (저채도 쿨그레이, 장시간 작업용) |
+| Surface | `#FFFFFF` | 카드, 입력창 |
+| Text / Muted | `#1B2233` / `#7A8499` | 본문 / 보조 텍스트 |
+| Success · Warning · Danger | `#0F9D74` · `#C98112` · `#D64545` | 첨삭 완료·평가 대기·분량 초과 |
+
+- **글꼴:** Pretendard Variable (자체 호스팅). 답안 에디터는 17px · 줄간격 1.95로 장문 가독성 강화
+- **모양:** 입력·버튼 10px, 카드 18px 둥근 모서리, 3단계 그림자(`shadow-sm/shadow/shadow-lg`)
+- **반응형:** 본문 최대 1120px · 900px/640px 구간에서 여백·글자 크기 축소, 통계 카드 2열, 컬럼 세로 쌓기
 
 ## 🚀 시작하기
 

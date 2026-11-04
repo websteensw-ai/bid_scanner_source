@@ -1,52 +1,43 @@
-"""논술 프로그램 진입점 (홈 / 로그인).
+"""논술랩 진입점: 테마 적용 + 로그인 상태/역할에 따른 메뉴 구성.
 
 실행: streamlit run app.py
 """
 import streamlit as st
 
-from src.core.config import get_settings
 from src.services import auth_service
+from src.ui.components import user_badge
+from src.ui.theme import apply_theme
 
-st.set_page_config(page_title="AI 논술 첨삭", page_icon="📝", layout="wide")
+st.set_page_config(page_title="논술랩 · AI 논술 첨삭", page_icon="assets/icon.svg",
+                   layout="wide", initial_sidebar_state="auto")
+apply_theme()
 
-st.title("📝 AI 논술 첨삭 프로그램")
 user = auth_service.current_user()
 
-if user:
-    st.success(f"{user.get('full_name') or user['email']} 님 ({user['role']}) 환영합니다.")
-    st.markdown(
-        "왼쪽 메뉴에서 이동하세요.\n"
-        "- **논술 작성**: 과제를 선택해 글을 쓰고 제출하면 AI 첨삭을 받습니다.\n"
-        "- **제출 내역**: 지난 제출물과 피드백을 확인합니다.\n"
-        "- **교사 대시보드**: 과제 출제 및 학생 제출물 관리 (교사 전용)"
-    )
-    if st.button("로그아웃"):
-        auth_service.sign_out()
-        st.rerun()
+if not user:
+    nav = st.navigation([st.Page("views/login.py", title="로그인", icon=":material/login:")],
+                        position="hidden")
 else:
-    login_tab, signup_tab = st.tabs(["로그인", "회원가입"])
-    settings = get_settings()
-    with login_tab:
-        if settings.test_login_enabled:
-            st.info(f"🧪 **테스트 계정** — 아이디 `{settings.test_login_id}` / "
-                    f"비밀번호 `{settings.test_login_password}`  \n"
-                    "Supabase·AI 키 없이 모든 화면을 체험할 수 있습니다.")
-    with login_tab, st.form("login"):
-        email = st.text_input("이메일 또는 아이디")
-        pw = st.text_input("비밀번호", type="password")
-        if st.form_submit_button("로그인", type="primary"):
-            try:
-                auth_service.sign_in(email, pw)
-                st.rerun()
-            except Exception as e:
-                st.error(f"로그인 실패: {e}")
-    with signup_tab, st.form("signup"):
-        name = st.text_input("이름")
-        email = st.text_input("이메일", key="su_email")
-        pw = st.text_input("비밀번호 (6자 이상)", type="password", key="su_pw")
-        if st.form_submit_button("가입하기"):
-            try:
-                auth_service.sign_up(email, pw, name)
-                st.success("가입 완료! 이메일 인증 후 로그인해 주세요.")
-            except Exception as e:
-                st.error(f"가입 실패: {e}")
+    is_staff = user["role"] in ("teacher", "admin")
+    is_student = user["role"] in ("student", "admin")
+    pages: dict[str, list] = {"": [st.Page("views/home.py", title="홈", icon=":material/home:",
+                                           default=True)]}
+    if is_student:
+        pages["학습"] = [
+            st.Page("views/write.py", title="논술 작성", icon=":material/edit_note:"),
+            st.Page("views/history.py", title="첨삭 기록", icon=":material/history_edu:"),
+        ]
+    if is_staff:
+        pages["관리"] = [
+            st.Page("views/teacher.py", title="교사 대시보드", icon=":material/dashboard:"),
+        ]
+    nav = st.navigation(pages)
+
+    st.logo("assets/logo.svg", icon_image="assets/icon.svg", size="large")
+    with st.sidebar:
+        user_badge(user)
+        if st.button("로그아웃", icon=":material/logout:", use_container_width=True):
+            auth_service.sign_out()
+            st.rerun()
+
+nav.run()

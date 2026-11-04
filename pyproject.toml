@@ -18,3 +18,8 @@ select = ["E", "F", "I", "B", "UP"]
 [tool.ruff.lint.isort]
 known-first-party = ["src"]
 known-third-party = ["supabase"]
+
+[tool.ruff.lint.per-file-ignores]
+# CSS·HTML 마크업 문자열은 줄 길이 제한에서 제외
+"src/ui/theme.py" = ["E501"]
+"views/*" = ["E501"]

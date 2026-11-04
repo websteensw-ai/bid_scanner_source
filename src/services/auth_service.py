@@ -71,7 +71,4 @@ def require_login(*roles: str) -> dict:
     if roles and user["role"] not in roles and user["role"] != "admin":
         st.error("이 페이지에 접근할 권한이 없습니다.")
         st.stop()
-    if user.get("is_demo"):
-        st.sidebar.info("🧪 테스트 계정으로 접속 중\n\n"
-                        "데이터는 이 브라우저 세션에만 임시 저장됩니다.")
     return user

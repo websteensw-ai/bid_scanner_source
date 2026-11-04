@@ -2,13 +2,33 @@
 headless = true
 port = 8501
 maxUploadSize = 10
+# static/ 폴더(자체 호스팅 글꼴)를 app/static/ 경로로 제공
+enableStaticServing = true
 
 [browser]
 gatherUsageStats = false
 
+[client]
+toolbarMode = "minimal"
+
+# 색·모서리·글꼴 토큰은 src/ui/theme.py 와 맞춰 두었습니다.
 [theme]
-primaryColor = "#2E5BFF"
+base = "light"
+primaryColor = "#2B50D6"
+backgroundColor = "#F6F7FB"
+secondaryBackgroundColor = "#EEF1F7"
+textColor = "#1B2233"
+linkColor = "#2B50D6"
+borderColor = "#E3E7F0"
+showWidgetBorder = true
+baseRadius = "12px"
+buttonRadius = "10px"
+baseFontSize = 16
+font = "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif"
+headingFont = "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif"
+headingFontWeights = [800, 700, 700, 600, 600, 600]
+
+[theme.sidebar]
 backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F4F6FB"
-textColor = "#1F2937"
-font = "sans serif"
+secondaryBackgroundColor = "#F3F5FA"
+borderColor = "#E9ECF3"
