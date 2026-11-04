@@ -1,12 +1,26 @@
-.vercel/
-.venv/
-venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Virtual env
+venv/
+.venv/
+
+# Secrets
 .env
 .env.*
-*.pt
-*.pth
-*.bin
-*.safetensors
-models/
+!.env.example
+.streamlit/secrets.toml
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/

@@ -1,0 +1,17 @@
+# ---- UI ----
+streamlit>=1.40,<2.0
+
+# ---- Backend / DB ----
+supabase>=2.10,<3.0
+
+# ---- AI ----
+anthropic>=0.40
+openai>=1.55
+
+# ---- Config / Validation ----
+pydantic>=2.9,<3.0
+pydantic-settings>=2.6,<3.0
+python-dotenv>=1.0
+
+# ---- Utils ----
+tenacity>=9.0          # AI API 재시도
