@@ -1,8 +1,7 @@
 import streamlit as st
 
 from src.core.models import FeedbackResult
-from src.db.client import get_supabase
-from src.db.repositories import EssayRepo
+from src.db.factory import get_repos
 from src.services import auth_service
 from src.ui.components import render_feedback
 
@@ -10,7 +9,7 @@ st.set_page_config(page_title="제출 내역", page_icon="📋", layout="wide")
 user = auth_service.require_login("student")
 
 st.title("📋 제출 내역")
-essays = EssayRepo(get_supabase()).list_by_student(user["id"])
+essays = get_repos().essays.list_by_student(user["id"])
 if not essays:
     st.info("제출한 논술이 없습니다.")
 

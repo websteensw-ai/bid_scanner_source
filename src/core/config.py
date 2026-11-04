@@ -25,6 +25,15 @@ class Settings(BaseSettings):
     app_env: Literal["development", "production"] = "development"
     max_essay_chars: int = 5000
 
+    # 테스트 로그인 (Supabase 없이 데모 데이터로 동작). 운영 환경에서는 자동 비활성화
+    enable_test_login: bool = True
+    test_login_id: str = "test"
+    test_login_password: str = "testpoc"
+
+    @property
+    def test_login_enabled(self) -> bool:
+        return self.enable_test_login and self.app_env != "production"
+
 
 def _load_streamlit_secrets() -> dict:
     try:

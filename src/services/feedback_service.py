@@ -2,16 +2,15 @@
 from src.ai.factory import get_provider
 from src.ai.prompts import SYSTEM_PROMPT, build_user_prompt
 from src.core.models import FeedbackResult
-from src.db.client import get_supabase
-from src.db.repositories import EssayRepo, FeedbackRepo
+from src.db.factory import get_repos, is_demo_session
 
 
 def submit_and_review(essay_id: str, content: str, assignment_prompt: str) -> FeedbackResult:
-    db = get_supabase()
-    EssayRepo(db).submit(essay_id, content)
+    repos = get_repos()
+    repos.essays.submit(essay_id, content)
 
-    provider = get_provider()
+    provider = get_provider(demo=is_demo_session())
     result = provider.evaluate(SYSTEM_PROMPT, build_user_prompt(assignment_prompt, content))
 
-    FeedbackRepo(db).create(essay_id, result, provider.name, provider.model)
+    repos.feedbacks.create(essay_id, result, provider.name, provider.model)
     return result

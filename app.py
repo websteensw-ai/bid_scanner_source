@@ -4,6 +4,7 @@
 """
 import streamlit as st
 
+from src.core.config import get_settings
 from src.services import auth_service
 
 st.set_page_config(page_title="AI 논술 첨삭", page_icon="📝", layout="wide")
@@ -24,8 +25,14 @@ if user:
         st.rerun()
 else:
     login_tab, signup_tab = st.tabs(["로그인", "회원가입"])
+    settings = get_settings()
+    with login_tab:
+        if settings.test_login_enabled:
+            st.info(f"🧪 **테스트 계정** — 아이디 `{settings.test_login_id}` / "
+                    f"비밀번호 `{settings.test_login_password}`  \n"
+                    "Supabase·AI 키 없이 모든 화면을 체험할 수 있습니다.")
     with login_tab, st.form("login"):
-        email = st.text_input("이메일")
+        email = st.text_input("이메일 또는 아이디")
         pw = st.text_input("비밀번호", type="password")
         if st.form_submit_button("로그인", type="primary"):
             try:

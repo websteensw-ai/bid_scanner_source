@@ -2,8 +2,15 @@ from src.ai.base import AIProvider
 from src.core.config import Settings, get_settings
 
 
-def get_provider(settings: Settings | None = None) -> AIProvider:
+def get_provider(settings: Settings | None = None, demo: bool = False) -> AIProvider:
+    """demo=True(테스트 로그인)이고 선택한 AI의 키가 없으면 데모 평가기를 사용."""
     s = settings or get_settings()
+    key = s.anthropic_api_key if s.ai_provider == "claude" else s.openai_api_key
+    if demo and not key:
+        from src.ai.mock_provider import MockProvider
+
+        return MockProvider()
+
     if s.ai_provider == "claude":
         from src.ai.claude_provider import ClaudeProvider
 

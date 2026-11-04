@@ -1,18 +1,17 @@
 import streamlit as st
 
 from src.core.config import get_settings
-from src.db.client import get_supabase
-from src.db.repositories import AssignmentRepo, EssayRepo
+from src.db.factory import get_repos
 from src.services import auth_service, feedback_service
 from src.ui.components import char_counter, render_feedback
 
 st.set_page_config(page_title="논술 작성", page_icon="✍️", layout="wide")
 user = auth_service.require_login("student")
-db = get_supabase()
+repos = get_repos()
 
 st.title("✍️ 논술 작성")
 
-assignments = AssignmentRepo(db).list_open()
+assignments = repos.assignments.list_open()
 if not assignments:
     st.info("아직 등록된 과제가 없습니다.")
     st.stop()
@@ -21,7 +20,7 @@ a = st.selectbox("과제 선택", assignments, format_func=lambda x: x["title"])
 with st.container(border=True):
     st.markdown(f"**논제**\n\n{a['prompt']}")
 
-essay = EssayRepo(db).get_or_create_draft(user["id"], a["id"])
+essay = repos.essays.get_or_create_draft(user["id"], a["id"])
 if essay["status"] != "draft":
     st.info("이미 제출한 과제입니다. '제출 내역'에서 피드백을 확인하세요.")
     st.stop()
@@ -32,7 +31,7 @@ char_counter(content, a["min_chars"], a["max_chars"])
 
 c1, c2 = st.columns(2)
 if c1.button("💾 임시 저장", use_container_width=True):
-    EssayRepo(db).save(essay["id"], content)
+    repos.essays.save(essay["id"], content)
     st.toast("저장되었습니다.")
 
 if c2.button("🚀 제출하고 AI 첨삭 받기", type="primary", use_container_width=True):
