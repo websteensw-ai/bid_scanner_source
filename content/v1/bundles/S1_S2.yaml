@@ -1,0 +1,264 @@
+# 집중 보충 S1 (제1학습 주제), S2 (제2학습 주제)
+# 공통: 가장 직접적인 결손 하나만 다룬다. 같은 경로는 한 회기만 (S1-011·S2-011).
+# 순서: (설명·시범은 필요할 때만) → 기존 제시문으로 직접 연습 → 다른 제시문으로 재확인.
+# 직접 연습 결과는 "재학습 후 수행"이며 기준을 갱신하지 않는다. 재확인 결과만 기준을 갱신한다.
+
+# ---------------- S1-가: 중심 판단 재구성 ----------------
+- id: S1-가
+  kind: supplement
+  parent: S1
+  path_name: 중심 판단 다시 잡기
+  criterion: C1
+  title: 중심 생각 다시 잡기
+  goal: 소재와 중심 생각을 구별해서, 글쓴이의 판단을 한 문장으로 다시 잡아요.
+  intro: 앞에서 쓴 답은 글이 ‘무엇에 관한 글인지’는 잘 잡았어요. 이번에는 글쓴이가 그 대상에 대해 무엇을 말하는지만 짧게 다뤄요. 전체 과제를 다시 하지는 않아요.
+  trigger_errors: [e_topic_only, e_person, e_vague, e_demand, e_opportunity, e_moral]
+  review_items: ["1-1", "1-2", "1-4"]
+  steps:
+    - id: s1a_practice
+      title: 제시문 (가)로 직접 고치기
+      prompt: 제시문 (가)에서 장수가 몫을 나눈 기준을 찾아, 글쓴이의 중심 생각을 내 말로 한 문장에 다시 담아 보세요. 그 판단을 뒷받침하는 표현도 함께 적어 주세요.
+      excerpts: [l1_ga]
+      evidence: true
+      carry_from: ["L1:l1_initial"]
+      explanation: "‘소재’는 ‘무엇에 관한 글인가’, ‘중심 생각’은 ‘그 대상에 대해 무엇을 말하는가’예요. 소재만 쓰면 글쓴이의 판단이 빠져요."
+      demo:
+        excerpt: l1_demo
+        text: "연습문의 소재는 ‘모둠 발표 준비’, 중심 생각은 ‘역할을 나누어 각자 책임지게 할 때 준비가 더 잘 된다’예요. 이제 (가)로 돌아가 직접 써 보세요."
+      criteria:
+        - id: s1a_criterion
+          desc: (a) 보상 기준을 표현했다
+          signals: [["기여", "공을", "공에", "성과", "위험", "해낸", "노력"]]
+        - id: s1a_own
+          desc: (b) 자기 말로 된 표현이다
+          required: false
+        - id: s1a_link
+          desc: (c) 긍정 서술과 효과 근거를 연결했다
+          required: false
+          signals: [["받아들", "겨루", "시기"]]
+      errors:
+        - id: s1a_reverse
+          name: 기준을 반대로 읽음
+          first_question: 둘째 문단의 ‘병사 수대로 똑같이 나누지 않았다’는 표현을 다시 볼까요? 몫을 나눈 기준은 무엇이었나요?
+          signals: [["똑같이 나누", "평등하게 나누", "같은 몫"]]
+        - id: s1a_topic
+          name: 소재 반복
+          first_question: 대상에 대해 글이 무엇을 말하는지, 글의 긍정·부정 서술과 그 근거 표현을 함께 짚어 볼까요?
+      done_message: 소재에 머물지 않고 글쓴이의 판단을 다시 잡았어요.
+    - &s1_recheck
+      id: s1_recheck
+      title: 새 글로 다시 확인하기
+      prompt: 제시문 (다)를 읽고 중심 생각을 한 문장으로 쓰고, 그 판단의 근거가 되는 부분을 적어 주세요.
+      excerpts: [s1_recheck]
+      evidence: true
+      allow_one_direction: true
+      criteria:
+        - id: r1_judgment
+          desc: 소재(축제 준비)와 판단(참여 기회가 열릴 때 책임감이 생김)을 구별했다
+          evidence_for: [C1]
+          skill: "1-1"
+          signals: [["참여", "열", "누구든", "공개"], ["책임", "우리", "자기 일", "자기가"]]
+        - id: r1_scope
+          desc: 사례를 넘되 범위를 보존했다
+          required: false
+          skill: "1-6"
+          absent: ["모든 일", "무조건"]
+      errors:
+        - id: r1_topic
+          name: 소재만 답함
+          first_question: 이 글이 무엇에 관한 글인지는 잡았어요. 그 대상에 대해 글이 무엇을 말하고 있나요?
+        - id: r1_scope_over
+          name: 범위 과장
+          first_question: 그 문장이 글이 다룬 범위를 넘지는 않나요? 원문과 대조해 보세요.
+          signals: [["모든 일", "무조건", "어떤 경우에도"]]
+      done_message: 새 글에서도 중심 생각을 잡았어요.
+
+# ---------------- S1-나: 일반화 범위 조절 ----------------
+- id: S1-나
+  kind: supplement
+  parent: S1
+  path_name: 일반화 범위 조절
+  criterion: C1
+  title: 범위를 지키며 일반화하기
+  goal: 중심 생각은 그대로 두고, 적용 범위만 원문에 맞게 조절해요.
+  intro: 중심 생각은 이미 잘 잡았어요. 이번에는 다른 상황으로 넓힐 때의 범위만 짧게 다뤄요.
+  trigger_errors: [e_overgeneral, e_still_case, e_lost_relation, e_effect]
+  review_items: ["1-5", "1-6"]
+  steps:
+    - id: s1b_practice
+      title: 범위만 다시 조절하기
+      prompt: 앞에서 쓴 일반 문장을 다시 보고, (a) 원래의 관계가 그대로인지 (b) 특정 인물 이야기에서 벗어났는지 (c) 글이 다루지 않은 범위로 넓히지 않았는지 확인해 한 번만 고쳐 쓰세요.
+      excerpts: [l1_ga]
+      carry_from: ["L1:l1_initial", "L1:l1_general"]
+      explanation: "‘다른 상황에 적용해 볼 수 있다’와 ‘모든 상황에서 반드시 그래야 한다’는 달라요. 표현의 세기만 낮추는 것이 아니라 대상 범위가 바뀌어야 해요."
+      criteria:
+        - id: s1b_scope
+          desc: 보상 원칙을 유지하면서 범위(성과에 대한 보상)를 명시했다
+          signals: [["보상", "몫", "대가"], ["기여", "성과", "공", "한 만큼"]]
+          absent: ["모든 일", "무조건", "모든 분배"]
+      errors:
+        - id: s1b_soft_only
+          name: 표현 세기만 낮춤
+          first_question: 표현은 부드러워졌지만 대상 범위는 그대로예요. 표현뿐 아니라 대상 범위도 원문에 맞게 바뀌어야 해요.
+          signals: [["모든 분배", "모든 일", "받을 수 있다"]]
+      done_message: 원칙은 그대로 두고 적용 범위를 원문에 맞게 조절했어요.
+    - *s1_recheck
+
+# ---------------- S2: 제2학습 주제 (기준 ②) ----------------
+- id: S2-가
+  kind: supplement
+  parent: S2
+  path_name: 판단과 이유 구별
+  criterion: C2
+  title: 판단과 이유를 구별해 잇기
+  goal: 판단을 반복하지 않고, 그 판단을 받아들일 별도의 이유를 찾아 이어요.
+  intro: 앞 답에서 판단은 찾았어요. 이번에는 그 판단을 뒷받침하는 이유만 짧게 다뤄요.
+  trigger_errors: [e_summary, e_restate, e_outcome]
+  review_items: ["2-1", "2-2"]
+  steps:
+    - id: s2a_practice
+      title: 제시문 (가)로 직접 고치기
+      prompt: 앞에서 고른 글쓴이의 판단을 그대로 두고, 그 판단을 받아들일 이유를 원문에서 찾아 다시 연결해 쓰세요. 통치자와 누이 각자의 의무를 이유로 써 보세요.
+      excerpts: [l2_ga]
+      carry_from: ["L2:l2_initial"]
+      explanation: "이유는 판단을 다른 말로 반복하는 것이 아니에요. 사건의 결과(벌을 받았다)도 판단의 이유와 달라요. ‘왜 그렇게 판단해야 하는가’에 답하는 내용을 찾아보세요."
+      demo:
+        excerpt: l2_demo
+        text: "연습문에서 ‘줄 규칙은 지켜야 한다’는 판단, ‘먼저 기다린 사람이 손해를 보기 때문’은 이유예요. 이제 (가)로 돌아가 직접 써 보세요."
+      criteria:
+        - id: s2a_reason
+          desc: 두 의무를 이유로 판단과 연결했다
+          signals: [["의무"], ["때문", "므로", "이유", "니까"]]
+      errors:
+        - id: s2a_restate
+          name: 판단 반복
+          first_question: 원문에서 통치자와 누이 각자가 지켜야 했던 의무를 찾아, 그것을 이유로 문장을 고쳐 써 볼까요?
+      done_message: 판단을 반복하지 않고 별도의 이유를 연결했어요.
+    - &s2_recheck_a
+      id: s2_recheck
+      title: 새 글로 다시 확인하기
+      prompt: 제시문 (다)에서 글쓴이의 판단 하나와 그 판단을 뒷받침하는 이유를 연결해 쓰세요.
+      excerpts: [s2_recheck]
+      allow_one_direction: true
+      criteria:
+        - id: r2_judgment
+          desc: 글쓴이의 판단(성적과 함께 성장도 살펴야 한다)을 찾았다
+          evidence_for: [C2]
+          skill: "2-1"
+          signals: [["성장", "함께 살펴", "함께"]]
+        - id: r2_reason
+          desc: 이유(같은 문제라도 같은 조건에서 공부한 것은 아님)를 연결했다
+          evidence_for: [C2]
+          skill: "2-2"
+          signals: [["조건", "도움", "혼자"], ["때문", "므로", "니까"]]
+      errors:
+        - id: r2_direction
+          name: 판단·이유 미연결
+          first_question: 글쓴이가 ‘그러므로’ 뒤에 내린 판단은 무엇이고, 그 앞에서 어떤 이유를 들었나요?
+      done_message: 새 글에서도 판단과 이유를 이어 썼어요.
+
+- id: S2-나
+  kind: supplement
+  parent: S2
+  path_name: 숨은 연결 찾기
+  criterion: C2
+  title: 숨은 연결을 알맞은 범위로
+  goal: 이유와 판단 사이의 숨은 연결을 문맥에 맞는 범위로 써요.
+  intro: 숨은 연결을 찾으려는 시도는 좋았어요. 이번에는 그 범위만 짧게 다뤄요.
+  trigger_errors: [e_too_strong, e_no_link]
+  review_items: ["2-3", "2-4"]
+  steps:
+    - id: s2b_practice
+      title: 연결 범위 좁히기
+      prompt: 앞에서 쓴 숨은 연결을 다시 보고, 이 글의 문맥에서 꼭 필요한 만큼으로 좁혀 고쳐 쓰세요.
+      excerpts: [l2_ga]
+      carry_from: ["L2:l2_premise"]
+      explanation: "숨은 연결은 연결성, 문맥 적합성, 최소성, 검토 가능성을 갖추면 돼요. ‘어떤 의무든 따르면 언제나 옳다’처럼 넓으면 글쓴이가 하지 않은 주장이 돼요. 숨은 연결을 찾은 것과 그 연결이 옳다고 증명한 것은 달라요."
+      criteria:
+        - id: s2b_minimal
+          desc: 문맥에 맞는 최소 범위의 연결
+          signals: [["의무"], ["정당", "이유가 있", "옳다고 볼 수", "근거가 있"]]
+          absent: ["언제나", "어떤 의무든", "무조건"]
+      errors:
+        - id: s2b_strong
+          name: 강한 보편 원리
+          first_question: 그 연결이 이 이야기 밖의 모든 경우까지 말하고 있지는 않나요? 꼭 필요한 만큼으로 줄여 보세요.
+      done_message: 숨은 연결을 문맥에 맞는 범위로 좁혔어요.
+    - <<: *s2_recheck_a
+      prompt: 제시문 (다)의 이유에서 판단으로 넘어가는 데 필요한, 적혀 있지 않은 생각을 한 문장으로 쓰세요.
+      criteria:
+        - id: r2_link
+          desc: 숨은 연결(평가는 조건의 차이를 고려해야 공정하다 등)을 문맥에 맞게 썼다
+          evidence_for: [C2]
+          skill: "2-3"
+          signals: [["조건", "차이", "다르"], ["공정", "평가"]]
+
+- id: S2-다
+  kind: supplement
+  parent: S2
+  path_name: 설명과 논증 구별
+  criterion: C2
+  title: 설명과 논증을 역할로 구별하기
+  goal: 문장이 행동을 이해시키는지, 판단을 정당화하는지 역할로 구별해요.
+  intro: 이번에는 설명과 논증의 구별만 짧게 다뤄요.
+  trigger_errors: [e_belief_proof]
+  review_items: ["2-5"]
+  steps:
+    - id: s2c_practice
+      title: 두 부분의 역할 비교
+      prompt: 제시문 (가)의 둘째 문단(사건 서술)과 셋째 문단(평가 근거)이 각각 무슨 일을 하는지 비교해 쓰세요.
+      excerpts: [l2_ga]
+      explanation: "인물이 무엇을 믿었다는 사실은 그 행동을 이해시키지만, 그 믿음이 옳다는 것을 증명하지는 않아요. 한 문장이 설명과 논증을 함께 할 수도 있어요."
+      criteria:
+        - id: s2c_roles
+          desc: 사건 서술은 행동을 이해시키고, 평가는 판단을 정당화함을 구별했다
+          signals: [["설명", "이해", "왜 했"], ["정당", "논증", "평가", "옳"]]
+      errors:
+        - id: s2c_mix
+          name: 역할 혼동
+          first_question: 누이가 그렇게 믿었다는 것이, 그 믿음이 옳다는 것까지 보여 주나요?
+      done_message: 설명과 논증을 역할로 구별했어요.
+    - <<: *s2_recheck_a
+      kind: judge
+      prompt: 제시문 (다)의 첫 문단 ‘모두가 같은 문제를 풀기 때문이다’는 무슨 일을 하나요? 고르고 이유를 쓰세요.
+      choices: ["어떤 사람들의 생각을 이해시키는 설명", "글쓴이 판단을 뒷받침하는 논증", "설명과 논증을 함께 함"]
+      criteria:
+        - id: r2_function
+          desc: 통념의 이유를 소개하는 문장이며 글쓴이의 논증이 아님을 구별했다
+          evidence_for: [C2]
+          skill: "2-5"
+          expected_choice: 어떤 사람들의 생각을 이해시키는 설명
+          signals: [["어떤 사람", "사람들", "글쓴이가 아니", "소개"]]
+
+- id: S2-라
+  kind: supplement
+  parent: S2
+  path_name: 주장 주체 구별
+  criterion: C2
+  title: 누구의 생각인지 구별하기
+  goal: 인물의 믿음과 글쓴이의 평가를 구별해요.
+  intro: 이번에는 ‘누구의 생각인가’만 짧게 확인해요.
+  trigger_errors: [e_character, e_one_side]
+  review_items: ["2-6"]
+  steps:
+    - id: s2d_practice
+      title: 인물의 믿음과 글쓴이의 평가
+      prompt: 제시문 (가)에서 누이가 믿은 것과 글쓴이가 평가한 것을 각각 한 문장으로 구별해 쓰세요.
+      excerpts: [l2_ga]
+      criteria:
+        - id: s2d_subject
+          desc: 인물의 믿음과 필자의 평가를 구별했다
+          signals: [["누이", "인물"], ["글쓴이", "필자", "평가", "두 의무", "둘 다"]]
+      errors:
+        - id: s2d_mix
+          name: 주체 혼동
+          first_question: ‘가족을 묻는 일이 명령보다 앞선다’는 누구의 생각인가요? 글쓴이는 셋째 문단에서 무엇이라고 평가했나요?
+      done_message: 인물의 믿음과 글쓴이의 평가를 구별했어요.
+    - <<: *s2_recheck_a
+      prompt: 제시문 (다)에서 ‘어떤 사람들’의 생각과 글쓴이의 생각을 각각 한 문장으로 구별해 쓰세요.
+      criteria:
+        - id: r2_subject
+          desc: 통념(성적만이 공정)과 글쓴이 판단(성장도 살펴야)을 구별했다
+          evidence_for: [C2]
+          skill: "2-6"
+          signals: [["성적만", "같은 문제", "어떤 사람"], ["성장", "글쓴이", "함께"]]

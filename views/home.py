@@ -1,47 +1,73 @@
 import streamlit as st
 
-from src.db.factory import get_repos
+from src.learning.levels import CRITERION_PLAIN, Criterion
 from src.services import auth_service
-from src.ui.components import _e, card, chip, empty_state, hero, html, stat_grid
+from src.services.learning_service import my_engine
+from src.ui.components import _e, card, chip, hero, html, stat_grid
 
-user = auth_service.require_login()
-repos = get_repos()
+user = auth_service.require_login("student")
+eng = my_engine()
+pack = eng.pack()
+topics = pack.topics()
 name = user.get("full_name") or user["email"]
 
-hero(f"{name} 님, 오늘도 한 편 써볼까요?",
-     "꾸준히 쓰고 피드백을 반영하는 것이 논술 실력을 올리는 가장 빠른 길이에요.",
-     eyebrow="논술랩 대시보드")
+status = {t.id: eng.topic_status(t.id) for t in topics}
+current = next((t for t in topics if status[t.id] in ("active", "paused")), None) \
+    or next((t for t in topics if status[t.id] == "todo"), None)
 
-essays = repos.essays.list_by_student(user["id"])
-scores = [fb["total_score"] for e in essays for fb in (e.get("feedbacks") or [])[:1]]
-assignments = repos.assignments.list_open()
-by_assignment = {e["assignment_id"]: e for e in essays}
+hero(f"{name} 님, 오늘의 목표" if current else f"{name} 님, 기초 다지기를 모두 마쳤어요",
+     current.goal if current else "진입 준비 결과에서 지금 할 수 있는 것과 다음 학습을 확인해 보세요.",
+     eyebrow="기초 다지기")
 
+done_n = sum(v == "done" for v in status.values())
+entry = eng.latest_entry()
+strong = [c for c in Criterion
+          if eng.state.criteria.get(c.value) and (eng.state.criteria[c.value].level or 0) >= 2]
 stat_grid([
-    ("📚", "진행 중인 과제", f"{len(assignments)}", "개"),
-    ("📮", "제출한 논술", f"{sum(e['status'] != 'draft' for e in essays)}", "편"),
-    ("📈", "평균 점수", f"{sum(scores) / len(scores):.0f}" if scores else "–", "점"),
-    ("🏅", "최근 점수", f"{scores[0]}" if scores else "–", "점"),
+    ("📚", "마친 학습 주제", f"{done_n}", f"/ {len(topics)}"),
+    ("✅", "할 수 있게 된 것", f"{len(strong)}", "가지"),
+    ("🧭", "다음 활동", current.title if current else "결과 확인", ""),
 ])
 
-html('<h3 style="margin:1.6rem 0 .8rem;font-size:1.2rem">과제 목록</h3>')
+if current:
+    c1, c2 = st.columns([1, 2])
+    label = "이어서 하기" if status[current.id] in ("active", "paused") else "시작하기"
+    if c1.button(f"{label} · {current.title}", type="primary", width="stretch",
+                 icon=":material/play_arrow:"):
+        st.session_state["lesson_key"] = current.id
+        st.switch_page("views/lesson.py")
+if entry:
+    st.info("진입 준비 결과가 나왔어요. **진단 결과**에서 확인해 보세요.", icon="🧭")
 
-if not assignments:
-    empty_state("🗂️", "아직 등록된 과제가 없어요", "선생님이 과제를 출제하면 여기에 표시돼요.")
+if strong:
+    html('<h3 style="margin:1.6rem 0 .6rem;font-size:1.15rem">할 수 있게 된 것</h3>')
+    html('<ul class="nx-list good">' + "".join(
+        f'<li data-i="✓">{_e(CRITERION_PLAIN[c])}</li>' for c in strong) + "</ul>")
 
-cols = st.columns(2, gap="medium")
-for i, a in enumerate(assignments):
-    e = by_assignment.get(a["id"])
-    status = e["status"] if e else "draft"
-    with cols[i % 2], card(f"a_{i}"):
-        html(f'<div class="nx-card-meta">{chip(status)}'
-             f'<span>권장 {a["min_chars"]:,}~{a["max_chars"]:,}자</span></div>'
-             f'<div class="nx-card-title" style="margin-top:.7rem">{_e(a["title"])}</div>'
-             f'<p style="color:var(--text-muted);font-size:.92rem;line-height:1.65;margin:0">'
-             f'{_e(a["prompt"][:90])}{"…" if len(a["prompt"]) > 90 else ""}</p>')
-        if user["role"] in ("student", "admin"):
-            label = {"draft": "작성하기", "submitted": "결과 보기", "reviewed": "첨삭 보기"}[status]
-            if st.button(label, key=f"go_{i}", use_container_width=True,
-                         type="primary" if status == "draft" else "secondary"):
-                st.session_state["selected_assignment"] = a["id"]
-                st.switch_page("views/write.py" if status == "draft" else "views/history.py")
+html('<h3 style="margin:1.6rem 0 .8rem;font-size:1.15rem">다섯 학습 주제</h3>')
+for t in topics:
+    stt = status[t.id]
+    with card(f"topic_{t.id}"):
+        html(f'<div class="nx-topic {stt}"><div class="num">{t.order}</div><div style="flex:1">'
+             f'<div class="nx-card-meta">{chip(stt)}<span>약 {_e(t.time_target)}</span></div>'
+             f'<div class="nx-card-title" style="margin-top:.45rem">{_e(t.title)}</div>'
+             f'<p style="color:var(--text-muted);margin:0;font-size:.92rem">{_e(t.goal)}</p></div></div>')
+        if stt in ("active", "paused") or (stt == "todo" and t is current):
+            if st.button("이어서 하기" if stt != "todo" else "시작하기", key=f"go_{t.id}",
+                         width="stretch"):
+                st.session_state["lesson_key"] = t.id
+                st.switch_page("views/lesson.py")
+        elif stt == "done":
+            if st.button("내 답 다시 보기", key=f"see_{t.id}", width="stretch"):
+                st.session_state["lesson_key"] = t.id
+                st.switch_page("views/lesson.py")
+
+active_supp = [s for s in eng.state.sessions.values()
+               if s.bundle_id.startswith("S") and s.status != "done"]
+if active_supp:
+    html('<h3 style="margin:1.6rem 0 .8rem;font-size:1.15rem">진행 중인 보충</h3>')
+    for s in active_supp:
+        b = pack.bundles[s.bundle_id]
+        if st.button(f"이어서 하기 · {b.title}", key=f"supp_{s.key}"):
+            st.session_state["lesson_key"] = s.key
+            st.switch_page("views/lesson.py")

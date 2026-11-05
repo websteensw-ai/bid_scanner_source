@@ -6,9 +6,8 @@ from html import escape
 
 import streamlit as st
 
-from src.core.models import FeedbackResult
-
-STATUS_LABEL = {"draft": "작성 중", "submitted": "평가 대기", "reviewed": "첨삭 완료"}
+STATUS_LABEL = {"todo": "시작 전", "active": "진행 중", "paused": "잠시 멈춤", "done": "완료",
+                "draft": "작성 중", "submitted": "평가 대기", "reviewed": "첨삭 완료"}
 ROLE_LABEL = {"student": "학생", "teacher": "교사", "admin": "관리자"}
 
 
@@ -67,81 +66,60 @@ def user_badge(user: dict) -> None:
          f'<div><div class="nm">{_e(name)}</div><div class="rl">{_e(role)}{demo}</div></div></div>')
 
 
-# ---------- 작성 화면 ----------
-def count_chars(text: str) -> int:
-    return len(text.replace(" ", "").replace("\n", ""))
+# ---------- 학습 화면 ----------
+def passage(ex) -> None:
+    """중립 기호와 승인된 본문만 표시 (P-018). 제목·저자·출처는 절대 출력하지 않는다."""
+    paras = "".join(
+        (f'<span class="nx-mark">{_e(ex.marks[i])}</span>' if i in ex.marks else "")
+        + f"<p>{_e(t)}</p>" for i, t in enumerate(ex.paragraphs))
+    html(f'<div class="nx-passage"><div class="lbl">{_e(ex.label)}</div>{paras}</div>')
 
 
-def char_progress(text: str, min_chars: int, max_chars: int) -> bool:
-    """권장 분량 구간을 표시하는 진행바. 권장 범위 안이면 True."""
-    n = count_chars(text)
-    scale = max_chars * 1.15
-    pct = min(100, n / scale * 100)
-    ok = min_chars <= n <= max_chars
-    color = "var(--success)" if ok else ("var(--danger)" if n > max_chars else "var(--primary)")
-    state = "권장 분량 충족" if ok else ("분량 초과" if n > max_chars else
-                                     f"{min_chars - n:,}자 더 쓰면 권장 분량")
-    z0, z1 = min_chars / scale * 100, max_chars / scale * 100
-    html(f'<div class="nx-progress"><div class="row"><span><b>{n:,}</b>자 · 공백 제외</span>'
-         f'<span>{state} ({min_chars:,}~{max_chars:,}자)</span></div>'
-         f'<div class="track"><div class="zone" style="left:{z0:.1f}%;width:{z1 - z0:.1f}%"></div>'
+def interpretation(text: str) -> None:
+    """학습용 해석 문장은 원문과 구별해 표시 (L3-044)."""
+    html(f'<div class="nx-interp"><div class="tag">학습용 해석 문장 · 원문 아님</div>'
+         f'<p>{_e(text)}</p></div>')
+
+
+def task_box(title: str, prompt: str, idx: int, total: int) -> None:
+    html(f'<div class="nx-task"><div class="nx-label">활동 {idx} / {total}</div>'
+         f'<div class="nx-card-title">{_e(title)}</div><p class="nx-prompt">{_e(prompt)}</p></div>')
+
+
+_KIND_TAG = {"direction": "생각해 볼 질문", "explanation": "설명", "demo": "시범 (다른 글)",
+             "guide": "과제 안내", "vocab": "어휘 뜻", "structure": "비교표", "confirm": "확인 질문",
+             "done": "해냈어요", "ack": "자기검토", "prompt": "", "help": ""}
+
+
+def chat(messages) -> None:
+    out = []
+    for m in messages:
+        if m.role == "student":
+            out.append(f'<div class="nx-msg me"><div>{_e(m.text)}</div></div>')
+        else:
+            tag = _KIND_TAG.get(m.kind, "")
+            tag_html = f'<div class="tag">{_e(tag)}</div>' if tag else ""
+            out.append(f'<div class="nx-msg tutor {_e(m.kind)}">{tag_html}<div>{_e(m.text)}</div></div>')
+    if out:
+        html('<div class="nx-chat">' + "".join(out) + "</div>")
+
+
+def step_dots(states: list[str]) -> None:
+    """활동 진행 표시. states: done / skipped / current / todo"""
+    html('<div class="nx-dots">' + "".join(f'<span class="{s}"></span>' for s in states) + "</div>")
+
+
+def char_meter(n: int, limit: int) -> None:
+    over = n > limit
+    pct = min(100, n / limit * 100)
+    color = "var(--danger)" if over else "var(--primary)"
+    msg = f"{n - limit}자 넘었어요. 제출 전에 직접 줄여 보세요." if over else f"{limit - n}자 남았어요."
+    html(f'<div class="nx-progress"><div class="row"><span><b>{n}</b> / {limit}자 · 공백 포함</span>'
+         f'<span>{msg}</span></div><div class="track">'
          f'<div class="fill" style="width:{pct:.1f}%;background:{color}"></div></div></div>')
-    return ok
 
 
-def writing_tips() -> None:
-    tips = [
-        "첫 문단에서 <b>자신의 입장</b>을 한 문장으로 분명히 밝히세요.",
-        "근거마다 <b>사례·통계·이론</b> 중 하나를 붙이면 설득력이 높아집니다.",
-        "<b>예상 반론</b>을 소개하고 재반박하면 논증이 단단해집니다.",
-        "결론에서는 새 주장보다 <b>핵심 요약과 의의</b>를 정리하세요.",
-    ]
-    html("".join(f'<div class="nx-tip"><span class="n">{i}</span><span>{t}</span></div>'
-                 for i, t in enumerate(tips, 1)))
-
-
-# ---------- 피드백 ----------
-def _grade(score: int) -> tuple[str, str]:
-    if score >= 90:
-        return "탁월해요", "var(--success)"
-    if score >= 75:
-        return "잘 썼어요", "var(--primary)"
-    if score >= 60:
-        return "조금만 더 다듬어 봐요", "var(--warning)"
-    return "기본기를 함께 다져봐요", "var(--danger)"
-
-
-def render_feedback(fb: FeedbackResult, key: str = "fb") -> None:
-    grade, color = _grade(fb.total_score)
-
-    with card(f"{key}_score"):
-        html(f'<div class="nx-score">'
-             f'<div class="nx-ring" style="--p:{fb.total_score};--c:{color}">'
-             f'<div><div><b>{fb.total_score}</b><br><span>/ 100점</span></div></div></div>'
-             f'<div class="summary"><div class="nx-label">AI 종합 평가</div>'
-             f'<div class="grade">{grade}</div><p>{_e(fb.summary)}</p></div></div>')
-
-    left, right = st.columns([1, 1], gap="medium")
-    with left, card(f"{key}_crit"):
-        html('<div class="nx-label">항목별 점수</div>' + "".join(
-            f'<div class="nx-crit"><div class="head"><span class="name">{_e(c.criterion)}</span>'
-            f'<span class="pt">{c.score}<small> / 10</small></span></div>'
-            f'<div class="bar"><div style="width:{c.score * 10}%"></div></div>'
-            f'<div class="cmt">{_e(c.comment)}</div></div>'
-            for c in fb.criteria))
-    with right:
-        with card(f"{key}_good"):
-            html('<div class="nx-label">잘한 점</div><ul class="nx-list good">' + "".join(
-                f'<li data-i="✓">{_e(s)}</li>' for s in fb.strengths) + "</ul>")
-        with card(f"{key}_todo"):
-            html('<div class="nx-label">보완할 점</div><ul class="nx-list todo">' + "".join(
-                f'<li data-i="{i}">{_e(s)}</li>' for i, s in enumerate(fb.improvements, 1))
-                 + "</ul>")
-
-    if fb.corrections:
-        with card(f"{key}_fix"):
-            html('<div class="nx-label">문장 첨삭</div>' + "".join(
-                f'<div class="nx-fix"><span class="before">{_e(c.original)}</span>'
-                f' &nbsp;→&nbsp; <span class="after">{_e(c.suggestion)}</span>'
-                f'<div class="why">{_e(c.reason)}</div></div>'
-                for c in fb.corrections))
+def bullet_list(items: list[str], kind: str = "good") -> None:
+    mark = "✓" if kind == "good" else "•"
+    html(f'<ul class="nx-list {kind}">' + "".join(f'<li data-i="{mark}">{_e(i)}</li>' for i in items)
+         + "</ul>")

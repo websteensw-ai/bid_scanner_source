@@ -9,7 +9,8 @@ import hmac
 import streamlit as st
 
 from src.core.config import get_settings
-from src.db.demo_store import DEMO_USER_ID
+
+DEMO_USER_ID = "00000000-0000-0000-0000-00000000test"
 
 
 def _is_test_credentials(login_id: str, password: str) -> bool:
@@ -52,6 +53,7 @@ def sign_up(email: str, password: str, full_name: str) -> None:
 def sign_out() -> None:
     user = st.session_state.pop("user", None)
     st.session_state.pop("demo_store", None)
+    st.session_state.pop("demo_learning", None)
     if user and not user.get("is_demo"):
         from src.db.client import get_supabase
 

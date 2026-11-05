@@ -1,0 +1,532 @@
+# 집중 보충 S3 (제3학습 주제), S4 (제4학습 주제), S5 (제5학습 주제)
+# S3: 관계·추론 기능은 별도 관문이 아니다. 중심 판단 오독(①)이나 근거 연결 실패(②)로
+#     이어진 경우에만 해당 기준을 재평가한다 (S3-001·S3-022).
+
+# ---------------- S3 ----------------
+- id: S3-가
+  kind: supplement
+  parent: S3
+  path_name: 공통 질문 세우기
+  criterion: C1
+  title: 두 글이 함께 답하는 질문
+  goal: 공통 소재가 아니라, 두 글이 함께 답하는 질문을 세워요.
+  trigger_errors: [e3_topic, e3_separate]
+  review_items: ["3-1", "3-2"]
+  steps:
+    - id: s3a_practice
+      title: (가)·(나)로 직접 고치기
+      prompt: (가)와 (나) 본문 모두에서 답을 찾을 수 있는 질문 하나를 다시 세워 보세요. 개별 요약은 다시 쓰지 않아도 돼요.
+      excerpts: [l3_ga, l3_na]
+      carry_from: ["L3:l3_compare"]
+      explanation: "공통 소재는 ‘무엇에 관한 글인가’, 공통 질문은 ‘두 글이 각자 답을 내놓는 물음’이에요. 두 제목을 합친 질문은 공통 질문이 아니에요."
+      criteria:
+        - id: s3a_q
+          desc: 두 글 모두에서 답을 찾을 수 있는 질문
+          signals: [["?", "무엇", "어떻게", "어떤", "왜"], ["자유", "판단", "법", "질서"]]
+      errors:
+        - id: s3a_topic
+          name: 소재 반복
+          first_question: 그 질문에 (가)와 (나)가 각각 어떤 답을 내놓나요? 답을 내놓을 수 없다면 질문을 바꿔 볼까요?
+      done_message: 두 글이 함께 답하는 질문을 세웠어요.
+    - &s3_recheck
+      id: s3_recheck
+      title: 새 글로 다시 확인하기
+      prompt: 제시문 (마)·(바)가 함께 답하는 질문 하나를 쓰고, 두 글의 관계(대립인지 보완인지)를 이유와 함께 설명하세요.
+      excerpts: [s3_recheck]
+      allow_one_direction: true
+      criteria:
+        - id: r3_common
+          desc: 두 글이 함께 답하는 질문(숲을 어떻게 지킬 수 있는가 등)을 세웠다
+          evidence_for: [C1]
+          skill: "3-1"
+          signals: [["숲", "나무"], ["?", "어떻게", "무엇", "어떤"]]
+        - id: r3_relation
+          desc: 처벌과 공동 관리가 함께 쓰일 수 있는 보완 관계임을 설명했다 (한 마을 사례의 효과를 입증된 것으로 보지 않음)
+          required: false
+          skill: "3-7"
+          signals: [["보완", "함께", "같이", "둘 다"]]
+      errors:
+        - id: r3_topic
+          name: 소재에 머묾
+          first_question: ‘숲 이야기’라는 소재 말고, 두 글이 각자 답을 내놓는 물음은 무엇일까요?
+      done_message: 새 글에서도 두 글이 함께 답하는 질문을 세웠어요.
+
+- id: S3-나
+  kind: supplement
+  parent: S3
+  path_name: 조건 보존
+  criterion: C1
+  title: 원문의 조건을 결론에 남기기
+  goal: 원문이 붙인 조건이 결론에서 빠지지 않게 해요.
+  trigger_errors: [e3_cond_missing, e3_cond_accept]
+  review_items: ["3-4"]
+  steps:
+    - id: s3b_practice
+      title: 조건을 살려 고쳐 쓰기
+      prompt: "‘법을 중시한다’와 ‘모든 법이 정당하다’는 같은가요? (가)의 결론을 원문의 조건을 살려 한 문장으로 다시 쓰세요."
+      excerpts: [l3_ga]
+      demo:
+        excerpt: l3_demo
+        text: "원문 ‘정기 점검을 통과한 놀이 기구는 안전하다’에서 조건이 빠지면 ‘놀이 기구는 안전하다’가 돼요. 결론이 넓어진 거예요."
+      criteria:
+        - id: s3b_cond
+          desc: 올바르게 제정된 법이라는 조건을 보존했다
+          signals: [["올바르게", "제정"]]
+      errors:
+        - id: s3b_missing
+          name: 조건 누락
+          first_question: (가)는 어떤 법을 따르는 것이 자유를 지키는 일이라고 했나요?
+      done_message: 원문의 조건을 결론에 남겼어요.
+    - *s3_recheck
+
+- id: S3-다
+  kind: supplement
+  parent: S3
+  path_name: 일반 대책과 사례
+  criterion: C2
+  title: 일반 대책과 사례의 관계
+  goal: 한 사례가 일반 대책을 어디까지 뒷받침하는지 구별해요.
+  trigger_errors: [e3_relation, e3_means_opposed]
+  review_items: ["3-7", "3-8"]
+  steps:
+    - id: s3c_practice
+      title: (다)·(라)의 관계 다시 보기
+      prompt: (라)의 사례가 (다)의 일반 대책을 어디까지 뒷받침하고, 무엇은 보여 주지 않는지 나누어 쓰세요. 두 대책을 함께 쓸 수 있는지도 써 보세요.
+      excerpts: [l3_da, l3_ra]
+      criteria:
+        - id: s3c_scope
+          desc: 사례가 뒷받침하는 범위와 보여 주지 않는 것을 구별했다
+          signals: [["사례", "한 사람", "지도자"], ["보여 주지", "알 수 없", "범위", "다만", "함께"]]
+      errors:
+        - id: s3c_over
+          name: 사례 범위 과장
+          first_question: 한 지도자의 이야기가 보여 주는 것과, 제도 전체의 효과는 같은 것일까요?
+      done_message: 사례가 뒷받침하는 범위를 구별했어요.
+    - *s3_recheck
+
+- id: S3-라
+  kind: supplement
+  parent: S3
+  path_name: 귀납 범위
+  criterion: C2
+  title: 사례에서 일반으로 갈 때의 범위
+  goal: 사례가 허용하는 만큼만 결론을 내려요.
+  trigger_errors: [e3_induction]
+  review_items: ["3-9"]
+  steps:
+    - id: s3d_practice
+      title: 범위를 맞춰 고쳐 쓰기
+      prompt: "‘(라)의 지도자가 청렴했으므로, 모든 공직자는 어떤 상황에서도 스스로 청렴할 수 있다’를 사례가 허용하는 범위로 고쳐 쓰세요."
+      excerpts: [l3_ra]
+      criteria:
+        - id: s3d_fix
+          desc: 근거가 허용하는 범위로 결론을 고쳤다 (‘모든’ 삭제만으로 평가하지 않음)
+          signals: [["있다", "가능", "어떤 공직자", "한 사례", "보여 준다"]]
+          absent: ["모든 공직자는 어떤 상황"]
+      errors:
+        - id: s3d_word
+          name: 단어만 삭제
+          first_question: 단어를 지우는 것 말고, 이 사례가 실제로 보여 주는 것은 무엇까지인가요?
+      done_message: 사례가 허용하는 범위로 결론을 고쳤어요.
+    - *s3_recheck
+
+- id: S3-마
+  kind: supplement
+  parent: S3
+  path_name: 연역의 방향
+  criterion: C2
+  title: 전제에서 결론이 따라오는지
+  goal: 전제를 받아들일 때 결론이 반드시 따라오는지 확인해요.
+  trigger_errors: [e3_deduction]
+  review_items: ["3-10"]
+  steps:
+    - id: s3e_practice
+      title: 방향을 확인하기
+      prompt: "‘권한이 몰리면 부정이 생기기 쉽다’를 받아들일 때 반드시 따라오는 결론과, 따라오지 않는 결론을 하나씩 쓰세요."
+      excerpts: [l3_da]
+      criteria:
+        - id: s3e_dir
+          desc: 방향을 뒤집은 결론은 따르지 않음을 구별했다
+          signals: [["따르지", "아니", "반드시", "보장"]]
+      errors:
+        - id: s3e_flip
+          name: 방향 뒤집기
+          first_question: ‘권한을 나누면 부정이 없다’는 전제에서 반드시 따라 나오나요, 아니면 전제를 뒤집은 것인가요?
+      done_message: 전제에서 따라오는 결론과 그렇지 않은 결론을 구별했어요.
+    - *s3_recheck
+
+- id: S3-바
+  kind: supplement
+  parent: S3
+  path_name: 인과·유추
+  criterion: C2
+  title: 원인 확정과 비슷한 경우의 적용
+  goal: 함께 나타난 것과 원인을 구별하고, 비슷한 점과 차이를 함께 봐요.
+  intro: 이번에는 인과와 유추 중 실제로 어려웠던 하나만 다뤄요.
+  trigger_errors: [e3_cause, e3_analogy]
+  review_items: ["3-11", "3-12"]
+  steps:
+    - id: s3f_practice
+      title: 확인된 것과 더 확인할 것
+      prompt: "‘(라)의 지도자가 청렴했던 원인은 검소한 생활 방식이다’를, 원문에서 확인된 내용과 더 확인이 필요한 내용으로 나누어 고쳐 쓰세요."
+      excerpts: [l3_ra]
+      criteria:
+        - id: s3f_cause
+          desc: 원인 미확정을 구별했다 (‘원인 아님’과 구별)
+          signals: [["함께", "확인", "알 수 없", "확정", "더"]]
+      errors:
+        - id: s3f_fixed
+          name: 원인 단정
+          first_question: (라)는 두 가지를 함께 서술했나요, 아니면 하나가 다른 하나의 원인이라고 말했나요?
+      done_message: 함께 나타난 사실과 원인을 구별했어요.
+    - *s3_recheck
+
+# ---------------- S4 (기준 ③·④) ----------------
+- id: S4-가
+  kind: supplement
+  parent: S4
+  path_name: 논제에 답하는 판단
+  criterion: C3
+  title: 논제에 답하는 내 판단 세우기
+  goal: 글 내용 소개가 아니라, 논제에 답하는 내 판단을 세워요.
+  trigger_errors: [e4_summary, e4_means_only]
+  review_items: ["4-1"]
+  steps:
+    - id: s4a_practice
+      title: 내 원칙 다시 세우기
+      prompt: 앞의 입론을 보고, 논제가 묻는 ‘필요한 원칙’에 답하는 내 판단을 한 문장으로 다시 쓰고 이유를 붙이세요.
+      excerpts: [l4_ga]
+      carry_from: ["L4:l4_claim"]
+      criteria:
+        - id: s4a_claim
+          desc: 논제에 답하는 판단과 관련 이유
+          signals: [["원칙", "해야", "안 된다", "필요"], ["때문", "므로", "니까"]]
+      errors:
+        - id: s4a_summary
+          name: 내용 소개
+          first_question: 지금 문장은 제시문 소개에 가까워요. ‘공적 권한을 가진 사람은 ~해야 한다’로 시작해 보면 어떨까요?
+      done_message: 논제에 답하는 내 판단을 세웠어요.
+    - &s4_recheck_c3
+      id: s4_recheck
+      title: 새 논제로 다시 확인하기
+      prompt: "새 상황 (나)를 읽고, ‘작은 권한을 가진 사람이 지켜야 할 원칙은 무엇인가?’에 대한 내 판단과 이유를 쓰세요."
+      excerpts: [s4_recheck]
+      allow_one_direction: true
+      criteria:
+        - id: r4_claim
+          desc: 선택한 원칙과 이유의 연결 (자료의 의견 하나를 고르는 것으로 끝내지 않음)
+          evidence_for: [C3]
+          skill: "4-1"
+          signals: [["원칙", "해야", "안 된다", "공정", "기준"], ["때문", "므로", "니까"]]
+      errors:
+        - id: r4_none
+          name: 판단 부재
+          first_question: 반장의 행동을 평가하는 것을 넘어, 작은 권한을 가진 사람이 지켜야 할 원칙은 무엇이라고 생각하나요?
+      done_message: 새 논제에서도 내 판단과 이유를 세웠어요.
+
+- id: S4-나
+  kind: supplement
+  parent: S4
+  path_name: 근거 연결
+  criterion: C3
+  title: 근거가 주장을 뒷받침하는 이유
+  goal: 인용한 근거가 왜 내 주장을 뒷받침하는지 설명해요.
+  trigger_errors: [e4_repeat, e4_fact]
+  review_items: ["4-2", "4-3"]
+  steps:
+    - id: s4b_practice
+      title: 연결 이유 쓰기
+      prompt: 앞의 입론에서 쓴 근거가 왜 내 주장을 뒷받침하는지 설명을 덧붙이세요. 확인되지 않은 사실이 있다면 가정이라고 밝히거나 다른 근거로 바꾸세요.
+      excerpts: [l4_ga]
+      carry_from: ["L4:l4_claim"]
+      criteria:
+        - id: s4b_link
+          desc: 근거와 주장의 연결 설명 (규범적 이유도 근거로 인정)
+          signals: [["때문", "므로", "그래야", "니까", "왜냐하면"]]
+      errors:
+        - id: s4b_quote
+          name: 인용만 함
+          first_question: 그 문장을 인용한 것은 좋아요. 그 내용이 내 주장을 ‘왜’ 뒷받침하는지 한 문장 더 써 볼까요?
+      done_message: 근거가 주장을 뒷받침하는 이유를 설명했어요.
+    - *s4_recheck_c3
+
+- id: S4-다
+  kind: supplement
+  parent: S4
+  path_name: 목적과 수단
+  criterion: C3
+  title: 목적과 수단 구분하기
+  goal: 목적에 동의하는 것과 수단이 타당한 것을 구분해요.
+  trigger_errors: [e4_end_means, e4_corrupt]
+  review_items: ["4-4"]
+  steps:
+    - id: s4c_practice
+      title: 목적과 수단을 나누어 보기
+      prompt: 제시문에서 ‘목적’과 ‘수단’을 하나씩 찾아 구분하고, 내 원칙에도 목적과 적용 방법을 나누어 써 보세요.
+      excerpts: [l4_ga]
+      criteria:
+        - id: s4c_split
+          desc: 목적 동의와 수단 타당성 구분
+          signals: [["목적"], ["수단", "방법"]]
+      errors:
+        - id: s4c_same
+          name: 목적으로 수단 정당화
+          first_question: 공적 판단을 지키려는 목적이 좋다고 해서, ‘가족을 갖지 않게 하는’ 방법도 꼭 옳은가요?
+      done_message: 목적과 수단을 구분했어요.
+    - *s4_recheck_c3
+
+- id: S4-라
+  kind: supplement
+  parent: S4
+  path_name: 실질적 반론
+  criterion: C4
+  title: 내 주장을 겨냥하는 반론 만들기
+  goal: 반대 결론이 아니라, 내 주장의 실행 조건·부작용·충분성을 겨냥하는 반론을 만들어요.
+  trigger_errors: [e4_no_reason]
+  review_items: ["4-5"]
+  steps:
+    - id: s4d_practice
+      title: 반론 다시 쓰기
+      prompt: 내 주장의 실행 조건, 부작용, 충분성 중 하나를 골라, 그 점을 겨냥하는 반론을 직접 써 보세요.
+      excerpts: [l4_ga]
+      carry_from: ["L4:l4_claim", "L4:l4_counter"]
+      demo:
+        excerpt: l4_demo
+        text: "다수결 주장에 대한 반론 ‘소수가 늘 손해를 보는 결정이 반복될 수 있다’는 주장의 ‘언제나 공정하다’는 부분을 겨냥해요. 내 주장에 대한 반론은 직접 써 보세요."
+      criteria:
+        - id: s4d_counter
+          desc: 실행 조건·부작용·충분성 중 하나를 겨냥
+          signals: [["조건", "부작용", "어렵", "충분", "경우", "문제"]]
+      errors:
+        - id: s4d_opposite
+          name: 반대 결론만 말함
+          first_question: ‘반대한다’는 입장은 나왔어요. 내 원칙을 실제로 따를 때 어떤 어려움이 생길지 하나만 골라 써 볼까요?
+      done_message: 내 주장을 겨냥하는 반론을 직접 만들었어요.
+    - &s4_recheck_c4
+      id: s4_recheck
+      title: 새 논제로 다시 확인하기
+      prompt: "새 상황 (나)에서 ‘작은 권한을 가진 사람은 친분보다 공정한 기준을 따라야 한다’는 주장에 대한 반론 하나를 만들고, 그 반론에 어떻게 대응할지 이유와 함께 쓰세요."
+      excerpts: [s4_recheck]
+      allow_one_direction: true
+      criteria:
+        - id: r4_counter
+          desc: 주장의 실행 조건·부작용·충분성을 겨냥한 반론 (자료에 이미 있는 반응을 반복한 것은 자기 반론으로 보지 않음)
+          evidence_for: [C4]
+          skill: "4-5"
+          signals: [["하지만", "그러나", "어렵", "문제", "경우", "기준"]]
+        - id: r4_response
+          desc: 유지·제한·수정과 그 이유
+          evidence_for: [C4]
+          skill: "4-7"
+          signals: [["유지", "제한", "수정", "다만", "그래도", "보완"], ["때문", "므로", "니까"]]
+      errors:
+        - id: r4_counter_none
+          name: 반론 미구성
+          first_question: 그 주장을 실제로 따를 때 생길 수 있는 어려움이나 부작용은 무엇일까요?
+      done_message: 새 논제에서도 반론을 만들고 대응했어요.
+
+- id: S4-마
+  kind: supplement
+  parent: S4
+  path_name: 반론 대상
+  criterion: C4
+  title: 반론이 내 주장을 겨냥하게
+  goal: 반론이 내가 실제로 한 주장(원칙의 범위 포함)을 겨냥하는지 확인해요.
+  trigger_errors: [e4_wrong_target]
+  review_items: ["4-6"]
+  steps:
+    - id: s4e_practice
+      title: 원래 주장과 대조하기
+      prompt: 내 처음 주장과 내가 쓴 반론을 나란히 놓고, 반론이 원래 주장의 어느 부분을 겨냥하는지 고쳐 쓰세요.
+      excerpts: [l4_ga]
+      carry_from: ["L4:l4_claim", "L4:l4_counter"]
+      criteria:
+        - id: s4e_target
+          desc: 반론이 실제 주장과 대립함
+          signals: [["주장", "원칙", "내"], ["하지만", "그러나", "문제", "어렵"]]
+      errors:
+        - id: s4e_other
+          name: 다른 대상 공격
+          first_question: 반론이 겨냥한 것은 내 원칙인가요, 제시문 속 다른 사람의 주장인가요?
+      done_message: 반론이 내 주장을 겨냥하도록 고쳤어요.
+    - *s4_recheck_c4
+
+- id: S4-바
+  kind: supplement
+  parent: S4
+  path_name: 대응 이유
+  criterion: C4
+  title: 유지·제한·수정의 이유
+  goal: 반론에 어떻게 대응할지와 그 이유를 분명히 해요.
+  trigger_errors: [e4_resp_no_reason, e4_give_up, e4_reject]
+  review_items: ["4-7"]
+  steps:
+    - id: s4f_practice
+      title: 대응 이유 쓰기
+      prompt: 반론에서 인정할 부분과 그래도 유지할 부분을 나누고, 그 이유를 쓰세요. 완벽한 제도 설계까지는 필요 없어요.
+      excerpts: [l4_ga]
+      carry_from: ["L4:l4_counter", "L4:l4_response"]
+      criteria:
+        - id: s4f_reason
+          desc: 유지 부분과 보완 부분의 구별, 이유
+          signals: [["인정", "다만", "유지", "보완", "그래도"], ["때문", "므로", "니까"]]
+      errors:
+        - id: s4f_all
+          name: 전면 포기 또는 무조건 거부
+          first_question: 반론 가운데 받아들일 부분은 무엇이고, 그래도 남는 내 주장은 무엇인가요?
+      done_message: 반론에 대한 대응과 이유를 분명히 했어요.
+    - *s4_recheck_c4
+
+# ---------------- S5 (기준 ⑤) ----------------
+- id: S5-가
+  kind: supplement
+  parent: S5
+  path_name: 내용 고르기
+  criterion: C5
+  title: 핵심 내용 고르기
+  goal: 제시문 전체나 앞선 대화가 아니라, 판단·이유·검토한 문제를 골라요.
+  trigger_errors: [e5_summary]
+  review_items: ["5-1", "5-2"]
+  steps:
+    - id: s5a_practice
+      title: 고르고 순서 정하기
+      kind: outline
+      prompt: 핵심 판단 하나, 그 이유, 검토한 문제와 대응을 순서대로 짧게 골라 적으세요. 완결 문장이 아니어도 돼요.
+      excerpts: [l4_ga]
+      carry_from: ["L4:l4_final", "L5:l5_final"]
+      done_message: 글에 필요한 핵심 내용을 골랐어요.
+    - &s5_recheck
+      id: s5_recheck
+      title: 다시 쓰고 직접 고치기
+      prompt: 앞에서 세운 논증을 활용해 공백 포함 400자 이내의 글을 쓰고, 스스로 점검해 고친 뒤 제출하세요. 쓰는 동안에는 내용 도움이 없어요.
+      excerpts: [l4_ga]
+      carry_from: ["L4:l4_final"]
+      max_chars: 400
+      allow_one_direction: true
+      criteria:
+        - id: r5_topic
+          desc: 논제 충족
+          evidence_for: [C5]
+          skill: "5-4"
+          signals: [["가족"], ["공동체", "공적", "권한", "책임", "공정"]]
+        - id: r5_reason
+          desc: 이유의 실제 연결
+          evidence_for: [C5]
+          skill: "5-3"
+          signals: [["때문", "므로", "왜냐하면", "그래야", "니까"]]
+        - id: r5_review
+          desc: 검토 결과와 결론의 일치
+          evidence_for: [C5]
+          skill: "5-5"
+          signals: [["물론", "하지만", "그러나", "다만", "반론", "그렇더라도"]]
+      errors:
+        - id: r5_gap
+          name: 핵심 공백
+          first_question: 반론이나 한계를 검토한 결과가 마지막 판단과 맞는지 한 번 더 살펴볼까요?
+      done_message: 짧은 글을 다시 쓰고 스스로 고쳤어요.
+
+- id: S5-나
+  kind: supplement
+  parent: S5
+  path_name: 논리적 연결
+  criterion: C5
+  title: 문장 사이의 이유와 대응 잇기
+  goal: 나열된 문장을 이유와 대응 관계가 드러나는 글로 고쳐요.
+  trigger_errors: [e5_list]
+  review_items: ["5-3"]
+  steps:
+    - id: s5b_practice
+      title: 연결 드러내기
+      prompt: 내 글에서 문장과 문장 사이에 어떤 이유나 대응 관계가 있는지 드러나도록 직접 고쳐 쓰세요. 연결어만 넣는 것이 아니라 실제 관계가 보이게 해요.
+      excerpts: [l4_ga]
+      prefill_from: null
+      carry_from: ["L5:l5_final"]
+      max_chars: 400
+      criteria:
+        - id: s5b_link
+          desc: 실제 연결 (연결어만 넣은 수정 불인정)
+          signals: [["때문", "므로", "그래서", "따라서", "왜냐하면"]]
+      errors:
+        - id: s5b_conj
+          name: 접속어만 넣음
+          first_question: 넣은 연결어 앞뒤 문장이 정말 이유와 결론 관계인가요?
+      done_message: 문장 사이의 관계가 드러나게 고쳤어요.
+    - *s5_recheck
+
+- id: S5-다
+  kind: supplement
+  parent: S5
+  path_name: 검토와 결론의 일치
+  criterion: C5
+  title: 검토 결과를 결론에 반영하기
+  goal: 반론·한계를 검토한 결과와 마지막 판단을 맞춰요.
+  trigger_errors: [e5_counter_dropped]
+  review_items: ["5-5"]
+  steps:
+    - id: s5c_practice
+      title: 검토 결과 반영하기
+      prompt: 내 글에서 반론을 소개한 부분과 마지막 판단을 비교하고, 서로 맞도록 직접 고치세요.
+      excerpts: [l4_ga]
+      carry_from: ["L5:l5_final"]
+      max_chars: 400
+      criteria:
+        - id: s5c_fit
+          desc: 검토 결과가 결론·조건에 반영됨
+          signals: [["다만", "그렇더라도", "조건", "경우", "보완"]]
+      errors:
+        - id: s5c_gap
+          name: 결론에서 검토 삭제
+          first_question: 반론을 인정한 부분이 마지막 판단에서 사라지지 않았나요?
+      done_message: 검토 결과를 결론에 반영했어요.
+    - *s5_recheck
+
+- id: S5-라
+  kind: supplement
+  parent: S5
+  path_name: 의미를 지키며 줄이기
+  criterion: C5
+  title: 의미를 지키며 분량 줄이기
+  goal: 반복과 무관한 설명만 줄이고, 조건과 근거는 남겨요.
+  trigger_errors: [length]
+  review_items: ["5-6"]
+  steps:
+    - id: s5d_practice
+      title: 직접 줄이기
+      prompt: 내 글에서 반복된 문장, 중심 판단과 무관한 설명을 골라 직접 지우거나 합쳐 400자 이내로 줄이세요. 반론 대응의 조건은 남겨 두세요.
+      excerpts: [l4_ga]
+      carry_from: ["L5:l5_final"]
+      max_chars: 400
+      criteria:
+        - id: s5d_keep
+          desc: 조건·근거 보존
+          signals: [["때문", "므로", "다만", "조건"]]
+      errors:
+        - id: s5d_lost
+          name: 조건 삭제
+          first_question: 줄이면서 반론에 대한 조건이나 근거가 사라지지 않았나요?
+      done_message: 의미를 지키며 분량을 줄였어요.
+    - *s5_recheck
+
+- id: S5-마
+  kind: supplement
+  parent: S5
+  path_name: 스스로 점검하고 고치기
+  criterion: C5
+  title: 스스로 점검하고 고치기
+  goal: 내 글의 중요한 문제를 스스로 찾아 내 문장으로 고쳐요.
+  trigger_errors: [e5_offtopic]
+  review_items: ["5-7"]
+  steps:
+    - id: s5e_practice
+      title: 자기검토
+      kind: self_review
+      prompt: 아래 질문으로 내 글을 점검하고 직접 고치세요. 고친 이유도 짧게 남기세요. 문제가 없다면 그대로 두어도 돼요.
+      excerpts: [l4_ga]
+      carry_from: ["L5:l5_final"]
+      max_chars: 400
+      review_questions:
+        - 가족을 아끼는 마음과 공동체에 대한 책임을 함께 다뤘나요?
+        - 근거가 중심 주장을 뒷받침하나요?
+        - 반론·한계와 마지막 판단이 서로 맞나요?
+      done_message: 스스로 점검하고 고쳤어요.
+    - *s5_recheck

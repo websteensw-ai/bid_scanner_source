@@ -8,7 +8,7 @@ from src.services import auth_service
 from src.ui.components import user_badge
 from src.ui.theme import apply_theme
 
-st.set_page_config(page_title="논술랩 · AI 논술 첨삭", page_icon="assets/icon.svg",
+st.set_page_config(page_title="논술랩 · 기초 다지기", page_icon="assets/icon.svg",
                    layout="wide", initial_sidebar_state="auto")
 apply_theme()
 
@@ -23,20 +23,26 @@ else:
     pages: dict[str, list] = {"": [st.Page("views/home.py", title="홈", icon=":material/home:",
                                            default=True)]}
     if is_student:
-        pages["학습"] = [
-            st.Page("views/write.py", title="논술 작성", icon=":material/edit_note:"),
-            st.Page("views/history.py", title="첨삭 기록", icon=":material/history_edu:"),
+        pages["기초 다지기"] = [
+            st.Page("views/lesson.py", title="학습하기", icon=":material/edit_note:"),
+            st.Page("views/result.py", title="진단 결과", icon=":material/explore:"),
+            st.Page("views/review.py", title="선택 복습", icon=":material/menu_book:"),
         ]
     if is_staff:
-        pages["관리"] = [
-            st.Page("views/teacher.py", title="교사 대시보드", icon=":material/dashboard:"),
+        pages["교사·운영자"] = [
+            st.Page("views/records.py", title="학습 기록", icon=":material/fact_check:"),
+            st.Page("views/content_admin.py", title="자료 관리", icon=":material/inventory_2:"),
         ]
+        if not is_student:
+            pages[""] = [st.Page("views/records.py", title="학습 기록", icon=":material/fact_check:",
+                                 default=True)]
+            pages["교사·운영자"] = [pages["교사·운영자"][1]]
     nav = st.navigation(pages)
 
     st.logo("assets/logo.svg", icon_image="assets/icon.svg", size="large")
     with st.sidebar:
         user_badge(user)
-        if st.button("로그아웃", icon=":material/logout:", use_container_width=True):
+        if st.button("로그아웃", icon=":material/logout:", width="stretch"):
             auth_service.sign_out()
             st.rerun()
 

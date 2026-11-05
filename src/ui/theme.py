@@ -351,6 +351,52 @@ div[class*="st-key-card"]:hover { box-shadow: var(--shadow); }
 .nx-demo code { background: #fff; color: var(--primary); font-weight: 700; padding: .1rem .4rem;
   border-radius: 6px; border: 1px solid var(--primary-100); }
 
+/* ---------- 학습 화면 ---------- */
+.nx-passage { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1.3rem 1.5rem; box-shadow: var(--shadow-sm); margin-bottom: .8rem; }
+.nx-passage .lbl { font-weight: 800; color: var(--navy-900); margin-bottom: .5rem; font-size: 1.05rem; }
+.nx-passage p { font-size: 1.02rem; line-height: 1.95; color: var(--text); margin: 0 0 .75rem; text-indent: .6em; }
+.nx-passage p:last-child { margin-bottom: 0; }
+.nx-mark { display: inline-block; font-size: .74rem; font-weight: 700; color: var(--warning);
+  background: var(--warning-50); border-radius: 6px; padding: .1rem .45rem; margin-bottom: .3rem; }
+.nx-interp { border: 1px dashed var(--border-strong); background: var(--surface-muted);
+  border-radius: var(--radius); padding: .9rem 1.1rem; margin: .6rem 0 1rem; }
+.nx-interp .tag { font-size: .74rem; font-weight: 700; color: var(--text-muted); letter-spacing: .02em; }
+.nx-interp p { margin: .35rem 0 0; font-weight: 600; color: var(--text); line-height: 1.7; }
+.nx-task { margin-bottom: .6rem; }
+.nx-chat { display: flex; flex-direction: column; gap: .55rem; margin: .4rem 0 1rem; }
+.nx-msg { max-width: 92%; padding: .75rem 1rem; border-radius: 14px; line-height: 1.7; font-size: .95rem;
+  white-space: pre-wrap; }
+.nx-msg .tag { font-size: .72rem; font-weight: 800; letter-spacing: .02em; margin-bottom: .2rem; opacity: .8; }
+.nx-msg.me { align-self: flex-end; background: var(--primary-50); color: var(--navy-900);
+  border-bottom-right-radius: 4px; }
+.nx-msg.tutor { align-self: flex-start; background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); border-bottom-left-radius: 4px; box-shadow: var(--shadow-sm); }
+.nx-msg.tutor.direction .tag, .nx-msg.tutor.confirm .tag { color: var(--primary); }
+.nx-msg.tutor.explanation, .nx-msg.tutor.demo { background: #FBF8F1; border-color: #EFE3C8; }
+.nx-msg.tutor.explanation .tag, .nx-msg.tutor.demo .tag { color: var(--warning); }
+.nx-msg.tutor.done, .nx-msg.tutor.ack { background: var(--success-50); border-color: #CBEBDF; }
+.nx-msg.tutor.done .tag, .nx-msg.tutor.ack .tag { color: var(--success); }
+.nx-dots { display: flex; gap: .35rem; margin: .3rem 0 1rem; flex-wrap: wrap; }
+.nx-dots span { width: 28px; height: 6px; border-radius: 999px; background: #E3E7F0; }
+.nx-dots .done { background: var(--success); }
+.nx-dots .skipped { background: #B9E3D4; }
+.nx-dots .current { background: var(--primary); }
+.nx-topic { display: flex; gap: .9rem; align-items: flex-start; }
+.nx-topic .num { width: 40px; height: 40px; border-radius: 12px; background: var(--primary-50);
+  color: var(--primary); font-weight: 800; display: grid; place-items: center; flex-shrink: 0; }
+.nx-topic.done .num { background: var(--success-50); color: var(--success); }
+.nx-chip.todo { background: #F1F3F8; color: var(--text-muted); }
+.nx-chip.active { background: var(--primary-50); color: var(--primary); }
+.nx-chip.paused { background: var(--warning-50); color: var(--warning); }
+.nx-chip.done { background: var(--success-50); color: var(--success); }
+.nx-level { display: inline-block; font-size: .78rem; font-weight: 700; border-radius: 999px; padding: .15rem .55rem; }
+.nx-level.l3 { background: var(--success-50); color: var(--success); }
+.nx-level.l2 { background: var(--primary-50); color: var(--primary); }
+.nx-level.l1 { background: var(--warning-50); color: var(--warning); }
+.nx-level.l0 { background: var(--danger-50); color: var(--danger); }
+.nx-level.ln { background: #F1F3F8; color: var(--text-muted); }
+
 /* ---------- 반응형 ---------- */
 @media (max-width: 900px) {
   .stMainBlockContainer, [data-testid="stMainBlockContainer"] { padding: 1.5rem 1.1rem 4rem; }

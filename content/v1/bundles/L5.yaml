@@ -1,0 +1,82 @@
+# 제5학습 주제: 짧게 쓰고 고치기 (L5-001~L5-073)
+# 새 제시문·새 논제 없음. 제4주제 논제와 산출물을 이어받는다 (L5-008·L5-004).
+id: L5
+kind: topic
+order: 5
+title: 짧게 쓰고 고치기
+goal: 앞에서 세운 논증으로 400자 이내의 짧은 글을 쓰고, 스스로 점검해 고쳐요.
+intro: "논제는 제4주제와 같아요. 앞에서 쓴 주장·근거·반론·대응을 그대로 불러왔어요. 다른 판단으로 써도 괜찮지만, 그때는 근거와 대응이 바뀐 주장에 맞는지 확인해요."
+time_target: 25~35분
+steps:
+  - id: l5_outline
+    title: 고르고 순서 정하기
+    kind: outline
+    prompt: 아래 내 산출물에서 글에 쓸 중심 주장과, 그것을 설명하는 데 필요한 내용만 골라 순서대로 짧게 적어 보세요. 완결된 문장이 아니어도 되고, 순서는 자유예요.
+    excerpts: [l4_ga]
+    carry_from: ["L4:l4_claim", "L4:l4_counter", "L4:l4_response", "L4:l4_final"]
+    done_message: 글에 쓸 내용을 골라 순서를 정했어요.
+
+  - id: l5_draft
+    title: 초고 쓰기 (400자 이내)
+    kind: draft
+    prompt: 고른 내용으로 공백 포함 400자 이내의 짧은 논술을 쓰세요. 쓰는 동안에는 내용 도움 없이 직접 써요. 형식(서론·본론·결론, 제목)은 자유예요.
+    excerpts: [l4_ga]
+    carry_from: [l5_outline, "L4:l4_final"]
+    max_chars: 400
+    done_message: 내용 도움 없이 초고를 직접 썼어요. 초고 원본은 그대로 보관돼요.
+
+  - id: l5_review
+    title: 스스로 점검하고 고치기
+    kind: self_review
+    prompt: 제출 전에 아래 질문으로 스스로 점검하고, 고칠 부분은 직접 고치세요. 크게 고친 곳이 있으면 이유를 짧게 남기세요. 고칠 것이 없다면 그대로 두어도 돼요.
+    excerpts: [l4_ga]
+    prefill_from: l5_draft
+    max_chars: 400
+    review_questions:
+      - 가족을 아끼는 마음과 공동체에 대한 책임을 함께 다뤘나요?
+      - 근거가 중심 주장을 뒷받침하나요?
+      - 반론이나 한계를 검토한 결과와 마지막 판단이 서로 맞나요?
+    done_message: 스스로 점검했어요. 점검한 글은 초고와 따로 저장돼요.
+
+  - id: l5_final
+    title: 제출하고 피드백 반영하기
+    prompt: 점검한 글이에요. 제출하면 남은 중요한 문제가 있는지 하나만 확인해요. 질문을 받으면 직접 고쳐서 다시 제출하세요.
+    excerpts: [l4_ga]
+    prefill_from: l5_review
+    max_chars: 400
+    criteria:
+      - id: w_topic
+        desc: 논제 충족 — 가족애와 공동체 책임을 함께 다뤘다
+        evidence_for: [C5]
+        skill: "5-4"
+        signals: [["가족"], ["공동체", "공적", "권한", "책임", "공정"]]
+      - id: w_reason
+        desc: 근거의 연결 — 왜 그 주장을 받아들여야 하는지 설명했다 (연결어만이 아니라 실제 논리)
+        evidence_for: [C5]
+        skill: "5-3"
+        signals: [["때문", "므로", "왜냐하면", "그래야", "니까"]]
+      - id: w_review
+        desc: 검토의 반영 — 반론이나 한계가 최종 주장·조건·대응에 반영되었다
+        evidence_for: [C5]
+        skill: "5-5"
+        signals: [["물론", "하지만", "그러나", "다만", "반론", "그렇더라도", "비록"]]
+    errors:
+      - id: e5_offtopic
+        name: 논제 이탈
+        first_question: 글이 논제의 두 가지 — 가족을 아끼는 마음과 공동체에 대한 책임 — 를 함께 다루고 있나요?
+        review_item: "5-4"
+      - id: e5_list
+        name: 문장 나열
+        first_question: 문장과 문장 사이에 어떤 이유나 대응 관계가 있는지 글에 드러나 있나요?
+        review_item: "5-3"
+        signals: [["또한", "그리고", "그리고 또"]]
+      - id: e5_counter_dropped
+        name: 반론 소개 후 대응 없음
+        first_question: 반론을 소개한 뒤, 그 반론이 마지막 판단에 어떻게 반영되었나요?
+        review_item: "5-5"
+      - id: e5_summary
+        name: 제시문 요약만 함
+        first_question: 제시문을 소개한 부분이 많아요. 이 글에서 나의 판단은 어느 문장인가요?
+        review_item: "5-1"
+        signals: [["옛 사상가", "제시문에 따르면"]]
+    done_message: 논제에 답하고, 이유와 검토 결과를 이어서 짧은 글을 완성했어요.

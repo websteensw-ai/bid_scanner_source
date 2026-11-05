@@ -1,0 +1,160 @@
+# 제1학습 주제: 읽고 한 문장으로 잡기 (L1-001~L1-036)
+id: L1
+kind: topic
+order: 1
+title: 읽고 한 문장으로 잡기
+goal: 짧은 글을 읽고 글쓴이의 중심 생각을 한 문장으로 잡아요.
+intro: 제시문을 읽고 글쓴이가 말하려는 생각을 한 문장으로 써 봐요. 어려운 낱말은 뜻을 물어볼 수 있어요.
+time_target: 11~16분 (독립 확인 포함 15~20분)
+next: L2
+steps:
+  - id: l1_initial
+    title: 중심 생각 한 문장
+    prompt: 제시문 (가)를 읽고, 글쓴이가 이 글에서 말하려는 중심 생각을 한 문장으로 쓰세요. 그렇게 판단한 근거가 되는 부분도 적어 주세요.
+    excerpts: [l1_ga]
+    evidence: true
+    vocab:
+      공정: 어느 한쪽으로 치우치지 않고 올바름
+      물자: 생활이나 싸움에 필요한 물건
+      시기하다: 남이 잘되는 것을 샘내고 미워하다
+      보상: 한 일에 대한 대가로 주는 것
+    guide: 과제는 두 가지예요. ① 글쓴이가 이 글에서 말하려는 생각을 한 문장으로 쓰기 ② 그렇게 판단한 근거가 되는 부분(문단이나 표현)을 적기. 줄거리를 요약하는 것이 아니라, 글쓴이가 무엇이라고 판단하는지를 쓰는 과제예요.
+    explanation: "‘소재’는 ‘무엇에 관한 글인가’이고, ‘중심 생각’은 ‘그 대상에 대해 글쓴이가 무엇이라고 말하는가’예요. 예를 들어 ‘급식 줄’은 소재이고, ‘급식 줄 규칙은 먼저 기다린 사람을 보호한다’는 중심 생각이에요. 중심 생각을 쓸 때는 글에 자주 나오는 핵심어들이 서로 어떤 관계로 이어지는지를 한 문장에 담아 보세요."
+    demo:
+      excerpt: l1_demo
+      text: "다른 글로 시범을 보일게요. 연습문의 소재는 ‘모둠 발표 준비’예요. 중심 생각은 ‘일을 모두 함께 하기보다 역할을 나누어 각자 책임지게 할 때 준비가 더 잘 된다’예요. ‘함께 하기’와 ‘역할 나누기’를 대조하고, 그 결과(준비가 빨라짐)를 근거로 삼았어요. 이제 원래 제시문 (가)로 돌아가 직접 써 보세요."
+    criteria:
+      - id: c_judgment
+        desc: 소재(장수·물자 배분)에 그치지 않고 공정한 배분에 대한 글쓴이의 판단을 담았다
+        evidence_for: [C1]
+        skill: "1-1"
+        signals: [["공정", "공평", "올바른"], ["똑같이", "같게", "기여", "공을", "공에", "성과", "기준", "차등", "다르게"]]
+      - id: c_criterion
+        desc: 보상 기준(위험 감당·성과 등 기여에 따른 차등)을 핵심 관계로 연결했다
+        evidence_for: [C1]
+        skill: "1-2"
+        signals: [["기여", "공을", "공에", "성과", "위험", "해낸", "노력", "한 만큼"]]
+      - id: c_opportunity
+        desc: 기회의 동등함 또는 기준의 사전 공개를 함께 짚었다 (선택)
+        required: false
+        evidence_for: [C1]
+        signals: [["기회", "미리", "알렸", "공개"]]
+      - id: g_relation
+        desc: (일반화) 핵심 관계를 보존했다
+        required: false
+        signals: [["기여", "공", "성과", "노력"], ["보상", "몫", "대가", "나누", "배분"]]
+      - id: g_beyond
+        desc: (일반화) 특정 인물 이야기를 넘어선 표현이다
+        required: false
+        signals: [["보상", "몫", "배분", "나누"]]
+        absent: ["장수", "병사"]
+      - id: g_scope
+        desc: (일반화) 글이 다루지 않은 범위로 넓히지 않았다
+        required: false
+        signals: [["보상", "몫", "배분", "나누"]]
+        absent: ["모든 일", "무조건", "어떤 경우에도"]
+    errors:
+      - id: e_topic_only
+        name: 소재만 말함
+        first_question: 이 글이 무엇에 관한 글인지는 잘 잡았어요. 그렇다면 글쓴이는 그 대상에 대해 무엇을 말하고 있나요?
+        review_item: "1-1"
+      - id: e_person
+        name: 인물 평가에 머묾
+        first_question: 글이 그 장수를 ‘공정하다’고 한 까닭은 무엇이라고 하나요? 첫 문단의 평가에 머물지 말고, 뒤 문단에서 그가 몫을 나눈 방식을 함께 읽어 보세요.
+        review_item: "1-1"
+        signals: [["너그럽", "훌륭", "착한", "인품", "좋은 장수", "좋은 사람"]]
+      - id: e_vague
+        name: 기준이 모호함
+        first_question: 몫을 다르게 주었다는 점은 잘 찾았어요. 그렇다면 무엇을 기준으로 다르게 주었나요?
+        review_item: "1-2"
+        signals: [["다르게", "차등", "더 많이", "차이"]]
+      - id: e_demand
+        name: 요구와 채택 원칙 혼동
+        first_question: ‘똑같이 나눠 달라’는 것은 누구의 요구였나요? 장수가 실제로 따른 원칙과 비교해 보세요.
+        review_item: "1-3"
+        signals: [["똑같이 나눠야", "똑같이 나누어야", "평등하게 나눠야", "똑같이 나누는 것이 공정"]]
+        major: true
+      - id: e_opportunity
+        name: 기회와 보상 오독
+        first_question: 셋째 문단에서 모두에게 ‘똑같이’ 주어진 것은 보상인가요, 아니면 다른 것인가요?
+        review_item: "1-4"
+        signals: [["똑같은 보상", "보상을 똑같이", "같은 몫을", "같은 보상"]]
+        major: true
+      - id: e_effect
+        name: 효과 과장
+        first_question: 넷째 문단은 병사들의 변화를 어디까지 말하고 있나요? 글에 있는 표현과 내가 쓴 표현을 비교해 보세요.
+        review_item: "1-6"
+        signals: [["모든 불만", "완벽", "모두 만족", "아무도 불만"]]
+      - id: e_moral
+        name: 성과와 인격 동일시
+        first_question: 몫을 더 받은 사람은 ‘더 좋은 사람’이어서인가요, 다른 이유 때문인가요?
+        review_item: "1-3"
+        signals: [["좋은 사람이", "착한 사람이", "인격이 높"]]
+    done_message: 글쓴이의 중심 생각을 자기 말로 한 문장에 담았어요.
+
+  - id: l1_general
+    title: 다른 상황에도 쓸 수 있는 문장
+    prompt: 앞에서 쓴 중심 생각을, 특정 장수 이야기에서 벗어나 다른 상황에도 쓸 수 있는 한 문장으로 바꿔 보세요. 단, 글이 말하는 범위를 넘지 않게 써 주세요.
+    excerpts: [l1_ga]
+    carry_from: [l1_initial]
+    skip_if_met: true
+    explanation: "‘다른 상황에 적용해 볼 수 있다’와 ‘모든 상황에서 반드시 그래야 한다’는 달라요. 일반 문장으로 바꿀 때는 세 가지를 확인해요. (a) 원래의 관계가 그대로인가 (b) 특정 인물 이야기에서 벗어났는가 (c) 글이 다루지 않은 범위까지 넓히지 않았는가."
+    criteria:
+      - id: g_relation
+        desc: 핵심 관계(기여와 보상)를 보존했다
+        evidence_for: [C1]
+        skill: "1-5"
+        signals: [["기여", "공", "성과", "노력", "한 만큼"], ["보상", "몫", "대가", "나누", "배분"]]
+      - id: g_beyond
+        desc: 특정 인물 이야기를 넘어선 표현이다
+        evidence_for: [C1]
+        skill: "1-5"
+        signals: [["보상", "몫", "배분", "나누", "대가"]]
+        absent: ["장수", "병사"]
+      - id: g_scope
+        desc: 글이 다루지 않은 범위로 넓히지 않았다 (‘항상’ 등 단어 유무가 아니라 실제 범위로 판단)
+        evidence_for: [C1]
+        skill: "1-6"
+        signals: [["보상", "몫", "배분", "나누", "대가"]]
+        absent: ["모든 일", "무조건", "어떤 경우에도"]
+    errors:
+      - id: e_lost_relation
+        name: 관계 상실
+        first_question: 바꾼 문장에도 ‘무엇을 기준으로 보상하는가’라는 관계가 남아 있나요?
+        review_item: "1-5"
+      - id: e_still_case
+        name: 사례에 머묾
+        first_question: 그 문장은 아직 장수 이야기에 머물러 있어요. 다른 모임이나 상황에도 쓸 수 있게 바꿔 볼까요?
+        review_item: "1-5"
+        signals: [["장수", "병사"]]
+      - id: e_overgeneral
+        name: 범위 과장
+        first_question: 그 문장이 글이 다룬 범위를 넘어서지는 않았나요? 범위를 넓히는 표현을 원문이 다루는 범위와 비교해 보세요.
+        review_item: "1-6"
+        signals: [["모든 일", "무조건", "어떤 경우에도"]]
+    done_message: 사례를 넘어서면서도 글이 말하는 범위를 지키는 문장을 썼어요.
+
+  - id: l1_check
+    title: 새 글로 혼자 확인하기
+    prompt: 새 제시문 (나)를 읽고 중심 생각을 한 문장으로 쓰고, 그 판단의 근거가 되는 부분을 적어 주세요. 이번에는 혼자서 해 봐요.
+    excerpts: [l1_check]
+    evidence: true
+    independent_check: true
+    vocab:
+      운영 위원: 일을 맡아 계획하고 꾸려 가는 사람
+    criteria:
+      - id: ic_judgment
+        desc: 규칙에 대한 글쓴이의 판단(규칙은 수보다 이유가 공유될 때 지켜진다)을 담았다
+        evidence_for: [C1]
+        skill: "1-1"
+        signals: [["규칙"], ["이유", "왜", "까닭", "알 때", "이해"]]
+      - id: ic_relation
+        desc: 규칙의 수·이유 공유·지킴의 관계를 연결했다
+        evidence_for: [C1]
+        skill: "1-2"
+        signals: [["지키", "어기", "약속", "줄었"]]
+    errors:
+      - id: e_topic_only
+        name: 소재만 말함
+        first_question: ""
+    done_message: 새 글에서도 혼자 중심 생각을 잡았어요.
