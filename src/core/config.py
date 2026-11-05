@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     openai_model: str = "gpt-4o"
     ai_max_tokens: int = 4096
+    eval_judge_model: str = ""          # Ragas judge 모델 (비우면 claude-opus-5-5 / gpt-4o)
 
     # App
     app_env: Literal["development", "production"] = "development"

@@ -24,3 +24,8 @@ Thumbs.db
 # Supabase local
 supabase/.branches/
 supabase/.temp/
+
+# LLM 평가 보고서 (기준선 제외)
+evals/reports/*
+!evals/reports/.gitkeep
+!evals/reports/baseline_demo.json

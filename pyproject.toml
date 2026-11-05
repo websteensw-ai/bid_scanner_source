@@ -23,3 +23,4 @@ known-third-party = ["supabase"]
 # CSS·HTML 마크업 문자열은 줄 길이 제한에서 제외
 "src/ui/theme.py" = ["E501"]
 "views/*" = ["E501"]
+"evals/*" = ["E501"]

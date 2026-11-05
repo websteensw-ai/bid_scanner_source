@@ -32,11 +32,12 @@ else:
         pages["교사·운영자"] = [
             st.Page("views/records.py", title="학습 기록", icon=":material/fact_check:"),
             st.Page("views/content_admin.py", title="자료 관리", icon=":material/inventory_2:"),
+            st.Page("views/quality.py", title="AI 품질", icon=":material/science:"),
         ]
         if not is_student:
             pages[""] = [st.Page("views/records.py", title="학습 기록", icon=":material/fact_check:",
                                  default=True)]
-            pages["교사·운영자"] = [pages["교사·운영자"][1]]
+            pages["교사·운영자"] = pages["교사·운영자"][1:]
     nav = st.navigation(pages)
 
     st.logo("assets/logo.svg", icon_image="assets/icon.svg", size="large")

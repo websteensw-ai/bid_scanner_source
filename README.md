@@ -133,6 +133,18 @@ cp .env.example .env            # 키 입력
    update public.profiles set role = 'teacher' where email = 'teacher@example.com';
    ```
 
+## 🧪 LLM 품질 관리 (Ragas)
+
+답변 분석 AI를 정답 라벨 42건(골든셋)과 Ragas(`Faithfulness`, `DiscreteMetric` judge)로 평가하고, 기준 미달이면 실패 처리합니다. 결과는 교사 화면 **AI 품질**에서 확인합니다.
+
+```bash
+pip install -r requirements-eval.txt
+python -m evals.run_eval --analyzer llm --ragas   # 실제 AI + Ragas (키 필요)
+python -m evals.run_eval --analyzer demo          # 키 없이 회귀 기준선
+```
+
+자세한 내용: [docs/llm_quality.md](docs/llm_quality.md)
+
 ## 🗂 콘텐츠 수정
 
 제시문·판단 기준·첫 대응 질문·설명·시범은 `content/v1/` YAML에서 고칩니다. 앱은 시작할 때 참조 무결성을 검사합니다(없는 제시문·복습 항목, 독립 확인에 시범 자료 사용 등). 진행 중인 학습을 보존하려면 내용을 크게 바꿀 때 `content/v2/`를 새로 만들고 `content/active.yaml`의 버전을 바꾸세요.

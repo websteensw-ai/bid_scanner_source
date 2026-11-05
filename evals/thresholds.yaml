@@ -1,0 +1,19 @@
+# LLM 품질 게이트. run_eval 이 이 기준을 못 넘으면 종료 코드 1 (CI 실패).
+# op: ">=" 이상이어야 통과, "<=" 이하여야 통과. 값이 없는 지표(예: Ragas 미실행)는 건너뜀.
+profiles:
+  # 실제 AI 분석기 (운영 기준)
+  llm:
+    decision_accuracy:                 {op: ">=", value: 0.85}
+    valid_alternative_false_fail_rate: {op: "<=", value: 0.15}   # 타당한 다른 답을 탈락시키지 않기 (P-013)
+    disagreement_false_fail_rate:      {op: "<=", value: 0.0}    # 반대 의견을 독해 오류로 보지 않기 (L1-016)
+    false_pass_rate:                   {op: "<=", value: 0.10}
+    error_accuracy:                    {op: ">=", value: 0.70}
+    call_failure_rate:                 {op: "<=", value: 0.02}
+    ragas_faithfulness:                {op: ">=", value: 0.80}   # 판단 근거가 제시문·학생 답에 근거함
+    ragas_verdict_consistency:         {op: ">=", value: 0.85}   # 근거와 판정이 일치
+  # 데모 분석기 (키워드 단서). 품질 기준이 아니라 콘텐츠·엔진 변경의 회귀 감시용 기준선
+  demo:
+    decision_accuracy:                 {op: ">=", value: 0.90}   # 2026-11-05 기준선 0.905
+    false_pass_rate:                   {op: "<=", value: 0.15}
+    error_accuracy:                    {op: ">=", value: 0.70}
+    call_failure_rate:                 {op: "<=", value: 0.0}

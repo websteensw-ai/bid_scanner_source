@@ -1,0 +1,343 @@
+# 답변 분석기 골든셋 (정답 라벨)
+# 분석기가 '충족/미충족'과 '대표 오류'를 요구사항 기준대로 판단하는지 확인한다.
+#
+# expect.pass  : 이 단계의 필수 기준을 모두 충족해야 하는가
+# expect.error : 미충족일 때 대표 오류 id (null 이면 오류 정확도 계산에서 제외)
+# tags         :
+#   valid_alternative  예시 문구와 다르지만 타당한 답 — 탈락시키면 안 됨 (P-013·L3-010)
+#   disagreement       필자 견해에 반대하지만 독해는 정확한 답 (L1-016·L2-024)
+#   misreading / scope / unverified_fact / topic_only / too_short ...
+# 사례를 추가할 때는 근거 요구사항(ref)을 함께 적는다. 콘텐츠 버전이 바뀌면 단계·기준 id 를 다시 대조한다.
+version: 2026-11-05
+content_version: v1
+cases:
+  # ---------------- L1 · 중심 생각 한 문장 ----------------
+  - id: l1-pass-basic
+    bundle: L1
+    step: l1_initial
+    answer: 공정한 배분은 똑같이 나누는 것이 아니라 기여에 따라 보상을 달리하는 것이다.
+    evidence: 둘째 문단
+    expect: {pass: true}
+    tags: [basic]
+    ref: L1-001
+  - id: l1-valid-alt-wording
+    bundle: L1
+    step: l1_initial
+    answer: 병사들이 결과를 받아들인 까닭은 각자 해낸 일만큼 몫이 돌아갔기 때문이며, 글쓴이는 이런 나눔을 바람직하다고 본다.
+    evidence: 둘째 문단, 넷째 문단
+    expect: {pass: true}
+    tags: [valid_alternative]
+    ref: P-013, L1-007
+  - id: l1-valid-alt-opportunity
+    bundle: L1
+    step: l1_initial
+    answer: 기회는 누구에게나 똑같이 열어 두되, 공을 세운 만큼 대가를 달리 주는 것이 공평하다는 생각이다.
+    evidence: 셋째 문단
+    expect: {pass: true}
+    tags: [valid_alternative]
+    ref: L1-007
+  - id: l1-disagree
+    bundle: L1
+    step: l1_initial
+    answer: 글쓴이는 기여에 따라 보상을 달리하는 것이 공정하다고 보지만, 나는 약한 병사도 배려해야 한다고 생각한다.
+    evidence: 둘째 문단
+    expect: {pass: true}
+    tags: [disagreement]
+    ref: L1-016
+  - id: l1-topic-only
+    bundle: L1
+    step: l1_initial
+    answer: 장수가 싸움에서 얻은 물자를 나누는 이야기다.
+    expect: {pass: false, error: e_topic_only}
+    tags: [topic_only]
+    ref: L1-010, S1-137
+  - id: l1-person
+    bundle: L1
+    step: l1_initial
+    answer: 장수는 너그럽고 훌륭한 사람이다.
+    evidence: 첫 문단
+    expect: {pass: false, error: e_person}
+    tags: [misreading]
+    ref: L1-013, L1-014
+  - id: l1-vague
+    bundle: L1
+    step: l1_initial
+    answer: 장수는 병사마다 몫을 다르게 주었다.
+    expect: {pass: false, error: e_vague}
+    tags: [misreading]
+    ref: L1-010
+  - id: l1-opportunity-misread
+    bundle: L1
+    step: l1_initial
+    answer: 장수는 모든 병사에게 같은 보상을 주어서 공정하다는 평을 들었다.
+    expect: {pass: false, error: e_opportunity}
+    tags: [misreading]
+    ref: L1-013
+  - id: l1-too-short
+    bundle: L1
+    step: l1_initial
+    answer: 공정
+    expect: {pass: false, error: null}
+    tags: [too_short]
+    ref: Z-017
+
+  # ---------------- L1 · 일반화 ----------------
+  - id: l1g-pass
+    bundle: L1
+    step: l1_general
+    answer: 공동체에서 보상은 각자의 기여에 따라 달리 나누되, 기회는 모두에게 열어 두어야 사람들이 결과를 받아들인다.
+    expect: {pass: true}
+    tags: [basic]
+    ref: L1-017
+  - id: l1g-valid-scope
+    bundle: L1
+    step: l1_general
+    answer: 기여에 따른 보상은 기준이 미리 알려져 있을 때 사람들이 더 쉽게 받아들인다.
+    expect: {pass: true}
+    tags: [valid_alternative]
+    ref: L1-017
+  - id: l1g-overgeneral
+    bundle: L1
+    step: l1_general
+    answer: 모든 일에서 무조건 성과만으로 보상해야 한다.
+    expect: {pass: false, error: e_overgeneral}
+    tags: [scope]
+    ref: L1-017, S1-123
+  - id: l1g-still-case
+    bundle: L1
+    step: l1_general
+    answer: 장수처럼 병사에게 공에 따라 몫을 주어야 한다.
+    expect: {pass: false, error: e_still_case}
+    tags: [scope]
+    ref: S1-122
+
+  # ---------------- L1 · 독립 확인 ----------------
+  - id: l1c-pass
+    bundle: L1
+    step: l1_check
+    answer: 규칙은 개수보다 왜 지켜야 하는지가 공유될 때 함께 지키는 약속이 된다.
+    evidence: 둘째·셋째 문단
+    expect: {pass: true}
+    tags: [basic]
+    ref: L1-018
+  - id: l1c-topic
+    bundle: L1
+    step: l1_check
+    answer: 도서관에 규칙이 서른 개가 넘었다.
+    expect: {pass: false, error: null}
+    tags: [topic_only]
+    ref: L1-018
+
+  # ---------------- L2 · 판단과 이유 ----------------
+  - id: l2-pass
+    bundle: L2
+    step: l2_initial
+    answer: 글쓴이는 이 비극이 두 의무의 충돌에서 생겼다고 본다. 두 사람 모두 지켜야 할 의무에 근거해 행동했기 때문이다.
+    evidence: 셋째·넷째 문단
+    expect: {pass: true}
+    tags: [basic]
+    ref: L2-009
+  - id: l2-valid-alt
+    bundle: L2
+    step: l2_initial
+    answer: 글쓴이는 어느 한 사람을 악인으로 보지 않는다. 각자 도시와 가족에 대한 책임을 다하려 했다는 이유에서다.
+    evidence: 셋째 문단
+    expect: {pass: true}
+    tags: [valid_alternative]
+    ref: L2-010, P-013
+  - id: l2-disagree
+    bundle: L2
+    step: l2_initial
+    answer: 글쓴이는 두 의무가 부딪쳐 비극이 생겼다고 보는데, 두 사람에게 각자의 의무가 있었기 때문이라고 한다. 하지만 나는 도시의 명령이 더 중요하다고 생각한다.
+    expect: {pass: true}
+    tags: [disagreement]
+    ref: L2-024
+  - id: l2-character
+    bundle: L2
+    step: l2_initial
+    answer: 가족을 묻어 주는 일은 어떤 명령보다 앞서는 의무라는 것이 글쓴이의 주장이다.
+    expect: {pass: false, error: e_character}
+    tags: [misreading]
+    ref: S2-029
+  - id: l2-outcome
+    bundle: L2
+    step: l2_initial
+    answer: 누이가 벌을 받고 통치자도 불행해졌으니 통치자의 명령은 잘못된 것이다.
+    expect: {pass: false, error: e_outcome}
+    tags: [misreading]
+    ref: L2-014
+  - id: l2-one-side
+    bundle: L2
+    step: l2_initial
+    answer: 누이가 옳고 통치자가 잘못했다는 것이 이 글의 생각이다.
+    expect: {pass: false, error: e_one_side}
+    tags: [misreading]
+    ref: L2-003
+
+  # ---------------- L2 · 숨은 연결 ----------------
+  - id: l2p-valid-alt
+    bundle: L2
+    step: l2_premise
+    answer: 자기에게 주어진 의무를 따른 행동은 비난만 받을 일이 아니다.
+    expect: {pass: true}
+    tags: [valid_alternative]
+    ref: L2-018, S2-024
+  - id: l2p-too-strong
+    bundle: L2
+    step: l2_premise
+    answer: 어떤 의무든 따르기만 하면 언제나 옳다.
+    expect: {pass: false, error: e_too_strong}
+    tags: [scope]
+    ref: L2-016
+
+  # ---------------- L2 · 설명과 논증 ----------------
+  - id: l2f-pass
+    bundle: L2
+    step: l2_function
+    choice: 누이의 행동을 이해시키는 설명
+    answer: 누이가 왜 그렇게 행동했는지 그 믿음을 알려 주는 문장이다.
+    expect: {pass: true}
+    tags: [basic]
+    ref: L2-019
+  - id: l2f-belief-proof
+    bundle: L2
+    step: l2_function
+    choice: 누이의 행동이 옳다는 글쓴이의 논증
+    answer: 누이가 옳다는 것을 보여 주는 문장이다.
+    expect: {pass: false, error: e_belief_proof}
+    tags: [misreading]
+    ref: S2-027
+
+  # ---------------- L3 ----------------
+  - id: l3-compare-pass
+    bundle: L3
+    step: l3_compare
+    answer: 질문 — 사람들의 자유와 판단은 어떤 조건에서 지켜질 수 있는가? (가)는 올바르게 제정된 법을 따를 때 자유가 지켜진다고 강조하고, (나)는 다수의 판단도 법이 정한 절차를 거쳐야 한다고 강조한다.
+    evidence: (가) 둘째 문단, (나) 둘째 문단
+    expect: {pass: true}
+    tags: [basic]
+    ref: L3-009
+  - id: l3-compare-topic
+    bundle: L3
+    step: l3_compare
+    answer: 둘 다 법 이야기다.
+    expect: {pass: false, error: e3_topic}
+    tags: [topic_only]
+    ref: L3-011
+  - id: l3-compare-opposed
+    bundle: L3
+    step: l3_compare
+    answer: (가)는 법을 지키라고 하고 (나)는 법에 반대하므로 두 글은 정반대다.
+    expect: {pass: false, error: e3_opposed}
+    tags: [misreading]
+    ref: L3-014
+  - id: l3-cond-pass
+    bundle: L3
+    step: l3_condition
+    choice: 조건부로 타당함
+    answer: 원문은 올바르게 제정된 법이라는 조건을 붙였는데 해석 문장에서 그 조건이 빠졌다.
+    expect: {pass: true}
+    tags: [basic]
+    ref: L3-016
+  - id: l3-cond-alt-choice
+    bundle: L3
+    step: l3_condition
+    choice: 뒷받침되지 않음
+    answer: (가)는 아무 법이나가 아니라 올바르게 제정된 법을 따르라고 했으므로, 해석 문장은 원문보다 넓다.
+    expect: {pass: true}
+    tags: [valid_alternative]
+    ref: L3-018, P-010
+  - id: l3-cond-accept
+    bundle: L3
+    step: l3_condition
+    choice: 타당함
+    answer: (가)에서 법을 따르면 자유를 지킨다고 했으니 맞다.
+    expect: {pass: false, error: e3_cond_accept}
+    tags: [scope]
+    ref: L3-016
+  - id: l3-cause-pass
+    bundle: L3
+    step: l3_cause
+    choice: 뒷받침되지 않음
+    answer: (라)는 검소함과 청렴을 함께 서술했을 뿐, 검소함이 원인이라고 확인해 주지는 않는다.
+    expect: {pass: true}
+    tags: [basic]
+    ref: L3-050, S3-015
+  - id: l3-cause-accept
+    bundle: L3
+    step: l3_cause
+    choice: 타당함
+    answer: 검소하게 살았으니까 청렴했던 것이다.
+    expect: {pass: false, error: e3_cause}
+    tags: [misreading]
+    ref: L3-052
+  - id: l3-analogy-alt
+    bundle: L3
+    step: l3_analogy
+    choice: 타당함
+    answer: 학생회도 여러 사람의 돈을 함께 다룬다는 점이 비슷해서 쓰임을 공개하면 신뢰에 도움이 될 수 있다. 다만 규모와 상황은 다르다.
+    expect: {pass: true}
+    tags: [valid_alternative]
+    ref: L3-051
+
+  # ---------------- L4 ----------------
+  - id: l4-claim-pass
+    bundle: L4
+    step: l4_claim
+    answer: 공적 권한을 가진 사람은 권한을 쓸 때 가족이 아니라 공정한 기준을 따라야 한다. 가족에게 자리를 주면 다른 사람의 기회가 줄어들기 때문이다.
+    evidence: 둘째 문단
+    expect: {pass: true}
+    tags: [basic]
+    ref: L4-010
+  - id: l4-claim-alt-stance
+    bundle: L4
+    step: l4_claim
+    answer: 가족을 아끼는 마음을 없앨 필요는 없고, 대신 가족이 관련된 결정에서는 스스로 빠지는 원칙이 필요하다. 그래야 다른 사람의 기회가 지켜진다.
+    evidence: 둘째·넷째 문단
+    expect: {pass: true}
+    tags: [valid_alternative]
+    ref: L4-004, L4-019
+  - id: l4-claim-summary
+    bundle: L4
+    step: l4_claim
+    answer: 제시문은 가족애가 자연스럽지만 공적 권한에 옮기면 문제가 생긴다고 한다.
+    expect: {pass: false, error: e4_summary}
+    tags: [topic_only]
+    ref: L4-051
+  - id: l4-claim-unverified
+    bundle: L4
+    step: l4_claim
+    answer: 가족을 채용하면 통계적으로 반드시 성과가 떨어지므로 공직자는 가족 채용을 금지해야 한다.
+    expect: {pass: false, error: e4_fact}
+    tags: [unverified_fact]
+    ref: L4-043
+  - id: l4-counter-pass
+    bundle: L4
+    step: l4_counter
+    answer: 하지만 가족이 실제로 가장 능력 있는 경우에도 무조건 배제하면, 오히려 공정한 기준에 맞지 않는 문제가 생길 수 있다.
+    expect: {pass: true}
+    tags: [basic]
+    ref: L4-030
+  - id: l4-counter-no-reason
+    bundle: L4
+    step: l4_counter
+    answer: 나는 반대한다.
+    expect: {pass: false, error: e4_no_reason}
+    tags: [too_short]
+    ref: L4-031, L4-017
+
+  # ---------------- L5 ----------------
+  - id: l5-final-pass
+    bundle: L5
+    step: l5_final
+    answer: 공적 권한을 가진 사람은 가족을 아끼는 마음보다 공동체에 대한 책임을 앞세워야 한다. 가족에게 자리를 주면 그 기회를 공정하게 얻었어야 할 다른 사람의 몫이 줄어들기 때문이다. 물론 가족이 가장 능력 있는 경우도 있다. 그렇더라도 공개된 같은 기준으로 심사받을 때만 허용해야 가족애가 판단의 기준이 되지 않는다.
+    expect: {pass: true}
+    tags: [basic]
+    ref: L5-018~L5-023
+  - id: l5-final-offtopic
+    bundle: L5
+    step: l5_final
+    answer: 가족을 아끼는 마음은 가장 자연스러운 감정이다. 부모가 자식을 챙기는 것은 당연하다. 그래서 가족은 소중하다.
+    expect: {pass: false, error: e5_offtopic}
+    tags: [misreading]
+    ref: L5-018, L5-059
