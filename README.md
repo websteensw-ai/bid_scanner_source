@@ -11,6 +11,8 @@
 | AI | Claude / OpenAI — **답변 분석만** 담당 (판정·반복 상한·보충은 시스템 정책) |
 | 콘텐츠 | `content/v1/*.yaml` (버전 고정) |
 
+📘 **화면과 함께 보는 전체 소개: [docs/INTRODUCTION.md](docs/INTRODUCTION.md)**
+
 요구사항별 반영 위치와 미구현 항목은 **[docs/requirements_traceability.md](docs/requirements_traceability.md)**에 정리했습니다.
 
 ## 🧭 학습 흐름
