@@ -1,0 +1,5 @@
+{"replayChatItemAction": {"videoOffsetTimeMsec": "1000", "actions": [{"addChatItemAction": {"item": {"liveChatTextMessageRenderer": {"message": {"runs": [{"text": "장수 한우 기다립니다"}]}, "authorName": {"simpleText": "가짜A"}}}}}]}}
+{"replayChatItemAction": {"videoOffsetTimeMsec": "2000", "actions": [{"addChatItemAction": {"item": {"liveChatTextMessageRenderer": {"message": {"runs": [{"text": "완판 가즈아"}]}, "authorName": {"simpleText": "가짜B"}}}}}]}}
+{"replayChatItemAction": {"videoOffsetTimeMsec": "62000", "actions": [{"addChatItemAction": {"item": {"liveChatTextMessageRenderer": {"message": {"runs": [{"text": "부채살 좋아요"}]}, "authorName": {"simpleText": "가짜A"}}}}}]}}
+{"replayChatItemAction": {"videoOffsetTimeMsec": "70000", "actions": [{"addChatItemAction": {"item": {"liveChatTextMessageRenderer": {"message": {"runs": [{"text": "구매 링크 어디요"}]}, "authorName": {"simpleText": "가짜C"}}}}}]}}
+{"replayChatItemAction": {"videoOffsetTimeMsec": "75000", "actions": [{"addChatItemAction": {"item": {"liveChatTextMessageRenderer": {"message": {"runs": [{"text": "고기 드세요 빨리요"}]}, "authorName": {"simpleText": "가짜B"}}}}}]}}
