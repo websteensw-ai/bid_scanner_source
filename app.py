@@ -1,22 +1,34 @@
-"""테이커스 비전 기호 분석시스템 - Streamlit 앱.
+"""테이커스 비전 기호 분석시스템 - 유튜브 주소 입력 화면.
 
-실행: streamlit run app.py
+- 테스트 모드(기본): 저장된 분석 결과를 보여준다. 토큰과 유튜브 호출이 없다.
+- 실제 분석: 유튜브 자막과 채팅을 내려받아 같은 형식으로 분석한다.
 """
-import io
-
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
 import networkx as nx
 import pandas as pd
 import streamlit as st
 from kiwipiepy import Kiwi
 
-from src.pipeline import (
-    CHAT_CATEGORIES, CHAT_OTHER, analyze, anonymize, parse_chat_jsonl, parse_vtt,
-)
+from src.demo import load_demo
+from src.pipeline import (analyze, anonymize, chat_quotes_check, parse_chat_jsonl,
+                          parse_vtt)
+from src.view import result_to_view
+from src.youtube import YouTubeError, fetch_captions_and_chat, parse_video_id
 
 st.set_page_config(page_title="테이커스 비전 기호 분석시스템", layout="wide")
+
+# 한글 라벨용 글꼴 (packages.txt의 fonts-noto-cjk 설치 시 사용 가능)
+for _name in ("Noto Sans CJK JP", "Noto Sans CJK KR", "Noto Sans CJK SC"):
+    if any(f.name == _name for f in font_manager.fontManager.ttflist):
+        plt.rcParams["font.family"] = _name
+        break
+plt.rcParams["axes.unicode_minus"] = False
+
+QUOTES = ["부채살 좋아", "빨리 먹고 싶", "고기 많이 드세요", "별도로 구매", "완판 기원",
+          "얘기많이", "얼릉 고기", "완판 가즈아", "양지원 가수님 응원"]
 
 
 @st.cache_resource
@@ -24,13 +36,17 @@ def get_kiwi():
     return Kiwi()
 
 
-@st.cache_data(show_spinner=False)
-def run_pipeline(vtt_text, chat_text, window, top_n, min_edge):
-    segments = parse_vtt(vtt_text) if vtt_text else []
-    chat = parse_chat_jsonl(chat_text) if chat_text else []
+def run_real(url: str) -> dict:
+    vid = parse_video_id(url)
+    got = fetch_captions_and_chat(vid)
+    if not got["vtt"]:
+        raise YouTubeError("자동 자막을 찾지 못했습니다. 자막이 없는 영상일 수 있습니다.")
+    segs = parse_vtt(got["vtt"].read_text(encoding="utf-8"))
+    chat = parse_chat_jsonl(got["chat"].read_text(encoding="utf-8")) if got["chat"] else []
     anonymize(chat)
-    return analyze(segments, chat, get_kiwi(), window_sec=window,
-                   top_n=top_n, min_edge=min_edge)
+    res = analyze(segs, chat, get_kiwi())
+    quotes = chat_quotes_check(chat, QUOTES)
+    return result_to_view(res, got["title"], got["duration_min"], quotes)
 
 
 def network_figure(nodes, edges):
@@ -39,96 +55,127 @@ def network_figure(nodes, edges):
         G.add_node(n["id"], freq=n["freq"], comm=n["community"])
     for e in edges:
         G.add_edge(e["source"], e["target"], weight=e["weight"])
+    if not G.number_of_nodes():
+        return None
     pos = nx.spring_layout(G, k=0.9, seed=7, weight="weight")
     palette = ["#1d6a64", "#b5652b", "#7d5ba6", "#5b7fa6", "#8a8a3a"]
     fig, ax = plt.subplots(figsize=(9, 7), dpi=110)
     nx.draw_networkx_edges(G, pos, ax=ax, edge_color="#999999", alpha=0.5,
                            width=[0.4 + G[u][v]["weight"] / 5 for u, v in G.edges])
     nx.draw_networkx_nodes(G, pos, ax=ax, alpha=0.92,
-                           node_color=[palette[G.nodes[n]["comm"] % 5] for n in G.nodes],
+                           node_color=[palette[G.nodes[n]["comm"] % 5] if G.nodes[n]["comm"] >= 0 else "#888" for n in G.nodes],
                            node_size=[60 + G.nodes[n]["freq"] * 14 for n in G.nodes])
     nx.draw_networkx_labels(G, pos, ax=ax, font_size=9)
     ax.axis("off")
     return fig
 
 
+def render(view: dict):
+    chat = view["chat"]
+    total = chat["n_msgs"]
+    cats = dict(chat["cats"])
+    st.subheader(view["video_title"] or "분석 결과")
+    st.caption(view["note"])
+
+    fan = cats.get("팬덤 응원", 0)
+    buy = cats.get("구매 언급", 0) + cats.get("상품 선호", 0)
+    k1, k2, k3, k4, k5 = st.columns(5)
+    k1.metric("방송 길이", f"{view['duration_min']} 분")
+    k2.metric("채팅 메시지", f"{total:,}")
+    k3.metric("채팅 참여자", f"{chat['n_authors']:,}")
+    k4.metric("팬덤 응원 비중", f"{(fan / total * 100 if total else 0):.1f}%")
+    k5.metric("구매·상품 언급 비중", f"{(buy / total * 100 if total else 0):.1f}%")
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("**채팅 참여 유형**")
+        if chat["cats"]:
+            df = pd.DataFrame(chat["cats"], columns=["유형", "건수"]).set_index("유형")
+            st.bar_chart(df, horizontal=True)
+        st.caption("키워드 규칙으로 분류했습니다.")
+    with c2:
+        st.markdown("**분 단위 채팅량 (유형별)**")
+        if chat["per_min_cat"]:
+            rows = []
+            for minute, c in sorted(chat["per_min_cat"].items(), key=lambda x: int(x[0])):
+                row = {"분": int(minute)}
+                row.update(c)
+                rows.append(row)
+            tdf = pd.DataFrame(rows).fillna(0).set_index("분")
+            st.area_chart(tdf)
+
+    st.markdown("**판매 발화와 판매 반응의 시간 흐름**")
+    if chat["sale_talk_min"] or chat["per_min_cat"]:
+        sale_talk = dict((int(k), v) for k, v in chat["sale_talk_min"])
+        mins = sorted(set(sale_talk) | {int(m) for m in chat["per_min_cat"]})
+        sale_chat = {int(m): c.get("구매 언급", 0) + c.get("판매 응원(완판)", 0)
+                     for m, c in chat["per_min_cat"].items()}
+        sdf = pd.DataFrame({"방송 판매 발화 구간": [sale_talk.get(m, 0) for m in mins],
+                            "채팅 구매·완판 반응": [sale_chat.get(m, 0) for m in mins]},
+                           index=mins)
+        st.line_chart(sdf)
+        if view["correlation"] is not None:
+            st.caption(f"상관계수 r = {view['correlation']:.2f} (분 단위, 약한 양의 관계는 인과를 뜻하지 않습니다)")
+
+    c3, c4 = st.columns(2)
+    with c3:
+        st.markdown("**방송 핵심어 (명사 빈도)**")
+        if view["terms"]:
+            tdf = pd.DataFrame([(t["term"], t["freq"]) for t in view["terms"][:25]],
+                               columns=["명사", "빈도"]).set_index("명사")
+            st.bar_chart(tdf, horizontal=True)
+    with c4:
+        st.markdown("**채팅 핵심어**")
+        if chat["chat_nouns"]:
+            cdf = pd.DataFrame(chat["chat_nouns"][:20], columns=["명사", "빈도"]).set_index("명사")
+            st.bar_chart(cdf, horizontal=True)
+        else:
+            st.caption("이 결과에는 채팅 핵심어가 없습니다.")
+
+    st.markdown("**핵심어 공출현 네트워크**")
+    fig = network_figure(view["network"]["nodes"], view["network"]["edges"])
+    if fig:
+        st.pyplot(fig)
+        comms = view["network"]["communities"]
+        if comms:
+            st.caption("주제군: " + " / ".join(", ".join(c[:6]) for c in comms))
+    else:
+        st.caption("네트워크 데이터가 없습니다.")
+
+    if view["quotes"]:
+        st.markdown("**논문 인용 채팅 검증**")
+        qdf = pd.DataFrame(view["quotes"])
+        st.dataframe(qdf, hide_index=True)
+
+    if view["sections"]:
+        st.markdown("**방송 구간별 비교**")
+        st.json(view["sections"], expanded=False)
+
+
 st.title("테이커스 비전 기호 분석시스템")
-st.caption("유튜브 방송의 자막과 채팅을 핵심어, 네트워크, 참여 유형, 시간 흐름으로 분석합니다.")
+st.caption("유튜브 주소를 입력하면 자막과 채팅을 가져와 분석합니다.")
 
-with st.sidebar:
-    st.header("입력")
-    vtt_file = st.file_uploader("자동자막 (.vtt)", type=["vtt"])
-    chat_file = st.file_uploader("채팅 리플레이 (.json / .jsonl)", type=["json", "jsonl"])
-    st.header("설정")
-    window = st.slider("공출현 창 (초)", 30, 180, 60, 10)
-    top_n = st.slider("네트워크 노드 수", 10, 80, 45, 5)
-    min_edge = st.slider("최소 공출현 횟수", 1, 10, 3)
+mode = st.radio("모드", ["테스트 (저장된 결과)", "실제 분석"], horizontal=True,
+                help="테스트 모드는 토큰을 쓰지 않고 저장된 결과를 보여줍니다.")
+url = st.text_input("유튜브 주소", placeholder="https://www.youtube.com/watch?v=77nP8lcSuzY")
+go = st.button("분석하기", type="primary")
 
-if not vtt_file and not chat_file:
-    st.info("왼쪽에서 자막 파일 또는 채팅 파일을 올려 주세요. 채팅 작성자는 익명 ID로 바뀝니다.")
-    st.stop()
-
-vtt_text = vtt_file.getvalue().decode("utf-8") if vtt_file else ""
-chat_text = chat_file.getvalue().decode("utf-8") if chat_file else ""
-
-with st.spinner("분석 중..."):
-    res = run_pipeline(vtt_text, chat_text, window, top_n, min_edge)
-
-total = sum(c for _, c in res.category_counts)
-k1, k2, k3, k4 = st.columns(4)
-k1.metric("자막 구간", f"{len(res.segments):,}")
-k2.metric("채팅 메시지", f"{total:,}")
-k3.metric("네트워크 노드 / 간선", f"{len(res.graph_nodes)} / {len(res.graph_edges)}")
-k4.metric("판매 발화 ↔ 판매 반응 r", "-" if res.correlation is None else f"{res.correlation:.2f}")
-
-tab1, tab2, tab3, tab4 = st.tabs(["핵심어", "네트워크", "채팅 참여", "시간 흐름"])
-
-with tab1:
-    if res.term_freq:
-        df = pd.DataFrame(res.term_freq, columns=["명사", "빈도"]).set_index("명사")
-        st.bar_chart(df, horizontal=True)
+if go:
+    if mode.startswith("테스트"):
+        try:
+            parse_video_id(url or "77nP8lcSuzY")
+            st.session_state["view"] = load_demo()
+        except YouTubeError as exc:
+            st.error(str(exc))
     else:
-        st.write("자막이 없어 핵심어를 계산하지 않았습니다.")
+        try:
+            with st.spinner("자막과 채팅을 가져와 분석하는 중..."):
+                st.session_state["view"] = run_real(url)
+        except YouTubeError as exc:
+            st.error(str(exc))
 
-with tab2:
-    if res.graph_nodes:
-        st.pyplot(network_figure(res.graph_nodes, res.graph_edges))
-        st.subheader("주제군")
-        for i, c in enumerate(res.communities, 1):
-            st.write(f"**{i}.** " + ", ".join(c))
-        bet = sorted(res.graph_nodes, key=lambda n: -n["betweenness"])[:8]
-        st.subheader("매개 중심성 상위")
-        st.dataframe(pd.DataFrame(bet)[["id", "freq", "betweenness"]], hide_index=True)
-    else:
-        st.write("공출현 간선이 없습니다. 최소 공출현 횟수를 낮춰 보세요.")
-
-with tab3:
-    if res.category_counts:
-        cdf = pd.DataFrame(res.category_counts, columns=["유형", "건수"])
-        cdf["비율(%)"] = (cdf["건수"] / total * 100).round(1)
-        st.dataframe(cdf, hide_index=True)
-        st.bar_chart(cdf.set_index("유형")["건수"], horizontal=True)
-        st.caption(f"키워드 규칙으로 분류했습니다. '{CHAT_OTHER}'는 규칙에 맞지 않은 메시지입니다.")
-    else:
-        st.write("채팅 파일이 없습니다.")
-
-with tab4:
-    if res.per_minute:
-        rows = []
-        for minute, cats in res.per_minute.items():
-            row = {"분": minute}
-            row.update(cats)
-            rows.append(row)
-        tdf = pd.DataFrame(rows).fillna(0).set_index("분")
-        st.area_chart(tdf)
-        st.caption("분 단위 채팅량을 유형별로 나눈 그래프입니다.")
-    else:
-        st.write("채팅 파일이 없습니다.")
-
-st.divider()
-export = {"autocaption_segments": [s.__dict__ for s in res.segments],
-          "term_freq": res.term_freq, "communities": res.communities,
-          "category_counts": res.category_counts, "correlation": res.correlation}
-import json
-st.download_button("분석 결과 JSON 내려받기", json.dumps(export, ensure_ascii=False, indent=2),
-                   file_name="takers_vision_result.json", mime="application/json")
+if "view" in st.session_state:
+    st.divider()
+    render(st.session_state["view"])
+else:
+    st.info("주소를 입력하고 분석하기를 누르세요. 테스트 모드에서는 저장된 결과가 바로 나옵니다.")
