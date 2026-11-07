@@ -4,6 +4,7 @@
 - 실제 분석: 유튜브 자막과 채팅을 내려받아 같은 형식으로 분석한다.
 """
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 import matplotlib
 matplotlib.use("Agg")
@@ -33,15 +34,28 @@ LOADING_STAGES = ["자막 확인 중", "채팅 정리 중", "명사 추출 중",
 MIN_LOADING_SEC = 5.0
 
 
-def show_loading(start: float, slot):
-    """분석 시간이 최소 5초 보이도록 진행 막대와 단계 문구를 보여준다."""
+LOADING_EMOJIS = ["🍩", "🍰", "☕", "🍷", "🧁", "🍪", "🥐", "🍕"]
+
+
+def loading_loop(future, start: float, emoji_slot, bar_slot):
+    """최소 5초 동안 이모지를 돌리고, 분석이 끝날 때까지 진행 막대를 보여준다."""
+    i = 0
     while True:
-        frac = min(1.0, (time.time() - start) / MIN_LOADING_SEC)
+        elapsed = time.time() - start
+        frac = min(1.0, elapsed / MIN_LOADING_SEC)
+        if not future.done():
+            frac = min(frac, 0.95)
         idx = min(len(LOADING_STAGES) - 1, int(frac * len(LOADING_STAGES)))
-        slot.progress(frac, text=f"{LOADING_STAGES[idx]}... {int(frac * 100)}%")
-        if frac >= 1.0:
+        emoji_slot.markdown(
+            f"<div style='text-align:center;font-size:72px;line-height:1.2'>"
+            f"{LOADING_EMOJIS[i % len(LOADING_EMOJIS)]}</div>"
+            f"<div style='text-align:center'>{LOADING_STAGES[idx]}...</div>",
+            unsafe_allow_html=True)
+        bar_slot.progress(frac)
+        i += 1
+        if future.done() and elapsed >= MIN_LOADING_SEC:
             break
-        time.sleep(0.1)
+        time.sleep(0.8)
 
 
 QUOTES = ["부채살 좋아", "빨리 먹고 싶", "고기 많이 드세요", "별도로 구매", "완판 기원",
@@ -92,7 +106,8 @@ def render(view: dict):
     total = chat["n_msgs"]
     cats = dict(chat["cats"])
     st.subheader(view["video_title"] or "분석 결과")
-    st.caption(view["note"])
+    if view.get("note"):
+        st.caption(view["note"])
 
     fan = cats.get("팬덤 응원", 0)
     buy = cats.get("구매 언급", 0) + cats.get("상품 선호", 0)
@@ -175,30 +190,35 @@ def render(view: dict):
 st.title("테이커스 비전 기호 분석시스템")
 st.caption("유튜브 주소를 입력하면 자막과 채팅을 가져와 분석합니다.")
 
-mode = st.radio("모드", ["테스트 (저장된 결과)", "실제 분석"], horizontal=True,
-                help="테스트 모드는 토큰을 쓰지 않고 저장된 결과를 보여줍니다.")
+mode = st.radio("모드", ["샘플 결과", "실제 분석"], horizontal=True)
 url = st.text_input("유튜브 주소", placeholder="https://www.youtube.com/watch?v=77nP8lcSuzY")
 go = st.button("분석하기", type="primary")
 
 if go:
     start = time.time()
-    slot = st.empty()
+    emoji_slot = st.empty()
+    bar_slot = st.empty()
+    get_kiwi()  # 스레드 시작 전에 메인 스레드에서 로드
+
+    def work():
+        if mode.startswith("샘플"):
+            parse_video_id(url or "77nP8lcSuzY")
+            return load_demo()
+        return run_real(url)
+
+    executor = ThreadPoolExecutor(max_workers=1)
+    future = executor.submit(work)
+    loading_loop(future, start, emoji_slot, bar_slot)
+    emoji_slot.empty()
+    bar_slot.empty()
+    executor.shutdown(wait=False)
     try:
-        with st.spinner("분석 중입니다. 잠시만 기다려 주세요..."):
-            if mode.startswith("테스트"):
-                parse_video_id(url or "77nP8lcSuzY")
-                view = load_demo()
-            else:
-                view = run_real(url)
-            show_loading(start, slot)
-        st.session_state["view"] = view
-        slot.empty()
+        st.session_state["view"] = future.result()
     except YouTubeError as exc:
-        slot.empty()
         st.error(str(exc))
 
 if "view" in st.session_state:
     st.divider()
     render(st.session_state["view"])
 else:
-    st.info("주소를 입력하고 분석하기를 누르세요. 테스트 모드에서는 저장된 결과가 바로 나옵니다.")
+    st.info("주소를 입력하고 분석하기를 누르세요. 샘플 결과는 바로 보입니다.")
