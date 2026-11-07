@@ -3,6 +3,7 @@
 #
 # expect.pass  : 이 단계의 필수 기준을 모두 충족해야 하는가
 # expect.error : 미충족일 때 대표 오류 id (null 이면 오류 정확도 계산에서 제외)
+# expect.intent: answer(기본) / question / answer_request / off_task — 답이 아닌 발화의 구분
 # tags         :
 #   valid_alternative  예시 문구와 다르지만 타당한 답 — 탈락시키면 안 됨 (P-013·L3-010)
 #   disagreement       필자 견해에 반대하지만 독해는 정확한 답 (L1-016·L2-024)
@@ -341,3 +342,68 @@ cases:
     expect: {pass: false, error: e5_offtopic}
     tags: [misreading]
     ref: L5-018, L5-059
+
+  # ---------------- 답이 아닌 발화 (튜터가 즉시 과제로 되돌려야 함) ----------------
+  - id: off-laugh
+    bundle: L1
+    step: l1_initial
+    answer: ㅋㅋㅋㅋㅋ
+    expect: {intent: off_task}
+    tags: [off_task]
+    ref: Z-030
+  - id: off-hungry
+    bundle: L1
+    step: l1_initial
+    answer: 배고파요 점심 언제 먹어요
+    expect: {intent: off_task}
+    tags: [off_task]
+    ref: Z-030
+  - id: off-unrelated
+    bundle: L2
+    step: l2_initial
+    answer: 아이돌 콘서트 가고 싶다
+    expect: {intent: off_task}
+    tags: [off_task]
+    ref: Z-030
+  - id: off-game
+    bundle: L4
+    step: l4_claim
+    answer: 게임하고 싶어요
+    expect: {intent: off_task}
+    tags: [off_task]
+    ref: Z-030
+  - id: off-mash
+    bundle: L3
+    step: l3_compare
+    answer: asdfasdf
+    expect: {intent: off_task}
+    tags: [off_task]
+    ref: Z-030
+  - id: req-answer
+    bundle: L1
+    step: l1_initial
+    answer: 그냥 정답 좀 알려 주세요
+    expect: {intent: answer_request}
+    tags: [answer_request]
+    ref: Z-015, L1-005
+  - id: req-write-for-me
+    bundle: L5
+    step: l5_final
+    answer: 대신 써 주세요
+    expect: {intent: answer_request}
+    tags: [answer_request]
+    ref: L5-034, L5-053
+  - id: q-vocab
+    bundle: L1
+    step: l1_initial
+    answer: 공정이 무슨 뜻이에요?
+    expect: {intent: question}
+    tags: [question]
+    ref: L1-006
+  - id: q-task
+    bundle: L4
+    step: l4_counter
+    answer: 반론은 어떻게 써야 해요?
+    expect: {intent: question}
+    tags: [question]
+    ref: L4-044

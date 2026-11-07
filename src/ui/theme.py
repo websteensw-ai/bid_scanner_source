@@ -364,7 +364,23 @@ div[class*="st-key-card"]:hover { box-shadow: var(--shadow); }
 .nx-interp .tag { font-size: .74rem; font-weight: 700; color: var(--text-muted); letter-spacing: .02em; }
 .nx-interp p { margin: .35rem 0 0; font-weight: 600; color: var(--text); line-height: 1.7; }
 .nx-task { margin-bottom: .6rem; }
-.nx-chat { display: flex; flex-direction: column; gap: .55rem; margin: .4rem 0 1rem; }
+/* 문답 창: column-reverse 로 스크롤이 항상 최신 대화(아래)에 머문다 */
+.nx-chatbox { max-height: 460px; overflow-y: auto; display: flex; flex-direction: column-reverse;
+  background: var(--surface-muted); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1rem .9rem; margin: .4rem 0 .8rem; }
+.nx-chat { display: flex; flex-direction: column; gap: .6rem; }
+.nx-row { display: flex; gap: .5rem; align-items: flex-end; }
+.nx-row.me { justify-content: flex-end; }
+.nx-row .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--surface); border: 1px solid var(--border); font-size: .95rem; flex-shrink: 0; }
+.nx-row .nx-msg { max-width: 84%; }
+.nx-msg.tutor.open { background: var(--primary-50); border-color: var(--primary-100); }
+.nx-msg.tutor.redirect { background: #FFF7ED; border-color: #FED7AA; }
+.nx-msg.tutor.redirect .tag { color: #C2410C; }
+.nx-msg.me.off_task { background: #F1F3F8; color: var(--text-muted); }
+.nx-msg.me .tag { color: var(--primary); }
+.st-key-composer { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: .9rem 1rem; box-shadow: var(--shadow-sm); }
 .nx-msg { max-width: 92%; padding: .75rem 1rem; border-radius: 14px; line-height: 1.7; font-size: .95rem;
   white-space: pre-wrap; }
 .nx-msg .tag { font-size: .72rem; font-weight: 800; letter-spacing: .02em; margin-bottom: .2rem; opacity: .8; }

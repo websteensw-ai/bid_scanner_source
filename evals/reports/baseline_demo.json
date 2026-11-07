@@ -1,24 +1,27 @@
 {
-  "run_at": "2026-11-05T04:22:36+00:00",
+  "run_at": "2026-11-07T07:32:55+00:00",
   "analyzer": "demo",
   "profile": "demo",
   "content_version": "v1",
   "dataset_version": "2026-11-05",
-  "n_cases": 42,
+  "n_cases": 51,
   "metrics": {
-    "decision_accuracy": 0.9048,
+    "decision_accuracy": 0.9216,
     "false_fail_rate": 0.1429,
     "valid_alternative_false_fail_rate": 0.375,
     "disagreement_false_fail_rate": 0.0,
     "false_pass_rate": 0.0476,
     "error_accuracy": 0.9474,
-    "uncertain_rate": 0.0238,
+    "intent_accuracy": 1.0,
+    "off_task_detection_rate": 1.0,
+    "answer_misflagged_rate": 0.0,
+    "uncertain_rate": 0.0196,
     "call_failure_rate": 0.0,
     "avg_latency_sec": 0.0
   },
   "gate": {
     "decision_accuracy": {
-      "value": 0.9048,
+      "value": 0.9216,
       "op": ">=",
       "threshold": 0.9,
       "status": "pass"
@@ -40,6 +43,18 @@
       "op": "<=",
       "threshold": 0.0,
       "status": "pass"
+    },
+    "off_task_detection_rate": {
+      "value": 1.0,
+      "op": ">=",
+      "threshold": 0.9,
+      "status": "pass"
+    },
+    "answer_misflagged_rate": {
+      "value": 0.0,
+      "op": "<=",
+      "threshold": 0.0,
+      "status": "pass"
     }
   },
   "passed": true,
@@ -56,7 +71,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -67,13 +83,14 @@
           "g_beyond",
           "g_scope"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
       "decision_correct": true,
       "error_correct": null,
       "rationale": "(데모) 단서 기반 판정",
-      "latency": 0.0,
+      "latency": 0.001,
       "call_error": null,
       "ragas": {}
     },
@@ -89,7 +106,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
@@ -97,6 +115,7 @@
           "c_criterion",
           "g_scope"
         ],
+        "intent": "answer",
         "error": "e_topic_only",
         "uncertain": false
       },
@@ -119,7 +138,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -129,6 +149,7 @@
           "c_opportunity",
           "g_relation"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -151,7 +172,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -161,6 +183,7 @@
           "g_relation",
           "g_scope"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -183,13 +206,15 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_topic_only"
+        "error": "e_topic_only",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [
           "g_scope"
         ],
+        "intent": "answer",
         "error": "e_topic_only",
         "uncertain": false
       },
@@ -212,11 +237,13 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_person"
+        "error": "e_person",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_person",
         "uncertain": false
       },
@@ -239,13 +266,15 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_vague"
+        "error": "e_vague",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [
           "g_scope"
         ],
+        "intent": "answer",
         "error": "e_vague",
         "uncertain": false
       },
@@ -268,7 +297,8 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_opportunity"
+        "error": "e_opportunity",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
@@ -276,6 +306,7 @@
           "g_relation",
           "g_scope"
         ],
+        "intent": "answer",
         "error": "e_opportunity",
         "uncertain": false
       },
@@ -298,11 +329,13 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_topic_only",
         "uncertain": true
       },
@@ -325,7 +358,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -334,6 +368,7 @@
           "g_beyond",
           "g_scope"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -356,7 +391,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -365,6 +401,7 @@
           "g_beyond",
           "g_scope"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -387,7 +424,8 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_overgeneral"
+        "error": "e_overgeneral",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
@@ -395,6 +433,7 @@
           "g_relation",
           "g_beyond"
         ],
+        "intent": "answer",
         "error": "e_overgeneral",
         "uncertain": false
       },
@@ -417,7 +456,8 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_still_case"
+        "error": "e_still_case",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
@@ -425,6 +465,7 @@
           "g_relation",
           "g_scope"
         ],
+        "intent": "answer",
         "error": "e_still_case",
         "uncertain": false
       },
@@ -447,7 +488,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -455,6 +497,7 @@
           "ic_judgment",
           "ic_relation"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -477,11 +520,13 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_topic_only",
         "uncertain": false
       },
@@ -504,7 +549,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -512,6 +558,7 @@
           "j_writer",
           "j_reason"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -534,11 +581,13 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_summary",
         "uncertain": false
       },
@@ -561,7 +610,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -569,6 +619,7 @@
           "j_writer",
           "j_reason"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -591,11 +642,13 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_character"
+        "error": "e_character",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_character",
         "uncertain": false
       },
@@ -618,11 +671,13 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_outcome"
+        "error": "e_outcome",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_outcome",
         "uncertain": false
       },
@@ -645,11 +700,13 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_one_side"
+        "error": "e_one_side",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_one_side",
         "uncertain": false
       },
@@ -672,11 +729,13 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_too_strong",
         "uncertain": false
       },
@@ -699,11 +758,13 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e_too_strong"
+        "error": "e_too_strong",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_too_strong",
         "uncertain": false
       },
@@ -726,13 +787,15 @@
       "choice": "누이의 행동을 이해시키는 설명",
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
         "met": [
           "x_function"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -755,11 +818,13 @@
       "choice": "누이의 행동이 옳다는 글쓴이의 논증",
       "expect": {
         "pass": false,
-        "error": "e_belief_proof"
+        "error": "e_belief_proof",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e_belief_proof",
         "uncertain": false
       },
@@ -782,7 +847,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -791,6 +857,7 @@
           "q_diff",
           "q_condition"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -813,11 +880,13 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e3_topic"
+        "error": "e3_topic",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e3_topic",
         "uncertain": false
       },
@@ -840,13 +909,15 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e3_opposed"
+        "error": "e3_opposed",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [
           "q_diff"
         ],
+        "intent": "answer",
         "error": "e3_opposed",
         "uncertain": false
       },
@@ -869,7 +940,8 @@
       "choice": "조건부로 타당함",
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -877,6 +949,7 @@
           "k_condition",
           "k_choice"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -899,13 +972,15 @@
       "choice": "뒷받침되지 않음",
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
         "met": [
           "k_condition"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -928,11 +1003,13 @@
       "choice": "타당함",
       "expect": {
         "pass": false,
-        "error": "e3_cond_accept"
+        "error": "e3_cond_accept",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e3_cond_accept",
         "uncertain": false
       },
@@ -955,13 +1032,15 @@
       "choice": "뒷받침되지 않음",
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
         "met": [
           "c_cause"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -984,11 +1063,13 @@
       "choice": "타당함",
       "expect": {
         "pass": false,
-        "error": "e3_cause"
+        "error": "e3_cause",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e3_cause",
         "uncertain": false
       },
@@ -1011,13 +1092,15 @@
       "choice": "타당함",
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
         "met": [
           "a_similar"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -1040,7 +1123,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -1049,6 +1133,7 @@
           "a_link",
           "a_evidence"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -1071,7 +1156,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -1080,6 +1166,7 @@
           "a_link",
           "a_evidence"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -1102,13 +1189,15 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e4_summary"
+        "error": "e4_summary",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [
           "a_evidence"
         ],
+        "intent": "answer",
         "error": "e4_summary",
         "uncertain": false
       },
@@ -1131,7 +1220,8 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e4_fact"
+        "error": "e4_fact",
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -1139,6 +1229,7 @@
           "a_claim",
           "a_link"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -1161,7 +1252,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -1169,6 +1261,7 @@
           "b_counter",
           "b_target"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -1191,11 +1284,13 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e4_no_reason"
+        "error": "e4_no_reason",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e4_no_reason",
         "uncertain": false
       },
@@ -1218,7 +1313,8 @@
       "choice": null,
       "expect": {
         "pass": true,
-        "error": null
+        "error": null,
+        "intent": "answer"
       },
       "predicted": {
         "pass": true,
@@ -1227,6 +1323,7 @@
           "w_reason",
           "w_review"
         ],
+        "intent": "answer",
         "error": null,
         "uncertain": false
       },
@@ -1249,17 +1346,280 @@
       "choice": null,
       "expect": {
         "pass": false,
-        "error": "e5_offtopic"
+        "error": "e5_offtopic",
+        "intent": "answer"
       },
       "predicted": {
         "pass": false,
         "met": [],
+        "intent": "answer",
         "error": "e5_offtopic",
         "uncertain": false
       },
       "decision_correct": true,
       "error_correct": true,
       "rationale": "(데모) 단서 기반 판정",
+      "latency": 0.0,
+      "call_error": null,
+      "ragas": {}
+    },
+    {
+      "id": "off-laugh",
+      "bundle": "L1",
+      "step": "l1_initial",
+      "tags": [
+        "off_task"
+      ],
+      "ref": "Z-030",
+      "answer": "ㅋㅋㅋㅋㅋ",
+      "choice": null,
+      "expect": {
+        "pass": false,
+        "error": null,
+        "intent": "off_task"
+      },
+      "predicted": {
+        "pass": false,
+        "met": [],
+        "intent": "off_task",
+        "error": null,
+        "uncertain": false
+      },
+      "decision_correct": true,
+      "error_correct": null,
+      "rationale": "(규칙) 의도 분류: off_task",
+      "latency": 0.0,
+      "call_error": null,
+      "ragas": {}
+    },
+    {
+      "id": "off-hungry",
+      "bundle": "L1",
+      "step": "l1_initial",
+      "tags": [
+        "off_task"
+      ],
+      "ref": "Z-030",
+      "answer": "배고파요 점심 언제 먹어요",
+      "choice": null,
+      "expect": {
+        "pass": false,
+        "error": null,
+        "intent": "off_task"
+      },
+      "predicted": {
+        "pass": false,
+        "met": [],
+        "intent": "off_task",
+        "error": null,
+        "uncertain": false
+      },
+      "decision_correct": true,
+      "error_correct": null,
+      "rationale": "(규칙) 의도 분류: off_task",
+      "latency": 0.0,
+      "call_error": null,
+      "ragas": {}
+    },
+    {
+      "id": "off-unrelated",
+      "bundle": "L2",
+      "step": "l2_initial",
+      "tags": [
+        "off_task"
+      ],
+      "ref": "Z-030",
+      "answer": "아이돌 콘서트 가고 싶다",
+      "choice": null,
+      "expect": {
+        "pass": false,
+        "error": null,
+        "intent": "off_task"
+      },
+      "predicted": {
+        "pass": false,
+        "met": [],
+        "intent": "off_task",
+        "error": null,
+        "uncertain": false
+      },
+      "decision_correct": true,
+      "error_correct": null,
+      "rationale": "(데모) 과제·제시문과 겹치는 내용이 없음",
+      "latency": 0.0,
+      "call_error": null,
+      "ragas": {}
+    },
+    {
+      "id": "off-game",
+      "bundle": "L4",
+      "step": "l4_claim",
+      "tags": [
+        "off_task"
+      ],
+      "ref": "Z-030",
+      "answer": "게임하고 싶어요",
+      "choice": null,
+      "expect": {
+        "pass": false,
+        "error": null,
+        "intent": "off_task"
+      },
+      "predicted": {
+        "pass": false,
+        "met": [],
+        "intent": "off_task",
+        "error": null,
+        "uncertain": false
+      },
+      "decision_correct": true,
+      "error_correct": null,
+      "rationale": "(규칙) 의도 분류: off_task",
+      "latency": 0.0,
+      "call_error": null,
+      "ragas": {}
+    },
+    {
+      "id": "off-mash",
+      "bundle": "L3",
+      "step": "l3_compare",
+      "tags": [
+        "off_task"
+      ],
+      "ref": "Z-030",
+      "answer": "asdfasdf",
+      "choice": null,
+      "expect": {
+        "pass": false,
+        "error": null,
+        "intent": "off_task"
+      },
+      "predicted": {
+        "pass": false,
+        "met": [],
+        "intent": "off_task",
+        "error": null,
+        "uncertain": false
+      },
+      "decision_correct": true,
+      "error_correct": null,
+      "rationale": "(규칙) 의도 분류: off_task",
+      "latency": 0.0,
+      "call_error": null,
+      "ragas": {}
+    },
+    {
+      "id": "req-answer",
+      "bundle": "L1",
+      "step": "l1_initial",
+      "tags": [
+        "answer_request"
+      ],
+      "ref": "Z-015, L1-005",
+      "answer": "그냥 정답 좀 알려 주세요",
+      "choice": null,
+      "expect": {
+        "pass": false,
+        "error": null,
+        "intent": "answer_request"
+      },
+      "predicted": {
+        "pass": false,
+        "met": [],
+        "intent": "answer_request",
+        "error": null,
+        "uncertain": false
+      },
+      "decision_correct": true,
+      "error_correct": null,
+      "rationale": "(규칙) 의도 분류: answer_request",
+      "latency": 0.0,
+      "call_error": null,
+      "ragas": {}
+    },
+    {
+      "id": "req-write-for-me",
+      "bundle": "L5",
+      "step": "l5_final",
+      "tags": [
+        "answer_request"
+      ],
+      "ref": "L5-034, L5-053",
+      "answer": "대신 써 주세요",
+      "choice": null,
+      "expect": {
+        "pass": false,
+        "error": null,
+        "intent": "answer_request"
+      },
+      "predicted": {
+        "pass": false,
+        "met": [],
+        "intent": "answer_request",
+        "error": null,
+        "uncertain": false
+      },
+      "decision_correct": true,
+      "error_correct": null,
+      "rationale": "(규칙) 의도 분류: answer_request",
+      "latency": 0.0,
+      "call_error": null,
+      "ragas": {}
+    },
+    {
+      "id": "q-vocab",
+      "bundle": "L1",
+      "step": "l1_initial",
+      "tags": [
+        "question"
+      ],
+      "ref": "L1-006",
+      "answer": "공정이 무슨 뜻이에요?",
+      "choice": null,
+      "expect": {
+        "pass": false,
+        "error": null,
+        "intent": "question"
+      },
+      "predicted": {
+        "pass": false,
+        "met": [],
+        "intent": "question",
+        "error": null,
+        "uncertain": false
+      },
+      "decision_correct": true,
+      "error_correct": null,
+      "rationale": "(규칙) 의도 분류: question",
+      "latency": 0.0,
+      "call_error": null,
+      "ragas": {}
+    },
+    {
+      "id": "q-task",
+      "bundle": "L4",
+      "step": "l4_counter",
+      "tags": [
+        "question"
+      ],
+      "ref": "L4-044",
+      "answer": "반론은 어떻게 써야 해요?",
+      "choice": null,
+      "expect": {
+        "pass": false,
+        "error": null,
+        "intent": "question"
+      },
+      "predicted": {
+        "pass": false,
+        "met": [],
+        "intent": "question",
+        "error": null,
+        "uncertain": false
+      },
+      "decision_correct": true,
+      "error_correct": null,
+      "rationale": "(규칙) 의도 분류: question",
       "latency": 0.0,
       "call_error": null,
       "ragas": {}

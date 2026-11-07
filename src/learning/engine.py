@@ -15,9 +15,10 @@
 import time
 from collections import defaultdict
 
-from src.learning.analyzer import Analyzer
+from src.learning.analyzer import Analyzer, diagnose
 from src.learning.content import Bundle, ContentPack, Step, active_version, count_chars, load_pack
 from src.learning.entry import EntryDecision, judge_entry
+from src.learning.intent import ANSWER, ANSWER_REQUEST, QUESTION
 from src.learning.levels import (
     CRITERION_SUPPLEMENT,
     Criterion,
@@ -39,6 +40,7 @@ from src.learning.state import (
 )
 
 MAX_DIRECTIONS_PER_POINT = 2
+OFF_TASK_FLAG_AT = 3        # 무관한 발화가 이 횟수에 이르면 휴식 권유 + 교사 알림 (Z-030·Z-036)
 CONFIRM_QUESTION = "그렇게 생각한 이유를 제시문의 어느 부분에서 찾았는지 한 문장으로 알려 줄래요?"
 CONTENT_SUPPORTS = {SupportType.GUIDE, SupportType.DIRECTION, SupportType.STRUCTURE,
                     SupportType.EXPLANATION, SupportType.DEMO}
@@ -47,6 +49,18 @@ NO_HELP_KINDS = {"draft"}
 
 class LearningError(Exception):
     pass
+
+
+def answered(ss: StepState) -> list[Attempt]:
+    """과제에 대한 실제 답(최초·수정)만. 무관한 발화·질문은 제외."""
+    return [a for a in ss.attempts if a.kind in ("first", "revised")]
+
+
+def _first_sentence(text: str) -> str:
+    for sep in (". ", "? ", "요. "):
+        if sep in text:
+            return text.split(sep)[0] + sep.strip()
+    return text
 
 
 class Engine:
@@ -179,7 +193,7 @@ class Engine:
         if step.independent_check or step.allow_one_direction:
             return opts                          # 내용 힌트 없음 (L1-018)
         ss = session.steps[step.id]
-        if not ss.attempts:
+        if not answered(ss):
             # 최초 수행 전에는 과제 안내까지만 (답·해설 비공개, Z-015)
             return opts + (["guide"] if step.guide else []) + ["dont_know"]
         return (opts + (["guide"] if step.guide else []) + (["structure"] if step.structure else [])
@@ -282,7 +296,7 @@ class Engine:
         # 분량 초과: 내용 분석 전에 학생이 직접 줄이도록 안내 (L5-016·L5-050). 원고는 그대로 저장
         if step.max_chars and count_chars(answer) > step.max_chars \
                 and ss.directions.get("length", 0) < MAX_DIRECTIONS_PER_POINT:
-            ss.attempts.append(Attempt(text=answer, kind="first" if not ss.attempts else "revised",
+            ss.attempts.append(Attempt(text=answer, kind="first" if not answered(ss) else "revised",
                                        supports_before=supports, error="length"))
             session.outputs[step.id] = answer
             ss.messages.append(Message(role="student", text=answer, kind="answer"))
@@ -297,11 +311,14 @@ class Engine:
             return
 
         t0 = time.time()
-        diag = self.analyzer.analyze(step, answer, evidence, choice, excerpts, context)
+        diag = diagnose(self.analyzer, step, answer, evidence, choice, excerpts, context)
         ss.ai_wait_seconds += time.time() - t0
+        if diag.intent != ANSWER:
+            self._handle_non_answer(session, step, ss, answer, diag)
+            return
 
         att = Attempt(text=answer, evidence=evidence, choice=choice,
-                      kind="first" if not ss.attempts else "revised",
+                      kind="first" if not answered(ss) else "revised",
                       supports_before=supports, met=diag.met, error=diag.primary_error,
                       rationale=diag.rationale)
         ss.attempts.append(att)
@@ -371,6 +388,53 @@ class Engine:
         if self._escalate(session, step, ss, point):
             return
         self._close_not_formed(session, step, ss, diag.met)
+
+    # ---------- 답이 아닌 발화 ----------
+    def _handle_non_answer(self, session, step: Step, ss: StepState, text: str, diag) -> None:
+        """질문·정답 요구·과제와 무관한 말에 즉시 응답하고 과제로 되돌린다.
+        정답이나 내용 힌트는 주지 않으며(Z-015), 수준·방향 질문 횟수에 넣지 않는다."""
+        ss.attempts.append(Attempt(text=text, kind=diag.intent, rationale=diag.rationale,
+                                   supports_before=[s.type for s in ss.supports]))
+        ss.messages.append(Message(role="student", text=text, kind=diag.intent))
+        self.state.log("non_answer", session.key, step=step.id, intent=diag.intent)
+        no_hint = step.independent_check or step.allow_one_direction
+        task_line = f"지금 과제는 ‘{step.title}’이에요. {_first_sentence(step.prompt)}"
+        help_hint = "" if no_hint else " 막막하면 아래 ‘과제 뜻 알려 주세요’나 ‘잘 모르겠어요’를 눌러도 돼요."
+
+        if diag.intent == QUESTION:
+            if diag.asked_word and diag.asked_word in step.vocab:
+                self._support(session, ss, SupportType.VOCAB,
+                              f"‘{diag.asked_word}’: {step.vocab[diag.asked_word]}", point=diag.asked_word)
+                return
+            if not no_hint and step.guide:
+                self._support(session, ss, SupportType.GUIDE, step.guide, point="question")
+                return
+            lead = ("이번 과제는 혼자 해 보는 확인이라 내용 힌트는 드릴 수 없어요. " if no_hint
+                    else "좋은 질문이에요. ")
+            self._support(session, ss, SupportType.REDIRECT,
+                          f"{lead}{task_line} 떠오르는 만큼 먼저 써 보면, 그 답을 보고 함께 살펴볼게요.",
+                          point="question")
+            return
+
+        if diag.intent == ANSWER_REQUEST:
+            self._support(session, ss, SupportType.REDIRECT,
+                          "정답을 먼저 알려 주지는 않아요. 내가 직접 찾아낸 생각이 진짜 실력이 되거든요. "
+                          f"{task_line}{help_hint}", point="answer_request")
+            return
+
+        ss.redirects += 1
+        if ss.redirects == 1:
+            msg = f"앗, 지금 과제와는 다른 이야기 같아요. {task_line}"
+        elif ss.redirects < OFF_TASK_FLAG_AT:
+            msg = f"다시 과제로 돌아와 볼까요? {task_line}{help_hint}"
+        else:
+            msg = ("조금 지쳤다면 쉬었다 해도 괜찮아요. ‘저장하고 나가기’를 누르면 지금까지 한 내용이 "
+                   f"그대로 남아요. 준비되면 이어서 해요. {task_line}")
+            if ss.redirects == OFF_TASK_FLAG_AT:
+                self.state.flags.append(Flag(kind="attention", source=f"{session.key}/{step.id}",
+                                             detail=f"과제와 무관한 발화 {ss.redirects}회 — "
+                                                    "피로·집중 확인 필요"))
+        self._support(session, ss, SupportType.REDIRECT, msg, point="off_task")
 
     # ---------- 단계 결과 ----------
     def _direction(self, session, step: Step, ss: StepState, point: str) -> None:

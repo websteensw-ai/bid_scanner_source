@@ -84,7 +84,9 @@ with tab_s:
                          f'<span>{_e(ss.status)}</span><span>활동 {ss.active_seconds:.0f}초 · AI 대기 {ss.ai_wait_seconds:.1f}초</span></div>')
                     for a in ss.attempts:
                         sup = ", ".join(SUPPORT_LABEL[x] for x in a.supports_before) or "지원 없음"
-                        html(f'<p style="margin:.4rem 0 0"><b>{"최초 답" if a.kind == "first" else "수정 답"}</b>'
+                        kind_label = {"first": "최초 답", "revised": "수정 답", "off_task": "과제와 무관한 발화",
+                                      "question": "질문", "answer_request": "정답 요구"}.get(a.kind, a.kind)
+                        html(f'<p style="margin:.4rem 0 0"><b>{kind_label}</b>'
                              f' ({_e(sup)} 후): {_e(a.text)}'
                              + (f'<br><span style="color:var(--text-muted)">근거 표시: {_e(a.evidence)}</span>' if a.evidence else "")
                              + (f'<br><span style="color:var(--text-muted)">선택: {_e(a.choice)}</span>' if a.choice else "")

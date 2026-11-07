@@ -88,20 +88,36 @@ def task_box(title: str, prompt: str, idx: int, total: int) -> None:
 
 _KIND_TAG = {"direction": "생각해 볼 질문", "explanation": "설명", "demo": "시범 (다른 글)",
              "guide": "과제 안내", "vocab": "어휘 뜻", "structure": "비교표", "confirm": "확인 질문",
-             "done": "해냈어요", "ack": "자기검토", "prompt": "", "help": ""}
+             "redirect": "다시 과제로", "done": "해냈어요", "ack": "자기검토", "prompt": "", "help": "",
+             "open": ""}
+_STUDENT_TAG = {"question": "질문", "answer_request": "요청", "off_task": ""}
 
 
-def chat(messages) -> None:
-    out = []
+def chat(messages, opening: str | None = None, preface: str | None = None) -> None:
+    """튜터–학생 문답 창. 최신 대화가 항상 보이도록 아래쪽에 고정된다.
+    preface: 바로 앞 활동에서 해낸 것 (활동이 바뀌어도 성취 안내가 끊기지 않게)"""
+    rows = []
+    if preface:
+        rows.append(f'<div class="nx-row tutor"><div class="av">🧑‍🏫</div>'
+                    f'<div class="nx-msg tutor done"><div class="tag">앞 활동에서 해냈어요</div>'
+                    f'<div>{_e(preface)}</div></div></div>')
+    if opening:
+        rows.append(f'<div class="nx-row tutor"><div class="av">🧑‍🏫</div>'
+                    f'<div class="nx-msg tutor open"><div>{_e(opening)}</div></div></div>')
     for m in messages:
         if m.role == "student":
-            out.append(f'<div class="nx-msg me"><div>{_e(m.text)}</div></div>')
+            tag = _STUDENT_TAG.get(m.kind, "")
+            tag_html = f'<div class="tag">{_e(tag)}</div>' if tag else ""
+            rows.append(f'<div class="nx-row me"><div class="nx-msg me {_e(m.kind)}">{tag_html}'
+                        f'<div>{_e(m.text)}</div></div><div class="av">🙋</div></div>')
         else:
             tag = _KIND_TAG.get(m.kind, "")
             tag_html = f'<div class="tag">{_e(tag)}</div>' if tag else ""
-            out.append(f'<div class="nx-msg tutor {_e(m.kind)}">{tag_html}<div>{_e(m.text)}</div></div>')
-    if out:
-        html('<div class="nx-chat">' + "".join(out) + "</div>")
+            rows.append(f'<div class="nx-row tutor"><div class="av">🧑‍🏫</div>'
+                        f'<div class="nx-msg tutor {_e(m.kind)}">{tag_html}'
+                        f'<div>{_e(m.text)}</div></div></div>')
+    if rows:
+        html('<div class="nx-chatbox"><div class="nx-chat">' + "".join(rows) + "</div></div>")
 
 
 def step_dots(states: list[str]) -> None:

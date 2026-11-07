@@ -17,6 +17,9 @@ LABEL = {
     "disagreement_false_fail_rate": "반대 의견 답 탈락률",
     "false_pass_rate": "미충족 답 통과율",
     "error_accuracy": "대표 오류 정확도",
+    "intent_accuracy": "발화 의도 구분 정확도",
+    "off_task_detection_rate": "엉뚱한 답·질문 감지율",
+    "answer_misflagged_rate": "답을 무관한 말로 오인한 비율",
     "uncertain_rate": "불확실 비율",
     "call_failure_rate": "호출 실패율",
     "avg_latency_sec": "평균 응답 시간(초)",
@@ -51,8 +54,9 @@ def build_report(meta: dict, results: list[CaseResult], metrics: dict, profile: 
         "cases": [{
             "id": r.case.id, "bundle": r.case.bundle, "step": r.case.step, "tags": r.case.tags,
             "ref": r.case.ref, "answer": r.case.answer, "choice": r.case.choice,
-            "expect": {"pass": r.case.expect_pass, "error": r.case.expect_error},
-            "predicted": {"pass": r.predicted_pass, "met": r.diagnosis.met,
+            "expect": {"pass": r.case.expect_pass, "error": r.case.expect_error,
+                       "intent": r.case.expect_intent},
+            "predicted": {"pass": r.predicted_pass, "met": r.diagnosis.met, "intent": r.diagnosis.intent,
                           "error": r.diagnosis.primary_error, "uncertain": r.diagnosis.uncertain},
             "decision_correct": r.decision_correct, "error_correct": r.error_correct,
             "rationale": r.diagnosis.rationale, "latency": round(r.latency, 3),
@@ -75,8 +79,10 @@ def to_markdown(rep: dict) -> str:
     if wrong:
         lines += ["", "## 라벨과 다른 사례", "", "| 사례 | 태그 | 기대 | 예측 | 근거 |", "|---|---|---|---|---|"]
         for c in wrong:
-            exp = "충족" if c["expect"]["pass"] else f"미충족({c['expect']['error'] or '-'})"
-            pre = "충족" if c["predicted"]["pass"] else f"미충족({c['predicted']['error'] or '-'})"
+            exp = (c["expect"].get("intent") if c["expect"].get("intent", "answer") != "answer"
+                   else "충족" if c["expect"]["pass"] else f"미충족({c['expect']['error'] or '-'})")
+            pre = (c["predicted"].get("intent") if c["predicted"].get("intent", "answer") != "answer"
+                   else "충족" if c["predicted"]["pass"] else f"미충족({c['predicted']['error'] or '-'})")
             lines.append(f"| {c['id']} | {', '.join(c['tags'])} | {exp} | {pre} | {c['ref']} |")
     return "\n".join(lines) + "\n"
 

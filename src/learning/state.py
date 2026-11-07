@@ -28,7 +28,7 @@ class Attempt(BaseModel):
     text: str
     evidence: str = ""
     choice: str | None = None
-    kind: Literal["first", "revised"] = "first"
+    kind: Literal["first", "revised", "off_task", "question", "answer_request"] = "first"
     supports_before: list[SupportType] = Field(default_factory=list)
     ts: str = Field(default_factory=now)
     met: list[str] = Field(default_factory=list)       # 분석 결과 (내부)
@@ -52,6 +52,7 @@ class StepState(BaseModel):
     explained: bool = False
     demoed: bool = False
     confirms: int = 0
+    redirects: int = 0                      # 과제와 무관한 발화로 재안내한 횟수
     level: int | None = None                # 이 단계 결과 수준 (None=미확인)
     unresolved: list[str] = Field(default_factory=list)
     messages: list[Message] = Field(default_factory=list)
@@ -90,7 +91,7 @@ class CriterionRecord(BaseModel):
 
 class Flag(BaseModel):
     """교사·운영자 검토 요청 (Z-036·Z-038·L1-019)."""
-    kind: Literal["uncertain", "repeat_difficulty", "dispute", "not_confirmed", "content"]
+    kind: Literal["uncertain", "repeat_difficulty", "dispute", "not_confirmed", "content", "attention"]
     source: str
     detail: str
     ts: str = Field(default_factory=now)

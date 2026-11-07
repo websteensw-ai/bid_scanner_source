@@ -9,6 +9,8 @@ profiles:
     false_pass_rate:                   {op: "<=", value: 0.10}
     error_accuracy:                    {op: ">=", value: 0.70}
     call_failure_rate:                 {op: "<=", value: 0.02}
+    off_task_detection_rate:           {op: ">=", value: 0.90}   # 엉뚱한 답에 즉시 과제로 되돌리기
+    answer_misflagged_rate:            {op: "<=", value: 0.02}   # 학생의 진짜 답을 무시하지 않기
     ragas_faithfulness:                {op: ">=", value: 0.80}   # 판단 근거가 제시문·학생 답에 근거함
     ragas_verdict_consistency:         {op: ">=", value: 0.85}   # 근거와 판정이 일치
   # 데모 분석기 (키워드 단서). 품질 기준이 아니라 콘텐츠·엔진 변경의 회귀 감시용 기준선
@@ -17,3 +19,5 @@ profiles:
     false_pass_rate:                   {op: "<=", value: 0.15}
     error_accuracy:                    {op: ">=", value: 0.70}
     call_failure_rate:                 {op: "<=", value: 0.0}
+    off_task_detection_rate:           {op: ">=", value: 0.90}
+    answer_misflagged_rate:            {op: "<=", value: 0.0}

@@ -12,9 +12,12 @@ import re
 from pydantic import BaseModel, Field
 
 from src.learning.content import Excerpt, Step
+from src.learning.intent import ANSWER, ANSWER_REQUEST, OFF_TASK, QUESTION, classify, relevance
 
 
 class Diagnosis(BaseModel):
+    intent: str = "answer"          # answer / question / answer_request / off_task (intent.py)
+    asked_word: str | None = None   # 낱말 뜻 질문일 때 그 낱말
     met: list[str] = Field(default_factory=list)
     primary_error: str | None = None
     concept_gap: bool = False       # 과제·개념 자체를 이해하지 못함
@@ -45,6 +48,8 @@ class DemoAnalyzer(Analyzer):
         text = f"{answer}\n{evidence}".strip()
         if not answer.strip() or _GIVE_UP.search(answer) and len(answer) < 40:
             return Diagnosis(concept_gap=True, rationale="(데모) 과제 이해 어려움 표현")
+        if not choice and relevance(answer, step, excerpts, context) == 0:
+            return Diagnosis(intent=OFF_TASK, rationale="(데모) 과제·제시문과 겹치는 내용이 없음")
         met = []
         for c in step.criteria:
             if c.expected_choice is not None:
@@ -79,8 +84,11 @@ _SYSTEM = """당신은 논술 기초 과정의 답변 분석기입니다. 교사
 - 판단 근거가 부족하거나 답이 애매하면 uncertain=true 로 둡니다.
 - 학생이 과제의 뜻이나 개념 자체를 모른다는 신호가 분명하면 concept_gap=true.
 - primary_error 는 실제로 보인 가장 중요한 오류 하나의 id (없으면 null).
+- intent: 학생 입력이 과제에 대한 답이면 "answer", 과제·제시문과 무관한 말(잡담·장난·딴 이야기)이면
+  "off_task", 튜터에게 묻는 질문이면 "question", 정답을 알려 달라는 요구면 "answer_request".
+  틀리거나 부족한 답, 논제에서 벗어났지만 과제에 답하려 한 글은 "answer" 입니다.
 
-출력 형식: {"met": [기준 id...], "primary_error": "오류 id 또는 null",
+출력 형식: {"intent": "answer", "met": [기준 id...], "primary_error": "오류 id 또는 null",
             "concept_gap": false, "uncertain": false, "rationale": "판단 근거 한두 문장"}"""
 
 
@@ -115,7 +123,19 @@ class LLMAnalyzer(Analyzer):
         d.met = [x for x in d.met if x in valid_c]
         if d.primary_error not in valid_e:
             d.primary_error = None
+        if d.intent not in (ANSWER, QUESTION, ANSWER_REQUEST, OFF_TASK):
+            d.intent = ANSWER
         return d
+
+
+def diagnose(analyzer: Analyzer, step: Step, answer: str, evidence: str, choice: str | None,
+             excerpts: list[Excerpt], context: dict[str, str]) -> Diagnosis:
+    """분명한 비(非)답변은 규칙으로 즉시 가리고, 나머지만 분석기에 맡긴다 (엔진·평가 공용)."""
+    if not choice:
+        intent, word = classify(answer, step)
+        if intent != ANSWER:
+            return Diagnosis(intent=intent, asked_word=word, rationale=f"(규칙) 의도 분류: {intent}")
+    return analyzer.analyze(step, answer, evidence, choice, excerpts, context)
 
 
 def get_analyzer(demo: bool) -> Analyzer:

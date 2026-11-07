@@ -38,6 +38,7 @@ class SupportType(StrEnum):
     STRUCTURE = "structure"      # 빈 비교표 등 구조 지원 (최소 지원, L3-020)
     EXPLANATION = "explanation"  # 개념·내용 설명 (집중 지원)
     DEMO = "demo"                # 별도 사례 시범 (집중 지원)
+    REDIRECT = "redirect"        # 과제와 무관한 발화·정답 요구에 대한 재안내 (내용 정보 없음)
 
 
 SUPPORT_LABEL = {
@@ -48,12 +49,15 @@ SUPPORT_LABEL = {
     SupportType.STRUCTURE: "구조 지원",
     SupportType.EXPLANATION: "내용 설명",
     SupportType.DEMO: "시범",
+    SupportType.REDIRECT: "과제로 재안내",
 }
 
 # 이 지원을 받은 뒤의 수행이 받을 수 있는 최고 수준
 SUPPORT_CEILING: dict[SupportType, Level] = {
     SupportType.VOCAB: Level.INDEPENDENT,
     SupportType.CONFIRM: Level.INDEPENDENT,
+    # 무관한 발화를 과제로 되돌리는 안내는 답의 내용을 알려 주지 않으므로 수준에 영향 없음
+    SupportType.REDIRECT: Level.INDEPENDENT,
     SupportType.GUIDE: Level.MINIMAL,
     SupportType.DIRECTION: Level.MINIMAL,
     SupportType.STRUCTURE: Level.MINIMAL,

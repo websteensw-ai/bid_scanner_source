@@ -3,7 +3,7 @@ import pytest
 
 from src.learning.analyzer import Analyzer, DemoAnalyzer, Diagnosis
 from src.learning.content import count_chars, load_pack
-from src.learning.engine import Engine, LearningError
+from src.learning.engine import Engine, LearningError, answered
 from src.learning.levels import Level, SupportType
 from src.learning.state import LearnerState
 
@@ -95,13 +95,13 @@ def test_no_content_help_before_first_attempt_beyond_guide():
 def test_independent_check_gives_no_hint():
     state, eng = make([all_met, all_met, none_met()])
     s = eng.start("L1")
-    eng.submit(s, "a")        # initial
-    eng.submit(s, "b")        # general (skip 안 될 수도 있으니 진행)
+    eng.submit(s, "첫째 답입니다")        # initial
+    eng.submit(s, "둘째 답입니다")        # general (skip 안 될 수도 있으니 진행)
     if s.status != "done":
         step = eng.current_step(s)
         assert step.independent_check
         assert eng.help_options(s) == ["vocab"]
-        eng.submit(s, "c")
+        eng.submit(s, "셋째 답입니다")
         ss = s.steps[step.id]
         assert not [x for x in ss.supports if x.type == SupportType.DIRECTION]
         assert ss.level is None
@@ -148,8 +148,8 @@ def test_version_pinned():
 def test_supplement_once_only():
     state, eng = make([all_met, all_met])
     s = eng.start("S1-가")
-    eng.submit(s, "a")
-    eng.submit(s, "b")
+    eng.submit(s, "첫째 답입니다")
+    eng.submit(s, "둘째 답입니다")
     assert s.status == "done" and "S1-가" in state.supplements_done
     assert eng.start("S1-가").status == "done"        # 다시 시작되지 않음
     state.sessions.pop("S1-가")
@@ -252,3 +252,79 @@ def test_evidence_comes_from_deciding_step():
     assert rec.level == Level.INDEPENDENT
     assert rec.evidence == "독립 확인 답" and rec.source.endswith("l1_check")
     assert rec.supports == []           # 독립 확인 단계에서는 지원 없음
+
+
+# ---------- 튜터 문답: 답이 아닌 발화 ----------
+def _tutor_last(ss):
+    return [m for m in ss.messages if m.role == "tutor"][-1]
+
+
+def test_off_task_redirects_immediately_without_analyzer_or_praise():
+    state, eng = make([])                    # 분석기를 부르면 pop 에서 실패 → 규칙으로 처리됐는지 확인
+    s = eng.start("L1")
+    eng.submit(s, "ㅋㅋㅋㅋ")
+    ss = s.steps["l1_initial"]
+    msg = _tutor_last(ss)
+    assert msg.kind == "redirect" and "중심 생각 한 문장" in msg.text
+    assert "잘 잡았어요" not in msg.text                         # 엉뚱한 칭찬 금지
+    assert ss.directions == {} and not answered(ss)              # 방향 질문·최초 답으로 세지 않음
+    assert "l1_initial" not in s.first_outputs
+
+
+def test_off_task_does_not_lower_level():
+    state, eng = make([all_met])
+    s = eng.start("L1")
+    eng.submit(s, "배고파요 점심 언제예요")
+    eng.submit(s, "공정한 배분은 기여에 따라 보상하는 것이다")
+    assert s.steps["l1_initial"].level == Level.INDEPENDENT
+
+
+def test_repeated_off_task_suggests_break_and_flags_teacher():
+    state, eng = make([])
+    s = eng.start("L1")
+    for t in ("ㅋㅋㅋ", "게임하고 싶어", "asdf"):
+        eng.submit(s, t)
+    ss = s.steps["l1_initial"]
+    assert ss.redirects == 3
+    assert "저장하고 나가기" in _tutor_last(ss).text
+    assert [f.kind for f in state.flags] == ["attention"]
+
+
+def test_answer_request_is_refused_without_answer():
+    state, eng = make([])
+    s = eng.start("L1")
+    eng.submit(s, "그냥 정답 좀 알려 주세요")
+    msg = _tutor_last(s.steps["l1_initial"])
+    assert msg.kind == "redirect" and "정답을 먼저 알려 주지는 않아요" in msg.text
+    for crit_word in ("기여", "성과", "보상"):                    # 내용 힌트 없음
+        assert crit_word not in msg.text
+
+
+def test_vocab_question_gets_meaning_and_task_question_gets_guide():
+    state, eng = make([])
+    s = eng.start("L1")
+    eng.submit(s, "공정이 무슨 뜻이에요?")
+    ss = s.steps["l1_initial"]
+    assert ss.supports[-1].type == SupportType.VOCAB and "치우치지" in ss.supports[-1].text
+    eng.submit(s, "이거 뭘 하라는 거예요?")
+    assert ss.supports[-1].type == SupportType.GUIDE
+
+
+def test_question_in_independent_check_gives_no_hint():
+    state, eng = make([all_met, all_met])
+    s = eng.start("L1")
+    eng.submit(s, "첫째 답입니다")
+    if eng.current_step(s).id != "l1_check":
+        eng.submit(s, "둘째 답입니다")
+    eng.submit(s, "어떻게 해야 해요?")
+    ss = s.steps["l1_check"]
+    assert ss.supports[-1].type == SupportType.REDIRECT
+    assert "힌트는 드릴 수 없어요" in ss.supports[-1].text
+
+
+def test_demo_analyzer_flags_unrelated_answer_as_off_task():
+    state = LearnerState(student_id="d")
+    eng = Engine(state, DemoAnalyzer())
+    s = eng.start("L1")
+    eng.submit(s, "아이돌 콘서트 가고 싶다")
+    assert _tutor_last(s.steps["l1_initial"]).kind == "redirect"

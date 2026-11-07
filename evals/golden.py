@@ -9,7 +9,7 @@ from pathlib import Path
 
 import yaml
 
-from src.learning.analyzer import Analyzer, Diagnosis
+from src.learning.analyzer import Analyzer, Diagnosis, diagnose
 from src.learning.content import ContentPack, load_pack
 
 GOLDEN_PATH = Path(__file__).parent / "datasets" / "analyzer_golden.yaml"
@@ -25,6 +25,7 @@ class Case:
     choice: str | None = None
     expect_pass: bool = True
     expect_error: str | None = None
+    expect_intent: str = "answer"     # answer / question / answer_request / off_task
     tags: list[str] = field(default_factory=list)
     ref: str = ""
 
@@ -39,12 +40,18 @@ class CaseResult:
     error: str | None = None          # 분석 호출 자체가 실패한 경우
 
     @property
+    def intent_correct(self) -> bool:
+        return self.diagnosis.intent == self.case.expect_intent
+
+    @property
     def decision_correct(self) -> bool:
+        if self.case.expect_intent != "answer":
+            return self.intent_correct
         return self.predicted_pass == self.case.expect_pass
 
     @property
     def error_correct(self) -> bool | None:
-        if self.case.expect_pass or self.case.expect_error is None:
+        if self.case.expect_intent != "answer" or self.case.expect_pass or self.case.expect_error is None:
             return None
         return self.diagnosis.primary_error == self.case.expect_error
 
@@ -56,7 +63,8 @@ def load_golden(path: Path = GOLDEN_PATH) -> tuple[dict, list[Case]]:
         exp = c.get("expect", {})
         cases.append(Case(id=c["id"], bundle=c["bundle"], step=c["step"], answer=c["answer"],
                           evidence=c.get("evidence", ""), choice=c.get("choice"),
-                          expect_pass=bool(exp.get("pass", True)), expect_error=exp.get("error"),
+                          expect_pass=bool(exp.get("pass", exp.get("intent", "answer") == "answer")),
+                          expect_error=exp.get("error"), expect_intent=exp.get("intent", "answer"),
                           tags=c.get("tags", []), ref=str(c.get("ref", ""))))
     meta = {k: v for k, v in data.items() if k != "cases"}
     return meta, cases
@@ -89,12 +97,12 @@ def run_cases(cases: list[Case], analyzer: Analyzer, pack: ContentPack | None = 
         excerpts = [pack.excerpts[e] for e in step.excerpts]
         t0 = time.time()
         try:
-            d = analyzer.analyze(step, c.answer, c.evidence, c.choice, excerpts, {})
+            d = diagnose(analyzer, step, c.answer, c.evidence, c.choice, excerpts, {})
             err = None
         except Exception as e:      # 분석 실패도 품질 지표로 남긴다
             d, err = Diagnosis(uncertain=True, rationale=""), f"{type(e).__name__}: {e}"
         required = [k.id for k in step.criteria if k.required]
-        predicted = all(r in d.met for r in required)
+        predicted = d.intent == "answer" and all(r in d.met for r in required)
         out.append(CaseResult(case=c, diagnosis=d, predicted_pass=predicted,
                               latency=time.time() - t0, error=err))
     return out
@@ -106,8 +114,10 @@ def _rate(num: int, den: int) -> float | None:
 
 def deterministic_metrics(results: list[CaseResult]) -> dict[str, float | None]:
     n = len(results)
-    exp_pass = [r for r in results if r.case.expect_pass]
-    exp_fail = [r for r in results if not r.case.expect_pass]
+    answers = [r for r in results if r.case.expect_intent == "answer"]
+    non_answers = [r for r in results if r.case.expect_intent != "answer"]
+    exp_pass = [r for r in answers if r.case.expect_pass]
+    exp_fail = [r for r in answers if not r.case.expect_pass]
     valid_alt = [r for r in results if "valid_alternative" in r.case.tags]
     disagree = [r for r in results if "disagreement" in r.case.tags]
     err_cases = [r for r in results if r.error_correct is not None]
@@ -123,6 +133,11 @@ def deterministic_metrics(results: list[CaseResult]) -> dict[str, float | None]:
         "false_pass_rate": _rate(sum(r.predicted_pass for r in exp_fail), len(exp_fail)),
         # 미충족 답에서 대표 오류를 맞힌 비율 (첫 대응 질문이 맞게 나가는지)
         "error_accuracy": _rate(sum(bool(r.error_correct) for r in err_cases), len(err_cases)),
+        # 학생 발화 의도(답·질문·정답 요구·무관) 구분 — 엉뚱한 답에 즉시 과제로 되돌리기 위함
+        "intent_accuracy": _rate(sum(r.intent_correct for r in results), n),
+        "off_task_detection_rate": _rate(sum(r.intent_correct for r in non_answers), len(non_answers)),
+        # 과제에 답하려 한 글을 '무관한 말'로 잘못 본 비율 — 0 에 가까워야 함 (학생 답을 무시하게 됨)
+        "answer_misflagged_rate": _rate(sum(r.diagnosis.intent != "answer" for r in answers), len(answers)),
         "uncertain_rate": _rate(sum(r.diagnosis.uncertain for r in results), n),
         "call_failure_rate": _rate(sum(r.error is not None for r in results), n),
         "avg_latency_sec": round(sum(r.latency for r in results) / n, 3) if n else None,

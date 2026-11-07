@@ -3,7 +3,7 @@
 import streamlit as st
 
 from src.learning.content import count_chars
-from src.learning.engine import LearningError
+from src.learning.engine import LearningError, answered
 from src.services import auth_service
 from src.services.learning_service import my_engine, save
 from src.ui.components import (
@@ -125,33 +125,54 @@ with right:
         st.caption("✍️ 쓰는 동안에는 내용 도움이 없어요. 글자 수, 저장, 제시문과 내 답 다시 보기만 할 수 있어요.")
     if step.independent_check or step.allow_one_direction:
         st.caption("🔎 이번 과제는 혼자 해 보는 확인이에요. 내용 힌트는 주지 않아요.")
-    chat(ss.messages)
+    dialog = step.kind in ("task", "judge")
+    opening = None
+    if dialog:
+        opening = ("새 글이에요. 이번에는 혼자 해 보는 확인이라 내용 힌트 없이 진행해요. 제시문을 읽고 답해 보세요."
+                   if step.independent_check or step.allow_one_direction else
+                   "제시문을 읽고 위 과제에 답해 보세요. 답이 아니어도 괜찮아요. 낱말 뜻이나 과제가 궁금하면 "
+                   "물어봐요. 정답은 먼저 알려 주지 않지만, 내 답을 보고 함께 생각해 볼게요.")
+    preface = None
+    if not ss.messages:
+        for prev in reversed(bundle.steps[:session.step_idx]):
+            pst = session.steps.get(prev.id)
+            if pst and pst.status == "done":
+                dm = [m.text for m in pst.messages if m.kind == "done"]
+                preface = dm[-1] if dm else None
+                break
+    chat(ss.messages, opening=opening, preface=preface)
 
+    real = answered(ss)
     akey = f"{session.key}_{step.id}_{len(ss.attempts)}"
-    default = session.outputs.get(step.id) or (ss.attempts[-1].text if ss.attempts else "")
-    choice = None
-    if step.kind == "judge":
-        prev = ss.attempts[-1].choice if ss.attempts else None
-        choice = st.radio("판단", step.choices, horizontal=True, key=f"c_{akey}",
-                          index=step.choices.index(prev) if prev in step.choices else None)
-    label = {"outline": "개요", "draft": "초고", "self_review": "점검한 글", "judge": "이유"}.get(step.kind, "내 답")
-    height = 260 if step.kind in ("draft", "self_review") or step.max_chars else 140
-    answer = st.text_area(label, value=default, height=height, key=f"a_{akey}",
-                          placeholder="여기에 직접 써 보세요.")
-    if step.max_chars:
-        char_meter(count_chars(answer), step.max_chars)
-    evidence = ""
-    if step.evidence:
-        evidence = st.text_input("근거가 된 부분", key=f"e_{akey}",
-                                 placeholder="예) 둘째 문단의 ‘…’ 부분",
-                                 value=ss.attempts[-1].evidence if ss.attempts else "")
-    if step.kind == "self_review":
-        evidence = st.text_input("크게 고친 곳이 있다면 이유 (선택)", key=f"n_{akey}")
-
-    b1, b2 = st.columns([1.6, 1])
+    default = session.outputs.get(step.id) or (real[-1].text if real else "")
+    choice, evidence = None, ""
+    label = {"outline": "개요", "draft": "초고", "self_review": "점검한 글",
+             "judge": "이유 (또는 궁금한 점)"}.get(step.kind, "내 답 (또는 궁금한 점)")
+    height = 260 if step.kind in ("draft", "self_review") or step.max_chars else 110
     submit_label = {"outline": "개요 저장", "draft": "초고 저장", "self_review": "점검 마치기"}.get(
-        step.kind, "다시 제출" if ss.attempts else "제출")
-    if b1.button(submit_label, type="primary", width="stretch", icon=":material/send:"):
+        step.kind, "보내기")
+
+    # 작성창: 문답 단계에서는 직전 답을 그대로 고쳐 쓸 수 있게 채워 둔다 (Z-009)
+    with st.container(key="composer") if dialog else st.container():
+        if step.kind == "judge":
+            prev = real[-1].choice if real else None
+            choice = st.radio("판단", step.choices, horizontal=True, key=f"c_{akey}",
+                              index=step.choices.index(prev) if prev in step.choices else None)
+        answer = st.text_area(label, value=default, height=height, key=f"a_{akey}",
+                              placeholder="여기에 직접 써 보세요.")
+        if step.max_chars:
+            char_meter(count_chars(answer), step.max_chars)
+        if step.evidence:
+            evidence = st.text_input("근거가 된 부분", key=f"e_{akey}",
+                                     placeholder="예) 둘째 문단의 ‘…’ 부분",
+                                     value=real[-1].evidence if real else "")
+        if step.kind == "self_review":
+            evidence = st.text_input("크게 고친 곳이 있다면 이유 (선택)", key=f"n_{akey}")
+        b1, b2 = st.columns([1.6, 1])
+        send = b1.button(submit_label, type="primary", width="stretch", icon=":material/send:")
+        leave = b2.button("저장하고 나가기", width="stretch", icon=":material/bookmark:")
+
+    if send:
         try:
             with st.spinner("답을 살펴보고 있어요…"):
                 eng.submit(session, answer, evidence, choice)
@@ -159,7 +180,7 @@ with right:
             st.rerun()
         except LearningError as e:
             st.warning(str(e))
-    if b2.button("저장하고 나가기", width="stretch", icon=":material/bookmark:"):
+    if leave:
         eng.save_draft(session, answer)
         eng.pause(session)
         save(eng)
