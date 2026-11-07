@@ -3,6 +3,8 @@
 - 테스트 모드(기본): 저장된 분석 결과를 보여준다. 토큰과 유튜브 호출이 없다.
 - 실제 분석: 유튜브 자막과 채팅을 내려받아 같은 형식으로 분석한다.
 """
+import time
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -26,6 +28,21 @@ for _name in ("Noto Sans CJK JP", "Noto Sans CJK KR", "Noto Sans CJK SC"):
         plt.rcParams["font.family"] = _name
         break
 plt.rcParams["axes.unicode_minus"] = False
+
+LOADING_STAGES = ["자막 확인 중", "채팅 정리 중", "명사 추출 중", "네트워크 계산 중", "결과 그리는 중"]
+MIN_LOADING_SEC = 5.0
+
+
+def show_loading(start: float, slot):
+    """분석 시간이 최소 5초 보이도록 진행 막대와 단계 문구를 보여준다."""
+    while True:
+        frac = min(1.0, (time.time() - start) / MIN_LOADING_SEC)
+        idx = min(len(LOADING_STAGES) - 1, int(frac * len(LOADING_STAGES)))
+        slot.progress(frac, text=f"{LOADING_STAGES[idx]}... {int(frac * 100)}%")
+        if frac >= 1.0:
+            break
+        time.sleep(0.1)
+
 
 QUOTES = ["부채살 좋아", "빨리 먹고 싶", "고기 많이 드세요", "별도로 구매", "완판 기원",
           "얘기많이", "얼릉 고기", "완판 가즈아", "양지원 가수님 응원"]
@@ -90,7 +107,8 @@ def render(view: dict):
     with c1:
         st.markdown("**채팅 참여 유형**")
         if chat["cats"]:
-            df = pd.DataFrame(chat["cats"], columns=["유형", "건수"]).set_index("유형")
+            df = pd.DataFrame(sorted(chat["cats"], key=lambda x: x[1]),
+                              columns=["유형", "건수"]).set_index("유형")
             st.bar_chart(df, horizontal=True)
         st.caption("키워드 규칙으로 분류했습니다.")
     with c2:
@@ -102,7 +120,7 @@ def render(view: dict):
                 row.update(c)
                 rows.append(row)
             tdf = pd.DataFrame(rows).fillna(0).set_index("분")
-            st.area_chart(tdf)
+            st.bar_chart(tdf)
 
     st.markdown("**판매 발화와 판매 반응의 시간 흐름**")
     if chat["sale_talk_min"] or chat["per_min_cat"]:
@@ -121,13 +139,15 @@ def render(view: dict):
     with c3:
         st.markdown("**방송 핵심어 (명사 빈도)**")
         if view["terms"]:
-            tdf = pd.DataFrame([(t["term"], t["freq"]) for t in view["terms"][:25]],
+            tdf = pd.DataFrame(sorted([(t["term"], t["freq"]) for t in view["terms"][:25]],
+                                      key=lambda x: x[1]),
                                columns=["명사", "빈도"]).set_index("명사")
             st.bar_chart(tdf, horizontal=True)
     with c4:
         st.markdown("**채팅 핵심어**")
         if chat["chat_nouns"]:
-            cdf = pd.DataFrame(chat["chat_nouns"][:20], columns=["명사", "빈도"]).set_index("명사")
+            cdf = pd.DataFrame(sorted(chat["chat_nouns"][:20], key=lambda x: x[1]),
+                               columns=["명사", "빈도"]).set_index("명사")
             st.bar_chart(cdf, horizontal=True)
         else:
             st.caption("이 결과에는 채팅 핵심어가 없습니다.")
@@ -161,18 +181,21 @@ url = st.text_input("유튜브 주소", placeholder="https://www.youtube.com/wat
 go = st.button("분석하기", type="primary")
 
 if go:
-    if mode.startswith("테스트"):
-        try:
-            parse_video_id(url or "77nP8lcSuzY")
-            st.session_state["view"] = load_demo()
-        except YouTubeError as exc:
-            st.error(str(exc))
-    else:
-        try:
-            with st.spinner("자막과 채팅을 가져와 분석하는 중..."):
-                st.session_state["view"] = run_real(url)
-        except YouTubeError as exc:
-            st.error(str(exc))
+    start = time.time()
+    slot = st.empty()
+    try:
+        with st.spinner("분석 중입니다. 잠시만 기다려 주세요..."):
+            if mode.startswith("테스트"):
+                parse_video_id(url or "77nP8lcSuzY")
+                view = load_demo()
+            else:
+                view = run_real(url)
+            show_loading(start, slot)
+        st.session_state["view"] = view
+        slot.empty()
+    except YouTubeError as exc:
+        slot.empty()
+        st.error(str(exc))
 
 if "view" in st.session_state:
     st.divider()
