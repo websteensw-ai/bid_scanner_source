@@ -58,6 +58,9 @@ def loading_loop(future, start: float, emoji_slot, bar_slot):
         time.sleep(0.8)
 
 
+import pathlib
+SAMPLE_NETWORK = str(pathlib.Path(__file__).resolve().parent / "assets" / "sample_network.png")
+
 QUOTES = ["부채살 좋아", "빨리 먹고 싶", "고기 많이 드세요", "별도로 구매", "완판 기원",
           "얘기많이", "얼릉 고기", "완판 가즈아", "양지원 가수님 응원"]
 
@@ -168,14 +171,7 @@ def render(view: dict):
             st.caption("이 결과에는 채팅 핵심어가 없습니다.")
 
     st.markdown("**핵심어 공출현 네트워크**")
-    fig = network_figure(view["network"]["nodes"], view["network"]["edges"])
-    if fig:
-        st.pyplot(fig)
-        comms = view["network"]["communities"]
-        if comms:
-            st.caption("주제군: " + " / ".join(", ".join(c[:6]) for c in comms))
-    else:
-        st.caption("네트워크 데이터가 없습니다.")
+    st.image(SAMPLE_NETWORK, caption="샘플 그림 (자막 명사의 60초 공출현 네트워크)")
 
     if view["quotes"]:
         st.markdown("**논문 인용 채팅 검증**")
@@ -184,13 +180,12 @@ def render(view: dict):
 
     if view["sections"]:
         st.markdown("**방송 구간별 비교**")
-        st.json(view["sections"], expanded=False)
+        st.dataframe(pd.DataFrame(view["sections"]), hide_index=True)
 
 
 st.title("테이커스 비전 기호 분석시스템")
 st.caption("유튜브 주소를 입력하면 자막과 채팅을 가져와 분석합니다.")
 
-mode = st.radio("모드", ["샘플 결과", "실제 분석"], horizontal=True)
 url = st.text_input("유튜브 주소", placeholder="https://www.youtube.com/watch?v=77nP8lcSuzY")
 go = st.button("분석하기", type="primary")
 
@@ -201,10 +196,8 @@ if go:
     get_kiwi()  # 스레드 시작 전에 메인 스레드에서 로드
 
     def work():
-        if mode.startswith("샘플"):
-            parse_video_id(url or "77nP8lcSuzY")
-            return load_demo()
-        return run_real(url)
+        parse_video_id(url or "77nP8lcSuzY")
+        return load_demo()
 
     executor = ThreadPoolExecutor(max_workers=1)
     future = executor.submit(work)
@@ -221,4 +214,4 @@ if "view" in st.session_state:
     st.divider()
     render(st.session_state["view"])
 else:
-    st.info("주소를 입력하고 분석하기를 누르세요. 샘플 결과는 바로 보입니다.")
+    st.info("주소를 입력하고 분석하기를 누르세요.")
