@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}학습 돌아보기 · 엘렝코스{% endblock %}
+{% block content %}
+<div class="nx-hero"><div class="nx-eyebrow">학습 돌아보기</div><h2>이번 학습을 돌아볼까요?</h2>
+  <p>건너뛰어도 학습 완료와 점수는 바뀌지 않아요.</p></div>
+{% if sent %}<div class="alert ok">저장했어요. 고마워요!</div>{% endif %}
+<form method="post" action="/mvp/reflect" hx-boost="false" class="stack" id="refl">
+  <div class="card"><div class="nx-label">나의 학습 돌아보기</div>
+    <p class="muted small">내 학습 기록에 저장되며 담당 선생님이 볼 수 있어요.</p>
+    {% set ans = ref.answers if ref else {} %}
+    {% for it in items if it.store == 'personal' %}
+    <fieldset class="mvp-q" data-id="{{ it.id }}" {% if it.resets %}data-resets="{{ it.resets|join(',') }}"{% endif %}><legend>{{ it.id }}. {{ it.text }}</legend>
+      {% if it.kind == 'single' %}{% for o in it.options %}<label class="choice"><input type="radio" name="{{ it.id }}" value="{{ o }}" {{ 'checked' if ans.get(it.id) == o }}> {{ o }}</label>{% endfor %}
+      {% elif it.kind == 'pick_text' %}<select name="{{ it.id }}"><option value="">고르기</option>{% for kind, txt in picks %}<option value="{{ kind }}: {{ txt[:80] }}" {{ 'selected' if ans.get(it.id,'').endswith(txt[:80]) and ans.get(it.id) }}>{{ kind }} · {{ txt[:60] }}</option>{% endfor %}</select>
+      {% else %}<textarea name="{{ it.id }}" rows="2">{{ ans.get(it.id, '') }}</textarea>{% endif %}
+    </fieldset>
+    {% endfor %}
+  </div>
+  <div class="card"><div class="nx-label">지도·시스템 의견</div>
+    <p class="muted small">학습 기록과 따로 저장돼요. ‘이름 없이 제출’이면 계정·회차·정확한 시각을 남기지 않아요. 제출 전까지는 서버에 저장하지 않아요.</p>
+    {% for it in items if it.store == 'feedback' %}
+    <fieldset class="mvp-q"><legend>{{ it.id }}. {{ it.text }}</legend>
+      {% if it.kind == 'single' %}{% for o in it.options %}<label class="choice"><input type="radio" name="{{ it.id }}" value="{{ o }}"> {{ o }}</label>{% endfor %}
+      {% elif it.kind == 'multi' %}{% for o in it.options %}<label class="choice"><input type="checkbox" name="{{ it.id }}" value="{{ o }}" data-max="{{ it.max }}"> {{ o }}</label>{% endfor %}
+      {% else %}<textarea name="{{ it.id }}" rows="2"></textarea>{% endif %}
+    </fieldset>
+    {% endfor %}
+    <label class="choice"><input type="checkbox" name="fb_send" value="1" checked> 의견도 함께 보내기</label>
+    <label class="choice"><input type="checkbox" name="fb_named" value="1"> 이름을 밝혀 제출 (기본: 이름 없이)</label>
+  </div>
+  <div class="row-gap">
+    <button class="btn primary" name="act" value="submit">제출</button>
+    <button class="btn" name="act" value="draft">임시저장 (나의 돌아보기만)</button>
+    <button class="btn" name="act" value="skip" formnovalidate>건너뛰기</button>
+    <a class="btn" href="/mvp/records">나의 기록</a>
+  </div>
+</form>
+<script>
+document.querySelectorAll('[data-resets]').forEach(function (fs) {
+  fs.addEventListener('change', function () { fs.dataset.resets.split(',').forEach(function (id) {
+    document.querySelectorAll('[name="' + id + '"]').forEach(function (i) { i.checked = false; }); }); }); });
+document.querySelectorAll('input[data-max]').forEach(function (cb) {
+  cb.addEventListener('change', function () { var n = document.querySelectorAll('input[name="' + cb.name + '"]:checked');
+    if (n.length > +cb.dataset.max) cb.checked = false; }); });
+</script>
+{% endblock %}

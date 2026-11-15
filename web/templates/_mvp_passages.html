@@ -1,0 +1,7 @@
+<div class="mvp-exam">
+  {% for ps in exam.passages %}
+  <div class="nx-passage"><div class="lbl">제시문 ({{ ps.id }})</div>
+    {% for p in ps.paragraphs %}<p id="p-{{ p.id }}"><span class="pid">{{ p.id }}</span> {{ p.text }}</p>{% endfor %}
+  </div>
+  {% endfor %}
+</div>

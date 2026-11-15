@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}6단계 논술 학습 · 엘렝코스{% endblock %}
+{% block content %}
+<div class="nx-hero">
+  <div class="nx-eyebrow">6단계 논술 학습 · 심층 학습</div>
+  {% if not att %}
+  <h2>{{ user.name }} 님, 첫 문제를 시작해 볼까요?</h2>
+  <p>배정된 문제: {{ pack_title }} · 보통 3~4차시에 걸쳐 진행해요.</p>
+  {% else %}
+  <h2>{{ user.name }} 님, 지금은 {{ card.id|replace('6.1','6-1') }}단계 · {{ card.name }}</h2>
+  <p>{{ card.central_question }}</p>
+  {% endif %}
+</div>
+{% if not att %}
+<form method="post" action="/mvp/start"><button class="btn primary">▶ 학습 시작하기</button></form>
+<p class="muted small mt">시작하면 처음 안내(7장)를 먼저 보여 드려요.</p>
+{% else %}
+{% include "_mvp_bar.html" %}
+{% if recap %}<div class="alert info">🔖 {{ recap }}</div>{% endif %}
+<div class="row-gap">
+  {% if att.status == 'active' %}<a class="btn primary" href="/mvp/stage/{{ att.current }}">▶ 이어서 하기</a>
+  {% else %}<form method="post" action="/mvp/start"><button class="btn primary">새 회차 시작하기</button></form>{% endif %}
+  <a class="btn" href="/mvp/records">🗂 나의 기록</a>
+  <a class="btn" href="/mvp/guide">📘 안내 다시 보기</a>
+</div>
+{% if next_q %}<div class="card mt"><div class="nx-label">다음 점검 목표</div><p>{{ next_q }}</p></div>{% endif %}
+{% endif %}
+{% if changes %}<div class="card mt"><div class="nx-label">여러분의 의견으로 달라진 점</div>{{ changes|md }}</div>{% endif %}
+{% endblock %}

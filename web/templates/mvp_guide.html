@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}처음 안내 · 엘렝코스{% endblock %}
+{% block content %}
+<div class="nx-dots">{% for p in pages %}<span class="{{ 'on' if loop.index0 == page else ('done' if loop.index0 < page else '') }}"></span>{% endfor %}</div>
+<div class="card guide-card">{{ pages[page][1]|md }}</div>
+<div class="row-gap">
+  {% if page > 0 %}<a class="btn" href="/mvp/guide?page={{ page - 1 }}{{ '&first=1' if first }}">← 이전</a>{% endif %}
+  {% if page < pages|length - 1 %}<a class="btn primary" href="/mvp/guide?page={{ page + 1 }}{{ '&first=1' if first }}">다음 →</a>
+  {% else %}
+    <form method="post" action="/mvp/guide/done"><button class="btn primary">{{ '안내를 다 읽었어요 · 학습 시작' if first else '학습 홈으로' }}</button></form>
+  {% endif %}
+</div>
+<p class="muted small">{{ page + 1 }} / {{ pages|length }}{% if first %} · 처음 한 번은 끝까지 읽어야 시작할 수 있어요{% endif %}</p>
+{% endblock %}

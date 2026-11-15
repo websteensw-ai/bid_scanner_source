@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ card.id }}단계 {{ card.name }} · 엘렝코스{% endblock %}
+{% block content %}
+{% include "_mvp_bar.html" %}
+<div class="mvp-head"><div class="nx-label">{{ card.id }}단계 · {{ card.name }}</div><h2 class="h2">{{ card.central_question }}</h2></div>
+<div class="lesson-grid mvp-grid">
+  <section class="mvp-left">
+    {% if card.id == '0' %}{% include "_mvp_prompt.html" %}{% endif %}
+    {% include "_mvp_passages.html" %}
+    {% if card.id != '0' %}{% include "_mvp_prompt.html" %}{% endif %}
+  </section>
+  <section>{% include "_mvp_dialogue.html" %}</section>
+</div>
+{% if prior %}
+<details class="card mvp-drawer"><summary>📎 이전 단계 산출물</summary>
+  {% for name, f in prior.items() %}<div class="nx-card-title mt">{{ name }}</div>
+    <ul>{% for k, v in f.items() %}<li>{{ v }}</li>{% endfor %}</ul>{% endfor %}
+</details>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}6단계 독립 작성 · 엘렝코스{% endblock %}
+{% block content %}
+{% include "_mvp_bar.html" %}
+<div class="mvp-sticky card">
+  <div class="row-between"><div><div class="nx-label">6단계 · 독립 작성</div><b>{{ exam.prompt }}</b></div>
+    <div class="mvp-count"><b id="nChars">{{ chars }}</b> / {{ limits.max_chars }}자 <span class="muted small">· 칸 <span id="nCells">{{ cells }}</span>/{{ MAX_CELLS }}</span>
+      <div class="small" id="saveState">{{ '저장됨' if att.temp_saved_at else '' }}</div></div></div>
+  <div class="small muted">{{ exam.conditions|join(' · ') }} · AI 문답창·맞춤법 제안·내용 평가 없이 혼자 써요.</div>
+</div>
+{% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+<div class="lesson-grid mvp-grid">
+  <section class="mvp-left">
+    <details class="card" open><summary>📄 제시문 원문</summary>{% include "_mvp_passages.html" %}</details>
+    {% if outline %}<details class="card"><summary>🧩 내 개요와 앞 단계 정리</summary>
+      {% for name, f in outline.items() %}<div class="nx-card-title mt">{{ name }}</div><ul>{% for k, v in f.items() %}<li>{{ v }}</li>{% endfor %}</ul>{% endfor %}</details>{% endif %}
+    <details class="card"><summary>✔ 공통 자기검증 항목</summary><ol>{% for c in card.selfcheck %}<li>{{ c.label }}</li>{% endfor %}</ol></details>
+    <a class="btn block" href="/mvp/guide?page=5" target="_blank">📐 원고지 작성법</a>
+  </section>
+  <section>
+  {% if sub %}
+    <div class="alert ok">제출했어요. 6-1 평가·첨삭으로 이동해요. <a href="/mvp/stage/6.1">바로 가기</a></div>
+  {% elif not ind %}
+    <form method="post" action="/mvp/write/draft" hx-boost="false" class="card" id="writeForm">
+      <div class="mvp-tabs"><label><input type="radio" name="view" checked onclick="mvpView('text')"> 입력창</label>
+        <label><input type="radio" name="view" onclick="mvpView('grid')"> 원고지 미리보기</label></div>
+      <textarea id="body" name="body" rows="16" spellcheck="false" autocomplete="off" class="mvp-input"
+        placeholder="Enter 를 누르면 새 문단이에요. 제목은 쓰지 않아요.">{{ body }}</textarea>
+      <div id="grid" class="mvp-grid-paper"></div>
+      <div class="row-gap mt"><button class="btn primary" onclick="return confirm('초고를 완성할까요? 독립 초고는 고정되어 고칠 수 없어요.')">초고 완성</button></div>
+    </form>
+  {% elif not sc %}
+    <div class="card"><div class="nx-label">① 독립 초고 (고정됨 · {{ ind.chars }}자)</div><div class="mvp-paper">{% for p in ind.body.split('\n') if p.strip() %}<p>{{ p }}</p>{% endfor %}</div></div>
+    <form method="post" action="/mvp/write/selfcheck" hx-boost="false" class="card">
+      <div class="nx-label">② 자기검증</div>
+      <p class="muted small">항목마다 확인한 구절을 원고에서 그대로 옮겨 적고, ‘문제 있음 / 유지’와 이유를 적어요. ‘유지’는 구절과 이유가 있어야 해요.</p>
+      {% for c in card.selfcheck %}
+      <fieldset class="mvp-sc"><legend>{{ loop.index }}. {{ c.label }}</legend>
+        <label class="choice"><input type="radio" name="j_{{ c.key }}" value="problem" {{ 'checked' if form and form.get('j_'+c.key)=='problem' }}> 문제 있음</label>
+        <label class="choice"><input type="radio" name="j_{{ c.key }}" value="keep" {{ 'checked' if form and form.get('j_'+c.key)=='keep' }}> 유지</label>
+        <input name="q_{{ c.key }}" placeholder="확인한 구절 (원고에서 복사)" value="{{ form.get('q_'+c.key,'') if form }}" data-pick>
+        <input name="r_{{ c.key }}" placeholder="이유" value="{{ form.get('r_'+c.key,'') if form }}">
+      </fieldset>
+      {% endfor %}
+      <label class="field"><span>가장 자신 있는 부분</span><input name="confident" value="{{ form.get('confident','') if form }}" required></label>
+      <label class="field"><span>가장 불확실한 부분</span><input name="uncertain" value="{{ form.get('uncertain','') if form }}" required></label>
+      <button class="btn primary">자기검증 저장</button>
+    </form>
+  {% else %}
+    <form method="post" action="/mvp/write/{{ 'pre_revision' if not pre else 'submit' }}" hx-boost="false" class="card" id="writeForm">
+      {% if not pre %}
+      <div class="nx-label">③ 자기검증 후 수정</div>
+      <p class="muted small">자기검증에서 찾은 곳을 고쳐요. 고칠 곳이 없으면 그대로 저장해요.</p>
+      <div class="mvp-tabs"><label><input type="radio" name="view" checked onclick="mvpView('text')"> 입력창</label>
+        <label><input type="radio" name="view" onclick="mvpView('grid')"> 원고지 미리보기</label></div>
+      <textarea id="body" name="body" rows="16" spellcheck="false" class="mvp-input">{{ body }}</textarea>
+      <div id="grid" class="mvp-grid-paper"></div>
+      <button class="btn primary mt">선행 수정본 저장</button>
+      {% else %}
+      <div class="nx-label">③ 선행 수정본 {{ '(초고와 같음)' if pre.same_as else '' }} · {{ pre.chars }}자</div>
+      <div class="mvp-paper">{% for p in pre.body.split('\n') if p.strip() %}<p>{{ p }}</p>{% endfor %}</div>
+      {% if pre.chars > limits.max_chars %}<div class="alert warn">{{ pre.chars - limits.max_chars }}자 초과예요. 제출하면 분량 항목이 0점이에요.</div>{% endif %}
+      <button class="btn primary mt" onclick="return confirm('제출할까요? 제출본은 영구히 고정되고 바로 채점돼요.')">④ 제출</button>
+      {% endif %}
+    </form>
+  {% endif %}
+  {% if not sub %}
+    <details class="card"><summary>🙋 도움 요청 (기능·조건 질문만 답해요)</summary>
+      <form method="post" action="/mvp/write/help" hx-boost="false"><input name="question" placeholder="예) 글자 수는 어떻게 세나요?" required>
+        <button class="btn">묻기</button></form></details>
+    <details class="card"><summary>⏸ 작성 중단하고 보충받기</summary>
+      <form method="post" action="/mvp/write/interrupt" hx-boost="false" onsubmit="return confirm('초고는 보관되고 작성 조건이 ‘중단 후 보충’으로 기록돼요.')">
+        <select name="target">{% for s in dialogue_stages %}<option value="{{ s.id }}">{{ s.id }}단계 · {{ s.name }}</option>{% endfor %}</select>
+        <input name="reason" placeholder="무엇이 막혔나요?"><button class="btn">보충하러 가기</button></form></details>
+  {% endif %}
+  </section>
+</div>
+<script src="/manuscript.js" defer></script>
+{% endblock %}

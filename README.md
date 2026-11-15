@@ -1,19 +1,37 @@
-# 📝 논술랩 · 논술 기초 다지기
+# 📝 엘렝코스 · 논술랩
 
-「논술학습 기초다지기 요구사항 정의서」에 따라 만든 **본격 논술 학습 진입 준비 과정**입니다.
-학생은 다섯 학습 주제를 한 번씩 수행하고, 필요할 때만 짧은 집중 보충을 받은 뒤 **진입 준비 판정**을 받습니다.
-점수를 더하지 않고, 실제로 쓴 답과 받은 도움을 기준으로 다섯 기준을 기록합니다.
+소크라틱 문답(엘렝코스)으로 논술을 배우는 웹 서비스입니다. 운영 주소: **https://elenchos.kr**
+
+두 가지 과정이 들어 있습니다.
+
+| 과정 | 설명 | 문서 |
+|---|---|---|
+| **6단계 논술 학습 (MVP)** | 한 문제를 0 준비 → 1~5 문답 → 6 원고지 독립 작성 → 6-1 평가·첨삭 → 돌아보기로 깊이 있게 학습 | [docs/mvp_6stage.md](docs/mvp_6stage.md) |
+| 논술 기초 다지기 | 다섯 학습 주제와 진입 준비 판정 (아래 설명) | [docs/INTRODUCTION.md](docs/INTRODUCTION.md), [docs/requirements_traceability.md](docs/requirements_traceability.md) |
 
 | 영역 | 기술 |
 |---|---|
-| UI | Streamlit (`st.navigation` 역할별 메뉴) |
-| DB / 인증 | Supabase (PostgreSQL + Auth + RLS) |
-| AI | Claude / OpenAI — **답변 분석만** 담당 (판정·반복 상한·보충은 시스템 정책) |
-| 콘텐츠 | `content/v1/*.yaml` (버전 고정) |
+| 웹 | FastAPI + Jinja2 + htmx, Vercel Python 함수 (서울 icn1), 도메인 elenchos.kr |
+| 저장 | Supabase `elenchos` 스키마. 테이블은 노출하지 않고 서버 비밀키를 확인하는 RPC 함수로만 접근 |
+| AI | Claude / OpenAI — 키가 없으면 규칙 기반 데모 역할로 동작. 진행·채점 계산·사다리 규칙은 코드가 소유 |
+| 콘텐츠 | `content/mvp/` (단계 카드·문제 패키지·채점표·안내 문안), `content/v1/` (기초 다지기) |
 
-📘 **화면과 함께 보는 전체 소개: [docs/INTRODUCTION.md](docs/INTRODUCTION.md)**
+```bash
+pip install -r requirements-dev.txt
+```
 
-요구사항별 반영 위치와 미구현 항목은 **[docs/requirements_traceability.md](docs/requirements_traceability.md)**에 정리했습니다.
+```bash
+uvicorn web.main:app --reload --port 8501
+```
+
+테스트 계정: `test` / `testpoc` (운영 환경 변수 `APP_ENV=production` 이면 꺼짐)
+
+---
+
+# 논술 기초 다지기
+
+「논술학습 기초다지기 요구사항 정의서」에 따라 만든 **본격 논술 학습 진입 준비 과정**입니다.
+학생은 다섯 학습 주제를 한 번씩 수행하고, 필요할 때만 짧은 집중 보충을 받은 뒤 **진입 준비 판정**을 받습니다.
 
 ## 🧭 학습 흐름
 
@@ -98,7 +116,7 @@
 
 ## 🎨 디자인 시스템
 
-모든 스타일 값은 `src/ui/theme.py`의 `TOKENS`에 모여 있습니다 (`.streamlit/config.toml`도 같은 값 사용).
+모든 스타일 값은 `public/app.css`의 `:root` 변수에 모여 있습니다.
 
 | 역할 | 값 | 용도 |
 |---|---|---|
@@ -114,26 +132,15 @@
 - **모양:** 입력·버튼 10px, 카드 18px 둥근 모서리, 3단계 그림자(`shadow-sm/shadow/shadow-lg`)
 - **반응형:** 본문 최대 1120px · 900px/640px 구간에서 여백·글자 크기 축소, 통계 카드 2열, 컬럼 세로 쌓기
 
-## 🚀 시작하기
+## 🚀 시작하기 / 배포
 
 ```bash
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install -r requirements-dev.txt
-cp .env.example .env            # 키 입력
+cp .env.example .env            # 키 입력 (없으면 메모리 저장소 + 데모 AI 로 동작)
 ```
 
-1. [Supabase](https://supabase.com)에서 프로젝트 생성 → **SQL Editor**에서 `supabase/migrations/0001_init.sql`, `0002_learning.sql` 순서로 실행
-2. **Project Settings → API**에서 URL / anon key를 `.env`에 입력
-3. Claude 또는 OpenAI API 키를 `.env`에 입력하고 `AI_PROVIDER` 선택
-4. 실행:
-   ```bash
-   streamlit run app.py
-   ```
-5. 교사 계정은 가입 후 SQL Editor에서 역할 변경:
-   ```sql
-   update public.profiles set role = 'teacher' where email = 'teacher@example.com';
-   ```
+- 로컬: `uvicorn web.main:app --reload --port 8501`
+- 저장소: Supabase SQL Editor 에서 `supabase/migrations/0003_elenchos_store.sql`, `0004_elenchos_feedback.sql` 실행 후 `elenchos.config` 에 `api_key` 등록. Vercel 환경 변수 `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `ELENCHOS_DB_KEY`, `SESSION_SECRET` 설정
+- 배포: Vercel 프로젝트 `elenchos` (진입점 `web.main:app`, `vercel.json` 지역 icn1), 도메인 elenchos.kr
 
 ## 🧪 LLM 품질 관리 (Ragas)
 
@@ -159,7 +166,6 @@ ruff check .
 ```
 
 ## 🔐 보안 메모
-- `.env`, `.streamlit/secrets.toml`은 `.gitignore`에 포함되어 커밋되지 않습니다.
-- 모든 테이블에 RLS가 켜져 있어 학생은 본인 기록만, 교사는 전체를 조회할 수 있습니다.
-- 현재 학생 기록은 학생 권한으로 저장되므로, 운영 전에는 판정 쓰기를 서버 측 함수로 분리해야 합니다 (docs 참고).
-- `SUPABASE_SERVICE_ROLE_KEY`는 RLS를 우회하므로 클라이언트 코드에서 사용하지 마세요.
+- `.env` 는 `.gitignore`에 포함되어 커밋되지 않습니다. 비밀값은 Vercel 환경 변수에만 둡니다.
+- `elenchos` 스키마 테이블은 API 로 노출하지 않고, 서버 비밀키(`ELENCHOS_DB_KEY`)를 확인하는 함수로만 읽고 씁니다. 판정·채점 쓰기는 서버에서만 일어나 학생이 기록을 고칠 수 없습니다.
+- 익명 의견은 학습 기록과 다른 테이블에 계정·회차 id 없이 날짜만 남깁니다.

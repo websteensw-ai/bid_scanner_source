@@ -1,0 +1,42 @@
+<div id="dialogue">
+  {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+  {% if recap and run.turns %}<div class="alert info small">🔖 {{ recap }}</div>{% endif %}
+  {% if run.status == 'completed' %}<div class="alert ok">✅ 이 단계는 완료했어요. 앞 단계는 다시 열지 않고, 기록만 볼 수 있어요.</div>{% endif %}
+  {% if run.status == 'flagged' %}<div class="alert warn">🧑‍🏫 선생님 확인을 기다리고 있어요. 확인 후 이어서 할 수 있어요.</div>{% endif %}
+  {% if subgoal and run.status == 'in_progress' and not readonly %}
+  <div class="nx-tip small">🎯 지금 할 일 ({{ run.subgoal_idx + 1 }}/{{ card.subgoals|length }}): {{ subgoal.goal }}</div>
+  {% endif %}
+  <div class="nx-chatbox"><div class="nx-chat">
+    {% if not run.turns %}<div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor open"><div>{{ card.central_question }} 먼저 내 말로 답해 보세요.</div></div></div>{% endif %}
+    {% for t in run.turns %}
+      {% if t.role == 'student' %}<div class="nx-row me"><div class="nx-msg me"><div>{{ t.text }}</div></div><div class="av">🙋</div></div>
+      {% elif t.role == 'tutor' %}<div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor"><div>{{ t.text }}</div></div></div>
+      {% else %}<div class="nx-row sys"><div class="muted small">— {{ t.text }} —</div></div>{% endif %}
+    {% endfor %}
+  </div></div>
+  {% if not readonly and run.status in ('in_progress', 'summarizing') %}
+    {% if run.status == 'in_progress' %}
+    <form class="card composer" method="post" action="/mvp/stage/{{ card.id }}/say" hx-post="/mvp/stage/{{ card.id }}/say"
+          hx-target="#dialogue" hx-swap="outerHTML" hx-disabled-elt="find button">
+      <label class="field"><span>내 답 (문단 번호로 근거를 가리키면 좋아요 · 예: 가-2)</span>
+        <textarea name="text" rows="3" placeholder="먼저 내 말로 써 보세요." required></textarea></label>
+      <div class="row-gap"><button class="btn primary grow"><span class="when-idle">➤ 보내기</span><span class="when-busy">생각하는 중…</span></button>
+        <button class="btn" formaction="/mvp/stage/{{ card.id }}/skip" hx-post="/mvp/stage/{{ card.id }}/skip" formnovalidate>이 목표 건너뛰기</button></div>
+    </form>
+    {% endif %}
+    {% if run.status == 'summarizing' or run.outputs %}
+    <form class="card" method="post" action="/mvp/stage/{{ card.id }}/summary" hx-boost="false">
+      <div class="nx-label">단계 정리</div>
+      <p class="muted small">대화에서 내가 한 말을 미리 넣어 두었어요. 내 말로 고치거나 새로 써도 돼요. (AI 문장은 넣지 않아요)</p>
+      {% if run.outputs and run.outputs[-1].verdict == 'fail' %}<div class="alert warn small">{{ run.outputs[-1].verdict_note }}</div>{% endif %}
+      {% for f in card.outputs %}
+      <label class="field"><span>{{ f.label }}</span><textarea name="f_{{ f.key }}" rows="2">{{ cands.get(f.key, ('',None))[0] }}</textarea></label>
+      {% endfor %}
+      <button class="btn primary">정리 확정하고 판정받기</button>
+    </form>
+    {% endif %}
+  {% elif run.outputs %}
+    <div class="card"><div class="nx-label">확정한 정리 (v{{ run.outputs[-1].version }})</div>
+      <ul>{% for f in card.outputs %}<li><b>{{ f.label }}</b> · {{ run.outputs[-1].fields[f.key].value if f.key in run.outputs[-1].fields }}</li>{% endfor %}</ul></div>
+  {% endif %}
+</div>

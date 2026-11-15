@@ -128,7 +128,7 @@ def index(request: Request):
     user = current_user(request)
     if not user:
         return redirect("/login")
-    return redirect("/home" if user["role"] in ("student", "admin") else "/teacher/records")
+    return redirect("/mvp" if user["role"] in ("student", "admin") else "/teacher/mvp")
 
 
 @app.get("/login", response_class=HTMLResponse)
@@ -147,7 +147,7 @@ def login(request: Request, login_id: str = Form(""), password: str = Form("")):
         demo_id = request.session.get("demo_id") or f"demo-{secrets.token_hex(8)}"
         request.session["demo_id"] = demo_id
         request.session["user"] = {"id": demo_id, "name": "테스트 사용자", "role": "admin", "is_demo": True}
-        return redirect("/home")
+        return redirect("/mvp")
     return render(request, "login.html", settings=s, status_code=401,
                   error="아이디 또는 비밀번호를 확인해 주세요. 정식 계정 로그인은 준비 중이에요.")
 
@@ -458,6 +458,12 @@ def quality(request: Request, report: str | None = None, all_cases: int = 0):
     cases = [c for c in rep["cases"] if all_cases or not c["decision_correct"] or c["error_correct"] is False]
     return render(request, "quality.html", rep=rep, files=files, current=f.name, names=REPORT_NAMES,
                   LABEL=LABEL, cases=cases, all_cases=all_cases)
+
+
+# ---------- 6단계 논술학습 MVP ----------
+from web import mvp as _mvp  # noqa: E402  (헬퍼 정의 뒤에 불러와야 순환 참조가 풀린다)
+
+app.include_router(_mvp.router)
 
 
 # 로컬 실행 시에만 public/ 을 직접 제공 (Vercel 에서는 CDN 이 제공하므로 마운트하지 않음)

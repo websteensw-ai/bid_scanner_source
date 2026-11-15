@@ -29,6 +29,8 @@ def test_login_page_and_wrong_password(client):
 
 def test_test_login_home(client):
     r = login(client)
+    assert r.status_code == 200 and "6단계 논술 학습" in r.text
+    r = client.get("/home")
     assert r.status_code == 200 and "오늘의 목표" in r.text
 
 

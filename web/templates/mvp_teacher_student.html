@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}학생 상세 · 6단계 학습{% endblock %}
+{% block content %}
+<div class="row-between"><h2 class="h2">학생 상세 · {{ sid }}</h2><a class="btn" href="/teacher/mvp">← 학급 현황</a></div>
+<p class="muted small">회차 {{ att.id }} · 문제 {{ att.pack_id }}@{{ att.pack_version }} · 채점표 {{ att.rubric_version }} · 단계 카드 v{{ att.cards_version }} · 모드 {{ att.mode }}</p>
+<nav class="tabs">{% for k, v in [('timeline','타임라인'),('thinking','사고 변화'),('drafts','답안'),('eval','평가'),('reflection','돌아보기'),('alerts','알림')] %}
+  <a href="?tab={{ k }}" class="{{ 'on' if tab == k }}">{{ v }}</a>{% endfor %}</nav>
+
+{% if tab == 'timeline' %}
+  {% for s in cards.stages %}{% set r = att.stages[s.id] %}
+  <details class="card" {{ 'open' if open_stage == s.id }}>
+    <summary><b>{{ s.id }} {{ s.name }}</b> · {{ STAGE_STATUS_KO[r.status] }}{% if r.subgoals %} · 지원 {{ SUPPORT_KO[r.support] }}{% endif %} · 학생 발화 {{ r.student_turns() }}
+      {% set issues = r.turns|selectattr('judgment')|map(attribute='judgment')|selectattr('issue_type')|map(attribute='issue_type')|unique|list %}{% if issues %} · 오류 {{ issues|join(', ') }}{% endif %}</summary>
+    {% if r.subgoals %}<p class="small">{% for sg in s.subgoals %}{{ sg.id }} {{ r.subgoals[sg.id].status }}({{ SUPPORT_KO[r.subgoals[sg.id].support] }}) {% endfor %}</p>{% endif %}
+    {% if r.outputs %}<div class="nx-label">단계 정리 v{{ r.outputs[-1].version }} · {{ r.outputs[-1].verdict }}</div>
+      <ul>{% for k, v in r.outputs[-1].fields.items() %}<li>{{ v.value }} <span class="muted small">({{ '학생 발화' if v.source == 'student_turn' else '직접 작성' }})</span></li>{% endfor %}</ul>{% endif %}
+    {% for t in r.turns %}<div class="small mvp-turn {{ t.role }}"><b>{{ {'student':'학생','tutor':'튜터','system':'—'}[t.role] }}</b> {{ t.text }}
+      {% if t.judgment %}<span class="muted">[{{ t.judgment.subgoal_id }} {{ t.judgment.subgoal_status }} · 사다리 {{ t.judgment.scaffold_level }}{% if t.judgment.issue_type %} · {{ t.judgment.issue_type }}{% endif %}{% if t.judgment.handoff_note %} · {{ t.judgment.handoff_note }}{% endif %}]</span>{% endif %}
+      {% if t.rejected_drafts %}<span class="muted"> · 검사 불합격 {{ t.rejected_drafts|length }}회 ({{ t.check.reasons|join(', ') }})</span>{% endif %}
+      {% if t.model %}<span class="muted"> · {{ t.prompt_version }} / {{ t.model }}</span>{% endif %}</div>{% endfor %}
+    {% if r.status in ('flagged','in_progress','summarizing') and r.subgoals %}
+    <form method="post" action="/teacher/mvp/student/{{ sid }}/allow" hx-boost="false" class="row-gap mt"><input type="hidden" name="stage" value="{{ s.id }}">
+      <input name="note" placeholder="메모"><button class="btn" name="mode" value="resume">진행 허용(재개)</button><button class="btn" name="mode" value="complete">단계 완료 처리</button></form>
+    {% endif %}
+  </details>
+  {% endfor %}
+{% elif tab == 'thinking' %}
+  <div class="card">{% for t in att.thinking %}<p><b>{{ t.stage }}단계</b> 처음: {{ t.before }} → 수정: {{ t.after }} <span class="muted small">({{ t.note }})</span></p>
+  {% else %}<p class="muted">아직 기록된 사고 변화가 없어요.</p>{% endfor %}</div>
+  <div class="card"><div class="nx-label">교사 메모</div>{% for n in att.teacher_notes %}<p class="small">{{ n.ts[:16] }} {{ n.by }}: {{ n.text }}</p>{% endfor %}
+    <form method="post" action="/teacher/mvp/student/{{ sid }}/note" hx-boost="false" class="row-gap"><input name="text" class="grow" required><button class="btn">메모 저장</button></form></div>
+{% elif tab == 'drafts' %}
+  <div class="card small">작성 시간 {{ (att.writing_seconds / 60)|round(1) }}분 · 붙여넣기 {{ att.events|selectattr('kind','equalto','paste')|list|length }}회
+    ({% for e in att.events if e.kind == 'paste' %}{{ e.size }}자{{ ', ' if not loop.last }}{% endfor %}) · 도움 요청 {{ att.events|selectattr('kind','equalto','help')|list|length }}회
+    · 중단 후 보충 {{ att.events|selectattr('kind','equalto','interrupt')|list|length }}회 · 접근성 {{ '사용' if att.events|selectattr('kind','equalto','accessibility')|list else '없음' }}</div>
+  {% for d in att.drafts %}<details class="card"><summary>{{ DRAFT_KO[d.kind] }} · {{ d.chars }}자 / {{ d.cells }}칸 · {{ CONDITION_KO.get(d.condition) }} · {{ d.ts[:16] }}</summary>
+    {% if not loop.first %}<div class="mvp-paper mvp-diff">{{ diff_html(att.drafts[loop.index0 - 1].body, d.body) }}</div>{% else %}<div class="mvp-paper">{{ d.body }}</div>{% endif %}</details>{% endfor %}
+  {% if att.selfcheck %}<div class="card"><div class="nx-label">자기검증</div>
+    {% for e in att.selfcheck.entries %}<p class="small">{{ e.key }} · {{ '문제 있음' if e.judgment == 'problem' else '유지' }} · “{{ e.quote }}” · {{ e.reason }}{% if att.selfcheck_result.get(e.key) %} → <b>{{ SELFCHECK_KO[att.selfcheck_result[e.key]] }}</b>{% endif %}</p>{% endfor %}
+    <p class="small">자신 있는 부분: {{ att.selfcheck.confident }} / 불확실한 부분: {{ att.selfcheck.uncertain }}</p></div>{% endif %}
+{% elif tab == 'eval' %}
+  {% for e, d, rows in evs %}
+  <details class="card" {{ 'open' if loop.last }}><summary>{{ e.id }} · {{ DRAFT_KO[d.kind] if d else e.draft_id }} · {{ '%.2f'|format(e.total) }}점{{ ' (잠정)' if e.provisional }} · {{ e.evaluator }} · 채점 {{ e.runs }}회{% if e.replaces %} · {{ e.replaces }} 대체{% endif %}</summary>
+    {% if d and d.kind == 'final' %}<p class="small muted">‘첨삭 후’ 점수 — 독립 수행 점수가 아니에요.</p>{% elif d %}<p class="small muted">작성 조건: {{ CONDITION_KO.get(d.condition) }}</p>{% endif %}
+    {% if e.note %}<p class="small">메모: {{ e.note }}</p>{% endif %}
+    <div class="scroll-x"><table class="tbl"><tr><th>항목</th><th>수준</th><th>점수</th><th>근거</th><th>수정</th></tr>
+    {% for r in rows %}<tr class="{{ 'warn' if r.eval.review_recommended }}"><td>{{ r.item.code }} {{ r.item.name }}</td><td>{{ r.eval.level if r.eval.level is not none else '보류' }}</td>
+      <td>{{ '%g'|format(r.eval.score) if r.eval.score is not none else '-' }}/{{ '%g'|format(r.item.points) }}</td>
+      <td class="small">{{ r.eval.reason }}{% for x in r.eval.evidence %}<br>“{{ x.quote }}”{% endfor %}{% if r.eval.review_recommended %}<br><b>일관성 경고: 교사 검토 권장</b>{% endif %}</td>
+      <td><form method="post" action="/teacher/mvp/student/{{ sid }}/regrade" hx-boost="false" class="row-gap"><input type="hidden" name="eval_id" value="{{ e.id }}"><input type="hidden" name="code" value="{{ r.item.code }}">
+        <select name="level">{% for lv in [0,1,2,3,4] %}<option {{ 'selected' if r.eval.level == lv }}>{{ lv }}</option>{% endfor %}<option value="none">보류</option></select>
+        <input name="reason" placeholder="이유(필수)" required><button class="btn">수정</button></form></td></tr>{% endfor %}</table></div>
+  </details>
+  {% else %}<p class="muted">아직 평가가 없어요.</p>{% endfor %}
+  {% if att.annotations %}<div class="card"><div class="nx-label">첨삭 항목과 학생 판단</div>
+    {% for a in att.annotations %}<p class="small">{{ circled(a.number) }} {{ a.rubric_refs|join(',') }} · {{ NATURE_KO[a.nature] }} · {{ ANN_STATUS_KO[a.status] }}{% if a.decision %} · {{ DECISION_KO[a.decision] }}: {{ a.decision_reason }}{% endif %} · 지원: {{ a.support_steps|join(', ') or '-' }}{% if a.revision_link and a.revision_link.method %} · 대응 구절: {{ a.revision_link.method }}{% endif %}</p>{% endfor %}</div>{% endif %}
+  {% for ap in att.appeals %}<div class="alert info small">이의 제기 {{ ap.target }} · {{ ap.reason }} · {{ ALERT_STATUS_KO[ap.status] }} {{ ap.result }}</div>{% endfor %}
+{% elif tab == 'reflection' %}
+  <div class="card">{% if ref %}<p class="small">상태: {{ ref.status }}{% if ref.first_submitted_at %} · 최초 제출 {{ ref.first_submitted_at[:16] }}{% endif %}</p>
+    {% for k, v in ref.answers.items() %}<p><b>{{ k }}</b> {{ v }}</p>{% endfor %}
+    <p class="small muted">나란히 보기 — 실제 지원 수준: {% for s in cards.stages if att.stages[s.id].subgoals %}{{ s.id }} {{ SUPPORT_KO[att.stages[s.id].support] }}{{ ', ' if not loop.last }}{% endfor %}</p>
+    {% else %}<p class="muted">미응답</p>{% endif %}</div>
+{% elif tab == 'alerts' %}
+  {% for x in att.alerts %}<div class="card"><b>{{ ALERT_KO[x.kind] }}</b> · {{ x.stage }}단계 · {{ x.detail }} · {{ ALERT_STATUS_KO[x.status] }} {{ x.note }}
+    <form method="post" action="/teacher/mvp/student/{{ sid }}/alert" hx-boost="false" class="row-gap"><input type="hidden" name="idx" value="{{ loop.index0 }}">
+      <select name="status">{% for k, v in ALERT_STATUS_KO.items() %}<option value="{{ k }}" {{ 'selected' if x.status == k }}>{{ v }}</option>{% endfor %}</select>
+      <input name="note" placeholder="메모 (보류는 이유 필수)"><button class="btn">저장</button></form>
+    {% if x.kind == 'danger' %}<p class="small">위험 신호는 즉시 학생과 연락하고 기관 절차를 따르세요.</p>{% endif %}</div>
+  {% else %}<p class="muted">알림이 없어요.</p>{% endfor %}
+  <details class="card"><summary class="small">감사 로그 ({{ att.audit|length }})</summary>{% for l in att.audit[-50:]|reverse %}<p class="small">{{ l.ts[:16] }} {{ l.who }} {{ l.action }} {{ l.target }}</p>{% endfor %}</details>
+{% endif %}
+{% endblock %}

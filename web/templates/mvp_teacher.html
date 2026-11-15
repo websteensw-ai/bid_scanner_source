@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}학급 현황 · 6단계 학습{% endblock %}
+{% block content %}
+<h2 class="h2">학급 현황 · 6단계 논술 학습</h2>
+<p class="muted small">이름순 정렬. 지원 수준과 점수로 서열을 매기지 않아요.</p>
+<div class="card"><div class="nx-label">검토 대기열 ({{ queue|length }})</div>
+{% if not queue %}<p class="muted">처리할 알림이 없어요.</p>{% endif %}
+<div class="scroll-x"><table class="tbl"><tr><th>학생</th><th>종류</th><th>단계</th><th>내용</th><th>상태</th><th></th></tr>
+{% for s, i, x in queue %}<tr class="{{ 'warn' if x.kind == 'danger' }}"><td>{{ s.display_name or s.id }}</td><td>{{ ALERT_KO[x.kind] }}</td><td>{{ x.stage }}</td><td>{{ x.detail }}</td><td>{{ ALERT_STATUS_KO[x.status] }}</td>
+  <td><a class="btn" href="/teacher/mvp/student/{{ s.id }}?tab=alerts">열기</a></td></tr>{% endfor %}</table></div></div>
+<div class="card"><div class="nx-label">학생별 진행</div>
+<div class="scroll-x"><table class="tbl"><tr><th>학생</th><th>현재 단계</th><th>상태</th><th>이 단계 학생 발화</th><th>지원 수준 분포 (완료 단계)</th><th>알림</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r.s.display_name or r.s.id }}</td><td>{{ r.card.id }} {{ r.card.name }}</td><td>{{ STAGE_STATUS_KO[r.run.status] }}</td>
+  <td>{{ r.run.student_turns() }}</td><td>{% for k, v in r.dist.items() %}{{ SUPPORT_KO[k] }} {{ v }}{{ ', ' if not loop.last }}{% endfor %}</td>
+  <td>{{ r.alerts|length }}</td><td><a class="btn" href="/teacher/mvp/student/{{ r.s.id }}">상세</a></td></tr>
+{% else %}<tr><td colspan="7" class="muted">아직 6단계 학습을 시작한 학생이 없어요.</td></tr>{% endfor %}</table></div></div>
+<div class="row-gap"><a class="btn" href="/teacher/mvp/feedback">🗳 돌아보기 · 시스템 의견</a><a class="btn" href="/teacher/mvp/guide">📚 지도교사 안내 · 문제 패키지</a></div>
+{% endblock %}

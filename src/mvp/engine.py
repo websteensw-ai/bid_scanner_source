@@ -117,10 +117,14 @@ class MvpEngine:
                 out[f"{sid} {self.cards.get(sid).name}"] = {k: v.value for k, v in r.outputs[-1].fields.items()}
         return out
 
-    def recap(self) -> str:
+    def recap(self, idle_minutes: int = 20) -> str:
+        """이어하기 요약. 마지막 활동 뒤 idle_minutes 이상 지났을 때만 (대화 중에는 보이지 않음)."""
+        from datetime import UTC, datetime, timedelta
+
         r = self.run()
         card = self.cards.get(r.stage)
-        if not r.turns:
+        last = r.turns[-1].ts if r.turns else None
+        if not last or datetime.now(UTC) - datetime.fromisoformat(last) < timedelta(minutes=idle_minutes):
             return ""
         met = [sg.goal for sg in card.subgoals if r.subgoals[sg.id].status in ("met", "skipped")]
         cur = card.subgoals[r.subgoal_idx].goal if r.subgoal_idx < len(card.subgoals) else "단계 정리"

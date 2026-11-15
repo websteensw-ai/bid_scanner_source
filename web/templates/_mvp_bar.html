@@ -1,0 +1,12 @@
+<div class="mvp-bar">
+  <ol class="mvp-steps">
+  {% for s in steps %}
+    <li class="st-{{ s.status }}{{ ' cur' if s.current }}">
+      {% if s.status != 'locked' %}<a href="/mvp/stage/{{ s.id }}" title="{{ STAGE_STATUS_KO[s.status] }}">{% endif %}
+      <b>{{ s.id|replace('6.1','6-1') }}</b><span>{{ s.name }}</span>
+      {% if s.status != 'locked' %}</a>{% endif %}
+    </li>
+  {% endfor %}
+  </ol>
+  <a class="mvp-map" href="/mvp/guide?page=3">🗺 학습 지도</a>
+</div>

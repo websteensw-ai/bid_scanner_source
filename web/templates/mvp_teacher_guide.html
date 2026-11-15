@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}지도교사 안내 · 문제 패키지{% endblock %}
+{% block content %}
+<h2 class="h2">지도교사 안내 · 문제 패키지 {{ pack.id }}</h2>
+<div class="alert warn small">문제 패키지 v{{ pack.version }} · 채점표 {{ rubric.full_id }} · 단계 카드 v{{ cards.version }} ({{ cards.status }}). 현재는 엔진 확인용 샘플이며, 설계 문건(01·03~09·10·11) 수령 후 교체해요.</div>
+<div class="card"><div class="nx-label">필수 수행 · 제시문 역할 (교사·AI만)</div>
+  <ul>{% for t in pack.required_tasks %}<li>{{ t.id }} {{ t.text }}</li>{% endfor %}</ul>
+  <p class="small">비필수: {{ pack.non_required_tasks|join(', ') }}</p>
+  <ul>{% for r in pack.passage_roles %}<li>({{ r.id }}) {{ r.role }}</li>{% endfor %}</ul></div>
+<div class="card"><div class="nx-label">오류 유형 → 우선 질문</div><div class="scroll-x"><table class="tbl"><tr><th>코드</th><th>단계</th><th>신호</th><th>우선 질문</th><th>평가 항목</th></tr>
+  {% for e in pack.error_patterns %}<tr><td>{{ e.code }}</td><td>{{ e.stages|join(',') }}</td><td>{{ e.signal }}</td><td>{{ e.first_question }}</td><td>{{ e.rubric_refs|join(',') }}</td></tr>{% endfor %}</table></div></div>
+<div class="card"><div class="nx-label">실제 문답은 이렇게 흘러갑니다 (예시 장면)</div>
+  {% for x in pack.exemplars %}<div class="nx-card-title mt">{{ x.stage }}단계 · {{ x.subgoal }} · {{ x.tags|join(',') }}</div>
+    {% for t in x.turns %}<p class="small"><b>{{ '튜터' if t.role == 'tutor' else '학생' }}</b> {{ t.text }}</p>{% endfor %}{% endfor %}</div>
+<div class="card"><div class="nx-label">단계 카드</div>{% for s in cards.stages %}<p><b>{{ s.id }} {{ s.name }}</b> — {{ s.central_question }}<br><span class="small muted">{% for sg in s.subgoals %}{{ sg.id }} {{ sg.goal }}; {% endfor %}</span></p>{% endfor %}</div>
+<div class="card"><div class="nx-label">채점표</div><div class="scroll-x"><table class="tbl"><tr><th>항목</th><th>영역</th><th>배점</th><th>첨삭 우선순위</th></tr>
+  {% for i in rubric.items %}<tr><td>{{ i.code }} {{ i.name }}</td><td>{{ i.area }}</td><td>{{ '%g'|format(i.points) }}</td><td>{{ i.priority }}</td></tr>{% endfor %}</table></div></div>
+{% endblock %}
