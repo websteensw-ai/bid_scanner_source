@@ -31,12 +31,21 @@ class Store:
     def set_status(self, item_id: str, status: str, note: str, by: str) -> None:
         raise NotImplementedError
 
+    # 지도·시스템 의견 (가이드 9·14장): 학습 기록과 분리된 저장소.
+    # 익명이면 계정·회차 ID·정확한 시각을 남기지 않는다 (날짜만).
+    def add_feedback(self, kind: str, answers: dict, user_id: str | None) -> None:
+        raise NotImplementedError
+
+    def list_feedback(self) -> list[dict]:
+        raise NotImplementedError
+
 
 class MemoryStore(Store):
     def __init__(self):
         self.states: dict[str, dict] = {}
         self.meta: dict[str, dict] = {}
         self.status: dict[str, dict] = {}
+        self.feedback: list[dict] = []
 
     def load(self, sid):
         raw = self.states.get(sid)
@@ -54,6 +63,14 @@ class MemoryStore(Store):
 
     def set_status(self, item_id, status, note, by):
         self.status[item_id] = {"status": status, "note": note, "by": by}
+
+    def add_feedback(self, kind, answers, user_id):
+        from datetime import date
+        self.feedback.append({"kind": kind, "answers": answers, "named": user_id is not None,
+                              "user_id": user_id, "day": date.today().isoformat()})
+
+    def list_feedback(self):
+        return list(self.feedback)
 
 
 class SupabaseStore(Store):
@@ -86,6 +103,12 @@ class SupabaseStore(Store):
 
     def set_status(self, item_id, status, note, by):
         self._rpc("elenchos_set_status", p_item=item_id, p_status=status, p_note=note, p_by=by)
+
+    def add_feedback(self, kind, answers, user_id):
+        self._rpc("elenchos_add_feedback", p_kind=kind, p_answers=answers, p_user=user_id)
+
+    def list_feedback(self):
+        return self._rpc("elenchos_list_feedback") or []
 
 
 @lru_cache(maxsize=1)

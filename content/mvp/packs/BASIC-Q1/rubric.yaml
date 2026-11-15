@@ -1,0 +1,29 @@
+# 채점표 — 문제 패키지와 별도 버전 (가이드 6-1, 8-2)
+# ※ 임시판: 문건 09-1(BASIC-Q1-RUBRIC-v1.0) 수령 전. 영역 배점(A20·B25·C25·D20·E10)은 가이드대로,
+#   항목 배점과 수준 기준 문구는 임시값이다. 수령 시 이 파일만 교체한다.
+id: BASIC-Q1-RUBRIC
+version: v0.1-sample
+levels: {0: 수행 없음, 1: 시도했으나 오류가 큼, 2: 부분 수행, 3: 대체로 타당, 4: 정확하고 충분}
+areas:
+  - {code: A, name: 논제 요구 수행, points: 20}
+  - {code: B, name: (가) 관점 적용, points: 25}
+  - {code: C, name: (나) 관점 적용, points: 25}
+  - {code: D, name: 비교, points: 20}
+  - {code: E, name: 표현과 조건, points: 10}
+# priority: 첨삭 우선순위 묶음 (8-3). 1 이 가장 먼저.
+items:
+  - {code: A1, area: A, points: 12, priority: 1, name: 세 요구를 모두 수행, margin_question: "논제의 세 요구 가운데 이 글에 빠진 것은 무엇일까요?", demo_signals: [["(가)"], ["(나)"], [비교, 초점, 차이, 다르]]}
+  - {code: A2, area: A, points: 8, priority: 1, name: 논제 이탈·비필수 내용 없음, margin_question: "이 문장은 논제의 어느 요구에 답하나요?", demo_negative: [존경, 본받, 찬성, 반대한다, 역사적으로]}
+  - {code: B1, area: B, points: 9, priority: 2, name: (가) 관점을 정확히 파악, margin_question: "(가)는 기여 행적을 무엇의 근거로 보나요?", demo_signals: [[기여, 공동체, 이웃], [신뢰, 믿]]}
+  - {code: B2, area: B, points: 8, priority: 3, name: (다)의 사실과 (가)의 연결, margin_question: "(다)의 어느 사실이 이 설명을 뒷받침하나요?", demo_signals: [[곡식, 상소, 흉년], [따랐, 원망]]}
+  - {code: B3, area: B, points: 8, priority: 3, name: 설명의 범위 (신뢰와 참의 구별), margin_question: "신뢰와 참이 같은가요?", demo_signals: [[보증, 옳다는 뜻은, 참은, 실패]], demo_negative: [언제나 옳, 항상 옳, 주장이 옳, 말이 옳]}
+  - {code: C1, area: C, points: 9, priority: 2, name: (나) 관점을 정확히 파악, margin_question: "(나)가 먼저라고 보는 것은 무엇인가요?", demo_signals: [[수양, 닦, 내면, 마음]]}
+  - {code: C2, area: C, points: 8, priority: 3, name: (다)의 사실과 (나)의 연결, margin_question: "(다)의 어느 대목이 수양을 보여 주나요?", demo_signals: [[일기, 돌아보, 성찰, 넓히지]]}
+  - {code: C3, area: C, points: 8, priority: 3, name: 수양과 공적 행동의 연결, margin_question: "수양은 어떤 행동으로 이어지나요?", demo_signals: [[공적, 공동체, 사사로운, 구휼, 이어]]}
+  - {code: D1, area: D, points: 10, priority: 4, name: 공통 기준에 따른 초점 비교, margin_question: "두 설명을 같은 기준으로 비교했나요?", demo_signals: [[초점, 주목, 근거], [바깥, 드러, 행적], [안, 내면, 수양]]}
+  - {code: D2, area: D, points: 10, priority: 4, name: 대립·양자택일로 만들지 않음, margin_question: "한 관점이 다른 관점을 부정하나요?", demo_signals: [[부정하지, 함께, 이어, 층위]], demo_negative: [정반대, 외면만, 내면만, 겉만]}
+  - {code: E1, area: E, points: 5, priority: 5, name: 문장과 표현, margin_question: "이 문장을 둘로 나누면 더 분명해질까요?"}
+  - {code: E2, area: E, points: 5, priority: 5, name: 분량과 제출 조건, margin_question: "분량 조건을 다시 확인해 볼까요?"}
+# 중복 감점 방지 (09-1 §7-1 요지): '신뢰=참' 오류는 B1·B3 에서 먼저 확인하고, 비교문에도 있을 때만 D 에 반영
+dedupe_rules:
+  - {error: trust_equals_truth, check_first: [B1, B3], then: [D1, D2], only_if: 비교문에도 같은 오류가 있을 때}

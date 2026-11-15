@@ -1,0 +1,172 @@
+# 문제 패키지 BASIC-Q1 — 가이드 6장 구조
+# ※ 샘플 패키지: 설계 문건 01(시험지 원문, 부록 1)과 03~09 를 받기 전, 엔진 동작 확인용으로
+#   새로 쓴 제시문이다. (다)의 인물은 가상 인물이다. 원문 수령 시 이 파일의 exam·required_tasks·
+#   key_concepts·error_patterns·stage_overrides·exemplars·model_answers 를 교체한다.
+# visibility 는 엔진이 화면·AI 로 보낼 범위를 결정하는 데 쓴다 (12장).
+meta:
+  id: BASIC-Q1
+  version: 0.1.0-sample
+  status: draft
+  course: basic
+  essay_type: perspective_application_comparison
+  limits: {points: 100, minutes: 100, max_chars: 700, manuscript_cells: 800}
+  rubric: BASIC-Q1-RUBRIC-v0.1-sample
+
+visibility:
+  exam: [student, ai, teacher]
+  required_tasks: [ai, teacher]          # 학생에게는 스스로 찾은 뒤 자기 메모만 (결정 12)
+  passage_roles: [ai, teacher]
+  key_concepts: [ai_stage, teacher]
+  explanation_criteria: [ai_stage, teacher]
+  error_patterns: [ai_stage, teacher]
+  stage_overrides: [ai, teacher]
+  exemplars: [ai_selected, teacher]
+  rubric: [grader, teacher]
+  model_answers: [grader, checker, teacher]   # 학생: 6-1 최종본 확정 후 선택 열람
+  followups: [student_done, teacher]
+
+exam:
+  title: 기본과정 출제 문제 1 (샘플)
+  passages:
+    - id: "가"
+      paragraphs:
+        - {id: "가-1", text: "변론가들은 승소하기 위해 청중이 자신을 믿게 만드는 데 힘을 쏟는다. 같은 말이라도 누가 하느냐에 따라 청중이 받아들이는 무게가 달라지기 때문이다."}
+        - {id: "가-2", text: "청중은 말하는 사람이 공동체를 위해 무엇을 해 왔는지를 보고 그가 믿을 만한지를 판단한다. 오랫동안 이웃을 위해 일해 온 사람의 말에는 귀를 기울이고, 자기 이익만 좇아 온 사람의 말은 의심한다."}
+        - {id: "가-3", text: "그러나 믿을 만한 사람의 말이 언제나 옳은 것은 아니다. 공동체에 기여한 행적은 그 사람을 신뢰할 근거가 될 뿐, 그가 내놓는 주장 하나하나가 참이라는 보증은 아니다."}
+    - id: "나"
+      paragraphs:
+        - {id: "나-1", text: "옛 선비들은 남을 다스리기 전에 먼저 자신을 닦아야 한다고 보았다. 바깥으로 드러난 공적보다 마음을 바르게 하고 뜻을 정성스럽게 하는 공부가 앞선다는 것이다."}
+        - {id: "나-2", text: "자신을 닦는 일은 홀로 있을 때 더욱 삼가는 데서 시작된다. 남이 보지 않는 곳에서의 마음가짐이 바르지 않다면 드러난 행동이 아무리 훌륭해도 오래가지 못한다고 여겼다."}
+        - {id: "나-3", text: "이렇게 자신을 닦은 사람은 사사로운 이익보다 공적인 일을 먼저 생각하게 된다. 내면의 수양이 공동체를 위한 행동으로 이어진다는 것이다."}
+    - id: "다"
+      paragraphs:
+        - {id: "다-1", text: "조선 후기의 관리 박정우(가상 인물)는 흉년이 들자 자기 집 곡식을 풀어 마을 사람들을 먹였고, 관아의 창고를 열자고 거듭 상소했다."}
+        - {id: "다-2", text: "그는 평소 새벽마다 일기를 쓰며 그날의 잘못을 돌아보았고, 벼슬이 높아진 뒤에도 집을 넓히지 않았다."}
+        - {id: "다-3", text: "한번은 그가 제안한 물길 공사가 실패하여 오히려 논이 잠겼다. 그래도 마을 사람들은 그를 원망하지 않았고, 이듬해 그가 내놓은 새 제안을 다시 따랐다."}
+  prompt: 제시문 (다)의 인물을 제시문 (가)와 (나)의 관점에서 각각 설명하고, 두 설명이 초점을 두는 바를 비교하시오.
+  conditions:
+    - 700자 이내 (공백과 문장부호를 포함한 본문 글자 수 기준)
+    - 제목은 쓰지 않음
+    - 제시문의 문장을 그대로 옮겨 쓰지 말 것
+
+required_tasks:
+  - {id: T1, text: (가)의 관점으로 (다)의 인물 설명}
+  - {id: T2, text: (나)의 관점으로 (다)의 인물 설명}
+  - {id: T3, text: 두 설명의 초점 비교}
+non_required_tasks: [인물에 대한 찬반 평가, 인물의 생애 소개, 제시문 밖 역사 지식]
+
+passage_roles:
+  - {id: "가", role: 공동체 기여를 근거로 한 신뢰성 판단 관점. 신뢰와 참의 구별}
+  - {id: "나", role: 내면 수양을 앞세우는 관점. 수양이 공적 행동으로 이어짐}
+  - {id: "다", role: 두 관점을 적용할 사례. 기여 행적·자기 성찰·실패 후 신뢰가 함께 있음}
+
+key_concepts:
+  - {term: 공동체 기여, meaning: 이웃과 공동체를 위해 해 온 행적, refs: ["가-2"], stages: ["2", "3"]}
+  - {term: 신뢰성 vs 진실성, meaning: 믿을 만함은 사람에 대한 판단, 참은 주장에 대한 판단, refs: ["가-3"], stages: ["2", "3", "4"]}
+  - {term: 내면 수양, meaning: 홀로 있을 때 삼가며 마음을 바르게 하는 공부, refs: ["나-1", "나-2"], stages: ["2", "4"]}
+  - {term: 선공후사, meaning: 사사로운 이익보다 공적인 일을 먼저 생각함, refs: ["나-3"], stages: ["4"]}
+
+explanation_criteria:
+  ga: 공동체에 기여한 행적이 그 사람을 믿을 근거가 되는가 (단, 주장의 참은 보증하지 않음)
+  na: 드러난 공적에 앞서 내면을 닦았는가, 그것이 공적 행동으로 이어지는가
+  axis: 인물을 판단하는 근거를 바깥 행적에서 찾는가, 안의 수양에서 찾는가
+
+error_patterns:
+  - code: overclaim
+    issue_type: overclaim
+    stages: ["1", "3"]
+    signal: 원문보다 강한 표현으로 단정
+    demo_signals: [반드시, 무조건, 언제나 옳, 믿어야 한, 틀림없]
+    first_question: 원문의 어느 대목이 그만큼 강하게 말하고 있나요?
+    purpose: 원문이 말한 범위 안에서 표현하기
+    rubric_refs: [B3]
+  - code: trust_equals_truth
+    issue_type: overclaim
+    stages: ["2", "3", "4", "6.1"]
+    signal: 공동체 기여를 근거로 주장이 참이라고 단정
+    demo_signals: [주장이 옳, 말이 옳, 말은 다 맞, 항상 맞, 참이다, 옳은 말]
+    first_question: (가)는 공동체 기여를 무엇을 판단하는 근거로 제시하나요?
+    purpose: 신뢰성 판단과 사실의 참 구별
+    rubric_refs: [B1, B3]
+  - code: outer_only_inner_only
+    issue_type: false_dichotomy
+    stages: ["1", "2", "4", "6.1"]
+    signal: (가)는 외면만, (나)는 내면만 본다고 단정
+    demo_signals: [외면만, 내면만, 겉만, 속만, 정반대, 반대되는]
+    first_question: 한 글이 다른 글의 내용을 부정하고 있나요?
+    purpose: 두 관점의 초점 차이를 대립으로 오해하지 않기
+    rubric_refs: [D2]
+  - code: case_as_claim
+    issue_type: case_as_claim
+    stages: ["1", "2"]
+    signal: 제시문의 사례나 인물을 주장으로 착각
+    demo_signals: [박정우는 훌륭, 박정우가 주장]
+    first_question: 지금 말한 것은 제시문의 주장인가요, (다)의 사례인가요?
+    purpose: 관점과 사례 구별
+    rubric_refs: [A1]
+  - code: background_knowledge
+    issue_type: background_knowledge
+    stages: ["0", "1", "2", "3", "4", "5"]
+    signal: 제시문 밖 지식으로 설명
+    demo_signals: [역사적으로, 들어 보니, 인터넷, 배운 적, 원래 조선]
+    first_question: 그 내용은 제시문의 어느 문단에서 확인할 수 있나요?
+    purpose: 제시문 근거로 돌아오기
+    rubric_refs: [A2]
+  - code: not_linked_to_task
+    issue_type: not_linked_to_task
+    stages: ["5"]
+    signal: 논제의 요구와 연결되지 않은 내용 배치
+    demo_signals: [찬성, 반대 입장, 생애, 존경]
+    first_question: 이 내용은 논제의 세 요구 가운데 무엇에 답하나요?
+    purpose: 비필수 내용 덜어 내기
+    rubric_refs: [A2]
+
+# 문제별 하위 목표 구체화 (단계 카드 + 이 문제). demo_signals 는 데모 튜터의 충족 판단용 낱말 묶음
+# (묶음마다 하나 이상이 나오면 충족). 실제 AI 튜터는 criterion 문장으로 판단한다.
+stage_overrides:
+  S0-1: {criterion: "(다)를 (가)·(나)로 각각 설명하고 비교하는 세 가지 일을 말함", demo_signals: [[설명], [비교]], first_question: "논제의 마지막 문장은 무엇을 하라고 하나요?"}
+  S0-2: {criterion: "(가)·(나)는 관점, (다)는 적용할 사례임을 짐작", demo_signals: [[관점, 시각, 입장], [사례, 인물, 적용]], first_question: "(다)는 (가)·(나)와 성격이 같은 글인가요?"}
+  S0-3: {criterion: "700자 이내, 제목 없음 등 조건 확인", demo_signals: [["700"]], first_question: "작성 조건에서 분량은 얼마인가요?"}
+  S1-1: {criterion: "(가): 공동체 기여 행적이 신뢰의 근거가 되지만 주장의 참을 보증하지는 않음", demo_signals: [[기여, 이웃, 공동체], [믿, 신뢰]], first_question: "(가)에서 청중은 무엇을 보고 말하는 사람을 믿나요?"}
+  S1-2: {criterion: "(나): 드러난 공적보다 자신을 닦는 일이 앞섬", demo_signals: [[닦, 수양, 마음, 내면]], first_question: "(나)의 선비들은 무엇이 먼저라고 보았나요?"}
+  S1-3: {criterion: "‘언제나 옳다’처럼 원문보다 강한 표현을 쓰지 않음", demo_signals: [[아니, 보증, 범위, 뿐]], first_question: "(가)-3 문단은 믿을 만한 사람의 말에 대해 무엇이라고 하나요?"}
+  S2-1: {criterion: "(가)의 기준 = 공동체에 기여한 행적 (신뢰성 판단)", demo_signals: [[행적, 기여, 해 온]], first_question: "(가)는 사람을 판단할 때 무엇을 보라고 하나요?"}
+  S2-2: {criterion: "(나)의 기준 = 내면을 닦았는가 (수양)", demo_signals: [[수양, 닦, 마음가짐, 내면]], first_question: "(나)는 드러난 행동보다 무엇을 먼저 보나요?"}
+  S2-3: {criterion: "공통 축 = 사람을 판단하는 근거를 어디에서 찾는가", demo_signals: [[근거, 기준], [어디, 바깥, 안, 드러]], first_question: "두 기준을 한 줄에 놓고 비교하려면 무엇을 공통으로 물어야 할까요?"}
+  S3-1: {criterion: "다-1 곡식·상소, 다-3 실패 후에도 신뢰", demo_signals: [[다-1, 곡식, 상소, 다-3, 원망]], first_question: "(다)에서 공동체를 위해 한 일은 어느 문단에 있나요?"}
+  S3-2: {criterion: "기여 행적 때문에 마을 사람들이 그를 믿었다고 설명", demo_signals: [[믿, 신뢰, 따랐]], first_question: "마을 사람들이 실패 뒤에도 그를 따른 까닭을 (가)는 어떻게 설명할까요?"}
+  S3-3: {criterion: "신뢰를 받았다고 해서 그의 제안이 옳았다는 뜻은 아님 (다-3 실패)", demo_signals: [[실패, 옳지, 참은, 보증]], first_question: "물길 공사가 실패한 일은 (가)-3 문단과 어떻게 이어지나요?"}
+  S4-1: {criterion: "다-2 일기·성찰, 집을 넓히지 않음 → 내면 수양과 선공후사", demo_signals: [[일기, 돌아보, 다-2, 성찰, 넓히지]], first_question: "(다)에서 (나)가 중시하는 모습은 어느 문단에 있나요?"}
+  S4-2: {criterion: "(가)는 바깥 행적과 그에 대한 신뢰, (나)는 안의 수양과 그 결과로서의 행동에 초점", demo_signals: [[초점, 차이, 다르], [행적, 바깥, 드러], [수양, 내면, 안]], first_question: "2단계에서 정한 공통 기준으로 두 설명을 나란히 놓으면 무엇이 다른가요?"}
+  S4-3: {criterion: "(나)도 공적 행동을 말하므로 둘을 대립으로 만들지 않음", demo_signals: [[이어, 함께, 부정하지, 연결]], first_question: "(나)-3 문단은 수양과 공적인 행동의 관계를 어떻게 말하나요?"}
+  S5-1: {criterion: "1문단 (가) 설명, 2문단 (나) 설명, 3문단 비교 (또는 타당한 다른 배치)", demo_signals: [[문단], [비교]], first_question: "세 요구를 각각 몇 번째 문단에 둘까요?"}
+  S5-2: {criterion: "문단별 근거 문단 지정", demo_signals: [[가-, 나-, 다-]], first_question: "2문단에서 쓸 근거는 어느 문단인가요?"}
+  S5-3: {criterion: "찬반·생애 소개 등 비필수 내용 제외", demo_signals: [[빼, 제외, 넣지, 안 쓰]], first_question: "개요에서 논제가 요구하지 않는 내용이 있나요?"}
+
+exemplars:
+  - stage: "1"
+    subgoal: S1-3
+    tags: [overclaim]
+    is_example_only: true
+    turns:
+      - {role: student, text: "(가)는 나라에 봉사한 사람을 믿어야 한다고 해요."}
+      - {role: tutor, text: "‘믿어야 한다’는 표현은 꽤 강해요. (가)의 어느 문단이 그렇게까지 말하고 있나요?"}
+      - {role: student, text: "가-2는 청중이 기여한 사람의 말에 귀를 기울인다고만 했네요."}
+  - stage: "4"
+    subgoal: S4-3
+    tags: [outer_only_inner_only]
+    is_example_only: true
+    turns:
+      - {role: student, text: "(가)는 겉만 보고 (나)는 속만 봐서 정반대예요."}
+      - {role: tutor, text: "(나)-3 문단은 수양한 사람이 무엇을 하게 된다고 하나요?"}
+
+model_answers:
+  - id: M1
+    note: 출제자 예시답안. 유일한 정답이 아니며, 다른 구성도 타당할 수 있다.
+    text: |-
+      (가)의 관점에서 박정우는 공동체에 기여한 행적으로 신뢰를 얻은 인물이다. 그는 흉년에 자기 곡식을 풀고 창고를 열자고 상소했다. 이런 행적이 있었기에 물길 공사가 실패한 뒤에도 마을 사람들은 그의 새 제안을 따랐다. 다만 (가)에 따르면 이 신뢰는 그를 믿을 근거일 뿐, 그의 제안이 옳다는 보증은 아니다. 실제로 그의 공사는 실패했다.
+      (나)의 관점에서 박정우는 먼저 자신을 닦은 인물이다. 그는 새벽마다 일기를 쓰며 잘못을 돌아보았고, 높은 벼슬에 올라서도 집을 넓히지 않았다. 홀로 삼가는 수양이 사사로운 이익보다 공적인 일을 앞세우는 태도로 이어져, 흉년의 구휼 같은 행동이 나왔다고 설명할 수 있다.
+      두 설명은 인물을 판단하는 근거를 어디에서 찾는가에서 초점이 다르다. (가)는 바깥으로 드러난 기여 행적과 그것이 낳은 신뢰에 주목하고, (나)는 그 행동을 낳은 안의 수양에 주목한다. 그러나 (나)도 수양이 공적 행동으로 이어진다고 보므로, 두 관점은 서로를 부정하지 않고 같은 인물의 다른 층위를 비춘다.
+
+followups:
+  - 다른 인물 사례에 같은 두 관점을 적용해 보기

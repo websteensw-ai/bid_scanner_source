@@ -124,6 +124,7 @@ class LearnerState(BaseModel):
     flags: list[Flag] = Field(default_factory=list)
     events: list[Event] = Field(default_factory=list)
     reviews: list[ReviewRecord] = Field(default_factory=list)
+    mvp: dict[str, dict] = Field(default_factory=dict)     # 6단계 회차 (src/mvp/models.MvpAttempt JSON)
 
     def log(self, type_: str, source: str, **payload) -> None:
         self.events.append(Event(type=type_, source=source, payload=payload))

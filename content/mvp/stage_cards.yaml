@@ -1,0 +1,129 @@
+# 단계 카드 (문제와 무관한 부분) — 가이드 6-3
+# 엔진에 내장되는 데이터. 문제별 구체 기준은 문제 패키지의 stage_overrides 에 둔다.
+# ※ 단계 문건 02~09 를 받기 전의 임시판. 중심 질문·하위 목표 문구는 설계자 검수 후 교체한다.
+version: 0.1.0
+status: draft
+style: "세요"          # 18장 결정 2 (권장안). 설계자 확정 전 임시
+limits:
+  turns_per_subgoal: 8    # 초과 시 보충 사다리 한 칸 상승 (18장 결정 5)
+  turns_per_stage: 40     # 초과 시 flagged + 교사 알림
+  max_utterance_chars: 250
+  paste_alert_chars: 30
+
+# 보충 사다리 0~5 와 지원 수준 대응 (5-5). 한 턴에 한 칸만 오른다.
+ladder:
+  - {rung: 0, name: "열린 질문", support: independent}
+  - {rung: 1, name: "학생 말 되묻기", support: question_then_revised}
+  - {rung: 2, name: "원문 대목 가리키기", support: question_then_revised}
+  - {rung: 3, name: "대조·선택 발판", support: scaffolded}
+  - {rung: 4, name: "개념 설명 후 재서술", support: explained_then_restated}
+  - {rung: 5, name: "부분 예시 후 자기 문장으로", support: explained_then_restated}
+
+forbidden:          # 모든 단계 공통 금지 (헌장과 함께 튜터에게 전달)
+  - 모범답안이나 기준 해석 문장을 먼저 말하지 않는다
+  - 한 발화에 질문은 하나만 한다
+  - 학생 대신 완성 문장을 써 주지 않는다
+  - 학생이 이미 충족한 하위 목표를 다시 묻지 않는다
+
+stages:
+  - id: "0"
+    name: 준비
+    kind: dialogue
+    central_question: 이 논제는 나에게 무엇을 하라고 요구하나요?
+    scope: 시험지 원문을 읽고 논제의 요구와 작성 조건을 내 말로 정리한다. 제시문 해석은 다음 단계로 넘긴다.
+    subgoals:
+      - {id: S0-1, goal: 논제가 요구하는 일을 내 말로 말한다}
+      - {id: S0-2, goal: 각 제시문이 논제에서 맡는 역할을 짐작한다}
+      - {id: S0-3, goal: 분량과 작성 조건을 확인한다}
+    outputs:
+      - {key: tasks, label: 논제가 요구하는 일 (내 말로), min_chars: 15}
+      - {key: roles, label: 제시문별 역할 짐작, min_chars: 10}
+      - {key: conditions, label: 작성 조건, min_chars: 5}
+
+  - id: "1"
+    name: 제시문 읽기
+    kind: dialogue
+    central_question: (가)와 (나)는 각각 무엇을 말하고 있나요?
+    scope: 두 제시문의 중심 내용을 원문 범위 안에서 말한다. (다)에 대한 적용은 3단계로 넘긴다.
+    subgoals:
+      - {id: S1-1, goal: (가)의 중심 내용을 원문 근거와 함께 말한다}
+      - {id: S1-2, goal: (나)의 중심 내용을 원문 근거와 함께 말한다}
+      - {id: S1-3, goal: 원문이 말한 범위를 넘지 않게 표현을 다듬는다}
+    outputs:
+      - {key: summary_ga, label: (가)의 중심 내용, min_chars: 15}
+      - {key: summary_na, label: (나)의 중심 내용, min_chars: 15}
+      - {key: refs, label: 근거 문단 (예 가-2, 나-1), min_chars: 3}
+
+  - id: "2"
+    name: 설명 기준 세우기
+    kind: dialogue
+    central_question: 두 관점은 사람을 무엇으로 판단하나요?
+    scope: 각 관점이 인물을 설명할 때 쓰는 기준과 두 기준을 비교할 공통 축을 세운다.
+    subgoals:
+      - {id: S2-1, goal: (가) 관점의 판단 기준을 말한다}
+      - {id: S2-2, goal: (나) 관점의 판단 기준을 말한다}
+      - {id: S2-3, goal: 두 기준을 비교할 공통 축을 정한다}
+    outputs:
+      - {key: criterion_ga, label: (가)의 설명 기준, min_chars: 10}
+      - {key: criterion_na, label: (나)의 설명 기준, min_chars: 10}
+      - {key: axis, label: 비교의 공통 기준, min_chars: 8}
+
+  - id: "3"
+    name: (가)로 (다) 설명하기
+    kind: dialogue
+    central_question: (가)의 관점에서 (다)의 인물은 어떻게 설명되나요?
+    scope: (다)에서 관련 사실을 찾고 (가)의 기준으로 설명한다. 설명의 범위를 지킨다.
+    subgoals:
+      - {id: S3-1, goal: (다)에서 (가)의 기준과 관련된 사실을 찾는다}
+      - {id: S3-2, goal: 그 사실을 (가)의 기준으로 설명한다}
+      - {id: S3-3, goal: 설명이 원문이 허락하는 범위를 넘지 않는지 점검한다}
+    outputs:
+      - {key: facts, label: (다)에서 찾은 사실 (문단 번호), min_chars: 10}
+      - {key: explanation, label: (가) 관점의 설명, min_chars: 20}
+      - {key: limit, label: 설명의 범위 점검, min_chars: 8}
+
+  - id: "4"
+    name: (나)로 설명하고 비교하기
+    kind: dialogue
+    central_question: (나)의 관점에서는 어떻게 설명되고, 두 설명은 무엇이 다른가요?
+    scope: (나)의 기준으로 설명한 뒤, 2단계의 공통 기준으로 두 설명의 초점을 비교한다.
+    subgoals:
+      - {id: S4-1, goal: (다)의 사실을 (나)의 기준으로 설명한다}
+      - {id: S4-2, goal: 공통 기준으로 두 설명의 초점을 비교한다}
+      - {id: S4-3, goal: 한쪽을 부정하거나 양자택일로 만들지 않는다}
+    outputs:
+      - {key: explanation, label: (나) 관점의 설명, min_chars: 20}
+      - {key: comparison, label: 두 설명의 초점 비교, min_chars: 20}
+
+  - id: "5"
+    name: 작성용 개요
+    kind: dialogue
+    central_question: 세 요구를 어떤 순서와 근거로 배치할까요?
+    scope: 앞 단계 산출물로 세 문단 개요를 만든다. 비필수 내용은 뺀다.
+    subgoals:
+      - {id: S5-1, goal: 세 요구를 문단에 배치한다}
+      - {id: S5-2, goal: 문단마다 쓸 근거 문단을 정한다}
+      - {id: S5-3, goal: 논제가 요구하지 않는 내용을 뺀다}
+    outputs:
+      - {key: p1, label: 1문단 개요, min_chars: 10}
+      - {key: p2, label: 2문단 개요, min_chars: 10}
+      - {key: p3, label: 3문단 개요, min_chars: 10}
+
+  - id: "6"
+    name: 독립 작성
+    kind: writing
+    central_question: 이제 혼자 써 볼까요?
+    scope: AI 내용 지원 없이 원고지에 쓰고 스스로 점검한다.
+    selfcheck:            # 문건 08 Ⅵ 의 다섯 항목 (임시 문구)
+      - {key: tasks, label: "세 요구를 모두 수행했나요?"}
+      - {key: evidence, label: "원문 근거와 연결 추론이 있나요?"}
+      - {key: scope, label: "설명이 원문의 범위를 넘지 않나요?"}
+      - {key: form, label: "구성과 표현이 분명한가요?"}
+      - {key: length, label: "분량과 제출 조건을 지켰나요?"}
+
+  - id: "6.1"
+    name: 평가·첨삭
+    kind: review
+    central_question: 내 글의 어디를 유지하고 어디를 고칠까요?
+    scope: 평가를 이해하고 첨삭 항목마다 판단한 뒤 최종본을 쓴다.
+    thread_steps: [뜻 확인, 제시문 근거, 논제에서의 기능, 수정·유지 판단, 결과 검증]

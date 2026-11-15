@@ -1,0 +1,14 @@
+# 학습 돌아보기 유형 1 (매회 6-1 종료 후) — 가이드 9장
+# ※ 임시 문항: 「소크라틱 학습 돌아보기」 HTML 시제품의 A1~A8 문구를 받으면 교체한다.
+# store: personal → 학습 DB (교사 열람) / feedback → 별도 의견 저장소 (익명 가능)
+version: 0.1.0
+type: 1
+items:
+  - {id: A1, store: personal, kind: single, text: "이번 학습에서 내 생각이 가장 크게 바뀐 단계는 어디인가요?", options: [0 준비, 1 제시문 읽기, 2 설명 기준, 3 (가)로 설명, 4 (나)로 설명·비교, 5 개요, 6 독립 작성, 6-1 평가·첨삭, 바뀐 곳이 없어요], resets: [A2]}
+  - {id: A2, store: personal, kind: single, text: "그 단계의 일을 이제 혼자 할 수 있을 것 같나요?", options: [혼자 할 수 있어요, 힌트가 조금 있으면 돼요, 아직 도움이 많이 필요해요, 판단하기 어려워요]}
+  - {id: A3, store: personal, kind: pick_text, text: 내 글에서 가장 달라진 부분을 골라 보세요., note: 제출본·최종본·사고 변화 기록에서 고릅니다}
+  - {id: A4, store: personal, kind: text, text: 다음 글에서 스스로 던질 점검 질문 하나를 적어 보세요.}
+  - {id: A5, store: feedback, kind: multi, max: 2, text: "가장 도움이 된 과정은 무엇인가요? (2개까지)", options: [묻고 답하기, 단계 정리, 원고지 작성, 자기검증, 평가·첨삭, 경험하지 않음]}
+  - {id: A6, store: feedback, kind: single, text: "AI의 질문이 생각하는 데 도움이 되었나요?", options: [많이 도움이 됐어요, 조금 도움이 됐어요, 답을 유도하는 느낌이었어요, 같은 질문이 반복됐어요, 판단하기 어려워요]}
+  - {id: A7, store: feedback, kind: multi, max: 3, text: "불편했던 점이 있었나요?", options: [화면이 복잡함, 응답이 느림, 질문이 어려움, 원고지 입력이 불편함, 없음]}
+  - {id: A8, store: feedback, kind: text, text: 자유롭게 의견을 남겨 주세요.}
