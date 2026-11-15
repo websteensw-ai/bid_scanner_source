@@ -36,16 +36,17 @@ from web.store import get_store
 ROOT = Path(__file__).resolve().parents[1]
 settings = get_settings()
 
+ON_VERCEL = bool(os.getenv("VERCEL"))
 _secret = os.getenv("SESSION_SECRET")
 if not _secret:
-    if settings.app_env == "production":
+    if settings.app_env == "production" or ON_VERCEL:
         raise RuntimeError("SESSION_SECRET 환경변수가 필요합니다.")
     _secret = "dev-only-session-secret"
 
 app = FastAPI(title="논술랩 · 기초 다지기", docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(SessionMiddleware, secret_key=_secret, session_cookie="elenchos_session",
                    max_age=60 * 60 * 24 * 14, same_site="lax",
-                   https_only=settings.app_env == "production")
+                   https_only=settings.app_env == "production" or ON_VERCEL)
 
 env = Environment(loader=FileSystemLoader(ROOT / "web" / "templates"),
                   autoescape=select_autoescape(["html"]), trim_blocks=True, lstrip_blocks=True)
@@ -460,7 +461,7 @@ def quality(request: Request, report: str | None = None, all_cases: int = 0):
 
 
 # 로컬 실행 시에만 public/ 을 직접 제공 (Vercel 에서는 CDN 이 제공하므로 마운트하지 않음)
-if not os.getenv("VERCEL"):
+if not ON_VERCEL:
     from fastapi.staticfiles import StaticFiles
 
     app.mount("/", StaticFiles(directory=ROOT / "public"), name="public")
