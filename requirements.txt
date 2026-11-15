@@ -1,8 +1,9 @@
-# ---- UI ----
-streamlit>=1.66,<1.68     # 화면 CSS를 1.66·1.67 DOM 기준으로 검증함. 올릴 때는 화면 확인 후 범위 조정
-
-# ---- Backend / DB ----
-supabase>=2.10,<3.0
+# ---- Web (Vercel Python 함수) ----
+fastapi>=0.115,<1.0
+jinja2>=3.1
+python-multipart>=0.0.9     # 폼 입력
+itsdangerous>=2.2           # 서명된 세션 쿠키
+httpx>=0.27                 # Supabase RPC 호출
 
 # ---- AI ----
 anthropic>=0.40
@@ -14,5 +15,5 @@ pydantic-settings>=2.6,<3.0
 python-dotenv>=1.0
 
 # ---- Utils ----
-pyyaml>=6.0             # 콘텐츠 묶음(content/*.yaml)
-tenacity>=9.0          # AI API 재시도
+pyyaml>=6.0                 # 콘텐츠 묶음(content/*.yaml)
+tenacity>=9.0               # AI API 재시도

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}학습 기록 · 논술랩{% endblock %}
+{% macro lvl(level) %}<span class="nx-level {{ 'ln' if level is none else 'l' ~ level }}">{{ level_label(level) }}</span>{% endmacro %}
+{% block content %}
+<div class="nx-header"><div class="nx-eyebrow">🧑‍🏫 교사·운영자</div><h1 class="nx-title">학습 기록</h1>
+  <p class="nx-subtitle">기준별 수준과 근거, 받은 도움, 최초 답과 수정 답, 검토 요청을 확인하고 판정을 수정해요.</p></div>
+{% if not sid %}<div class="alert info">아직 학습 기록이 있는 학생이 없어요.</div>{% else %}
+<form method="get" class="row-gap"><select name="student" onchange="this.form.submit()">{% for s in students %}<option value="{{ s.id }}" {{ 'selected' if s.id == sid }}>{{ s.display_name or s.id }}</option>{% endfor %}</select></form>
+<div class="nx-stats" style="--n:3">
+  <div class="nx-stat"><div class="icon">📚</div><div class="label">마친 학습 주제</div><div class="value">{{ done_n }} <small>/ 5</small></div></div>
+  <div class="nx-stat"><div class="icon">🧭</div><div class="label">최근 진입 판정</div><div class="value sm">{{ entry.decision if entry else '–' }}</div></div>
+  <div class="nx-stat"><div class="icon">🚩</div><div class="label">검토 요청</div><div class="value">{{ open_flags|length }} <small>건</small></div></div>
+</div>
+<nav class="tabs">{% for k, v in [('criteria','기준별 판정'),('activity','활동 기록'),('flags','검토 요청'),('events','이벤트')] %}<a href="?student={{ sid }}&tab={{ k }}" class="{{ 'on' if tab == k }}">{{ v }}</a>{% endfor %}</nav>
+{% if tab == 'criteria' %}
+  <div class="card">{% for c in Criterion %}{% set rec = state.criteria.get(c.value) %}
+    <div class="nx-crit"><div class="head"><span class="name">{{ CRITERION_LABEL[c] }}</span>{{ lvl(rec.level if rec else none) }}</div>
+      {% if rec %}<div class="cmt">근거: {{ rec.source }} · 지원: {% for sp in rec.supports %}{{ SUPPORT_LABEL[SupportType(sp)] }}{{ ', ' if not loop.last }}{% else %}없음{% endfor %} · 버전 {{ rec.version }}{% if rec.by == 'teacher' %} · 교사 수정: {{ rec.note }}{% endif %}<br>응답: {{ rec.evidence }}</div>
+      {% else %}<div class="cmt">아직 증거 없음 (미확인)</div>{% endif %}</div>{% endfor %}
+    {% if entry %}<p class="muted small">판정 이유(내부): {{ entry.reasons|join(' / ') }}</p>{% endif %}
+  </div>
+  <details class="card"><summary>판정 수정 (교사)</summary>
+    <form method="post" action="/teacher/records/override" class="stack"><input type="hidden" name="student" value="{{ sid }}">
+      <label class="field"><span>기준</span><select name="criterion">{% for c in Criterion %}<option value="{{ c.value }}">{{ CRITERION_LABEL[c] }}</option>{% endfor %}</select></label>
+      <label class="field"><span>수준</span><select name="level">{% for v in [3,2,1,0] %}<option value="{{ v }}">{{ level_label(v) }}</option>{% endfor %}<option value="none">미확인</option></select></label>
+      <label class="field"><span>수정 사유 (필수)</span><input name="note" required></label>
+      <button class="btn primary">수정 저장</button></form></details>
+{% elif tab == 'activity' %}
+  {% for s in state.sessions.values() %}{% set b = pack.bundles.get(s.bundle_id) %}{% if b %}
+  <details class="card"><summary><b>{{ b.id }} {{ b.title }}</b> — {{ s.status }} · 버전 {{ s.version }}{% for k, v in s.result.items() %} · {{ k }} {{ level_label(v) }}{% endfor %}</summary>
+    {% if s.errors_seen %}<p class="muted small">보인 어려움: {{ s.errors_seen|join(', ') }}</p>{% endif %}
+    {% for st in b.steps %}{% set ss = s.steps.get(st.id) %}{% if ss %}
+      <div class="sub"><div class="nx-card-meta"><b>{{ st.title }}</b>{% if ss.status == 'done' %}{{ lvl(ss.level) }}{% endif %}<span>{{ ss.status }}</span><span>활동 {{ '%.0f'|format(ss.active_seconds) }}초 · AI 대기 {{ '%.1f'|format(ss.ai_wait_seconds) }}초</span></div>
+        {% for a in ss.attempts %}<p class="small"><b>{{ {'first':'최초 답','revised':'수정 답','off_task':'과제와 무관한 발화','question':'질문','answer_request':'정답 요구'}.get(a.kind, a.kind) }}</b>
+          ({% for x in a.supports_before %}{{ SUPPORT_LABEL[x] }}{{ ', ' if not loop.last }}{% else %}지원 없음{% endfor %} 후): {{ a.text }}
+          {% if a.evidence %}<br><span class="muted">근거 표시: {{ a.evidence }}</span>{% endif %}{% if a.choice %}<br><span class="muted">선택: {{ a.choice }}</span>{% endif %}
+          <br><span class="muted">충족: {{ a.met|join(', ') or '-' }} · 오류: {{ a.error or '-' }} · {{ a.rationale }}</span></p>{% endfor %}
+        {% for sp in ss.supports %}<p class="small muted">↳ {{ SUPPORT_LABEL[sp.type] }} [{{ sp.point }}]: {{ sp.text[:140] }}</p>{% endfor %}
+      </div>{% endif %}{% endfor %}
+  </details>{% endif %}{% else %}<div class="alert info">아직 활동 기록이 없어요.</div>{% endfor %}
+{% elif tab == 'flags' %}
+  {% set KIND = {'uncertain':'판정 불확실','repeat_difficulty':'같은 어려움 지속','dispute':'학생 이의','not_confirmed':'보충 후 수행 미확인','content':'자료 문제','attention':'집중·피로 확인'} %}
+  {% for f in state.flags %}<div class="card row-between"><div>{{ '✅' if f.resolved else '🚩' }} <b>{{ KIND.get(f.kind, f.kind) }}</b> · {{ f.source }} · {{ f.detail }} · {{ f.ts[:16] }}</div>
+    {% if not f.resolved %}<form method="post" action="/teacher/records/flag"><input type="hidden" name="student" value="{{ sid }}"><input type="hidden" name="index" value="{{ loop.index0 }}"><button class="btn">처리 완료</button></form>{% endif %}</div>
+  {% else %}<div class="alert info">검토 요청이 없어요.</div>{% endfor %}
+{% else %}
+  <div class="card scroll-x"><table class="tbl"><tr><th>시각</th><th>종류</th><th>위치</th><th>내용</th></tr>
+    {% for e in state.events|reverse %}<tr><td>{{ e.ts[:19] }}</td><td>{{ e.type }}</td><td>{{ e.source }}</td><td>{{ (e.payload|string)[:120] }}</td></tr>{% endfor %}</table></div>
+{% endif %}
+{% endif %}
+{% endblock %}

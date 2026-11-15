@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}자료 관리 · 논술랩{% endblock %}
+{% set KIND = {'lesson':'기본 제시문','demo':'설명·시범용','independent':'독립 확인용','recheck':'보충 재확인용','practice':'연습용'} %}
+{% macro toggle(item_id) %}
+  {% if item_id in suspended %}
+  <form method="post" action="/teacher/content/status"><input type="hidden" name="item" value="{{ item_id }}"><input type="hidden" name="status" value="approved"><button class="btn">사용 재개</button></form>
+  {% else %}
+  <details><summary class="btn">사용 중지</summary><form method="post" action="/teacher/content/status" class="row-gap"><input type="hidden" name="item" value="{{ item_id }}"><input type="hidden" name="status" value="suspended"><input name="note" placeholder="사유 (필수)" required><button class="btn primary">중지</button></form></details>
+  {% endif %}
+{% endmacro %}
+{% block content %}
+<div class="nx-header"><div class="nx-eyebrow">🗂️ 교사·운영자</div><h1 class="nx-title">자료 관리</h1>
+  <p class="nx-subtitle">제시문·학습 묶음의 버전과 승인 상태를 확인하고, 문제가 있으면 즉시 사용을 중지해요.</p></div>
+<div class="nx-stats" style="--n:4">
+  <div class="nx-stat"><div class="icon">🏷️</div><div class="label">활성 버전</div><div class="value">{{ active }}</div></div>
+  <div class="nx-stat"><div class="icon">📄</div><div class="label">제시문</div><div class="value">{{ pack.excerpts|length }} <small>개</small></div></div>
+  <div class="nx-stat"><div class="icon">🧩</div><div class="label">학습 묶음</div><div class="value">{{ pack.bundles|length }} <small>개</small></div></div>
+  <div class="nx-stat"><div class="icon">⛔</div><div class="label">사용 중지</div><div class="value">{{ suspended|length }} <small>건</small></div></div>
+</div>
+<p class="muted">현재 제시문은 모두 <b>시범용 신규 설계문</b>이에요. 운영 전에 승인된 발췌문으로 교체해야 해요.</p>
+<nav class="tabs"><a href="?tab=bundles&version={{ ver }}" class="{{ 'on' if tab == 'bundles' }}">학습 묶음</a><a href="?tab=excerpts&version={{ ver }}" class="{{ 'on' if tab == 'excerpts' }}">제시문</a></nav>
+{% if tab == 'bundles' %}
+  {% for b in pack.bundles.values()|sort(attribute='id')|sort(attribute='order')|sort(attribute='kind', reverse=true) %}
+  <div class="card"><div class="nx-card-meta"><b>{{ b.id }}</b><span>{{ '⛔ 사용 중지 · ' ~ suspended[b.id] if b.id in suspended else '✅ ' ~ b.status }}</span><span>활동 {{ b.steps|length }}개</span><span>{{ b.time_target }}</span></div>
+    <div class="nx-card-title">{{ b.title }}{% if b.path_name %} · {{ b.path_name }}{% endif %}</div><p class="muted small">{{ b.goal }}</p>
+    <details><summary>활동·판단 기준·오류 대응 (내부)</summary>
+      {% for s in b.steps %}<p><b>{{ s.id }} · {{ s.title }}</b> ({{ s.kind }}{{ ' · 독립 확인' if s.independent_check }}{{ ' · 재확인' if s.allow_one_direction }}{{ ' · 충족 시 생략' if s.skip_if_met }})</p>
+        <ul class="small">{% for c in s.criteria %}<li>기준 <code>{{ c.id }}</code> {{ '(필수)' if c.required else '(선택)' }} {{ c.desc }} → {{ c.evidence_for|join(', ') or '기능 프로필' }} · 복습 {{ c.skill or '-' }}</li>{% endfor %}
+        {% for e in s.errors if e.first_question %}<li>오류 <code>{{ e.id }}</code> {{ e.name }}: “{{ e.first_question }}”</li>{% endfor %}</ul>{% endfor %}
+    </details>{{ toggle(b.id) }}</div>
+  {% endfor %}
+{% else %}
+  {% for ex in pack.excerpts.values() %}
+  <div class="card"><div class="nx-card-meta"><b>{{ ex.id }}</b><span>학생 표기 {{ ex.label }}</span><span>{{ KIND.get(ex.kind, ex.kind) }}</span><span>{{ '⛔ 사용 중지 · ' ~ suspended[ex.id] if ex.id in suspended else '✅ ' ~ ex.status }}</span></div>
+    <p><b>내부 출처</b> · {{ ex.source.title }} {{ ex.source.author }} · {{ ex.source.location }}{% if ex.source.is_sample %} · <b class="warn-t">시범용 신규 설계문</b>{% endif %}</p>
+    <p class="muted small">{{ ex.source.note }}<br>사용 위치: {{ used[ex.id]|join(', ') }}</p>
+    <details><summary>본문 보기</summary>{% for p in ex.paragraphs %}<p>{{ p }}</p>{% endfor %}</details>{{ toggle(ex.id) }}</div>
+  {% endfor %}
+{% endif %}
+{% endblock %}

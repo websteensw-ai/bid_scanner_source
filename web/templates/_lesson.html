@@ -1,0 +1,110 @@
+<div id="lesson">
+{% if session.status == 'done' %}
+  <div class="card">
+    <div class="nx-label">이번 활동에서 확인된 것</div>
+    <ul class="nx-list good">{% for m in (done_msgs or ['이번 활동을 끝까지 진행했어요.']) %}<li data-i="✓">{{ m }}</li>{% endfor %}</ul>
+    {% if partial %}<p class="muted">도움을 받아 해낸 부분과 아직 확인하지 못한 부분은 다음 활동이나 새 글에서 혼자 해 보며 다시 확인해요.</p>{% endif %}
+  </div>
+  <details class="card"><summary>내가 쓴 답 다시 보기</summary>
+    {% for st in bundle.steps %}{% set sst = session.steps.get(st.id) %}
+      {% if sst and sst.attempts %}<div class="nx-card-title mt">{{ st.title }}</div>
+        {% for a in sst.attempts if a.kind in ('first','revised') %}<p><b>{{ '처음 답' if a.kind == 'first' else '고친 답' }}</b> · {{ a.text }}</p>{% endfor %}
+      {% endif %}
+    {% endfor %}
+  </details>
+  <div class="row-gap">
+    {% if next_bundle %}<a class="btn primary" href="/learn/{{ next_bundle.id }}">다음 활동 · {{ next_bundle.title }}</a>
+    {% elif all_done or bundle.kind == 'supplement' %}<a class="btn primary" href="/result">진단 결과 보기</a>{% endif %}
+    <a class="btn" href="/home">홈으로</a>
+  </div>
+{% else %}
+  <div class="nx-dots">{% for d in dots %}<span class="{{ d }}"></span>{% endfor %}</div>
+  {% if intro %}<div class="alert info">🧭 {{ intro }}</div>{% endif %}
+  {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+  <div class="lesson-grid">
+    <section>
+      {% for ex in passages %}
+      <div class="nx-passage"><div class="lbl">{{ ex.label }}</div>
+        {% for p in ex.paragraphs %}{% if loop.index0 in ex.marks %}<span class="nx-mark">{{ ex.marks[loop.index0] }}</span>{% endif %}<p>{{ p }}</p>{% endfor %}</div>
+      {% endfor %}
+      {% if blocked %}<div class="alert warn">이 제시문은 지금 점검 중이에요. 선생님께 알려 주세요.</div>{% endif %}
+      {% if carried %}
+      <details class="card" {{ 'open' if step.kind in ('outline','draft') }}><summary>앞에서 쓴 내 답</summary>
+        {% for title, first, final in carried %}<div class="nx-card-title mt">{{ title }}</div>
+          {% if first and first.strip() != final.strip() %}<p class="muted"><b>처음 답</b> · {{ first }}</p><p><b>고친 답</b> · {{ final }}</p>
+          {% else %}<p>{{ final }}</p>{% endif %}
+        {% endfor %}
+      </details>
+      {% endif %}
+    </section>
+    <section>
+      <div class="nx-task"><div class="nx-label">활동 {{ session.step_idx + 1 }} / {{ bundle.steps|length }}</div>
+        <div class="nx-card-title">{{ step.title }}</div><p class="nx-prompt">{{ step.prompt }}</p></div>
+      {% if step.sentence %}<div class="nx-interp"><div class="tag">학습용 해석 문장 · 원문 아님</div><p>{{ step.sentence }}</p></div>{% endif %}
+      {% if step.review_questions %}<ul class="nx-list todo">{% for q in step.review_questions %}<li data-i="•">{{ q }}</li>{% endfor %}</ul>{% endif %}
+      {% if step.kind == 'draft' %}<p class="muted small">✍️ 쓰는 동안에는 내용 도움이 없어요. 글자 수, 저장, 제시문과 내 답 다시 보기만 할 수 있어요.</p>{% endif %}
+      {% if check %}<p class="muted small">🔎 이번 과제는 혼자 해 보는 확인이에요. 내용 힌트는 주지 않아요.</p>{% endif %}
+
+      {% if dialog or ss.messages %}
+      <div class="nx-chatbox"><div class="nx-chat">
+        {% if preface %}<div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor done"><div class="tag">앞 활동에서 해냈어요</div><div>{{ preface }}</div></div></div>{% endif %}
+        {% if opening %}<div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor open"><div>{{ opening }}</div></div></div>{% endif %}
+        {% for m in ss.messages %}
+          {% if m.role == 'student' %}
+          <div class="nx-row me"><div class="nx-msg me {{ m.kind }}">{% if STUDENT_TAG.get(m.kind) %}<div class="tag">{{ STUDENT_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div><div class="av">🙋</div></div>
+          {% else %}
+          <div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor {{ m.kind }}">{% if KIND_TAG.get(m.kind) %}<div class="tag">{{ KIND_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div></div>
+          {% endif %}
+        {% endfor %}
+      </div></div>
+      {% endif %}
+
+      <form class="card composer" method="post" action="/learn/{{ bundle.id }}/submit"
+            hx-post="/learn/{{ bundle.id }}/submit" hx-target="#lesson" hx-swap="outerHTML" hx-disabled-elt="find button[type=submit]">
+        {% if step.kind == 'judge' %}
+        <fieldset class="choices"><legend>판단</legend>
+          {% for c in step.choices %}<label class="choice"><input type="radio" name="choice" value="{{ c }}" {{ 'checked' if c == prev_choice }}> {{ c }}</label>{% endfor %}
+        </fieldset>
+        {% endif %}
+        {% set label = {'outline':'개요','draft':'초고','self_review':'점검한 글','judge':'이유 (또는 궁금한 점)'}.get(step.kind, '내 답 (또는 궁금한 점)') %}
+        <label class="field"><span>{{ label }}</span>
+          <textarea name="answer" rows="{{ 10 if step.kind in ('draft','self_review') or step.max_chars else 4 }}" placeholder="여기에 직접 써 보세요."
+            {% if step.max_chars %}data-limit="{{ step.max_chars }}" oninput="nxCount(this)"{% endif %}>{{ default }}</textarea></label>
+        {% if step.max_chars %}<div class="nx-progress" data-meter><div class="row"><span><b data-n>{{ count_chars(default) }}</b> / {{ step.max_chars }}자 · 공백 포함</span><span data-msg></span></div><div class="track"><div class="fill" data-fill></div></div></div>{% endif %}
+        {% if step.evidence %}<label class="field"><span>근거가 된 부분</span><input name="evidence" value="{{ prev_evidence }}" placeholder="예) 둘째 문단의 ‘…’ 부분"></label>{% endif %}
+        {% if step.kind == 'self_review' %}<label class="field"><span>크게 고친 곳이 있다면 이유 (선택)</span><input name="evidence"></label>{% endif %}
+        <div class="row-gap">
+          <button type="submit" class="btn primary grow"><span class="when-idle">➤ {{ {'outline':'개요 저장','draft':'초고 저장','self_review':'점검 마치기'}.get(step.kind, '보내기') }}</span><span class="when-busy">살펴보는 중…</span></button>
+          <button type="submit" class="btn" formaction="/learn/{{ bundle.id }}/pause" hx-post="/learn/{{ bundle.id }}/pause">🔖 저장하고 나가기</button>
+        </div>
+      </form>
+
+      {% if help_options %}
+      <div class="nx-label mt">필요한 도움</div>
+      <div class="help-row">
+        {% for opt in help_options %}
+          {% if opt == 'vocab' %}
+          <form class="vocab" hx-post="/learn/{{ bundle.id }}/help" hx-target="#lesson" hx-swap="outerHTML" method="post" action="/learn/{{ bundle.id }}/help">
+            <input type="hidden" name="kind" value="vocab">
+            <select name="word" aria-label="낱말">{% for w in step.vocab %}<option>{{ w }}</option>{% endfor %}</select>
+            <button class="btn">어휘 뜻</button>
+          </form>
+          {% else %}
+          <form hx-post="/learn/{{ bundle.id }}/help" hx-target="#lesson" hx-swap="outerHTML" method="post" action="/learn/{{ bundle.id }}/help">
+            <input type="hidden" name="kind" value="{{ opt }}">
+            <button class="btn">{{ {'guide':'과제 뜻 알려 주세요','structure':'비교표 쓰기','dont_know':'잘 모르겠어요'}[opt] }}</button>
+          </form>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+  </div>
+{% endif %}
+<script>
+function nxCount(t){var n=t.value.replace(/\r?\n/g,'').length,l=+t.dataset.limit,m=t.form.querySelector('[data-meter]');if(!m)return;
+m.querySelector('[data-n]').textContent=n;var f=m.querySelector('[data-fill]');f.style.width=Math.min(100,n/l*100)+'%';
+f.style.background=n>l?'var(--danger)':'var(--primary)';m.querySelector('[data-msg]').textContent=n>l?(n-l)+'자 넘었어요. 제출 전에 직접 줄여 보세요.':(l-n)+'자 남았어요.';}
+document.querySelectorAll('#lesson textarea[data-limit]').forEach(nxCount);
+</script>
+</div>

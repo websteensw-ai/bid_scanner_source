@@ -1,0 +1,14 @@
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+docs/screenshots
+evals/reports/*
+!evals/reports/baseline_demo.json
+!evals/reports/latest_llm.json
+tests
+supabase
+.github
+.devcontainer

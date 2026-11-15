@@ -1,4 +1,4 @@
-"""환경 설정. .env → 환경변수 → Streamlit secrets 순으로 로드."""
+"""환경 설정. 환경변수(Vercel 프로젝트 설정) 또는 로컬 .env 에서 읽는다."""
 from functools import lru_cache
 from typing import Literal
 
@@ -36,16 +36,6 @@ class Settings(BaseSettings):
         return self.enable_test_login and self.app_env != "production"
 
 
-def _load_streamlit_secrets() -> dict:
-    try:
-        import streamlit as st
-
-        return {k.lower(): v for k, v in st.secrets.items() if not isinstance(v, dict)}
-    except Exception:
-        return {}
-
-
 @lru_cache
 def get_settings() -> Settings:
-    secrets = _load_streamlit_secrets()
-    return Settings(**secrets) if secrets else Settings()
+    return Settings()

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ item.name }} · 선택 복습{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="nx-label">{{ topic_names.get(item.topic, '') }}</div>
+  <div class="nx-card-title big">{{ item.name }}</div>
+  <p class="nx-prompt">{{ item.explanation }}</p>
+  <div class="nx-msg tutor demo wide"><div class="tag">시범 (다른 예)</div><div>{{ item.demo }}</div></div>
+  {% if item.practice %}
+  <div class="nx-label mt">짧게 적용해 보기</div><p>{{ item.practice }}</p>
+  <form method="post" action="/review/{{ item.id }}/practiced" class="stack">
+    <textarea name="text" rows="3" required></textarea><button class="btn">저장</button></form>
+  {% endif %}
+</div>
+<a class="btn" href="/review">목록으로</a>
+{% endblock %}

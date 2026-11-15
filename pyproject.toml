@@ -1,7 +1,7 @@
 [project]
 name = "essay-platform"
 version = "0.1.0"
-description = "웹 기반 논술 작성·제출·AI 첨삭 프로그램"
+description = "논술 기초 다지기 — 학습 엔진과 웹앱"
 requires-python = ">=3.11"
 
 [tool.pytest.ini_options]
@@ -22,5 +22,9 @@ known-third-party = ["supabase"]
 [tool.ruff.lint.per-file-ignores]
 # CSS·HTML 마크업 문자열은 줄 길이 제한에서 제외
 "src/ui/theme.py" = ["E501"]
-"views/*" = ["E501"]
+"web/*" = ["E501"]
 "evals/*" = ["E501"]
+
+[tool.vercel]
+# Vercel 이 FastAPI 앱을 찾는 위치
+entrypoint = "web.main:app"

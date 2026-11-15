@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}로그인 · 논술랩{% endblock %}
+{% block solo %}
+<div class="login-grid">
+  <section class="nx-brand">
+    <div class="nx-eyebrow">논술 기초 다지기</div>
+    <h1>읽고, 잇고,<br>내 글로 세우기.</h1>
+    <p>다섯 가지 학습 주제로 본격 논술 학습을 준비해요. 먼저 스스로 해 보고, 필요한 만큼만 도움을 받아요.</p>
+    <div class="nx-feature"><div class="i">📝</div><div><b>먼저 스스로 해 보기</b><span>답을 미리 알려 주지 않고, 내가 쓴 답에 맞춰 질문해요</span></div></div>
+    <div class="nx-feature"><div class="i">🎯</div><div><b>필요한 만큼만 도움</b><span>질문 → 설명 → 시범 순으로, 받은 도움은 따로 기록해요</span></div></div>
+    <div class="nx-feature"><div class="i">✏️</div><div><b>점수가 아닌 성장 기록</b><span>지금 할 수 있는 것과 다음 학습을 알려 줘요</span></div></div>
+  </section>
+  <section class="card login-card">
+    <div class="nx-label">시작하기</div>
+    <h2 class="h2">다시 오신 걸 환영해요 👋</h2>
+    <p class="muted">계정으로 로그인하고 오늘의 논술을 이어 써 보세요.</p>
+    {% if settings.test_login_enabled %}
+    <div class="nx-demo">🧪 <b>테스트 계정</b>으로 바로 체험할 수 있어요<br>
+      아이디 <code>{{ settings.test_login_id }}</code> &nbsp;비밀번호 <code>{{ settings.test_login_password }}</code></div>
+    {% endif %}
+    {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+    <form method="post" action="/login" hx-boost="false" class="stack">
+      <label class="field"><span>이메일 또는 아이디</span>
+        <input name="login_id" autocomplete="username" placeholder="name@school.ac.kr" required></label>
+      <label class="field"><span>비밀번호</span>
+        <input name="password" type="password" autocomplete="current-password" placeholder="비밀번호 입력" required></label>
+      <button class="btn primary block">로그인</button>
+    </form>
+    <p class="muted small">정식 학생·교사 계정 가입은 준비 중이에요.</p>
+  </section>
+</div>
+{% endblock %}

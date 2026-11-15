@@ -1,3 +1,4 @@
 -r requirements.txt
 pytest>=8.3
 ruff>=0.7
+uvicorn>=0.30               # 로컬 실행: uvicorn web.main:app --reload
