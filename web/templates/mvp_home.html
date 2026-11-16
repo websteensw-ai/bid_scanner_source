@@ -11,6 +11,7 @@
   <p>{{ card.central_question }}</p>
   {% endif %}
 </div>
+{% if no_class %}<div class="alert info">🏫 아직 학급에 참여하지 않았어요. 선생님께 받은 학급 코드가 있으면 <a href="/mvp/join">학급 참여</a>에서 넣어 주세요.</div>{% endif %}
 {% if not att %}
 <form method="post" action="/mvp/start"><button class="btn primary">▶ 학습 시작하기</button></form>
 <p class="muted small mt">시작하면 처음 안내(7장)를 먼저 보여 드려요.</p>

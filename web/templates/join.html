@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}학급 참여 · 엘렝코스{% endblock %}
+{% block content %}
+<div class="card" style="max-width:520px">
+  <div class="nx-label">학급 참여</div>
+  {% if joined %}<div class="alert ok">‘{{ joined }}’ 학급에 참여했어요. 이제 담당 선생님이 내 학습 기록을 볼 수 있어요.</div>{% endif %}
+  {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+  {% if mine %}<p>참여 중인 학급: {% for c in mine %}<b>{{ c.name }}</b>{{ ', ' if not loop.last }}{% endfor %}</p>{% endif %}
+  <p class="muted small">선생님이 알려 준 6자리 학급 코드를 넣어 주세요. 학급에 참여하면 담당 선생님이 내 학습 기록을 볼 수 있어요.</p>
+  <form method="post" action="/mvp/join" hx-boost="false" class="row-gap">
+    <input name="code" placeholder="예: K7M2QX" maxlength="12" style="text-transform:uppercase" required>
+    <button class="btn primary">참여하기</button></form>
+  <p class="mt"><a class="btn" href="/mvp">{{ '학습하러 가기' if mine or joined else '나중에 하기' }}</a></p>
+</div>
+{% endblock %}

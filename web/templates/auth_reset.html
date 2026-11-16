@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}새 비밀번호 · 엘렝코스{% endblock %}
+{% block content %}
+<div class="card" style="max-width:480px">
+  <div class="nx-label">새 비밀번호 정하기</div>
+  {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+  <form method="post" action="/auth/reset" hx-boost="false" class="stack">
+    <label class="field"><span>새 비밀번호 (8자 이상)</span><input type="password" name="new" autocomplete="new-password" minlength="8" required></label>
+    <label class="field"><span>새 비밀번호 확인</span><input type="password" name="confirm" autocomplete="new-password" minlength="8" required></label>
+    <button class="btn primary">저장</button></form>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+<div class="card login-card" style="max-width:480px;margin:40px auto">
+  <div class="nx-label">비밀번호 찾기</div>
+  {% if sent %}
+    <p>가입한 이메일이라면 비밀번호 재설정 메일을 보냈어요. 메일의 링크를 눌러 새 비밀번호를 정해 주세요.</p>
+    <p class="muted small">발급받은 아이디로 쓰는 계정은 담당 선생님께 비밀번호 초기화를 부탁해 주세요.</p>
+    <a class="btn" href="/login">로그인 화면으로</a>
+  {% else %}
+    {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+    <form method="post" action="/forgot" hx-boost="false" class="stack">
+      <label class="field"><span>가입한 이메일</span><input type="email" name="email" required></label>
+      <button class="btn primary">재설정 메일 받기</button></form>
+    <p class="muted small mt"><a href="/login">로그인 화면으로</a></p>
+  {% endif %}
+</div>

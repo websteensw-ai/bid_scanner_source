@@ -67,6 +67,25 @@ class Store:
     def audit(self, who: str, action: str, target: str = "") -> None:
         raise NotImplementedError
 
+    # 이메일 가입 (Supabase Auth 사용자와 연결)
+    def account_by_auth(self, auth_id: str) -> dict | None:
+        raise NotImplementedError
+
+    def account_create_auth(self, aid: str, auth_id: str, email: str, name: str, consent: dict) -> None:
+        raise NotImplementedError
+
+    def account_set_role(self, aid: str, role: str) -> None:
+        raise NotImplementedError
+
+    def class_set_code(self, cid: str, code: str) -> None:
+        raise NotImplementedError
+
+    def class_by_code(self, code: str) -> dict | None:
+        raise NotImplementedError
+
+    def classes_of_student(self, sid: str) -> list[dict]:
+        raise NotImplementedError
+
 
 class MemoryStore(Store):
     def __init__(self):
@@ -144,6 +163,31 @@ class MemoryStore(Store):
     def audit(self, who, action, target=""):
         self.audits.append({"who": who, "action": action, "target": target})
 
+    def account_by_auth(self, auth_id):
+        a = next((a for a in self.accounts.values() if a.get("auth_id") == auth_id), None)
+        return self.account_get(a["id"]) if a else None
+
+    def account_create_auth(self, aid, auth_id, email, name, consent):
+        if self.account_by_auth(auth_id):
+            return
+        self.accounts[aid] = {"id": aid, "login_id": email.lower(), "email": email.lower(), "auth_id": auth_id,
+                              "pw_hash": "!", "role": "student", "display_name": name, "active": True,
+                              "must_change_pw": False, "consent": consent, "failed_logins": 0,
+                              "locked_until": None, "created_by": "signup", "last_login": None}
+
+    def account_set_role(self, aid, role):
+        self.accounts[aid]["role"] = role
+
+    def class_set_code(self, cid, code):
+        self.classes[cid]["join_code"] = code.upper()
+
+    def class_by_code(self, code):
+        return next(({"id": c["id"], "name": c["name"], "teacher_id": c["teacher_id"]}
+                     for c in self.classes.values() if c.get("join_code") == code.upper()), None)
+
+    def classes_of_student(self, sid):
+        return [{"id": k, "name": self.classes[k]["name"]} for (k, s) in self.members if s == sid]
+
 
 class SupabaseStore(Store):
     def __init__(self, url: str, anon_key: str, db_key: str):
@@ -209,6 +253,25 @@ class SupabaseStore(Store):
 
     def audit(self, who, action, target=""):
         self._rpc("elenchos_audit", p_who=who, p_action=action, p_target=target)
+
+    def account_by_auth(self, auth_id):
+        return self._rpc("elenchos_account_by_auth", p_auth=auth_id)
+
+    def account_create_auth(self, aid, auth_id, email, name, consent):
+        self._rpc("elenchos_account_create_auth", p_id=aid, p_auth=auth_id, p_email=email, p_name=name,
+                  p_consent=consent)
+
+    def account_set_role(self, aid, role):
+        self._rpc("elenchos_account_set_role", p_id=aid, p_role=role)
+
+    def class_set_code(self, cid, code):
+        self._rpc("elenchos_class_set_code", p_id=cid, p_code=code)
+
+    def class_by_code(self, code):
+        return self._rpc("elenchos_class_by_code", p_code=code)
+
+    def classes_of_student(self, sid):
+        return self._rpc("elenchos_classes_of_student", p_student=sid) or []
 
 
 @lru_cache(maxsize=1)

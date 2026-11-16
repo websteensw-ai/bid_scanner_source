@@ -25,6 +25,7 @@
     <div class="navsec">6단계 논술 학습</div>
     <a href="/mvp" class="{{ 'on' if path == '/mvp' }}"><span>🏠</span>학습 홈</a>
     <a href="/mvp/records" class="{{ 'on' if path == '/mvp/records' }}"><span>🗂️</span>나의 기록</a>
+    {% if user.role == 'student' %}<a href="/mvp/join" class="{{ 'on' if path == '/mvp/join' }}"><span>🏫</span>학급 참여</a>{% endif %}
     <a href="/mvp/guide" class="{{ 'on' if path == '/mvp/guide' }}"><span>📘</span>안내</a>
     <div class="navsec">기초 다지기</div>
     <a href="/home" class="{{ 'on' if path == '/home' }}"><span>🧱</span>기초 홈</a>

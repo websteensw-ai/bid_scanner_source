@@ -178,8 +178,9 @@ def base_ctx(eng: MvpEngine) -> dict:
 def mvp_home(request: Request):
     user = require(request, "student")
     eng = load(user)
+    no_class = user["role"] == "student" and not _demo(user) and not _store().classes_of_student(user["id"])
     if not eng.attempt:
-        return render(request, "mvp_home.html", att=None, pack_title="기본과정 출제 문제 1")
+        return render(request, "mvp_home.html", att=None, pack_title="기본과정 출제 문제 1", no_class=no_class)
     if not eng.attempt.onboarded:
         return redirect("/mvp/guide?first=1")
     a = eng.attempt
@@ -187,7 +188,7 @@ def mvp_home(request: Request):
     prev_q = next((x.get("next_check_question") for x in eng.state.mvp.values()
                    if x.get("next_check_question") and x["id"] != a.id), "")
     return render(request, "mvp_home.html", **base_ctx(eng), card=card, recap=eng.recap(),
-                  next_q=a.next_check_question or prev_q, changes=_changes())
+                  next_q=a.next_check_question or prev_q, changes=_changes(), no_class=no_class)
 
 
 def _changes() -> str:

@@ -19,7 +19,15 @@
 
 {% if user.role == 'admin' %}
 <div class="card">
-  <div class="nx-label">교사 계정</div>
+  <div class="nx-label">사용자 역할 (가입자에게 교사 권한 주기)</div>
+  <div class="scroll-x"><table class="tbl"><tr><th>이름</th><th>이메일·아이디</th><th>역할</th><th>마지막 로그인</th></tr>
+  {% for a in everyone %}<tr><td>{{ a.display_name }}</td><td><code>{{ a.email or a.login_id }}</code></td>
+    <td><form method="post" action="/admin/role" hx-boost="false" class="row-gap"><input type="hidden" name="account_id" value="{{ a.id }}">
+      <select name="role">{% for r, lb in [('student','학생'),('teacher','교사'),('admin','관리자')] %}<option value="{{ r }}" {{ 'selected' if a.role == r }}>{{ lb }}</option>{% endfor %}</select>
+      <button class="btn">저장</button></form></td><td>{{ (a.last_login or '')[:16]|replace('T',' ') }}</td></tr>{% endfor %}</table></div>
+</div>
+<div class="card">
+  <div class="nx-label">교사 아이디 발급 (이메일 없이 쓸 교사용)</div>
   <div class="scroll-x"><table class="tbl"><tr><th>이름</th><th>아이디</th><th>상태</th><th>마지막 로그인</th><th></th></tr>
   {% for t in teachers %}<tr><td>{{ t.display_name }}</td><td><code>{{ t.login_id }}</code></td><td>{{ '사용' if t.active else '중지' }}{{ ' · 비번 변경 전' if t.must_change_pw }}</td>
     <td>{{ (t.last_login or '')[:16]|replace('T',' ') }}</td>
@@ -42,15 +50,18 @@
 
 {% for c in classes %}
 <div class="card">
-  <div class="row-between"><div class="nx-label">{{ c.name }} · 학생 {{ c.students|length }}명 · 문제 {{ c.pack_id }}</div></div>
-  <div class="scroll-x"><table class="tbl"><tr><th>이름</th><th>아이디</th><th>상태</th><th>마지막 로그인</th><th></th></tr>
-  {% for s in c.students %}<tr><td>{{ s.display_name }}</td><td><code>{{ s.login_id }}</code></td>
+  <div class="row-between"><div class="nx-label">{{ c.name }} · 학생 {{ c.students|length }}명 · 문제 {{ c.pack_id }}</div>
+    <div class="row-gap"><span>학급 코드 <b class="mvp-total" style="font-size:20px;letter-spacing:2px">{{ c.join_code or '—' }}</b></span>
+      <form method="post" action="/teacher/accounts/code" hx-boost="false" onsubmit="return confirm('새 코드를 만들면 예전 코드는 쓸 수 없어요.')"><input type="hidden" name="class_id" value="{{ c.id }}"><button class="btn">{{ '코드 새로 만들기' if c.join_code else '코드 만들기' }}</button></form></div></div>
+  <p class="muted small">학생은 이메일로 가입한 뒤 ‘학급 참여’에서 이 코드를 넣으면 이 학급에 들어와요.</p>
+  <div class="scroll-x"><table class="tbl"><tr><th>이름</th><th>이메일·아이디</th><th>상태</th><th>마지막 로그인</th><th></th></tr>
+  {% for s in c.students %}<tr><td>{{ s.display_name }}</td><td><code>{{ s.email or s.login_id }}</code></td>
     <td>{{ '사용' if s.active else '중지' }}{{ ' · 비번 변경 전' if s.must_change_pw }}</td><td>{{ (s.last_login or '')[:16]|replace('T',' ') }}</td>
     <td class="row-gap"><a class="btn" href="/teacher/mvp/student/{{ s.id }}">기록</a>
       <form method="post" action="/teacher/accounts/reset" hx-boost="false" onsubmit="return confirm('비밀번호를 초기화할까요?')"><input type="hidden" name="student_id" value="{{ s.id }}"><button class="btn">비번 초기화</button></form>
       <form method="post" action="/teacher/accounts/active" hx-boost="false"><input type="hidden" name="student_id" value="{{ s.id }}"><input type="hidden" name="active" value="{{ '0' if s.active else '1' }}"><button class="btn">{{ '사용 중지' if s.active else '다시 사용' }}</button></form></td></tr>
   {% else %}<tr><td colspan="5" class="muted">아직 학생이 없어요.</td></tr>{% endfor %}</table></div>
-  <details class="mt"><summary>➕ 학생 계정 발급</summary>
+  <details class="mt"><summary>➕ 이메일이 없는 학생용 아이디 발급 (만 14세 미만 등)</summary>
     <form method="post" action="/teacher/accounts/issue" hx-boost="false" class="stack">
       <input type="hidden" name="class_id" value="{{ c.id }}">
       <label class="field"><span>아이디 앞부분 (뒤에 01, 02… 가 붙어요)</span><input name="prefix" placeholder="예: 26a" required></label>

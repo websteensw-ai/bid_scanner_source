@@ -1,0 +1,17 @@
+<div class="nx-empty"><div class="ico">⏳</div><h4 id="cbmsg">확인하는 중이에요…</h4><p id="cbsub"></p><p><a class="btn" href="/login">로그인 화면</a></p></div>
+<script>
+(function () {
+  var h = new URLSearchParams(location.hash.slice(1)), q = new URLSearchParams(location.search);
+  var err = h.get("error_description") || q.get("error_description");
+  function show(t, s) { document.getElementById("cbmsg").textContent = t; document.getElementById("cbsub").textContent = s || ""; }
+  if (err) { show("링크를 열 수 없어요", err.replace(/\+/g, " ") + " — 다시 요청해 주세요."); return; }
+  var token = h.get("access_token");
+  if (!token) { show("링크 정보가 없어요", "메일의 링크를 다시 눌러 주세요."); return; }
+  history.replaceState(null, "", location.pathname);           // 주소창에서 토큰 지우기
+  fetch("/auth/session", { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ access_token: token, type: h.get("type") || "" }) })
+    .then(function (r) { return r.json(); })
+    .then(function (j) { if (j.ok) location.replace(j.next); else show("로그인하지 못했어요", j.error); })
+    .catch(function () { show("연결에 실패했어요", "잠시 뒤 다시 해 주세요."); });
+})();
+</script>

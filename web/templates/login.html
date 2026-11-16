@@ -20,13 +20,14 @@
     {% endif %}
     {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
     <form method="post" action="/login" hx-boost="false" class="stack">
-      <label class="field"><span>아이디</span>
-        <input name="login_id" autocomplete="username" placeholder="발급받은 아이디" required></label>
+      <label class="field"><span>이메일 (또는 발급받은 아이디)</span>
+        <input name="login_id" autocomplete="username" placeholder="name@example.com" type="text" required></label>
       <label class="field"><span>비밀번호</span>
         <input name="password" type="password" autocomplete="current-password" placeholder="비밀번호 입력" required></label>
       <button class="btn primary block">로그인</button>
     </form>
-    <p class="muted small">계정은 담당 선생님이 발급해요. 비밀번호를 잊었으면 선생님께 초기화를 부탁하세요.</p>
+    <div class="row-between small mt"><a href="/signup">✉️ 이메일로 회원가입</a><a href="/forgot">비밀번호 찾기</a></div>
+    <p class="muted small">가입한 뒤 선생님이 알려 준 학급 코드를 넣으면 학급에 참여해요. 발급받은 아이디 계정은 비밀번호를 잊었을 때 선생님께 초기화를 부탁하세요.</p>
   </section>
 </div>
 {% endblock %}

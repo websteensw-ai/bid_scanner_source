@@ -1,4 +1,4 @@
-"""계정·학급 (가이드 12·14장, 결정 1: 교사가 학급 단위로 학생 계정을 발급).
+"""계정·학급 (가이드 12·14장). 이메일 가입은 web/email_auth.py, 여기는 아이디 계정·학급·권한 관리.
 
 - 관리자: 교사 계정 발급, 모든 학급 열람
 - 교사: 학급 만들기, 학생 계정 발급(여러 명 한꺼번에), 비밀번호 초기화, 사용 중지. 자기 학급 학생만 본다
@@ -134,14 +134,21 @@ def password_change(request: Request, current: str = Form(""), new: str = Form("
     def fail(msg):
         return render(request, "account_password.html", error=msg, forced=user.get("must_change"), status_code=400)
 
-    if not acc or not verify_pw(current, acc["pw_hash"]):
-        return fail("지금 비밀번호가 맞지 않아요.")
     if new != confirm:
         return fail("새 비밀번호 두 칸이 서로 달라요.")
     if new == current:
         return fail("지금과 다른 비밀번호를 써 주세요.")
-    if (p := pw_problem(new, user["login"])):
+    if (p := pw_problem(new, user["login"].split("@")[0])):
         return fail(p)
+    if acc and acc.get("auth_id"):          # 이메일 계정 → Supabase Auth 에서 변경
+        from web.email_auth import change_email_password
+
+        if (err := change_email_password(user, current, new)):
+            return fail(err)
+        _store().audit(acc["id"], "password_change")
+        return redirect("/")
+    if not acc or not verify_pw(current, acc["pw_hash"]):
+        return fail("지금 비밀번호가 맞지 않아요.")
     _store().account_update(acc["id"], {"pw_hash": hash_pw(new), "must_change_pw": False})
     _store().audit(acc["id"], "password_change")
     request.session["user"] = {**user, "must_change": False}
@@ -155,7 +162,9 @@ def accounts_page(request: Request):
     if user.get("is_demo"):
         return render(request, "accounts.html", demo=True, classes=[], teachers=[], issued=None)
     teachers = _store().account_list("teacher") if user["role"] == "admin" else []
-    return render(request, "accounts.html", demo=False, classes=_my_classes(user), teachers=teachers, issued=None)
+    everyone = _store().account_list(None) if user["role"] == "admin" else []
+    return render(request, "accounts.html", demo=False, classes=_my_classes(user), teachers=teachers, issued=None,
+                  everyone=everyone)
 
 
 def _guard(request: Request):
@@ -176,8 +185,11 @@ def class_create(request: Request, name: str = Form(""), teacher_id: str = Form(
         if teacher_id not in {t["id"] for t in _store().account_list("teacher")}:
             raise Forbidden()
         owner = teacher_id
+    from web.email_auth import new_code
+
     cid = new_id("c")
     _store().class_create(cid, name, owner, "BASIC-Q1")
+    _store().class_set_code(cid, new_code())
     _store().audit(user["id"], "class_create", cid)
     return redirect("/teacher/accounts")
 
@@ -269,3 +281,28 @@ def create_teacher(request: Request, login_id: str = Form(""), display_name: str
                   teachers=_store().account_list("teacher"),
                   issued=[{"login_id": login, "password": pw, "display_name": display_name or login}],
                   issued_class="교사 계정")
+
+
+@router.post("/teacher/accounts/code")
+def class_new_code(request: Request, class_id: str = Form(...)):
+    """학급 코드 새로 만들기 (예전 코드는 더 이상 쓸 수 없다)."""
+    from web.email_auth import new_code
+
+    user = _guard(request)
+    _class_of(user, class_id)
+    _store().class_set_code(class_id, new_code())
+    _store().audit(user["id"], "class_code", class_id)
+    return redirect("/teacher/accounts")
+
+
+@router.post("/admin/role")
+def set_role(request: Request, account_id: str = Form(...), role: str = Form(...)):
+    """관리자가 가입한 사용자에게 교사·관리자 권한을 준다."""
+    user = require(request, "admin")
+    if user.get("is_demo") or user["role"] != "admin" or role not in ("student", "teacher", "admin"):
+        raise Forbidden()
+    if account_id == user["id"] and role != "admin":
+        return redirect("/teacher/accounts")          # 스스로 관리자 권한을 내려놓지 못하게
+    _store().account_set_role(account_id, role)
+    _store().audit(user["id"], f"role_{role}", account_id)
+    return redirect("/teacher/accounts")

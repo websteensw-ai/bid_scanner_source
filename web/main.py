@@ -164,12 +164,18 @@ def login(request: Request, login_id: str = Form(""), password: str = Form("")):
         request.session["demo_id"] = demo_id
         request.session["user"] = {"id": demo_id, "name": "테스트 사용자", "role": "admin", "is_demo": True}
         return redirect("/mvp")
-    from web.accounts import authenticate
+    from web.accounts import authenticate, session_user
 
-    try:
-        user, err = authenticate(login_id, password)
-    except RuntimeError:
-        user, err = None, "로그인 서버에 연결하지 못했어요. 잠시 뒤 다시 해 주세요."
+    if "@" in login_id:                     # 이메일 계정 (Supabase Auth)
+        from web.email_auth import email_login
+
+        acc, err = email_login(login_id, password)
+        user = session_user(acc) if acc else None
+    else:                                   # 아이디 계정 (관리자·교사가 발급)
+        try:
+            user, err = authenticate(login_id, password)
+        except RuntimeError:
+            user, err = None, "로그인 서버에 연결하지 못했어요. 잠시 뒤 다시 해 주세요."
     if user:
         demo_id = request.session.get("demo_id")
         request.session.clear()
@@ -493,10 +499,12 @@ def quality(request: Request, report: str | None = None, all_cases: int = 0):
 
 # ---------- 6단계 논술학습 MVP ----------
 from web import accounts as _accounts  # noqa: E402  (헬퍼 정의 뒤에 불러와야 순환 참조가 풀린다)
+from web import email_auth as _email_auth  # noqa: E402
 from web import mvp as _mvp  # noqa: E402
 
 app.include_router(_mvp.router)
 app.include_router(_accounts.router)
+app.include_router(_email_auth.router)
 
 
 # 로컬 실행 시에만 public/ 을 직접 제공 (Vercel 에서는 CDN 이 제공하므로 마운트하지 않음)

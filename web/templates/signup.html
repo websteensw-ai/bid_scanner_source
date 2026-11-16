@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}회원가입 · 엘렝코스{% endblock %}
+{% block solo %}
+<div class="card login-card" style="max-width:520px;margin:40px auto">
+  <div class="nx-label">회원가입</div>
+  {% if sent %}
+    <h2 class="h2">메일을 확인해 주세요 📬</h2>
+    <p><b>{{ sent }}</b> 으로 인증 메일을 보냈어요. 메일의 링크를 누르면 가입이 끝나고 바로 로그인돼요.</p>
+    <p class="muted small">메일이 안 보이면 스팸함을 확인해 주세요. 몇 분 지나도 없으면 다시 보낼 수 있어요.</p>
+    {% if resent %}<div class="alert ok small">인증 메일을 다시 보냈어요.</div>{% endif %}
+    {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+    <form method="post" action="/signup/resend" hx-boost="false"><input type="hidden" name="email" value="{{ sent }}"><button class="btn">인증 메일 다시 보내기</button></form>
+    <p class="mt"><a href="/login">로그인 화면으로</a></p>
+  {% else %}
+    <h2 class="h2">이메일로 시작하기</h2>
+    {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+    <form method="post" action="/signup" hx-boost="false" class="stack">
+      <label class="field"><span>이메일</span><input type="email" name="email" value="{{ form.email }}" autocomplete="email" required></label>
+      <label class="field"><span>비밀번호 (8자 이상)</span><input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+      <label class="field"><span>비밀번호 확인</span><input type="password" name="confirm" autocomplete="new-password" minlength="8" required></label>
+      <label class="field"><span>표시 이름 (선생님 화면에 보여요 · 별칭도 괜찮아요)</span><input name="display_name" value="{{ form.display_name }}" maxlength="30" required></label>
+      <fieldset class="mvp-q"><legend>동의</legend>
+        {% for k, label, req in consent_items %}<label class="choice"><input type="checkbox" name="c_{{ k }}" value="1" {{ 'required' if req }}> {{ label }}</label>{% endfor %}
+        <label class="choice"><input type="checkbox" name="age14" value="1" required> 만 14세 이상이에요 (14세 미만은 선생님께 발급 계정을 요청해 주세요)</label>
+      </fieldset>
+      <button class="btn primary block">가입하기</button>
+    </form>
+    <p class="muted small mt">이미 계정이 있나요? <a href="/login">로그인</a></p>
+  {% endif %}
+</div>
+{% endblock %}
