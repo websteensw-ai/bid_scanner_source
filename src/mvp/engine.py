@@ -451,7 +451,10 @@ class MvpEngine:
     def grade(self, d: DraftVersion, replaces: str | None = None, note: str = "") -> Evaluation:
         a = self.need()
         g = self.roles["grader"]
-        runs = [g.grade(self.pack, self.rubric, d.body) for _ in range(2)]
+        # 2회 독립 채점을 동시에 실행한다 (AI 채점 1회가 수십 초 걸려 차례로 하면 서버 한도를 넘는다)
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            runs = list(pool.map(lambda _: g.grade(self.pack, self.rubric, d.body), range(2)))
         for items in runs:
             if fix_evidence(d.body, items):           # 인용을 못 찾으면 한 번 다시 채점
                 items[:] = g.grade(self.pack, self.rubric, d.body)
