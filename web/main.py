@@ -97,6 +97,15 @@ async def _need_password(request: Request, exc: NeedPassword):
     return RedirectResponse("/account/password", status_code=303)
 
 
+class NeedProfile(Exception):
+    pass
+
+
+@app.exception_handler(NeedProfile)
+async def _need_profile(request: Request, exc: NeedProfile):
+    return RedirectResponse("/welcome", status_code=303)
+
+
 def require(request: Request, *roles: str, allow_must_change: bool = False) -> dict:
     user = current_user(request)
     if not user:
@@ -108,6 +117,8 @@ def require(request: Request, *roles: str, allow_must_change: bool = False) -> d
         raise NeedLogin()
     if user.get("must_change") and not allow_must_change:
         raise NeedPassword()
+    if user.get("needs_profile") and request.url.path != "/welcome":
+        raise NeedProfile()
     if roles and user["role"] not in roles and user["role"] != "admin":
         raise Forbidden()
     return user
@@ -164,18 +175,12 @@ def login(request: Request, login_id: str = Form(""), password: str = Form("")):
         request.session["demo_id"] = demo_id
         request.session["user"] = {"id": demo_id, "name": "테스트 사용자", "role": "admin", "is_demo": True}
         return redirect("/mvp")
-    from web.accounts import authenticate, session_user
+    from web.accounts import authenticate
 
-    if "@" in login_id:                     # 이메일 계정 (Supabase Auth)
-        from web.email_auth import email_login
-
-        acc, err = email_login(login_id, password)
-        user = session_user(acc) if acc else None
-    else:                                   # 아이디 계정 (관리자·교사가 발급)
-        try:
-            user, err = authenticate(login_id, password)
-        except RuntimeError:
-            user, err = None, "로그인 서버에 연결하지 못했어요. 잠시 뒤 다시 해 주세요."
+    try:                                    # 아이디 계정 (관리자·교사가 발급). 이메일은 /login/code
+        user, err = authenticate(login_id, password)
+    except RuntimeError:
+        user, err = None, "로그인 서버에 연결하지 못했어요. 잠시 뒤 다시 해 주세요."
     if user:
         demo_id = request.session.get("demo_id")
         request.session.clear()

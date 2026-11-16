@@ -23,6 +23,8 @@ class AuthError(Exception):
 def _ko(code: str, msg: str) -> AuthError:
     """Supabase Auth 오류 → 학생에게 보일 문구 코드."""
     m = (msg or "").lower()
+    if code == "otp_expired" or "expired" in m or ("token" in m and "invalid" in m):
+        return AuthError("bad_code")
     if code == "email_address_not_authorized" or "not authorized" in m:
         return AuthError("mail_blocked")
     if "already" in m or "registered" in m or code == "user_already_exists":
@@ -59,6 +61,14 @@ class Auth:
         raise NotImplementedError
 
     def resend_confirmation(self, email: str, redirect_to: str) -> None:
+        raise NotImplementedError
+
+    def send_otp(self, email: str) -> None:
+        """이메일로 6자리 인증 코드를 보낸다. 처음 쓰는 이메일이면 Auth 사용자도 만든다."""
+        raise NotImplementedError
+
+    def verify_otp(self, email: str, code: str) -> dict:
+        """{'user_id', 'email'}. 틀리거나 만료되면 AuthError('bad_code')."""
         raise NotImplementedError
 
 
@@ -113,6 +123,21 @@ class SupabaseAuth(Auth):
 
     def resend_confirmation(self, email, redirect_to):
         self._post("/resend", {"type": "signup", "email": email}, params={"redirect_to": redirect_to})
+
+    def send_otp(self, email):
+        self._post("/otp", {"email": email, "create_user": True})
+
+    def verify_otp(self, email, code):
+        try:
+            d = self._post("/verify", {"type": "email", "email": email, "token": code})
+        except AuthError as e:
+            if e.code in ("unknown", "invalid", "invalid_token"):
+                raise AuthError("bad_code") from e
+            raise
+        u = d.get("user") or {}
+        if not u.get("id"):
+            raise AuthError("bad_code")
+        return {"user_id": u["id"], "email": u.get("email", email)}
 
 
 class MemoryAuth(Auth):
@@ -173,6 +198,24 @@ class MemoryAuth(Auth):
         if not uid:
             raise AuthError("invalid_token")
         self.users[uid]["pw"] = hash_pw(new_password)
+
+    def send_otp(self, email):
+        if "@" not in email:
+            raise AuthError("bad_email")
+        u = self._by_email(email)
+        if not u:
+            uid = f"{secrets.token_hex(4)}-0000-4000-8000-{secrets.token_hex(6)}"
+            u = self.users[uid] = {"id": uid, "email": email.lower(), "pw": "!", "confirmed": False}
+        code = f"{secrets.randbelow(10**6):06d}"
+        u["otp"] = code
+        self.outbox.append({"to": u["email"], "type": "otp", "token": code})
+
+    def verify_otp(self, email, code):
+        u = self._by_email(email)
+        if not u or not u.get("otp") or code != u["otp"]:
+            raise AuthError("bad_code")
+        u["otp"], u["confirmed"] = None, True
+        return {"user_id": u["id"], "email": u["email"]}
 
     def resend_confirmation(self, email, redirect_to):
         if (u := self._by_email(email)) and not u["confirmed"]:

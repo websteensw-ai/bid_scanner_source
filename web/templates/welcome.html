@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}시작하기 · 엘렝코스{% endblock %}
+{% block content %}
+<div class="card" style="max-width:560px">
+  <div class="nx-label">처음 오셨네요 👋 시작 정보를 확인해 주세요</div>
+  {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+  <form method="post" action="/welcome" hx-boost="false" class="stack">
+    <label class="field"><span>표시 이름 (선생님 화면에 보여요 · 실명 대신 별칭도 괜찮아요)</span>
+      <input name="display_name" value="{{ form.display_name }}" maxlength="30" required></label>
+    <fieldset class="mvp-q"><legend>동의</legend>
+      {% for k, label, req in consent_items %}<label class="choice"><input type="checkbox" name="c_{{ k }}" value="1" {{ 'required' if req }}> {{ label }}</label>{% endfor %}
+      <label class="choice"><input type="checkbox" name="age14" value="1" required> 만 14세 이상이에요 (14세 미만은 선생님께 발급 계정을 요청해 주세요)</label>
+    </fieldset>
+    <button class="btn primary">시작하기</button>
+  </form>
+  <form method="post" action="/logout" class="mt"><button class="btn">로그아웃</button></form>
+</div>
+{% endblock %}

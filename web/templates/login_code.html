@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}인증 코드 · 엘렝코스{% endblock %}
+{% block solo %}
+<div class="card login-card" style="max-width:460px;margin:40px auto">
+  <div class="nx-label">인증 코드 입력</div>
+  <p><b>{{ email }}</b> 으로 6자리 인증 코드를 보냈어요.</p>
+  <p class="muted small">메일이 안 보이면 스팸함을 확인해 주세요. 코드는 일정 시간이 지나면 만료돼요.</p>
+  {% if resent %}<div class="alert ok small">새 코드를 보냈어요. 가장 최근 메일의 코드를 넣어 주세요.</div>{% endif %}
+  {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+  <form method="post" action="/login/verify" hx-boost="false" class="stack">
+    <input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9 ]{6,8}" maxlength="8"
+           placeholder="123456" class="otp-input" autofocus required>
+    <button class="btn primary block">확인</button>
+  </form>
+  <div class="row-between small mt">
+    <form method="post" action="/login/code/resend" hx-boost="false"><button class="btn">코드 다시 받기</button></form>
+    <a href="/login">다른 이메일로</a>
+  </div>
+</div>
+{% endblock %}

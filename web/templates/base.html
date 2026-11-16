@@ -46,7 +46,7 @@
     <div class="nx-user"><div class="nx-avatar">{{ (user.name or '사용자')[:1] }}</div>
       <div><div class="nm">{{ user.name }}</div>
         <div class="rl">{{ ROLE_LABEL.get(user.role, user.role) }}{% if user.is_demo %} · <span class="accent">테스트</span>{% endif %}</div></div></div>
-    {% if not user.is_demo %}<a href="/account/password" class="small muted">비밀번호 변경</a>{% endif %}
+    {% if not user.is_demo and not user.email %}<a href="/account/password" class="small muted">비밀번호 변경</a>{% endif %}
     <form method="post" action="/logout"><button class="btn block">↩ 로그아웃</button></form>
   </div>
 </aside>

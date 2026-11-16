@@ -404,3 +404,4 @@ mark.ann.on{background:var(--warning-50)}
 .tbl form input{min-width:110px;flex:1}
 .tbl form .btn{white-space:nowrap}
 .tbl th{white-space:nowrap}
+.otp-input{font-size:28px;letter-spacing:10px;text-align:center;font-variant-numeric:tabular-nums}

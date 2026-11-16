@@ -19,15 +19,20 @@
       아이디 <code>{{ settings.test_login_id }}</code> &nbsp;비밀번호 <code>{{ settings.test_login_password }}</code></div>
     {% endif %}
     {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
-    <form method="post" action="/login" hx-boost="false" class="stack">
-      <label class="field"><span>이메일 (또는 발급받은 아이디)</span>
-        <input name="login_id" autocomplete="username" placeholder="name@example.com" type="text" required></label>
-      <label class="field"><span>비밀번호</span>
-        <input name="password" type="password" autocomplete="current-password" placeholder="비밀번호 입력" required></label>
-      <button class="btn primary block">로그인</button>
+    <form method="post" action="/login/code" hx-boost="false" class="stack">
+      <label class="field"><span>이메일</span>
+        <input name="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
+      <button class="btn primary block">✉️ 인증 코드 받기</button>
     </form>
-    <div class="row-between small mt"><a href="/signup">✉️ 이메일로 회원가입</a><a href="/forgot">비밀번호 찾기</a></div>
-    <p class="muted small">가입한 뒤 선생님이 알려 준 학급 코드를 넣으면 학급에 참여해요. 발급받은 아이디 계정은 비밀번호를 잊었을 때 선생님께 초기화를 부탁하세요.</p>
+    <p class="muted small">처음이면 자동으로 가입돼요. 메일로 온 6자리 코드를 넣으면 로그인돼요. 비밀번호는 필요 없어요.</p>
+    <details class="mt"><summary class="small">발급받은 아이디로 로그인 (선생님이 만든 계정·테스트 계정)</summary>
+      <form method="post" action="/login" hx-boost="false" class="stack mt">
+        <label class="field"><span>아이디</span><input name="login_id" autocomplete="username" required></label>
+        <label class="field"><span>비밀번호</span><input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="btn block">아이디로 로그인</button>
+      </form>
+      <p class="muted small">비밀번호를 잊었으면 선생님께 초기화를 부탁하세요.</p>
+    </details>
   </section>
 </div>
 {% endblock %}

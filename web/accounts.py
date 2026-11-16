@@ -70,6 +70,8 @@ def authenticate(login_id: str, pw: str) -> tuple[dict | None, str | None]:
 def session_user(acc: dict) -> dict:
     return {"id": acc["id"], "name": acc.get("display_name") or acc["login_id"], "login": acc["login_id"],
             "role": acc["role"], "is_demo": False, "must_change": bool(acc.get("must_change_pw")),
+            "email": bool(acc.get("auth_id")),
+            "needs_profile": bool(acc.get("auth_id")) and not (acc.get("consent") or {}).get("service"),
             "chk": now_iso()}
 
 
@@ -119,7 +121,7 @@ def _my_classes(user: dict) -> list[dict]:
 @router.get("/account/password")
 def password_page(request: Request):
     user = require(request, allow_must_change=True)
-    if user.get("is_demo"):
+    if user.get("is_demo") or user.get("email"):      # 이메일 계정은 비밀번호 없이 인증 코드로 로그인
         return redirect("/")
     return render(request, "account_password.html", error=None, forced=user.get("must_change"))
 
@@ -127,7 +129,7 @@ def password_page(request: Request):
 @router.post("/account/password")
 def password_change(request: Request, current: str = Form(""), new: str = Form(""), confirm: str = Form("")):
     user = require(request, allow_must_change=True)
-    if user.get("is_demo"):
+    if user.get("is_demo") or user.get("email"):
         return redirect("/")
     acc = _store().account_by_login(user["login"])
 
@@ -140,13 +142,6 @@ def password_change(request: Request, current: str = Form(""), new: str = Form("
         return fail("지금과 다른 비밀번호를 써 주세요.")
     if (p := pw_problem(new, user["login"].split("@")[0])):
         return fail(p)
-    if acc and acc.get("auth_id"):          # 이메일 계정 → Supabase Auth 에서 변경
-        from web.email_auth import change_email_password
-
-        if (err := change_email_password(user, current, new)):
-            return fail(err)
-        _store().audit(acc["id"], "password_change")
-        return redirect("/")
     if not acc or not verify_pw(current, acc["pw_hash"]):
         return fail("지금 비밀번호가 맞지 않아요.")
     _store().account_update(acc["id"], {"pw_hash": hash_pw(new), "must_change_pw": False})
