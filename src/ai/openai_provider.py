@@ -16,10 +16,11 @@ class OpenAIProvider(AIProvider):
     @retry(retry=retry_if_exception_type((openai.RateLimitError, openai.APIConnectionError,
                                           openai.InternalServerError)),
            stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=8), reraise=True)
-    def _complete(self, system: str, user: str) -> str:
+    def _complete(self, system: str, user: str, *, max_tokens: int | None = None, effort: str | None = None,
+                  light: bool = False) -> str:
         res = self.client.chat.completions.create(
             model=self.model,
-            max_tokens=self.max_tokens,
+            max_tokens=max_tokens or self.max_tokens,
             response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": system},

@@ -7,5 +7,6 @@ class AIProvider(ABC):
     model: str
 
     @abstractmethod
-    def _complete(self, system: str, user: str) -> str:
+    def _complete(self, system: str, user: str, *, max_tokens: int | None = None, effort: str | None = None,
+                  light: bool = False) -> str:
         """모델 원문 응답 텍스트를 반환."""

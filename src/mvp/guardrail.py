@@ -37,7 +37,7 @@ def light_check(provider, utterance: str) -> bool | None:
     if provider is None:
         return None
     try:
-        out = provider._complete(_LIGHT_SYSTEM, utterance).strip().upper()
+        out = provider._complete(_LIGHT_SYSTEM, utterance, max_tokens=1024, effort="low", light=True).strip().upper()
     except Exception:
         return None
     return not out.startswith("YES")

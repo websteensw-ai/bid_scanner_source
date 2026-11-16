@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     ai_provider: Literal["claude", "openai"] = "claude"
     anthropic_api_key: str = ""
     anthropic_model: str = "claude-sonnet-5-5"
+    anthropic_light_model: str = "claude-haiku-5-5"   # 응답 검사기 (가이드 5-7 '경량 모델 검사')
     openai_api_key: str = ""
     openai_model: str = "gpt-4o"
     ai_max_tokens: int = 4096

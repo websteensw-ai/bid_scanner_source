@@ -201,7 +201,7 @@ class LLMTutor(Tutor):
         }, ensure_ascii=False)
         if feedback:
             user += f"\n\n[검사기] 앞 발화가 불합격했다: {feedback}. 규칙을 지켜 다시 써라."
-        raw = self.provider._complete(system, user)
+        raw = self.provider._complete(system, user, max_tokens=2000, effort="low")
         m = re.search(r"\{.*\}", raw, re.DOTALL)
         if not m:
             raise ValueError("튜터 응답 형식 오류")
@@ -243,7 +243,7 @@ class LLMJudge(Judge):
         user = json.dumps({"stage": card.model_dump(include={"id", "name", "subgoals", "outputs"}),
                            "criteria": {sg.id: pack.stage_overrides[sg.id].criterion for sg in card.subgoals},
                            "fields": fields}, ensure_ascii=False)
-        m = re.search(r"\{.*\}", self.provider._complete(system, user), re.DOTALL)
+        m = re.search(r"\{.*\}", self.provider._complete(system, user, max_tokens=1500, effort="low"), re.DOTALL)
         d = json.loads(m.group(0)) if m else {"pass": False, "note": "판정 응답 형식 오류", "field": None}
         return bool(d.get("pass")), str(d.get("note", "")), d.get("field")
 
@@ -322,7 +322,8 @@ class LLMGrader(Grader):
                                            for k, v in pack.view_grader().items()},
                            "rubric": rubric.model_dump(exclude={"items": {"__all__": {"demo_signals", "demo_negative"}}}),
                            "answer": body}, ensure_ascii=False)
-        m = re.search(r"\{.*\}", self.provider._complete(system, user), re.DOTALL)
+        m = re.search(r"\{.*\}", self.provider._complete(system, user, max_tokens=16000, effort="medium"),
+                      re.DOTALL)
         items = json.loads(m.group(0)).get("items", []) if m else []
         known = {i.code for i in rubric.items}
         got = {it["code"]: EvalItem.model_validate(it) for it in items if it.get("code") in known}

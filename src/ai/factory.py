@@ -9,7 +9,8 @@ def get_provider(settings: Settings | None = None) -> AIProvider:
 
         if not s.anthropic_api_key:
             raise RuntimeError("ANTHROPIC_API_KEY 가 설정되지 않았습니다.")
-        return ClaudeProvider(s.anthropic_api_key, s.anthropic_model, s.ai_max_tokens)
+        return ClaudeProvider(s.anthropic_api_key, s.anthropic_model, s.ai_max_tokens,
+                              s.anthropic_light_model)
 
     from src.ai.openai_provider import OpenAIProvider
 

@@ -113,7 +113,7 @@ class LLMAnalyzer(Analyzer):
                 + (f"<앞선_산출물>\n{prev}\n</앞선_산출물>\n" if prev else "")
                 + (f"<선택>{choice}</선택>\n" if choice else "")
                 + f"<학생_답>\n{answer}\n</학생_답>\n<근거_표시>{evidence}</근거_표시>")
-        raw = self.provider._complete(_SYSTEM, user)
+        raw = self.provider._complete(_SYSTEM, user, max_tokens=2000, effort="low")
         m = re.search(r"\{.*\}", raw, re.DOTALL)
         if not m:
             return Diagnosis(uncertain=True, rationale="분석 응답 형식 오류")

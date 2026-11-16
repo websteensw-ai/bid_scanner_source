@@ -114,7 +114,7 @@ def test_ai_check_endpoint_requires_token_and_runs(client, monkeypatch):
     class FakeProvider:
         name, model = "fake", "fake-1"
 
-        def _complete(self, system, user):
+        def _complete(self, system, user, **kw):
             if "채점자" in system:
                 return '{"items":[{"code":"A1","level":4,"evidence":[],"reason":"ok"}]}'
             if "검사한다" in system:

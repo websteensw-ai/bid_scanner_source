@@ -186,8 +186,12 @@ def healthz_ai(t: str = ""):
                         "model": turn.model}
         t0 = time.time()
         items = roles["grader"].grade(eng.pack, eng.rubric, eng.pack.model_answers[0].text)
+        prov = roles["provider"]
         out["grader"] = {"seconds": round(time.time() - t0, 1),
-                         "levels": {i.code: i.level for i in items}}
+                         "levels": {i.code: i.level for i in items},
+                         "stop_reason": getattr(prov, "last_stop_reason", None)}
+        if all(i.level is None for i in items):      # 읽지 못했으면 원문 앞부분을 보여 준다 (진단용)
+            out["grader"]["raw_head"] = (getattr(prov, "last_raw", "") or "")[:400]
         t0 = time.time()
         from src.learning.analyzer import diagnose, get_analyzer
         pack = load_pack(active_version())
@@ -196,7 +200,8 @@ def healthz_ai(t: str = ""):
         d = diagnose(get_analyzer(demo=False), step, "제시문은 공동체를 위해 일한 사람을 믿는다는 내용이에요", "",
                      None, [pack.excerpts[e] for e in step.excerpts if e in pack.excerpts], {})
         out["analyzer"] = {"seconds": round(time.time() - t0, 1), "analyzer": type(get_analyzer(demo=False)).__name__,
-                           "intent": d.intent, "met": d.met, "uncertain": d.uncertain}
+                           "intent": d.intent, "met": d.met, "uncertain": d.uncertain,
+                           "rationale": (d.rationale or "")[:200]}
     except Exception as e:                      # 키 오류·한도 초과 등은 내용만 돌려준다 (키 값은 포함되지 않음)
         out["error"] = f"{type(e).__name__}: {str(e)[:300]}"
         return JSONResponse({"ok": False, **out}, status_code=502)
