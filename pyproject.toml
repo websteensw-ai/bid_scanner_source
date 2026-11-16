@@ -38,6 +38,7 @@ known-third-party = ["supabase"]
 # CSS·HTML 마크업 문자열은 줄 길이 제한에서 제외
 "src/mvp/*" = ["E501"]   # 한국어 안내·발화 문자열
 "tests/test_mvp.py" = ["E501"]
+"tests/test_accounts.py" = ["E501"]
 "web/*" = ["E501"]
 "evals/*" = ["E501"]
 

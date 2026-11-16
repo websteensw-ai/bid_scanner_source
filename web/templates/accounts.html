@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}계정·학급 관리 · 엘렝코스{% endblock %}
+{% block content %}
+<h2 class="h2">계정·학급 관리</h2>
+{% if demo %}
+<div class="alert info">테스트 계정에서는 계정을 발급할 수 없어요. 정식 교사·관리자 계정으로 로그인해 주세요.</div>
+{% else %}
+{% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+{% if issued %}
+<div class="card issued">
+  <div class="nx-label">발급 결과 · {{ issued_class }}</div>
+  <div class="alert warn small">⚠ 초기 비밀번호는 <b>지금 한 번만</b> 보여요. 인쇄하거나 옮겨 적은 뒤 학생에게 나눠 주세요. 첫 로그인 때 학생이 비밀번호를 바꿔요.</div>
+  <div class="scroll-x"><table class="tbl"><tr><th>이름</th><th>아이디</th><th>초기 비밀번호</th></tr>
+    {% for i in issued %}<tr><td>{{ i.display_name }}</td><td><code>{{ i.login_id }}</code></td><td><code>{{ i.password }}</code></td></tr>{% endfor %}</table></div>
+  <div class="row-gap"><button class="btn" onclick="window.print()">🖨 인쇄</button><a class="btn" href="/teacher/accounts">닫기</a></div>
+  <p class="muted small">로그인 주소: https://elenchos.kr</p>
+</div>
+{% endif %}
+
+{% if user.role == 'admin' %}
+<div class="card">
+  <div class="nx-label">교사 계정</div>
+  <div class="scroll-x"><table class="tbl"><tr><th>이름</th><th>아이디</th><th>상태</th><th>마지막 로그인</th><th></th></tr>
+  {% for t in teachers %}<tr><td>{{ t.display_name }}</td><td><code>{{ t.login_id }}</code></td><td>{{ '사용' if t.active else '중지' }}{{ ' · 비번 변경 전' if t.must_change_pw }}</td>
+    <td>{{ (t.last_login or '')[:16]|replace('T',' ') }}</td>
+    <td class="row-gap"><form method="post" action="/teacher/accounts/reset" hx-boost="false"><input type="hidden" name="student_id" value="{{ t.id }}"><button class="btn">비번 초기화</button></form>
+      <form method="post" action="/teacher/accounts/active" hx-boost="false"><input type="hidden" name="student_id" value="{{ t.id }}"><input type="hidden" name="active" value="{{ '0' if t.active else '1' }}"><button class="btn">{{ '사용 중지' if t.active else '다시 사용' }}</button></form></td></tr>
+  {% else %}<tr><td colspan="5" class="muted">아직 교사 계정이 없어요.</td></tr>{% endfor %}</table></div>
+  <form method="post" action="/admin/teachers" hx-boost="false" class="row-gap mt">
+    <input name="login_id" placeholder="교사 아이디 (예: kim.t)" required><input name="display_name" placeholder="표시 이름 (예: 김OO 선생님)">
+    <button class="btn primary">교사 계정 발급</button></form>
+</div>
+{% endif %}
+
+<div class="card">
+  <div class="nx-label">새 학급</div>
+  <form method="post" action="/teacher/accounts/class" hx-boost="false" class="row-gap">
+    <input name="name" placeholder="학급 이름 (예: 2026 논술 A반)" required>
+    {% if user.role == 'admin' %}<select name="teacher_id"><option value="">담당: 나</option>{% for t in teachers %}<option value="{{ t.id }}">담당: {{ t.display_name }}</option>{% endfor %}</select>{% endif %}
+    <button class="btn primary">학급 만들기</button></form>
+</div>
+
+{% for c in classes %}
+<div class="card">
+  <div class="row-between"><div class="nx-label">{{ c.name }} · 학생 {{ c.students|length }}명 · 문제 {{ c.pack_id }}</div></div>
+  <div class="scroll-x"><table class="tbl"><tr><th>이름</th><th>아이디</th><th>상태</th><th>마지막 로그인</th><th></th></tr>
+  {% for s in c.students %}<tr><td>{{ s.display_name }}</td><td><code>{{ s.login_id }}</code></td>
+    <td>{{ '사용' if s.active else '중지' }}{{ ' · 비번 변경 전' if s.must_change_pw }}</td><td>{{ (s.last_login or '')[:16]|replace('T',' ') }}</td>
+    <td class="row-gap"><a class="btn" href="/teacher/mvp/student/{{ s.id }}">기록</a>
+      <form method="post" action="/teacher/accounts/reset" hx-boost="false" onsubmit="return confirm('비밀번호를 초기화할까요?')"><input type="hidden" name="student_id" value="{{ s.id }}"><button class="btn">비번 초기화</button></form>
+      <form method="post" action="/teacher/accounts/active" hx-boost="false"><input type="hidden" name="student_id" value="{{ s.id }}"><input type="hidden" name="active" value="{{ '0' if s.active else '1' }}"><button class="btn">{{ '사용 중지' if s.active else '다시 사용' }}</button></form></td></tr>
+  {% else %}<tr><td colspan="5" class="muted">아직 학생이 없어요.</td></tr>{% endfor %}</table></div>
+  <details class="mt"><summary>➕ 학생 계정 발급</summary>
+    <form method="post" action="/teacher/accounts/issue" hx-boost="false" class="stack">
+      <input type="hidden" name="class_id" value="{{ c.id }}">
+      <label class="field"><span>아이디 앞부분 (뒤에 01, 02… 가 붙어요)</span><input name="prefix" placeholder="예: 26a" required></label>
+      <label class="field"><span>인원 수</span><input type="number" name="count" min="1" max="60" value="5"></label>
+      <label class="field"><span>또는 표시 이름 목록 (한 줄에 한 명, 선택 · 실명 대신 번호나 별칭을 권장해요)</span><textarea name="names" rows="3" placeholder="1번&#10;2번"></textarea></label>
+      <button class="btn primary">발급하기</button>
+    </form></details>
+</div>
+{% else %}<p class="muted">아직 학급이 없어요. 위에서 학급을 먼저 만들어 주세요.</p>{% endfor %}
+{% endif %}
+{% endblock %}

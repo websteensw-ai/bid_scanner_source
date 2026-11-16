@@ -508,9 +508,8 @@ def mvp_download(request: Request):
 
 # ---------------------------------------------------------------- 교사: 대시보드
 def _students(user: dict) -> list[dict]:
-    if _demo(user):
-        return [{"id": user["id"], "display_name": "테스트 사용자 (내 기록)", "is_demo": True}]
-    return _store().list_students(include_demo=False)
+    from web.accounts import visible_students
+    return visible_students(user)
 
 
 def _check_student(user: dict, sid: str) -> None:

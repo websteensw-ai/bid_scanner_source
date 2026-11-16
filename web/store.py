@@ -39,6 +39,34 @@ class Store:
     def list_feedback(self) -> list[dict]:
         raise NotImplementedError
 
+    # 계정·학급 (web/accounts.py 가 사용). 비밀번호는 해시만 저장한다.
+    def account_by_login(self, login_id: str) -> dict | None:
+        raise NotImplementedError
+
+    def account_get(self, aid: str) -> dict | None:
+        raise NotImplementedError
+
+    def account_create(self, aid: str, login_id: str, pw_hash: str, role: str, name: str, by: str) -> None:
+        raise NotImplementedError
+
+    def account_update(self, aid: str, patch: dict) -> None:
+        raise NotImplementedError
+
+    def account_list(self, role: str | None = None) -> list[dict]:
+        raise NotImplementedError
+
+    def class_create(self, cid: str, name: str, teacher_id: str, pack_id: str) -> None:
+        raise NotImplementedError
+
+    def class_list(self, teacher_id: str | None = None) -> list[dict]:
+        raise NotImplementedError
+
+    def class_add_member(self, cid: str, student_id: str) -> None:
+        raise NotImplementedError
+
+    def audit(self, who: str, action: str, target: str = "") -> None:
+        raise NotImplementedError
+
 
 class MemoryStore(Store):
     def __init__(self):
@@ -46,6 +74,10 @@ class MemoryStore(Store):
         self.meta: dict[str, dict] = {}
         self.status: dict[str, dict] = {}
         self.feedback: list[dict] = []
+        self.accounts: dict[str, dict] = {}
+        self.classes: dict[str, dict] = {}
+        self.members: set[tuple[str, str]] = set()
+        self.audits: list[dict] = []
 
     def load(self, sid):
         raw = self.states.get(sid)
@@ -71,6 +103,46 @@ class MemoryStore(Store):
 
     def list_feedback(self):
         return list(self.feedback)
+
+    def account_by_login(self, login_id):
+        return next((dict(a) for a in self.accounts.values() if a["login_id"] == login_id.lower()), None)
+
+    def account_get(self, aid):
+        a = self.accounts.get(aid)
+        return {k: v for k, v in a.items() if k != "pw_hash"} if a else None
+
+    def account_create(self, aid, login_id, pw_hash, role, name, by):
+        if self.account_by_login(login_id) or aid in self.accounts:
+            raise RuntimeError("저장소 오류: duplicate key")
+        self.accounts[aid] = {"id": aid, "login_id": login_id.lower(), "pw_hash": pw_hash, "role": role,
+                              "display_name": name, "active": True, "must_change_pw": True, "consent": {},
+                              "failed_logins": 0, "locked_until": None, "created_by": by, "last_login": None}
+
+    def account_update(self, aid, patch):
+        from datetime import UTC, datetime
+        a = self.accounts[aid]
+        for k, v in patch.items():
+            a[k] = datetime.now(UTC).isoformat(timespec="seconds") if k == "last_login" else v
+
+    def account_list(self, role=None):
+        return [self.account_get(a["id"]) for a in self.accounts.values() if role is None or a["role"] == role]
+
+    def class_create(self, cid, name, teacher_id, pack_id):
+        self.classes[cid] = {"id": cid, "name": name, "teacher_id": teacher_id, "pack_id": pack_id}
+
+    def class_list(self, teacher_id=None):
+        out = []
+        for c in self.classes.values():
+            if teacher_id is None or c["teacher_id"] == teacher_id:
+                studs = [self.account_get(s) for (k, s) in sorted(self.members) if k == c["id"]]
+                out.append({**c, "students": studs})
+        return out
+
+    def class_add_member(self, cid, student_id):
+        self.members.add((cid, student_id))
+
+    def audit(self, who, action, target=""):
+        self.audits.append({"who": who, "action": action, "target": target})
 
 
 class SupabaseStore(Store):
@@ -109,6 +181,34 @@ class SupabaseStore(Store):
 
     def list_feedback(self):
         return self._rpc("elenchos_list_feedback") or []
+
+    def account_by_login(self, login_id):
+        return self._rpc("elenchos_account_by_login", p_login=login_id)
+
+    def account_get(self, aid):
+        return self._rpc("elenchos_account_get", p_id=aid)
+
+    def account_create(self, aid, login_id, pw_hash, role, name, by):
+        self._rpc("elenchos_account_create", p_id=aid, p_login=login_id, p_hash=pw_hash, p_role=role,
+                  p_name=name, p_by=by)
+
+    def account_update(self, aid, patch):
+        self._rpc("elenchos_account_update", p_id=aid, p_patch=patch)
+
+    def account_list(self, role=None):
+        return self._rpc("elenchos_account_list", p_role=role) or []
+
+    def class_create(self, cid, name, teacher_id, pack_id):
+        self._rpc("elenchos_class_create", p_id=cid, p_name=name, p_teacher=teacher_id, p_pack=pack_id)
+
+    def class_list(self, teacher_id=None):
+        return self._rpc("elenchos_class_list", p_teacher=teacher_id) or []
+
+    def class_add_member(self, cid, student_id):
+        self._rpc("elenchos_class_add_member", p_class=cid, p_student=student_id)
+
+    def audit(self, who, action, target=""):
+        self._rpc("elenchos_audit", p_who=who, p_action=action, p_target=target)
 
 
 @lru_cache(maxsize=1)

@@ -35,6 +35,7 @@
     {% if is_staff %}
     <div class="navsec">교사·운영자</div>
     <a href="/teacher/mvp" class="{{ 'on' if path.startswith('/teacher/mvp') }}"><span>👩‍🏫</span>6단계 학급 현황</a>
+    <a href="/teacher/accounts" class="{{ 'on' if path.startswith('/teacher/accounts') }}"><span>🔑</span>계정·학급 관리</a>
     <a href="/teacher/records" class="{{ 'on' if path == '/teacher/records' }}"><span>🗂️</span>학습 기록</a>
     <a href="/teacher/content" class="{{ 'on' if path == '/teacher/content' }}"><span>📦</span>자료 관리</a>
     <a href="/teacher/quality" class="{{ 'on' if path == '/teacher/quality' }}"><span>🧪</span>AI 품질</a>
@@ -44,6 +45,7 @@
     <div class="nx-user"><div class="nx-avatar">{{ (user.name or '사용자')[:1] }}</div>
       <div><div class="nm">{{ user.name }}</div>
         <div class="rl">{{ ROLE_LABEL.get(user.role, user.role) }}{% if user.is_demo %} · <span class="accent">테스트</span>{% endif %}</div></div></div>
+    {% if not user.is_demo %}<a href="/account/password" class="small muted">비밀번호 변경</a>{% endif %}
     <form method="post" action="/logout"><button class="btn block">↩ 로그아웃</button></form>
   </div>
 </aside>

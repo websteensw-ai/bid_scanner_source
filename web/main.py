@@ -88,10 +88,26 @@ def current_user(request: Request) -> dict | None:
     return request.session.get("user")
 
 
-def require(request: Request, *roles: str) -> dict:
+class NeedPassword(Exception):
+    pass
+
+
+@app.exception_handler(NeedPassword)
+async def _need_password(request: Request, exc: NeedPassword):
+    return RedirectResponse("/account/password", status_code=303)
+
+
+def require(request: Request, *roles: str, allow_must_change: bool = False) -> dict:
     user = current_user(request)
     if not user:
         raise NeedLogin()
+    from web.accounts import recheck
+
+    user = recheck(request, user)
+    if not user:
+        raise NeedLogin()
+    if user.get("must_change") and not allow_must_change:
+        raise NeedPassword()
     if roles and user["role"] not in roles and user["role"] != "admin":
         raise Forbidden()
     return user
@@ -148,8 +164,20 @@ def login(request: Request, login_id: str = Form(""), password: str = Form("")):
         request.session["demo_id"] = demo_id
         request.session["user"] = {"id": demo_id, "name": "테스트 사용자", "role": "admin", "is_demo": True}
         return redirect("/mvp")
-    return render(request, "login.html", settings=s, status_code=401,
-                  error="아이디 또는 비밀번호를 확인해 주세요. 정식 계정 로그인은 준비 중이에요.")
+    from web.accounts import authenticate
+
+    try:
+        user, err = authenticate(login_id, password)
+    except RuntimeError:
+        user, err = None, "로그인 서버에 연결하지 못했어요. 잠시 뒤 다시 해 주세요."
+    if user:
+        demo_id = request.session.get("demo_id")
+        request.session.clear()
+        if demo_id:
+            request.session["demo_id"] = demo_id
+        request.session["user"] = user
+        return redirect("/account/password" if user["must_change"] else "/")
+    return render(request, "login.html", settings=s, status_code=401, error=err)
 
 
 @app.post("/logout")
@@ -370,10 +398,9 @@ def review_action(request: Request, item: str, action: str, text: str = Form("")
 @app.get("/teacher/records", response_class=HTMLResponse)
 def records(request: Request, student: str | None = None, tab: str = "criteria"):
     user = require(request, "teacher")
-    store = get_store()
-    students = store.list_students(include_demo=False)
-    if user.get("is_demo"):     # 데모 관리자는 자기 데모 기록만 본다
-        students = [{"id": user["id"], "display_name": "테스트 사용자 (내 기록)", "is_demo": True}]
+    from web.accounts import visible_students
+
+    students = visible_students(user)       # 교사: 자기 학급 / 관리자: 전체 / 데모: 자기 기록
     sid = student if student in {s["id"] for s in students} else (students[0]["id"] if students else None)
     if not sid:
         return render(request, "records.html", students=[], sid=None, tab=tab)
@@ -389,7 +416,9 @@ def records(request: Request, student: str | None = None, tab: str = "criteria")
 def records_override(request: Request, student: str = Form(...), criterion: str = Form(...),
                      level: str = Form(...), note: str = Form("")):
     user = require(request, "teacher")
-    if user.get("is_demo") and student != user["id"]:
+    from web.accounts import can_see
+
+    if not can_see(user, student):
         raise Forbidden()
     if not note.strip() or criterion not in {c.value for c in Criterion}:
         return redirect(f"/teacher/records?student={student}")
@@ -402,7 +431,9 @@ def records_override(request: Request, student: str = Form(...), criterion: str 
 @app.post("/teacher/records/flag")
 def records_flag(request: Request, student: str = Form(...), index: int = Form(...)):
     user = require(request, "teacher")
-    if user.get("is_demo") and student != user["id"]:
+    from web.accounts import can_see
+
+    if not can_see(user, student):
         raise Forbidden()
     eng = engine_for(user, student)
     if 0 <= index < len(eng.state.flags):
@@ -461,9 +492,11 @@ def quality(request: Request, report: str | None = None, all_cases: int = 0):
 
 
 # ---------- 6단계 논술학습 MVP ----------
-from web import mvp as _mvp  # noqa: E402  (헬퍼 정의 뒤에 불러와야 순환 참조가 풀린다)
+from web import accounts as _accounts  # noqa: E402  (헬퍼 정의 뒤에 불러와야 순환 참조가 풀린다)
+from web import mvp as _mvp  # noqa: E402
 
 app.include_router(_mvp.router)
+app.include_router(_accounts.router)
 
 
 # 로컬 실행 시에만 public/ 을 직접 제공 (Vercel 에서는 CDN 이 제공하므로 마운트하지 않음)
