@@ -147,7 +147,60 @@ def redirect(url: str) -> Response:
 # ---------- 인증 ----------
 @app.get("/healthz")
 def healthz():
-    return JSONResponse({"ok": True, "store": type(get_store()).__name__, "content": active_version()})
+    s = get_settings()
+    ai = bool(s.anthropic_api_key if s.ai_provider == "claude" else s.openai_api_key)
+    return JSONResponse({"ok": True, "store": type(get_store()).__name__, "content": active_version(),
+                         "ai": f"{s.ai_provider}:{s.anthropic_model if s.ai_provider == 'claude' else s.openai_model}"
+                         if ai else "demo"})
+
+
+def ai_check_token(day: str) -> str:
+    return hmac.new(_secret.encode(), f"ai-check:{day}".encode(), "sha256").hexdigest()[:32]
+
+
+@app.get("/healthz/ai")
+def healthz_ai(t: str = ""):
+    """실제 AI 연결 점검 (튜터 1턴·답 분석 1건·채점 1회). 기록은 저장하지 않는다.
+    AI 비용이 들므로 SESSION_SECRET 으로 만든 그날의 토큰이 있어야 실행된다."""
+    import time
+    from datetime import UTC, datetime
+
+    if not hmac.compare_digest(t, ai_check_token(datetime.now(UTC).date().isoformat())):
+        return JSONResponse({"ok": False, "error": "forbidden"}, status_code=403)
+    from src.learning.state import LearnerState
+    from src.mvp import ai as roles_mod
+    from src.mvp.engine import MvpEngine
+
+    out = {}
+    roles = roles_mod.get_roles(demo=False)
+    out["tutor_role"] = type(roles["tutor"]).__name__
+    if roles["provider"] is None:
+        return JSONResponse({"ok": False, "error": "AI 키 없음 — 데모 역할로 동작 중", **out})
+    try:
+        t0 = time.time()
+        eng = MvpEngine(LearnerState(student_id="ai-check"), roles)
+        eng.start()
+        turn = eng.student_turn("(가)는 나라에 봉사한 사람의 말은 반드시 믿어야 한다고 해요.")
+        out["tutor"] = {"seconds": round(time.time() - t0, 1), "utterance": turn.text, "check": turn.check,
+                        "regenerated": turn.regenerated, "issue_type": turn.judgment.issue_type if turn.judgment else None,
+                        "model": turn.model}
+        t0 = time.time()
+        items = roles["grader"].grade(eng.pack, eng.rubric, eng.pack.model_answers[0].text)
+        out["grader"] = {"seconds": round(time.time() - t0, 1),
+                         "levels": {i.code: i.level for i in items}}
+        t0 = time.time()
+        from src.learning.analyzer import diagnose, get_analyzer
+        pack = load_pack(active_version())
+        b = pack.bundles[next(iter(pack.bundles))]
+        step = b.steps[0]
+        d = diagnose(get_analyzer(demo=False), step, "제시문은 공동체를 위해 일한 사람을 믿는다는 내용이에요", "",
+                     None, [pack.excerpts[e] for e in step.excerpts if e in pack.excerpts], {})
+        out["analyzer"] = {"seconds": round(time.time() - t0, 1), "analyzer": type(get_analyzer(demo=False)).__name__,
+                           "intent": d.intent, "met": d.met, "uncertain": d.uncertain}
+    except Exception as e:                      # 키 오류·한도 초과 등은 내용만 돌려준다 (키 값은 포함되지 않음)
+        out["error"] = f"{type(e).__name__}: {str(e)[:300]}"
+        return JSONResponse({"ok": False, **out}, status_code=502)
+    return JSONResponse({"ok": True, **out})
 
 
 @app.get("/")

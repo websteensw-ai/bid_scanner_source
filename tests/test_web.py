@@ -97,3 +97,40 @@ def test_teacher_override_rejudges(client):
 
 def test_healthz(client):
     assert client.get("/healthz").json()["ok"] is True
+
+
+def test_ai_check_endpoint_requires_token_and_runs(client, monkeypatch):
+    from datetime import UTC, datetime
+
+    import src.mvp.ai as roles_mod
+    from web.main import ai_check_token
+
+    assert client.get("/healthz").json()["ai"] in ("demo",) or ":" in client.get("/healthz").json()["ai"]
+    assert client.get("/healthz/ai?t=wrong").status_code == 403
+    tok = ai_check_token(datetime.now(UTC).date().isoformat())
+    r = client.get(f"/healthz/ai?t={tok}")                 # 키가 없으면 데모라고 알려 준다
+    assert r.json()["ok"] is False and "데모" in r.json()["error"]
+
+    class FakeProvider:
+        name, model = "fake", "fake-1"
+
+        def _complete(self, system, user):
+            if "채점자" in system:
+                return '{"items":[{"code":"A1","level":4,"evidence":[],"reason":"ok"}]}'
+            if "검사한다" in system:
+                return "NO"
+            if "소크라틱" in system:
+                return ('{"utterance":"원문의 어느 대목이 그만큼 강하게 말하나요?","subgoal_id":"S0-1",'
+                        '"subgoal_status":"partial","issue_type":"overclaim","scaffold_level":0}')
+            return '{"intent":"answer","met":[],"primary_error":null,"uncertain":false,"rationale":"x"}'
+
+    p = FakeProvider()
+    monkeypatch.setattr(roles_mod, "_provider_or_none", lambda demo: p)
+    monkeypatch.setattr("src.ai.factory.get_provider", lambda s=None: p)
+    from src.core.config import get_settings
+    monkeypatch.setattr(get_settings(), "anthropic_api_key", "x")
+    r = client.get(f"/healthz/ai?t={tok}")
+    body = r.json()
+    assert body["ok"], body
+    assert body["tutor"]["issue_type"] == "overclaim" and body["grader"]["levels"]["A1"] == 4
+    assert body["analyzer"]["analyzer"] == "LLMAnalyzer"
