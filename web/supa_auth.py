@@ -23,6 +23,8 @@ class AuthError(Exception):
 def _ko(code: str, msg: str) -> AuthError:
     """Supabase Auth 오류 → 학생에게 보일 문구 코드."""
     m = (msg or "").lower()
+    if code == "email_address_not_authorized" or "not authorized" in m:
+        return AuthError("mail_blocked")
     if "already" in m or "registered" in m or code == "user_already_exists":
         return AuthError("exists")
     if "not confirmed" in m or code == "email_not_confirmed":
