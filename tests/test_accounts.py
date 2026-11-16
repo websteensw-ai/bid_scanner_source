@@ -107,3 +107,11 @@ def test_demo_cannot_issue(mem):
     c.post("/login", data={"login_id": "test", "password": "testpoc"})
     assert "테스트 계정에서는" in c.get("/teacher/accounts").text
     assert c.post("/teacher/accounts/class", data={"name": "x"}).status_code == 403
+
+
+def test_foundation_pages_open_for_real_accounts_without_ai_key(mem):
+    """AI 키가 없어도 실제 계정으로 기초 다지기 화면이 열린다 (데모 분석기로 동작)."""
+    c = TestClient(app)
+    login(c, "admin", "admin-pass-1")
+    for p in ["/home", "/result", "/review"]:
+        assert c.get(p).status_code == 200, p

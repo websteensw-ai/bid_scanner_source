@@ -144,6 +144,6 @@ def get_analyzer(demo: bool) -> Analyzer:
 
     s = get_settings()
     key = s.anthropic_api_key if s.ai_provider == "claude" else s.openai_api_key
-    if demo and not key:
+    if not key:                 # AI 키가 아직 없으면 (테스트 계정이 아니어도) 데모 분석기로 동작
         return DemoAnalyzer()
     return LLMAnalyzer(get_provider(s))
