@@ -1,5 +1,5 @@
 import anthropic
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
 
 from src.ai.base import AIProvider
 
@@ -12,7 +12,10 @@ class ClaudeProvider(AIProvider):
         self.model = model
         self.max_tokens = max_tokens
 
-    @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=2, max=20))
+    # 일시적 오류(과부하·속도 제한·연결)만 다시 시도한다. 키 오류·잘못된 요청은 바로 실패시킨다.
+    @retry(retry=retry_if_exception_type((anthropic.RateLimitError, anthropic.APIConnectionError,
+                                          anthropic.InternalServerError)),
+           stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=8), reraise=True)
     def _complete(self, system: str, user: str) -> str:
         msg = self.client.messages.create(
             model=self.model,
