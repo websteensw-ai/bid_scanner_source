@@ -6,6 +6,8 @@
   <div class="small muted">{{ limits.max_chars }}자 상한 · 현재 답안: {{ DRAFT_KO['final'] if fin else DRAFT_KO['submitted'] }} · 작성 조건: {{ CONDITION_KO.get(sub.condition, sub.condition) }}</div>
   <details><summary class="small">제시문 펼쳐 보기</summary>{% include "_mvp_passages.html" %}</details></div>
 {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+{% if METHOD_VIEW %}{% set order = REVIEW_STEPS|map(attribute=0)|list %}
+<div class="method-steps">{{ icon('scales') }} <b>6-1단계 진행 순서</b>{% for k, s in REVIEW_STEPS %}<span class="{{ 'now' if k == phase else ('done' if loop.index0 < order.index(phase) else '') }}">{{ s }}</span>{% endfor %}</div>{% endif %}
 
 {% if phase == 'diagnose' %}
   <form method="post" action="/mvp/review/diagnose" hx-boost="false" class="card">
@@ -54,7 +56,7 @@
       <p class="small muted">여백 질문: {{ cur.margin_note }} · 상태: {{ ANN_STATUS_KO[cur.status] }}{% if cur.decision %} · 내 판단: {{ DECISION_KO[cur.decision] }}{% endif %}</p>
       {% if cur.nature != 'strength' %}
       <div class="nx-chat">{% for t in cur.thread %}
-        <div class="nx-row {{ 'me' if t.role=='student' else 'tutor' }}">{% if t.role=='tutor' %}<div class="av">🧑‍🏫</div>{% endif %}<div class="nx-msg {{ 'me' if t.role=='student' else 'tutor' }}"><div>{{ t.text }}</div></div></div>
+        <div class="nx-row {{ 'me' if t.role=='student' else 'tutor' }}">{% if t.role=='tutor' %}<div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div>{% endif %}<div class="nx-msg {{ 'me' if t.role=='student' else 'tutor' }}"><div>{{ t.text }}</div></div></div>
       {% endfor %}</div>
       {% if cur.status not in ('withdrawn','resolved','unresolved') %}
       <form method="post" action="/mvp/review/reply" hx-boost="false" class="row-gap"><input type="hidden" name="number" value="{{ cur.number }}">
@@ -78,7 +80,7 @@
   {% if phase == 'revise' %}
   <form method="post" action="/mvp/review/final" hx-boost="false" class="card">
     <div class="row-between"><div class="nx-label">최종본 — 첨삭 표시 없는 새 원고지</div><div><b id="nChars">0</b> / {{ limits.max_chars }}자 · 칸 <span id="nCells">0</span></div></div>
-    <p class="muted small">제출본을 미리 채워 두었어요. AI 문장은 넣지 않아요. 내 판단대로 고쳐 써요.</p>
+    <p class="muted small">제출본을 미리 채워 두었어요. 튜터의 문장은 넣지 않아요. 내 판단대로 고쳐 써요.</p>
     <div class="mvp-tabs"><label><input type="radio" name="view" checked onclick="mvpView('text')"> 입력창</label>
       <label><input type="radio" name="view" onclick="mvpView('grid')"> 원고지 미리보기</label></div>
     <textarea id="body" name="body" rows="16" spellcheck="false" class="mvp-input" data-autosave="off">{{ att.temp_draft }}</textarea>

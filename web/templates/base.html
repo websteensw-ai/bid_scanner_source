@@ -13,7 +13,7 @@
 {% if user %}
 <input type="checkbox" id="navtoggle" class="navtoggle" aria-label="메뉴">
 <header class="topbar">
-  <label for="navtoggle" class="burger" aria-hidden="true">☰</label>
+  <label for="navtoggle" class="burger" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></label>
   <a href="/" class="brand-sm"><img src="/icon.svg" alt="" width="28" height="28"> 논술랩</a>
 </header>
 <aside class="sidebar">
@@ -23,23 +23,23 @@
     {% set is_staff = user.role in ('teacher','admin') %}
     {% if is_student %}
     <div class="navsec">6단계 논술 학습</div>
-    <a href="/mvp" class="{{ 'on' if path == '/mvp' }}"><span>🏠</span>학습 홈</a>
-    <a href="/mvp/records" class="{{ 'on' if path == '/mvp/records' }}"><span>🗂️</span>나의 기록</a>
-    {% if user.role == 'student' %}<a href="/mvp/join" class="{{ 'on' if path == '/mvp/join' }}"><span>🏫</span>학급 참여</a>{% endif %}
-    <a href="/mvp/guide" class="{{ 'on' if path == '/mvp/guide' }}"><span>📘</span>안내</a>
+    <a href="/mvp" class="{{ 'on' if path == '/mvp' }}"><span>{{ icon('greek-temple') }}</span>학습 홈</a>
+    <a href="/mvp/records" class="{{ 'on' if path == '/mvp/records' }}"><span>{{ icon('scroll-unfurled') }}</span>나의 기록</a>
+    {% if user.role == 'student' %}<a href="/mvp/join" class="{{ 'on' if path == '/mvp/join' }}"><span>{{ icon('ionic-column') }}</span>학급 참여</a>{% endif %}
+    <a href="/mvp/guide" class="{{ 'on' if path == '/mvp/guide' }}"><span>{{ icon('open-book') }}</span>안내</a>
     <div class="navsec">기초 다지기</div>
-    <a href="/home" class="{{ 'on' if path == '/home' }}"><span>🧱</span>기초 홈</a>
-    <a href="/home#topics" class="{{ 'on' if path.startswith('/learn') }}"><span>✍️</span>학습하기</a>
-    <a href="/result" class="{{ 'on' if path == '/result' }}"><span>🧭</span>진단 결과</a>
-    <a href="/review" class="{{ 'on' if path == '/review' }}"><span>📖</span>선택 복습</a>
+    <a href="/home" class="{{ 'on' if path == '/home' }}"><span>{{ icon('classical-knowledge') }}</span>기초 홈</a>
+    <a href="/home#topics" class="{{ 'on' if path.startswith('/learn') }}"><span>{{ icon('quill-ink') }}</span>학습하기</a>
+    <a href="/result" class="{{ 'on' if path == '/result' }}"><span>{{ icon('laurels') }}</span>진단 결과</a>
+    <a href="/review" class="{{ 'on' if path == '/review' }}"><span>{{ icon('book-cover') }}</span>선택 복습</a>
     {% endif %}
     {% if is_staff %}
     <div class="navsec">교사·운영자</div>
-    <a href="/teacher/mvp" class="{{ 'on' if path.startswith('/teacher/mvp') }}"><span>👩‍🏫</span>6단계 학급 현황</a>
-    <a href="/teacher/accounts" class="{{ 'on' if path.startswith('/teacher/accounts') }}"><span>🔑</span>계정·학급 관리</a>
-    <a href="/teacher/records" class="{{ 'on' if path == '/teacher/records' }}"><span>🗂️</span>학습 기록</a>
-    <a href="/teacher/content" class="{{ 'on' if path == '/teacher/content' }}"><span>📦</span>자료 관리</a>
-    <a href="/teacher/quality" class="{{ 'on' if path == '/teacher/quality' }}"><span>🧪</span>AI 품질</a>
+    <a href="/teacher/mvp" class="{{ 'on' if path.startswith('/teacher/mvp') }}"><span>{{ icon('discussion') }}</span>6단계 학급 현황</a>
+    <a href="/teacher/accounts" class="{{ 'on' if path.startswith('/teacher/accounts') }}"><span>{{ icon('key') }}</span>계정·학급 관리</a>
+    <a href="/teacher/records" class="{{ 'on' if path == '/teacher/records' }}"><span>{{ icon('scroll-quill') }}</span>학습 기록</a>
+    <a href="/teacher/content" class="{{ 'on' if path == '/teacher/content' }}"><span>{{ icon('tied-scroll') }}</span>자료 관리</a>
+    <a href="/teacher/quality" class="{{ 'on' if path == '/teacher/quality' }}"><span>{{ icon('checklist') }}</span>튜터 품질</a>
     {% endif %}
   </nav>
   <div class="userbox">
@@ -47,10 +47,13 @@
       <div><div class="nm">{{ user.name }}</div>
         <div class="rl">{{ ROLE_LABEL.get(user.role, user.role) }}{% if user.is_demo %} · <span class="accent">테스트</span>{% endif %}</div></div></div>
     {% if not user.is_demo and not user.email %}<a href="/account/password" class="small muted">비밀번호 변경</a>{% endif %}
-    <form method="post" action="/logout"><button class="btn block">↩ 로그아웃</button></form>
+    <form method="post" action="/logout"><button class="btn block">{{ icon('exit-door') }} 로그아웃</button></form>
+    <div class="site-credit">아이콘: <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> (CC BY 3.0)</div>
   </div>
 </aside>
-<main class="main">{% block content %}{% endblock %}</main>
+<main class="main">
+{% if METHOD_VIEW %}<div class="method-banner">{{ icon('scales') }}<div><b>방법론 검증 단계</b> · 제시문과 문항은 방법을 확인하기 위한 예시예요. 내용보다 <b>각 단계가 정해진 규칙대로 진행되는지</b>를 봐 주세요.</div></div>{% endif %}
+{% block content %}{% endblock %}</main>
 {% else %}
 <main class="main solo">{% block solo %}{% endblock %}</main>
 {% endif %}

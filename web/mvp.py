@@ -33,11 +33,23 @@ NATURE_KO = {"correction": "오류 교정", "optional_improvement": "선택적 �
 DECISION_KO = {"accept": "수용", "partial": "부분 수용", "reject": "비수용"}
 SELFCHECK_KO = {"found_and_fixed": "독립 발견·수정", "checked_and_kept": "독립 점검·유지",
                 "found_unresolved": "발견했으나 미해결", "insufficient_check": "점검 불충분"}
-ALERT_KO = {"stall": "정체", "grading_mismatch": "채점 불일치", "paste": "붙여넣기", "ai_copy": "AI 예시 유사",
+ALERT_KO = {"stall": "정체", "grading_mismatch": "채점 불일치", "paste": "붙여넣기", "ai_copy": "튜터 예시 유사",
             "danger": "위험 신호", "appeal": "이의 제기", "unresolved": "미해결 첨삭"}
 ALERT_STATUS_KO = {"received": "접수", "reviewing": "검토 중", "done": "조치 완료", "held": "보류"}
-CONDITION_KO = {"independent_after_support": "지원 후 독립 작성", "ai_supported": "AI 지원", "teacher_supported": "교사 지원",
+CONDITION_KO = {"independent_after_support": "지원 후 독립 작성", "ai_supported": "튜터 지원", "teacher_supported": "교사 지원",
                 "interrupted_then_supplemented": "중단 후 보충"}
+ISSUE_KO = {"keyword_only": "낱말만 말함", "case_as_claim": "사례를 주장으로 착각", "overclaim": "원문보다 강한 단정",
+            "background_knowledge": "제시문 밖 지식", "false_identity": "다른 것을 같다고 봄",
+            "false_dichotomy": "대립·양자택일로 봄", "not_linked_to_task": "논제와 연결 안 됨"}
+INTENT_KO = {"answer_request": "정답 요구", "off_task": "과제 이탈", "dont_know": "모르겠어요", "disagree": "반대 의견",
+             "danger": "위험 신호"}
+SUBGOAL_KO = {"met": "충족", "partial": "부분", "not_yet": "아직", "skipped": "건너뜀"}
+REVIEW_STEPS = [("diagnose", "① 제출본 인계 · ② 짧은 자기진단"), ("results", "③ 평가 공개 (강점 먼저)"),
+                ("threads", "④ 첨삭 과제 선택 · ⑤ 원고 연결 문답 · ⑥ 수용 판단"), ("revise", "⑦ 수정본 작성"),
+                ("compare", "⑧ 재평가 전후 비교"), ("done", "⑨ 다음 점검 질문 · 돌아보기")]
+WRITE_STEPS = ["① 독립 초고", "② 자기검증", "③ 선행 수정본", "④ 제출 (고정)"]
+env.globals.update(ISSUE_KO=ISSUE_KO, INTENT_KO=INTENT_KO, SUBGOAL_KO=SUBGOAL_KO, REVIEW_STEPS=REVIEW_STEPS,
+                   WRITE_STEPS=WRITE_STEPS)
 env.globals.update(SUPPORT_KO=SUPPORT_KO, STAGE_STATUS_KO=STAGE_STATUS_KO, DRAFT_KO=DRAFT_KO,
                    ANN_STATUS_KO=ANN_STATUS_KO, NATURE_KO=NATURE_KO, DECISION_KO=DECISION_KO,
                    SELFCHECK_KO=SELFCHECK_KO, ALERT_KO=ALERT_KO, ALERT_STATUS_KO=ALERT_STATUS_KO,

@@ -9,10 +9,10 @@
 {% if issued %}
 <div class="card issued">
   <div class="nx-label">발급 결과 · {{ issued_class }}</div>
-  <div class="alert warn small">⚠ 초기 비밀번호는 <b>지금 한 번만</b> 보여요. 인쇄하거나 옮겨 적은 뒤 학생에게 나눠 주세요. 첫 로그인 때 학생이 비밀번호를 바꿔요.</div>
+  <div class="alert warn small"> 초기 비밀번호는 <b>지금 한 번만</b> 보여요. 인쇄하거나 옮겨 적은 뒤 학생에게 나눠 주세요. 첫 로그인 때 학생이 비밀번호를 바꿔요.</div>
   <div class="scroll-x"><table class="tbl"><tr><th>이름</th><th>아이디</th><th>초기 비밀번호</th></tr>
     {% for i in issued %}<tr><td>{{ i.display_name }}</td><td><code>{{ i.login_id }}</code></td><td><code>{{ i.password }}</code></td></tr>{% endfor %}</table></div>
-  <div class="row-gap"><button class="btn" onclick="window.print()">🖨 인쇄</button><a class="btn" href="/teacher/accounts">닫기</a></div>
+  <div class="row-gap"><button class="btn" onclick="window.print()">{{ icon('scroll-unfurled') }} 인쇄</button><a class="btn" href="/teacher/accounts">닫기</a></div>
   <p class="muted small">로그인 주소: https://elenchos.kr</p>
 </div>
 {% endif %}
@@ -61,7 +61,7 @@
       <form method="post" action="/teacher/accounts/reset" hx-boost="false" onsubmit="return confirm('비밀번호를 초기화할까요?')"><input type="hidden" name="student_id" value="{{ s.id }}"><button class="btn">비번 초기화</button></form>
       <form method="post" action="/teacher/accounts/active" hx-boost="false"><input type="hidden" name="student_id" value="{{ s.id }}"><input type="hidden" name="active" value="{{ '0' if s.active else '1' }}"><button class="btn">{{ '사용 중지' if s.active else '다시 사용' }}</button></form></td></tr>
   {% else %}<tr><td colspan="5" class="muted">아직 학생이 없어요.</td></tr>{% endfor %}</table></div>
-  <details class="mt"><summary>➕ 이메일이 없는 학생용 아이디 발급 (만 14세 미만 등)</summary>
+  <details class="mt"><summary>+ 이메일이 없는 학생용 아이디 발급 (만 14세 미만 등)</summary>
     <form method="post" action="/teacher/accounts/issue" hx-boost="false" class="stack">
       <input type="hidden" name="class_id" value="{{ c.id }}">
       <label class="field"><span>아이디 앞부분 (뒤에 01, 02… 가 붙어요)</span><input name="prefix" placeholder="예: 26a" required></label>

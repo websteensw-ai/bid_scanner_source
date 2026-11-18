@@ -2,7 +2,7 @@
 <div class="card">
   <div class="row-between"><div class="nx-label">{{ label }}</div>
     <div><b class="mvp-total">{{ '%.2f'|format(ev.total) }}</b> / 100{% if ev.provisional %} <span class="nx-chip">잠정</span>{% endif %}</div></div>
-  <p class="muted small">소수점 점수는 환산 결과이며, AI 평가가 그만큼 정밀하다는 뜻은 아니에요. · 채점표 {{ ev.rubric_version }}{% if ev.replaces %} · 현재 적용 버전 ({{ ev.note }}){% endif %}</p>
+  <p class="muted small">소수점 점수는 환산 결과이며, 평가가 그만큼 정밀하다는 뜻은 아니에요. · 채점표 {{ ev.rubric_version }}{% if ev.replaces %} · 현재 적용 버전 ({{ ev.note }}){% endif %}</p>
   <div class="mvp-areas">{% for ar in rubric.areas %}<div><span>{{ ar.code }} {{ ar.name }}</span><b>{{ '%g'|format(ev.area_scores[ar.code]) }}</b>/{{ '%g'|format(ar.points) }}</div>{% endfor %}</div>
   {% if ev.over_chars %}<div class="alert warn small">분량 {{ ev.over_chars }}자 초과 → E2 0점</div>{% endif %}
 </div>

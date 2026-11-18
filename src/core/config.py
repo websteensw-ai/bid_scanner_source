@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     app_env: Literal["development", "production"] = "development"
     max_essay_chars: int = 5000
 
+    # 방법론 검증 단계 표시 (단계·규칙·튜터 발화의 근거를 화면에 보여 줌). 검증이 끝나면 METHOD_VIEW=false
+    method_view: bool = True
+
     # 테스트 로그인 (Supabase 없이 데모 데이터로 동작). 운영 환경에서는 자동 비활성화
     enable_test_login: bool = True
     test_login_id: str = "test"

@@ -1,16 +1,27 @@
 <div id="dialogue">
   {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
-  {% if recap and run.turns %}<div class="alert info small">🔖 {{ recap }}</div>{% endif %}
-  {% if run.status == 'completed' %}<div class="alert ok">✅ 이 단계는 완료했어요. 앞 단계는 다시 열지 않고, 기록만 볼 수 있어요.</div>{% endif %}
-  {% if run.status == 'flagged' %}<div class="alert warn">🧑‍🏫 선생님 확인을 기다리고 있어요. 확인 후 이어서 할 수 있어요.</div>{% endif %}
+  {% if recap and run.turns %}<div class="alert info small">{{ icon('bookmark') }} {{ recap }}</div>{% endif %}
+  {% if run.status == 'completed' %}<div class="alert ok">✓ 이 단계는 완료했어요. 앞 단계는 다시 열지 않고, 기록만 볼 수 있어요.</div>{% endif %}
+  {% if run.status == 'flagged' %}<div class="alert warn">{{ icon('philosopher-bust') }} 선생님 확인을 기다리고 있어요. 확인 후 이어서 할 수 있어요.</div>{% endif %}
+  {% if METHOD_VIEW %}
+  <details class="method-panel" open><summary>{{ icon('scales') }} 이 단계의 방법 · {{ card.id|replace('6.1','6-1') }}단계 {{ card.name }}</summary>
+    <p class="small"><b>범위</b> {{ card.scope }}</p>
+    <ol class="method-goals">{% for sg in card.subgoals %}{% set rec = run.subgoals[sg.id] %}
+      <li class="g-{{ rec.status }}{{ ' cur' if loop.index0 == run.subgoal_idx and run.status == 'in_progress' }}"><span class="g-st">{{ SUBGOAL_KO[rec.status] }}</span> {{ sg.goal }}</li>{% endfor %}</ol>
+    <p class="small"><b>보충 사다리</b> {% for r in cards.ladder %}<span class="rung{{ ' on' if r.rung == run.rung }}">{{ r.rung }} {{ r.name }}</span>{% endfor %}</p>
+    <p class="small muted">규칙: 한 번에 질문 하나 · 한 턴에 사다리 한 칸 · 하위 목표 {{ cards.limits.turns_per_subgoal }}턴마다 한 칸 상승 · 단계 {{ cards.limits.turns_per_stage }}턴 넘으면 선생님 확인 · 정리는 학생 말에서만</p>
+  </details>
+  {% endif %}
   {% if subgoal and run.status == 'in_progress' and not readonly %}
-  <div class="nx-tip small">🎯 지금 할 일 ({{ run.subgoal_idx + 1 }}/{{ card.subgoals|length }}): {{ subgoal.goal }}</div>
+  <div class="nx-tip small">{{ icon('ionic-column') }} 지금 할 일 ({{ run.subgoal_idx + 1 }}/{{ card.subgoals|length }}): {{ subgoal.goal }}</div>
   {% endif %}
   <div class="nx-chatbox"><div class="nx-chat">
-    {% if not run.turns %}<div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor open"><div>{{ card.central_question }} 먼저 내 말로 답해 보세요.</div></div></div>{% endif %}
+    {% if not run.turns %}<div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor open"><div>{{ card.central_question }} 먼저 내 말로 답해 보세요.</div></div></div>{% endif %}
     {% for t in run.turns %}
-      {% if t.role == 'student' %}<div class="nx-row me"><div class="nx-msg me"><div>{{ t.text }}</div></div><div class="av">🙋</div></div>
-      {% elif t.role == 'tutor' %}<div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor"><div>{{ t.text }}</div></div></div>
+      {% if t.role == 'student' %}<div class="nx-row me"><div class="nx-msg me"><div>{{ t.text }}</div></div><div class="av me-av">{{ icon('quill-ink') }}</div></div>
+      {% elif t.role == 'tutor' %}<div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor"><div>{{ t.text }}</div>
+        {% if METHOD_VIEW and t.judgment %}{% set j = t.judgment %}<div class="method-tag">사다리 {{ j.scaffold_level }}칸 · {{ cards.ladder[j.scaffold_level].name if j.scaffold_level < cards.ladder|length else '' }}{% if j.intent in INTENT_KO %} · 학생 의도: {{ INTENT_KO[j.intent] }}{% endif %}{% if j.issue_type %} · 짚은 문제: {{ ISSUE_KO.get(j.issue_type, j.issue_type) }}{% endif %}{% if j.subgoal_id %} · {{ j.subgoal_id }} {{ SUBGOAL_KO.get(j.subgoal_status, '') }}{% endif %}{% if t.regenerated %} · 검사 후 다시 생성{% endif %}{% if t.check and t.check.get('fallback') %} · 안전 문장으로 대체{% endif %}</div>{% endif %}
+      </div></div>
       {% else %}<div class="nx-row sys"><div class="muted small">— {{ t.text }} —</div></div>{% endif %}
     {% endfor %}
   </div></div>
@@ -27,7 +38,7 @@
     {% if run.status == 'summarizing' or run.outputs %}
     <form class="card" method="post" action="/mvp/stage/{{ card.id }}/summary" hx-boost="false">
       <div class="nx-label">단계 정리</div>
-      <p class="muted small">대화에서 내가 한 말을 미리 넣어 두었어요. 내 말로 고치거나 새로 써도 돼요. (AI 문장은 넣지 않아요)</p>
+      <p class="muted small">대화에서 내가 한 말을 미리 넣어 두었어요. 내 말로 고치거나 새로 써도 돼요. (튜터의 말은 넣지 않아요)</p>
       {% if run.outputs and run.outputs[-1].verdict == 'fail' %}<div class="alert warn small">{{ run.outputs[-1].verdict_note }}</div>{% endif %}
       {% for f in card.outputs %}
       <label class="field"><span>{{ f.label }}</span><textarea name="f_{{ f.key }}" rows="2">{{ cands.get(f.key, ('',None))[0] }}</textarea></label>

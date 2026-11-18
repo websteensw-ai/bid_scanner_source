@@ -113,7 +113,7 @@ stages:
     name: 독립 작성
     kind: writing
     central_question: 이제 혼자 써 볼까요?
-    scope: AI 내용 지원 없이 원고지에 쓰고 스스로 점검한다.
+    scope: 튜터의 내용 지원 없이 원고지에 쓰고 스스로 점검한다.
     selfcheck:            # 문건 08 Ⅵ 의 다섯 항목 (임시 문구)
       - {key: tasks, label: "세 요구를 모두 수행했나요?"}
       - {key: evidence, label: "원문 근거와 연결 추론이 있나요?"}

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block title %}선택 복습 · 논술랩{% endblock %}
 {% block content %}
-<div class="nx-header"><div class="nx-eyebrow">📖 복습</div><h1 class="nx-title">선택 복습</h1>
+<div class="nx-header"><div class="nx-eyebrow">{{ icon('book-cover') }} 복습</div><h1 class="nx-title">선택 복습</h1>
   <p class="nx-subtitle">필요할 때만 골라서 보는 짧은 복습이에요. 하지 않아도 학습은 이어 갈 수 있어요.</p></div>
-{% if recommended %}<p class="muted">✨ 표시는 내 답에서 보인 어려움과 관련된 추천이에요. 추천은 실패나 미숙달을 뜻하지 않아요.</p>{% endif %}
+{% if recommended %}<p class="muted"> 표시는 내 답에서 보인 어려움과 관련된 추천이에요. 추천은 실패나 미숙달을 뜻하지 않아요.</p>{% endif %}
 <div class="grid2">
 {% for item in items %}
   <div class="card"><div class="nx-card-meta"><span>{{ topic_names.get(item.topic, '') }}</span></div>
-    <div class="nx-card-title">{{ '✨ ' if item.id in recommended }}{{ item.name }}</div>
+    <div class="nx-card-title">{{ ' ' if item.id in recommended }}{{ item.name }}</div>
     {% if item.id in recommended %}<p class="muted small">{{ recommended[item.id] }}</p>{% endif %}
     <div class="row-gap"><a class="btn" href="/review?item={{ item.id }}">지금 보기</a>
       <form method="post" action="/review/{{ item.id }}/saved"><button class="btn">저장해 두기</button></form></div>

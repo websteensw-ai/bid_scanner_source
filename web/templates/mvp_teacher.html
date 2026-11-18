@@ -14,5 +14,5 @@
   <td>{{ r.run.student_turns() }}</td><td>{% for k, v in r.dist.items() %}{{ SUPPORT_KO[k] }} {{ v }}{{ ', ' if not loop.last }}{% endfor %}</td>
   <td>{{ r.alerts|length }}</td><td><a class="btn" href="/teacher/mvp/student/{{ r.s.id }}">상세</a></td></tr>
 {% else %}<tr><td colspan="7" class="muted">아직 6단계 학습을 시작한 학생이 없어요.</td></tr>{% endfor %}</table></div></div>
-<div class="row-gap"><a class="btn" href="/teacher/mvp/feedback">🗳 돌아보기 · 시스템 의견</a><a class="btn" href="/teacher/mvp/guide">📚 지도교사 안내 · 문제 패키지</a></div>
+<div class="row-gap"><a class="btn" href="/teacher/mvp/feedback">{{ icon('conversation') }} 돌아보기 · 시스템 의견</a><a class="btn" href="/teacher/mvp/guide">{{ icon('classical-knowledge') }} 지도교사 안내 · 문제 패키지</a></div>
 {% endblock %}

@@ -2,14 +2,14 @@
 {% block title %}학습 기록 · 논술랩{% endblock %}
 {% macro lvl(level) %}<span class="nx-level {{ 'ln' if level is none else 'l' ~ level }}">{{ level_label(level) }}</span>{% endmacro %}
 {% block content %}
-<div class="nx-header"><div class="nx-eyebrow">🧑‍🏫 교사·운영자</div><h1 class="nx-title">학습 기록</h1>
+<div class="nx-header"><div class="nx-eyebrow">{{ icon('philosopher-bust') }} 교사·운영자</div><h1 class="nx-title">학습 기록</h1>
   <p class="nx-subtitle">기준별 수준과 근거, 받은 도움, 최초 답과 수정 답, 검토 요청을 확인하고 판정을 수정해요.</p></div>
 {% if not sid %}<div class="alert info">아직 학습 기록이 있는 학생이 없어요.</div>{% else %}
 <form method="get" class="row-gap"><select name="student" onchange="this.form.submit()">{% for s in students %}<option value="{{ s.id }}" {{ 'selected' if s.id == sid }}>{{ s.display_name or s.id }}</option>{% endfor %}</select></form>
 <div class="nx-stats" style="--n:3">
-  <div class="nx-stat"><div class="icon">📚</div><div class="label">마친 학습 주제</div><div class="value">{{ done_n }} <small>/ 5</small></div></div>
-  <div class="nx-stat"><div class="icon">🧭</div><div class="label">최근 진입 판정</div><div class="value sm">{{ entry.decision if entry else '–' }}</div></div>
-  <div class="nx-stat"><div class="icon">🚩</div><div class="label">검토 요청</div><div class="value">{{ open_flags|length }} <small>건</small></div></div>
+  <div class="nx-stat"><div class="icon">{{ icon('classical-knowledge') }}</div><div class="label">마친 학습 주제</div><div class="value">{{ done_n }} <small>/ 5</small></div></div>
+  <div class="nx-stat"><div class="icon">{{ icon('laurels') }}</div><div class="label">최근 진입 판정</div><div class="value sm">{{ entry.decision if entry else '–' }}</div></div>
+  <div class="nx-stat"><div class="icon"></div><div class="label">검토 요청</div><div class="value">{{ open_flags|length }} <small>건</small></div></div>
 </div>
 <nav class="tabs">{% for k, v in [('criteria','기준별 판정'),('activity','활동 기록'),('flags','검토 요청'),('events','이벤트')] %}<a href="?student={{ sid }}&tab={{ k }}" class="{{ 'on' if tab == k }}">{{ v }}</a>{% endfor %}</nav>
 {% if tab == 'criteria' %}
@@ -40,7 +40,7 @@
   </details>{% endif %}{% else %}<div class="alert info">아직 활동 기록이 없어요.</div>{% endfor %}
 {% elif tab == 'flags' %}
   {% set KIND = {'uncertain':'판정 불확실','repeat_difficulty':'같은 어려움 지속','dispute':'학생 이의','not_confirmed':'보충 후 수행 미확인','content':'자료 문제','attention':'집중·피로 확인'} %}
-  {% for f in state.flags %}<div class="card row-between"><div>{{ '✅' if f.resolved else '🚩' }} <b>{{ KIND.get(f.kind, f.kind) }}</b> · {{ f.source }} · {{ f.detail }} · {{ f.ts[:16] }}</div>
+  {% for f in state.flags %}<div class="card row-between"><div>{{ '✓' if f.resolved else '' }} <b>{{ KIND.get(f.kind, f.kind) }}</b> · {{ f.source }} · {{ f.detail }} · {{ f.ts[:16] }}</div>
     {% if not f.resolved %}<form method="post" action="/teacher/records/flag"><input type="hidden" name="student" value="{{ sid }}"><input type="hidden" name="index" value="{{ loop.index0 }}"><button class="btn">처리 완료</button></form>{% endif %}</div>
   {% else %}<div class="alert info">검토 요청이 없어요.</div>{% endfor %}
 {% else %}

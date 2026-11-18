@@ -21,7 +21,7 @@
     <p>점수: {% for e in evs if subd and e.draft_id == subd.id %}{% if loop.last %}제출본 {{ '%.2f'|format(e.total) }}{% endif %}{% endfor %}
       {% for e in evs if find and e.draft_id == find.id %}{% if loop.last %} → 첨삭 후 최종본 {{ '%.2f'|format(e.total) }}{% endif %}{% endfor %}</p>
   {% endif %}
-  {% if a.next_check_question %}<p>🎯 다음 점검 과제: {{ a.next_check_question }}</p>{% endif %}
+  {% if a.next_check_question %}<p>{{ icon('ionic-column') }} 다음 점검 과제: {{ a.next_check_question }}</p>{% endif %}
 </div>
 {% endfor %}
 {% endblock %}

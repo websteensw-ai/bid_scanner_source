@@ -681,7 +681,7 @@ class MvpEngine:
         ai_texts += [m.text for m in self.pack.model_answers]
         for s in sentences(fin.body):
             if any(containment(s, ref) >= 0.8 for ref in ai_texts if len(s) >= 15):
-                self.alert("ai_copy", "6.1", f"AI 예시와 거의 같은 문장: {s[:50]}")
+                self.alert("ai_copy", "6.1", f"튜터 예시와 거의 같은 문장: {s[:50]}")
                 a.diagnosis["ai_copy"] = True
                 break
 

@@ -3,7 +3,7 @@
 {% block content %}
 <h2 class="h2">지도교사 안내 · 문제 패키지 {{ pack.id }}</h2>
 <div class="alert warn small">문제 패키지 v{{ pack.version }} · 채점표 {{ rubric.full_id }} · 단계 카드 v{{ cards.version }} ({{ cards.status }}). 현재는 엔진 확인용 샘플이며, 설계 문건(01·03~09·10·11) 수령 후 교체해요.</div>
-<div class="card"><div class="nx-label">필수 수행 · 제시문 역할 (교사·AI만)</div>
+<div class="card"><div class="nx-label">필수 수행 · 제시문 역할 (교사·튜터만)</div>
   <ul>{% for t in pack.required_tasks %}<li>{{ t.id }} {{ t.text }}</li>{% endfor %}</ul>
   <p class="small">비필수: {{ pack.non_required_tasks|join(', ') }}</p>
   <ul>{% for r in pack.passage_roles %}<li>({{ r.id }}) {{ r.role }}</li>{% endfor %}</ul></div>

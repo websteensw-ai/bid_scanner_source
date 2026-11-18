@@ -19,7 +19,7 @@
   </div>
 {% else %}
   <div class="nx-dots">{% for d in dots %}<span class="{{ d }}"></span>{% endfor %}</div>
-  {% if intro %}<div class="alert info">🧭 {{ intro }}</div>{% endif %}
+  {% if intro %}<div class="alert info">{{ icon('laurels') }} {{ intro }}</div>{% endif %}
   {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
   <div class="lesson-grid">
     <section>
@@ -42,18 +42,18 @@
         <div class="nx-card-title">{{ step.title }}</div><p class="nx-prompt">{{ step.prompt }}</p></div>
       {% if step.sentence %}<div class="nx-interp"><div class="tag">학습용 해석 문장 · 원문 아님</div><p>{{ step.sentence }}</p></div>{% endif %}
       {% if step.review_questions %}<ul class="nx-list todo">{% for q in step.review_questions %}<li data-i="•">{{ q }}</li>{% endfor %}</ul>{% endif %}
-      {% if step.kind == 'draft' %}<p class="muted small">✍️ 쓰는 동안에는 내용 도움이 없어요. 글자 수, 저장, 제시문과 내 답 다시 보기만 할 수 있어요.</p>{% endif %}
-      {% if check %}<p class="muted small">🔎 이번 과제는 혼자 해 보는 확인이에요. 내용 힌트는 주지 않아요.</p>{% endif %}
+      {% if step.kind == 'draft' %}<p class="muted small">{{ icon('quill-ink') }} 쓰는 동안에는 내용 도움이 없어요. 글자 수, 저장, 제시문과 내 답 다시 보기만 할 수 있어요.</p>{% endif %}
+      {% if check %}<p class="muted small">{{ icon('magnifying-glass') }} 이번 과제는 혼자 해 보는 확인이에요. 내용 힌트는 주지 않아요.</p>{% endif %}
 
       {% if dialog or ss.messages %}
       <div class="nx-chatbox"><div class="nx-chat">
-        {% if preface %}<div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor done"><div class="tag">앞 활동에서 해냈어요</div><div>{{ preface }}</div></div></div>{% endif %}
-        {% if opening %}<div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor open"><div>{{ opening }}</div></div></div>{% endif %}
+        {% if preface %}<div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor done"><div class="tag">앞 활동에서 해냈어요</div><div>{{ preface }}</div></div></div>{% endif %}
+        {% if opening %}<div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor open"><div>{{ opening }}</div></div></div>{% endif %}
         {% for m in ss.messages %}
           {% if m.role == 'student' %}
-          <div class="nx-row me"><div class="nx-msg me {{ m.kind }}">{% if STUDENT_TAG.get(m.kind) %}<div class="tag">{{ STUDENT_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div><div class="av">🙋</div></div>
+          <div class="nx-row me"><div class="nx-msg me {{ m.kind }}">{% if STUDENT_TAG.get(m.kind) %}<div class="tag">{{ STUDENT_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div><div class="av me-av">{{ icon('quill-ink') }}</div></div>
           {% else %}
-          <div class="nx-row tutor"><div class="av">🧑‍🏫</div><div class="nx-msg tutor {{ m.kind }}">{% if KIND_TAG.get(m.kind) %}<div class="tag">{{ KIND_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div></div>
+          <div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor {{ m.kind }}">{% if KIND_TAG.get(m.kind) %}<div class="tag">{{ KIND_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div></div>
           {% endif %}
         {% endfor %}
       </div></div>
@@ -75,7 +75,7 @@
         {% if step.kind == 'self_review' %}<label class="field"><span>크게 고친 곳이 있다면 이유 (선택)</span><input name="evidence"></label>{% endif %}
         <div class="row-gap">
           <button type="submit" class="btn primary grow"><span class="when-idle">➤ {{ {'outline':'개요 저장','draft':'초고 저장','self_review':'점검 마치기'}.get(step.kind, '보내기') }}</span><span class="when-busy">살펴보는 중…</span></button>
-          <button type="submit" class="btn" formaction="/learn/{{ bundle.id }}/pause" hx-post="/learn/{{ bundle.id }}/pause">🔖 저장하고 나가기</button>
+          <button type="submit" class="btn" formaction="/learn/{{ bundle.id }}/pause" hx-post="/learn/{{ bundle.id }}/pause">{{ icon('bookmark') }} 저장하고 나가기</button>
         </div>
       </form>
 

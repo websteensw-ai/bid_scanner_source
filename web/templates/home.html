@@ -6,13 +6,13 @@
   {% else %}<h2>{{ user.name }} 님, 기초 다지기를 모두 마쳤어요</h2><p>진단 결과에서 지금 할 수 있는 것과 다음 학습을 확인해 보세요.</p>{% endif %}
 </div>
 <div class="nx-stats" style="--n:3">
-  <div class="nx-stat"><div class="icon">📚</div><div class="label">마친 학습 주제</div><div class="value">{{ done_n }} <small>/ {{ topics|length }}</small></div></div>
-  <div class="nx-stat"><div class="icon">✅</div><div class="label">할 수 있게 된 것</div><div class="value">{{ strong|length }} <small>가지</small></div></div>
-  <div class="nx-stat"><div class="icon">🧭</div><div class="label">다음 활동</div><div class="value sm">{{ current.title if current else '결과 확인' }}</div></div>
+  <div class="nx-stat"><div class="icon">{{ icon('classical-knowledge') }}</div><div class="label">마친 학습 주제</div><div class="value">{{ done_n }} <small>/ {{ topics|length }}</small></div></div>
+  <div class="nx-stat"><div class="icon">✓</div><div class="label">할 수 있게 된 것</div><div class="value">{{ strong|length }} <small>가지</small></div></div>
+  <div class="nx-stat"><div class="icon">{{ icon('laurels') }}</div><div class="label">다음 활동</div><div class="value sm">{{ current.title if current else '결과 확인' }}</div></div>
 </div>
 <div class="row-gap">
   {% if current %}<a class="btn primary" href="/learn/{{ current.id }}">▶ {{ '이어서 하기' if status[current.id] in ('active','paused') else '시작하기' }} · {{ current.title }}</a>{% endif %}
-  {% if entry %}<a class="btn" href="/result">🧭 진단 결과 보기</a>{% endif %}
+  {% if entry %}<a class="btn" href="/result">{{ icon('laurels') }} 진단 결과 보기</a>{% endif %}
 </div>
 {% if strong %}
 <h3 class="h3">할 수 있게 된 것</h3>

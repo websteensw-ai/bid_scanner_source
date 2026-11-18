@@ -2,10 +2,10 @@
 {% block title %}진단 결과 · 논술랩{% endblock %}
 {% macro how(level) %}{{ {3:'혼자서 해냈어요',2:'작은 도움으로 해냈어요',1:'도움을 받아 해냈어요',0:'아직 함께 연습이 필요해요'}.get(level, '아직 확인하지 못했어요') }}{% endmacro %}
 {% block content %}
-<div class="nx-header"><div class="nx-eyebrow">🧭 결과</div><h1 class="nx-title">진단 결과</h1>
+<div class="nx-header"><div class="nx-eyebrow">{{ icon('laurels') }} 결과</div><h1 class="nx-title">진단 결과</h1>
   <p class="nx-subtitle">지금 할 수 있는 것과 도움이 필요한 부분, 다음 학습을 안내해요.</p></div>
 {% if not entry %}
-  <div class="alert info">📚 다섯 학습 주제를 모두 마치면 결과를 볼 수 있어요. 하루에 모두 끝내지 않아도 괜찮아요.</div>
+  <div class="alert info">{{ icon('classical-knowledge') }} 다섯 학습 주제를 모두 마치면 결과를 볼 수 있어요. 하루에 모두 끝내지 않아도 괜찮아요.</div>
   <ul class="nx-list todo">{% for t in left %}<li data-i="•">{{ t.order }}. {{ t.title }}</li>{% endfor %}</ul>
   {% if left %}<a class="btn primary" href="/learn/{{ left[0].id }}">이어서 하기 · {{ left[0].title }}</a>{% endif %}
 {% else %}
@@ -29,13 +29,13 @@
     {% if supps %}<p class="muted">필요한 부분만 10~15분 정도 짧게 보충해요. 지금까지 해낸 것과 내가 쓴 답은 그대로 남아요.</p>
       {% for b in supps %}<div class="card"><div class="nx-card-title">{{ b.title }}</div><p class="muted">{{ b.goal }}</p>
         <a class="btn primary" href="/learn/{{ b.id }}">보충 시작하기</a></div>{% endfor %}
-    {% else %}<div class="alert info">🧑‍🏫 필요한 보충을 이미 진행했어요. 같은 보충을 반복하지 않고, 선생님이 함께 살펴본 뒤 다음 방법을 안내해 줄 거예요.</div>{% endif %}
+    {% else %}<div class="alert info">{{ icon('philosopher-bust') }} 필요한 보충을 이미 진행했어요. 같은 보충을 반복하지 않고, 선생님이 함께 살펴본 뒤 다음 방법을 안내해 줄 거예요.</div>{% endif %}
   {% elif decision == ED.HOLD %}
-    <div class="alert info">🔎 확인하지 못한 부분: {% for c in focus %}{{ CRITERION_PLAIN[c] }}{{ ', ' if not loop.last }}{% endfor %}. 선생님이 짧은 확인 과제를 안내해 줄 거예요.</div>
+    <div class="alert info">{{ icon('magnifying-glass') }} 확인하지 못한 부분: {% for c in focus %}{{ CRITERION_PLAIN[c] }}{{ ', ' if not loop.last }}{% endfor %}. 선생님이 짧은 확인 과제를 안내해 줄 거예요.</div>
   {% else %}
-    <div class="alert ok">🚀 본격 학습(초급 6단계)으로 이어 갈 수 있어요. 본격 학습 과정은 준비 중이에요.</div>
+    <div class="alert ok">{{ icon('stairs') }} 본격 학습(초급 6단계)으로 이어 갈 수 있어요. 본격 학습 과정은 준비 중이에요.</div>
     {% if recs %}<p class="muted">원하면 골라서 볼 수 있는 복습이에요. 꼭 하지 않아도 본격 학습은 이어 갈 수 있어요.</p>
-      <ul class="nx-list todo">{% for r, item in recs %}<li data-i="✨"><a href="/review?item={{ item.id }}">{{ item.name }}</a> — {{ r.reason }}</li>{% endfor %}</ul>{% endif %}
+      <ul class="nx-list todo">{% for r, item in recs %}<li data-i=""><a href="/review?item={{ item.id }}">{{ item.name }}</a> — {{ r.reason }}</li>{% endfor %}</ul>{% endif %}
   {% endif %}
   <details class="card"><summary>이 결과에 동의하지 않아요</summary>
     {% if sent %}<div class="alert ok">요청을 남겼어요. 선생님이 확인한 뒤 다른 짧은 과제로 다시 확인해요.</div>{% endif %}

@@ -1,27 +1,27 @@
 {% extends "base.html" %}
-{% block title %}AI 품질 · 논술랩{% endblock %}
+{% block title %}튜터 품질 · 논술랩{% endblock %}
 {% block content %}
-<div class="nx-header"><div class="nx-eyebrow">🧪 교사·운영자</div><h1 class="nx-title">AI 품질</h1>
-  <p class="nx-subtitle">답변 분석 AI가 요구사항이 정한 판단을 지키는지, 정답 라벨(골든셋)과 Ragas 지표로 확인해요.</p></div>
+<div class="nx-header"><div class="nx-eyebrow">{{ icon('checklist') }} 교사·운영자</div><h1 class="nx-title">튜터 품질</h1>
+  <p class="nx-subtitle">답변 분석기가 요구사항이 정한 판단을 지키는지, 정답 라벨(골든셋)과 Ragas 지표로 확인해요.</p></div>
 {% if not rep %}<div class="alert info">아직 평가 보고서가 없어요. <code>python -m evals.run_eval --analyzer llm --ragas</code> 를 실행하세요.</div>{% else %}
 {% set m = rep.metrics %}
 <form method="get" class="row-gap"><select name="report" onchange="this.form.submit()">{% for f in files %}<option value="{{ f.name }}" {{ 'selected' if f.name == current }}>{{ names.get(f.name, f.name) }}</option>{% endfor %}</select></form>
 {% macro pct(v) %}{{ '–' if v is none else '%.0f'|format(v * 100) }}{% endmacro %}
 <div class="nx-stats" style="--n:4">
-  <div class="nx-stat"><div class="icon">{{ '✅' if rep.passed else '⚠️' }}</div><div class="label">품질 기준</div><div class="value">{{ '통과' if rep.passed else '미달' }}</div></div>
-  <div class="nx-stat"><div class="icon">🎯</div><div class="label">판정 정확도</div><div class="value">{{ pct(m.get('decision_accuracy')) }} <small>%</small></div></div>
-  <div class="nx-stat"><div class="icon">🧩</div><div class="label">다른 표현 답 탈락률</div><div class="value">{{ pct(m.get('valid_alternative_false_fail_rate')) }} <small>%</small></div></div>
-  <div class="nx-stat"><div class="icon">🙋</div><div class="label">엉뚱한 답 감지율</div><div class="value">{{ pct(m.get('off_task_detection_rate')) }} <small>%</small></div></div>
+  <div class="nx-stat"><div class="icon">{{ '✓' if rep.passed else '' }}</div><div class="label">품질 기준</div><div class="value">{{ '통과' if rep.passed else '미달' }}</div></div>
+  <div class="nx-stat"><div class="icon">{{ icon('ionic-column') }}</div><div class="label">판정 정확도</div><div class="value">{{ pct(m.get('decision_accuracy')) }} <small>%</small></div></div>
+  <div class="nx-stat"><div class="icon">{{ icon('scroll-unfurled') }}</div><div class="label">다른 표현 답 탈락률</div><div class="value">{{ pct(m.get('valid_alternative_false_fail_rate')) }} <small>%</small></div></div>
+  <div class="nx-stat"><div class="icon"></div><div class="label">엉뚱한 답 감지율</div><div class="value">{{ pct(m.get('off_task_detection_rate')) }} <small>%</small></div></div>
 </div>
 <p class="muted small">실행 {{ rep.run_at[:16] }} · 분석기 <code>{{ rep.analyzer }}</code> · 기준 <code>{{ rep.profile }}</code> · 콘텐츠 {{ rep.content_version }} · 골든셋 {{ rep.dataset_version }} · 사례 {{ rep.n_cases }}개</p>
 {% if rep.profile == 'demo' %}<div class="alert warn">ℹ️ 데모 분석기는 키워드 단서로 판정하는 시연용이에요. 이 수치는 운영 품질이 아니라 콘텐츠·엔진 변경을 감시하는 기준선이에요.</div>{% endif %}
 <div class="card scroll-x"><table class="tbl"><tr><th>지표</th><th>값</th><th>기준</th><th>결과</th></tr>
   {% for name, v in m.items() %}{% set g = rep.gate.get(name) %}<tr><td>{{ LABEL.get(name, name) }}</td><td>{{ v if v is not none else '-' }}</td>
-    <td>{{ g.op ~ ' ' ~ g.threshold if g else '' }}</td><td>{{ {'pass':'✅ 통과','fail':'❌ 미달','skipped':'⏭️ 미측정'}.get(g.status, '') if g else '' }}</td></tr>{% endfor %}</table></div>
+    <td>{{ g.op ~ ' ' ~ g.threshold if g else '' }}</td><td>{{ {'pass':'✓ 통과','fail':'✗ 미달','skipped':'⏭️ 미측정'}.get(g.status, '') if g else '' }}</td></tr>{% endfor %}</table></div>
 <div class="row-between"><h3 class="h3">{{ '모든 사례' if all_cases else '라벨과 다른 사례' }}</h3>
   <a class="btn" href="?report={{ current }}&all_cases={{ 0 if all_cases else 1 }}">{{ '다른 사례만' if all_cases else '모든 사례 보기' }}</a></div>
 {% for c in cases %}{% set wrong = not c.decision_correct or c.error_correct is false %}
-  <div class="card"><div class="nx-card-meta"><b>{{ c.id }}</b><span>{{ c.bundle }}/{{ c.step }}</span><span>{{ c.tags|join(', ') }}</span><span>근거 {{ c.ref }}</span><span>{{ '❌' if wrong else '✅' }}</span></div>
+  <div class="card"><div class="nx-card-meta"><b>{{ c.id }}</b><span>{{ c.bundle }}/{{ c.step }}</span><span>{{ c.tags|join(', ') }}</span><span>근거 {{ c.ref }}</span><span>{{ '✗' if wrong else '✓' }}</span></div>
     <p>{{ c.answer }}{% if c.choice %} <span class="muted">[선택: {{ c.choice }}]</span>{% endif %}</p>
     <p class="muted small">기대 <b>{{ c.expect.intent if c.expect.intent and c.expect.intent != 'answer' else ('충족' if c.expect.pass else '미충족 · ' ~ (c.expect.error or '-')) }}</b> ·
       예측 <b>{{ c.predicted.intent if c.predicted.intent and c.predicted.intent != 'answer' else ('충족' if c.predicted.pass else '미충족 · ' ~ (c.predicted.error or '-')) }}</b>

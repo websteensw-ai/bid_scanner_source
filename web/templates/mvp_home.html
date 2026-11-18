@@ -11,18 +11,18 @@
   <p>{{ card.central_question }}</p>
   {% endif %}
 </div>
-{% if no_class %}<div class="alert info">🏫 아직 학급에 참여하지 않았어요. 선생님께 받은 학급 코드가 있으면 <a href="/mvp/join">학급 참여</a>에서 넣어 주세요.</div>{% endif %}
+{% if no_class %}<div class="alert info">{{ icon('ionic-column') }} 아직 학급에 참여하지 않았어요. 선생님께 받은 학급 코드가 있으면 <a href="/mvp/join">학급 참여</a>에서 넣어 주세요.</div>{% endif %}
 {% if not att %}
 <form method="post" action="/mvp/start"><button class="btn primary">▶ 학습 시작하기</button></form>
 <p class="muted small mt">시작하면 처음 안내(7장)를 먼저 보여 드려요.</p>
 {% else %}
 {% include "_mvp_bar.html" %}
-{% if recap %}<div class="alert info">🔖 {{ recap }}</div>{% endif %}
+{% if recap %}<div class="alert info">{{ icon('bookmark') }} {{ recap }}</div>{% endif %}
 <div class="row-gap">
   {% if att.status == 'active' %}<a class="btn primary" href="/mvp/stage/{{ att.current }}">▶ 이어서 하기</a>
   {% else %}<form method="post" action="/mvp/start"><button class="btn primary">새 회차 시작하기</button></form>{% endif %}
-  <a class="btn" href="/mvp/records">🗂 나의 기록</a>
-  <a class="btn" href="/mvp/guide">📘 안내 다시 보기</a>
+  <a class="btn" href="/mvp/records">{{ icon('scroll-unfurled') }} 나의 기록</a>
+  <a class="btn" href="/mvp/guide">{{ icon('open-book') }} 안내 다시 보기</a>
 </div>
 {% if next_q %}<div class="card mt"><div class="nx-label">다음 점검 목표</div><p>{{ next_q }}</p></div>{% endif %}
 {% endif %}

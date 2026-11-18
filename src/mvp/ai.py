@@ -105,7 +105,7 @@ class DemoTutor(Tutor):
         if _DISAGREE.search(text):
             j.intent = "disagree"
             if refs:
-                j.handoff_note = "학생의 타당한 반대 — AI 지적 철회 (AI 오류로 기록)"
+                j.handoff_note = "학생의 타당한 반대 — 튜터 지적 철회 (튜터 오류로 기록)"
                 j.subgoal_status = "met" if ov and _groups_met(text, ov.demo_signals) else "partial"
                 if j.subgoal_status == "met":
                     return self._advance(ctx, j, prefix="말해 준 근거가 타당해요. 제가 앞에서 잘못 짚었어요. "), j

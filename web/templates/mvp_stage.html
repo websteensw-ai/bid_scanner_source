@@ -12,7 +12,7 @@
   <section>{% include "_mvp_dialogue.html" %}</section>
 </div>
 {% if prior %}
-<details class="card mvp-drawer"><summary>📎 이전 단계 산출물</summary>
+<details class="card mvp-drawer"><summary>{{ icon('pin') }} 이전 단계 산출물</summary>
   {% for name, f in prior.items() %}<div class="nx-card-title mt">{{ name }}</div>
     <ul>{% for k, v in f.items() %}<li>{{ v }}</li>{% endfor %}</ul>{% endfor %}
 </details>

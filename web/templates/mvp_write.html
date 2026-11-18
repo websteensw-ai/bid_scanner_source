@@ -6,16 +6,19 @@
   <div class="row-between"><div><div class="nx-label">6단계 · 독립 작성</div><b>{{ exam.prompt }}</b></div>
     <div class="mvp-count"><b id="nChars">{{ chars }}</b> / {{ limits.max_chars }}자 <span class="muted small">· 칸 <span id="nCells">{{ cells }}</span>/{{ MAX_CELLS }}</span>
       <div class="small" id="saveState">{{ '저장됨' if att.temp_saved_at else '' }}</div></div></div>
-  <div class="small muted">{{ exam.conditions|join(' · ') }} · AI 문답창·맞춤법 제안·내용 평가 없이 혼자 써요.</div>
+  <div class="small muted">{{ exam.conditions|join(' · ') }} · 튜터 문답창·맞춤법 제안·내용 평가 없이 혼자 써요.</div>
 </div>
 {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+{% if METHOD_VIEW %}{% set cur = 3 if sub else (2 if pre else (1 if sc else (0 if ind else -1))) %}
+<div class="method-steps">{{ icon('scales') }} <b>6단계 진행 순서</b>{% for s in WRITE_STEPS %}<span class="{{ 'done' if loop.index0 <= cur else ('now' if loop.index0 == cur + 1 else '') }}">{{ s }}</span>{% endfor %}
+  <span class="muted small">· 튜터 문답 없음 · 10초마다 임시 저장 · 붙여넣기 기록 · 고정된 버전은 고칠 수 없음</span></div>{% endif %}
 <div class="lesson-grid mvp-grid">
   <section class="mvp-left">
-    <details class="card" open><summary>📄 제시문 원문</summary>{% include "_mvp_passages.html" %}</details>
-    {% if outline %}<details class="card"><summary>🧩 내 개요와 앞 단계 정리</summary>
+    <details class="card" open><summary>{{ icon('scroll-unfurled') }} 제시문 원문</summary>{% include "_mvp_passages.html" %}</details>
+    {% if outline %}<details class="card"><summary>{{ icon('scroll-unfurled') }} 내 개요와 앞 단계 정리</summary>
       {% for name, f in outline.items() %}<div class="nx-card-title mt">{{ name }}</div><ul>{% for k, v in f.items() %}<li>{{ v }}</li>{% endfor %}</ul>{% endfor %}</details>{% endif %}
-    <details class="card"><summary>✔ 공통 자기검증 항목</summary><ol>{% for c in card.selfcheck %}<li>{{ c.label }}</li>{% endfor %}</ol></details>
-    <a class="btn block" href="/mvp/guide?page=5" target="_blank">📐 원고지 작성법</a>
+    <details class="card"><summary>✓ 공통 자기검증 항목</summary><ol>{% for c in card.selfcheck %}<li>{{ c.label }}</li>{% endfor %}</ol></details>
+    <a class="btn block" href="/mvp/guide?page=5" target="_blank">{{ icon('scales') }} 원고지 작성법</a>
   </section>
   <section>
   {% if sub %}
@@ -65,10 +68,10 @@
     </form>
   {% endif %}
   {% if not sub %}
-    <details class="card"><summary>🙋 도움 요청 (기능·조건 질문만 답해요)</summary>
+    <details class="card"><summary> 도움 요청 (기능·조건 질문만 답해요)</summary>
       <form method="post" action="/mvp/write/help" hx-boost="false"><input name="question" placeholder="예) 글자 수는 어떻게 세나요?" required>
         <button class="btn">묻기</button></form></details>
-    <details class="card"><summary>⏸ 작성 중단하고 보충받기</summary>
+    <details class="card"><summary>{{ icon('hourglass') }} 작성 중단하고 보충받기</summary>
       <form method="post" action="/mvp/write/interrupt" hx-boost="false" onsubmit="return confirm('초고는 보관되고 작성 조건이 ‘중단 후 보충’으로 기록돼요.')">
         <select name="target">{% for s in dialogue_stages %}<option value="{{ s.id }}">{{ s.id }}단계 · {{ s.name }}</option>{% endfor %}</select>
         <input name="reason" placeholder="무엇이 막혔나요?"><button class="btn">보충하러 가기</button></form></details>

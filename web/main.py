@@ -61,6 +61,9 @@ KIND_TAG = {"direction": "생각해 볼 질문", "explanation": "설명", "demo"
             "guide": "과제 안내", "vocab": "어휘 뜻", "structure": "비교표", "confirm": "확인 질문",
             "redirect": "다시 과제로", "done": "해냈어요", "ack": "자기검토"}
 STUDENT_TAG = {"question": "질문", "answer_request": "요청"}
+from web.icons import icon  # noqa: E402
+
+env.globals.update(icon=icon, METHOD_VIEW=settings.method_view)
 env.globals.update(ROLE_LABEL=ROLE_LABEL, STATUS_LABEL=STATUS_LABEL, KIND_TAG=KIND_TAG, STUDENT_TAG=STUDENT_TAG)
 
 
@@ -539,7 +542,7 @@ def content_status(request: Request, item: str = Form(...), status: str = Form(.
 
 # ---------- 교사: AI 품질 ----------
 REPORTS = ROOT / "evals" / "reports"
-REPORT_NAMES = {"latest_llm.json": "최신 · 실제 AI 분석기", "latest_demo.json": "최신 · 데모 분석기",
+REPORT_NAMES = {"latest_llm.json": "최신 · 언어 모델 분석기", "latest_demo.json": "최신 · 데모 분석기",
                 "baseline_demo.json": "기준선 · 데모 분석기"}
 
 
