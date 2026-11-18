@@ -16,10 +16,10 @@
   <div class="nx-tip small">{{ icon('ionic-column') }} 지금 할 일 ({{ run.subgoal_idx + 1 }}/{{ card.subgoals|length }}): {{ subgoal.goal }}</div>
   {% endif %}
   <div class="nx-chatbox"><div class="nx-chat">
-    {% if not run.turns %}<div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor open"><div>{{ card.central_question }} 먼저 내 말로 답해 보세요.</div></div></div>{% endif %}
+    {% if not run.turns %}<div class="nx-row tutor"><img class="av tutor-av" src="/tutor.svg" alt="튜터" width="44" height="44"><div class="nx-msg tutor open"><div>{{ card.central_question }} 먼저 내 말로 답해 보세요.</div></div></div>{% endif %}
     {% for t in run.turns %}
-      {% if t.role == 'student' %}<div class="nx-row me"><div class="nx-msg me"><div>{{ t.text }}</div></div><div class="av me-av">{{ icon('quill-ink') }}</div></div>
-      {% elif t.role == 'tutor' %}<div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor"><div>{{ t.text }}</div>
+      {% if t.role == 'student' %}<div class="nx-row me"><div class="nx-msg me"><div>{{ t.text }}</div></div><div class="av me-av">{{ ((user.name if user else '') or '나')[:1] }}</div></div>
+      {% elif t.role == 'tutor' %}<div class="nx-row tutor"><img class="av tutor-av" src="/tutor.svg" alt="튜터" width="44" height="44"><div class="nx-msg tutor"><div>{{ t.text }}</div>
         {% if METHOD_VIEW and t.judgment %}{% set j = t.judgment %}<div class="method-tag">사다리 {{ j.scaffold_level }}칸 · {{ cards.ladder[j.scaffold_level].name if j.scaffold_level < cards.ladder|length else '' }}{% if j.intent in INTENT_KO %} · 학생 의도: {{ INTENT_KO[j.intent] }}{% endif %}{% if j.issue_type %} · 짚은 문제: {{ ISSUE_KO.get(j.issue_type, j.issue_type) }}{% endif %}{% if j.subgoal_id %} · {{ j.subgoal_id }} {{ SUBGOAL_KO.get(j.subgoal_status, '') }}{% endif %}{% if t.regenerated %} · 검사 후 다시 생성{% endif %}{% if t.check and t.check.get('fallback') %} · 안전 문장으로 대체{% endif %}</div>{% endif %}
       </div></div>
       {% else %}<div class="nx-row sys"><div class="muted small">— {{ t.text }} —</div></div>{% endif %}

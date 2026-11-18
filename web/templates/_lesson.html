@@ -47,13 +47,13 @@
 
       {% if dialog or ss.messages %}
       <div class="nx-chatbox"><div class="nx-chat">
-        {% if preface %}<div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor done"><div class="tag">앞 활동에서 해냈어요</div><div>{{ preface }}</div></div></div>{% endif %}
-        {% if opening %}<div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor open"><div>{{ opening }}</div></div></div>{% endif %}
+        {% if preface %}<div class="nx-row tutor"><img class="av tutor-av" src="/tutor.svg" alt="튜터" width="44" height="44"><div class="nx-msg tutor done"><div class="tag">앞 활동에서 해냈어요</div><div>{{ preface }}</div></div></div>{% endif %}
+        {% if opening %}<div class="nx-row tutor"><img class="av tutor-av" src="/tutor.svg" alt="튜터" width="44" height="44"><div class="nx-msg tutor open"><div>{{ opening }}</div></div></div>{% endif %}
         {% for m in ss.messages %}
           {% if m.role == 'student' %}
-          <div class="nx-row me"><div class="nx-msg me {{ m.kind }}">{% if STUDENT_TAG.get(m.kind) %}<div class="tag">{{ STUDENT_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div><div class="av me-av">{{ icon('quill-ink') }}</div></div>
+          <div class="nx-row me"><div class="nx-msg me {{ m.kind }}">{% if STUDENT_TAG.get(m.kind) %}<div class="tag">{{ STUDENT_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div><div class="av me-av">{{ ((user.name if user else '') or '나')[:1] }}</div></div>
           {% else %}
-          <div class="nx-row tutor"><div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div><div class="nx-msg tutor {{ m.kind }}">{% if KIND_TAG.get(m.kind) %}<div class="tag">{{ KIND_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div></div>
+          <div class="nx-row tutor"><img class="av tutor-av" src="/tutor.svg" alt="튜터" width="44" height="44"><div class="nx-msg tutor {{ m.kind }}">{% if KIND_TAG.get(m.kind) %}<div class="tag">{{ KIND_TAG[m.kind] }}</div>{% endif %}<div>{{ m.text }}</div></div></div>
           {% endif %}
         {% endfor %}
       </div></div>

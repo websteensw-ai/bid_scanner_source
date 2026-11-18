@@ -26,8 +26,8 @@ SUPPORT_KO = {"independent": "독립 수행", "question_then_revised": "질문 �
               "explained_then_restated": "해설 후 재서술"}
 STAGE_STATUS_KO = {"locked": "잠김", "in_progress": "진행 중", "summarizing": "정리 중", "judging": "판정 중",
                    "completed": "완료", "flagged": "선생님 확인 중"}
-DRAFT_KO = {"independent": "① 독립 초고", "selfchecked": "② 자기검증", "pre_revision": "③ 선행 수정본",
-            "submitted": "④ 첨삭 전 제출본", "final": "첨삭 후 최종본"}
+DRAFT_KO = {"independent": "① 혼자 쓴 첫 글", "selfchecked": "② 스스로 점검", "pre_revision": "③ 점검하고 고친 글",
+            "submitted": "④ 제출한 글", "final": "다시 쓴 최종 글"}
 ANN_STATUS_KO = {"active": "검토 중", "withdrawn": "철회됨", "adjusted": "조정됨", "resolved": "해결", "unresolved": "미해결"}
 NATURE_KO = {"correction": "오류 교정", "optional_improvement": "선택적 개선", "strength": "유지할 강점"}
 DECISION_KO = {"accept": "수용", "partial": "부분 수용", "reject": "비수용"}
@@ -47,7 +47,7 @@ SUBGOAL_KO = {"met": "충족", "partial": "부분", "not_yet": "아직", "skippe
 REVIEW_STEPS = [("diagnose", "① 제출본 인계 · ② 짧은 자기진단"), ("results", "③ 평가 공개 (강점 먼저)"),
                 ("threads", "④ 첨삭 과제 선택 · ⑤ 원고 연결 문답 · ⑥ 수용 판단"), ("revise", "⑦ 수정본 작성"),
                 ("compare", "⑧ 재평가 전후 비교"), ("done", "⑨ 다음 점검 질문 · 돌아보기")]
-WRITE_STEPS = ["① 독립 초고", "② 자기검증", "③ 선행 수정본", "④ 제출 (고정)"]
+WRITE_STEPS = ["① 혼자 쓴 첫 글", "② 스스로 점검", "③ 점검하고 고친 글", "④ 제출 (이후 못 고침)"]
 env.globals.update(ISSUE_KO=ISSUE_KO, INTENT_KO=INTENT_KO, SUBGOAL_KO=SUBGOAL_KO, REVIEW_STEPS=REVIEW_STEPS,
                    WRITE_STEPS=WRITE_STEPS)
 env.globals.update(SUPPORT_KO=SUPPORT_KO, STAGE_STATUS_KO=STAGE_STATUS_KO, DRAFT_KO=DRAFT_KO,

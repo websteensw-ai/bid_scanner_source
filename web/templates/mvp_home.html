@@ -11,6 +11,7 @@
   <p>{{ card.central_question }}</p>
   {% endif %}
 </div>
+<div class="tutor-hello"><img src="/tutor.svg" alt="튜터"><div class="bubble">{% if not att %}오늘 처음 만났네요! 천천히 같이 시작해 봐요.{% elif att.status == 'done' %}끝까지 해냈어요! 다음 글에서도 오늘 정한 점검 질문을 떠올려 봐요.{% else %}다시 왔네요! 지난번에 하던 곳에서 이어서 해 봐요.{% endif %}</div></div>
 {% if no_class %}<div class="alert info">{{ icon('ionic-column') }} 아직 학급에 참여하지 않았어요. 선생님께 받은 학급 코드가 있으면 <a href="/mvp/join">학급 참여</a>에서 넣어 주세요.</div>{% endif %}
 {% if not att %}
 <form method="post" action="/mvp/start"><button class="btn primary">▶ 학습 시작하기</button></form>

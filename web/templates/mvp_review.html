@@ -56,7 +56,7 @@
       <p class="small muted">여백 질문: {{ cur.margin_note }} · 상태: {{ ANN_STATUS_KO[cur.status] }}{% if cur.decision %} · 내 판단: {{ DECISION_KO[cur.decision] }}{% endif %}</p>
       {% if cur.nature != 'strength' %}
       <div class="nx-chat">{% for t in cur.thread %}
-        <div class="nx-row {{ 'me' if t.role=='student' else 'tutor' }}">{% if t.role=='tutor' %}<div class="av tutor-av" title="튜터">{{ icon('philosopher-bust') }}</div>{% endif %}<div class="nx-msg {{ 'me' if t.role=='student' else 'tutor' }}"><div>{{ t.text }}</div></div></div>
+        <div class="nx-row {{ 'me' if t.role=='student' else 'tutor' }}">{% if t.role=='tutor' %}<img class="av tutor-av" src="/tutor.svg" alt="튜터" width="44" height="44">{% endif %}<div class="nx-msg {{ 'me' if t.role=='student' else 'tutor' }}"><div>{{ t.text }}</div></div></div>
       {% endfor %}</div>
       {% if cur.status not in ('withdrawn','resolved','unresolved') %}
       <form method="post" action="/mvp/review/reply" hx-boost="false" class="row-gap"><input type="hidden" name="number" value="{{ cur.number }}">

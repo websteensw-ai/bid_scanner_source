@@ -1,5 +1,46 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
-  <rect width="36" height="36" rx="9" fill="#14254F"/>
-  <rect x="2.5" y="2.5" width="31" height="31" rx="7" fill="none" stroke="#C9A85A" stroke-width="1"/>
-  <g transform="translate(5.5 5.5) scale(0.048828125)" fill="#E9D9A6"><path fill="currentColor" d="M256 37.4c-28.1 0-50.9 21.3-50.9 59.9c0 29.8 12.9 58.3 12.9 58.3l15-18.5h12.6v-22.7H218V93.5h76v20.9h-27.6v22.7H279l15 18.5s12.9-28.5 12.9-58.3c0-38.6-22.8-59.9-50.9-59.9m-66.9 72.5c-1.3 8.7-1.9 17.8-1.9 27.2c0 64.2 30.8 106.4 68.8 106.4s68.8-42.2 68.8-106.4c0-9.4-.6-18.5-1.9-27.2c-2.8 28.3-13.7 52.6-13.7 52.6L298.1 187l-27-33.2h-30.2l-27 33.2l-11.1-24.5s-10.9-24.3-13.7-52.6m58.6 53.7h16.6v12.7h-16.6zm71 19.7v.2zm-145.5 5l-36.9 9.3L168 339.4h61.8l24-75.1c-34.7-1.2-66.9-28.9-80.6-76m165.6 0c-10.5 36.2-32 61-57.2 71L256 339.4h21.7l20.7-70.4l12 3.5l-19.6 66.9h16.9l36.4-125.8l12 3.5l-35.4 122.3H344l31.7-141.8zM197 360.6v94h18v-64h82v64h18v-94zm36 48v46h46v-46zm-69.3 64l-14 18h212.6l-14-18z"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="36" height="36">
+<defs><clipPath id="ci"><circle cx="60" cy="60" r="58"/></clipPath></defs>
+  <circle cx="60" cy="60" r="58" fill="#E9F0FF"/>
+  <g clip-path="url(#ci)"><g class="bob">
+    <!-- 토가 -->
+    <path d="M20 122c2-22 18-34 40-34s38 12 40 34z" fill="#FFF3D6"/>
+    <path d="M44 90c10 9 22 20 30 28h-14c-6-9-13-17-20-24z" fill="#5B7CFA"/>
+    <!-- 귀 -->
+    <ellipse cx="31" cy="58" rx="6" ry="8" fill="#F2C3A1"/>
+    <ellipse cx="89" cy="58" rx="6" ry="8" fill="#F2C3A1"/>
+    <!-- 얼굴 -->
+    <ellipse cx="60" cy="54" rx="29" ry="31" fill="#FAD6B8"/>
+    <!-- 이마 반짝 -->
+    <ellipse cx="51" cy="31" rx="9" ry="4" fill="#FFFFFF" opacity=".55"/>
+    <!-- 옆머리 -->
+    <g fill="#FFFFFF" stroke="#DDE3EF" stroke-width="1">
+      <circle cx="31" cy="45" r="6"/><circle cx="28" cy="52" r="5"/><circle cx="33" cy="39" r="4.5"/>
+      <circle cx="89" cy="45" r="6"/><circle cx="92" cy="52" r="5"/><circle cx="87" cy="39" r="4.5"/>
+    </g>
+    <!-- 수염 -->
+    <path d="M33 62c0 22 12 36 27 36s27-14 27-36c-5 6-12 8-17 6-3 4-7 5-10 5s-7-1-10-5c-5 2-12 0-17-6z" fill="#FFFFFF" stroke="#DDE3EF" stroke-width="1.2"/>
+    <path d="M42 80c4 4 6 9 5 13M78 80c-4 4-6 9-5 13M60 84v10" stroke="#E3E8F3" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- 콧수염 -->
+    <path d="M45 66c5-4 10-4 15 0 5-4 10-4 15 0-4 5-10 5-15 2-5 3-11 3-15-2z" fill="#FFFFFF" stroke="#E3E8F3" stroke-width="1"/>
+    <!-- 웃는 입 -->
+    <path d="M54 72c3 3 9 3 12 0" stroke="#C0665A" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <!-- 코 -->
+    <ellipse cx="60" cy="60" rx="5" ry="4" fill="#F0B490"/>
+    <!-- 볼 -->
+    <ellipse cx="41" cy="61" rx="5" ry="3" fill="#FF9E9E" opacity=".55"/>
+    <ellipse cx="79" cy="61" rx="5" ry="3" fill="#FF9E9E" opacity=".55"/>
+    <!-- 눈썹 -->
+    <path d="M40 41c4-4 10-4 13-1M67 40c3-3 9-3 13 1" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M40 41c4-4 10-4 13-1M67 40c3-3 9-3 13 1" stroke="#D9DEE9" stroke-width="1" stroke-linecap="round" fill="none"/>
+    <!-- 눈 -->
+    <ellipse cx="47" cy="50" rx="5" ry="6" fill="#2A2F45"/>
+    <ellipse cx="73" cy="50" rx="5" ry="6" fill="#2A2F45"/>
+    <circle cx="48.8" cy="47.6" r="1.8" fill="#FFFFFF"/>
+    <circle cx="74.8" cy="47.6" r="1.8" fill="#FFFFFF"/>
+    <!-- 눈꺼풀 (깜빡임) -->
+    <rect class="lid" x="41" y="43" width="12" height="13" rx="6" fill="#FAD6B8"/>
+    <rect class="lid lid2" x="67" y="43" width="12" height="13" rx="6" fill="#FAD6B8"/>
+  </g></g>
+  <!-- 반짝 (생각 중) -->
+  <path class="twinkle" d="M101 22l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC94D"/>
 </svg>
