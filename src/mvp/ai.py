@@ -24,6 +24,10 @@ _DANGER = re.compile(r"(죽고\s*싶|자살|자해|죽어\s*버리|사라지고\
 _DONT_KNOW = re.compile(r"(모르겠|모르겟|잘\s*모르|몰라요|모름|감이\s*안)")
 _DISAGREE = re.compile(r"(동의하지\s*않|아닌\s*것\s*같|틀린\s*것\s*같|제\s*생각은\s*달라|그렇지\s*않|잘못\s*짚)")
 _REF = re.compile(r"[가나다]\s*-\s*\d")
+# 0단계 설계 Ⅴ: 막연한 다짐만으로는 준비가 확인되지 않는다
+_VAGUE = re.compile(r"(이해했|알겠|잘\s*읽겠|핵심을\s*찾겠|열심히\s*하겠|잘\s*하겠|^네[.!]?$|^넵|^응$|^ㅇㅇ$)")
+_NO_RESPONSE = re.compile(r"^(\.{2,}|…+|음+\.*|흠+|글쎄+\.*|그냥요?|몰라)$")
+_PASSAGE_Q = re.compile(r"\(\s*([가-하])\s*\)[^?？]{0,30}(넣|써야|활용|포함|써도|읽어야|안\s*써)")
 
 CHARTER = """너는 고등학생의 논술 학습을 돕는 소크라틱 문답 튜터다. (엘렝코스: 질문으로 생각의 빈틈을 스스로 찾게 한다)
 필수 원칙
@@ -34,9 +38,13 @@ CHARTER = """너는 고등학생의 논술 학습을 돕는 소크라틱 문답 
 - 학생이 타당하게 반대하면 지적을 거두고, 그 사실을 판단에 남긴다.
 - 과제와 무관한 말에는 한 문장으로 답하고 현재 질문으로 돌아온다.
 - 제시문 밖 배경지식은 원문으로 돌려보낸다.
+- 학생의 한 응답이 여러 하위목표를 보여 주면 모두 subgoals_met 에 넣고, 확인되지 않은 것만 묻는다. 같은 질문을 반복하지 않는다.
+- ‘이해했어요’, ‘잘 읽겠어요’ 같은 막연한 다짐은 증거로 보지 않고, 무엇을 어떻게 확인할지 구체적으로 묻는다.
+- 단계 카드의 stage_forbidden 과 보충 경로 문구(ladder)를 따른다.
 말투: ‘~요/~세요’체. 지원 수준은 학생에게 말하지 않는다.
 출력: 아래 JSON 하나만.
-{"utterance": "...", "subgoal_id": "...", "subgoal_status": "met|partial|not_yet", "issue_type": null 또는
+{"utterance": "...", "subgoal_id": "...", "subgoal_status": "met|partial|not_yet",
+ "subgoals_met": ["이번 학생 발화가 충족한 하위목표 id 를 모두 (현재 것 외에도)"], "issue_type": null 또는
  ["keyword_only","case_as_claim","overclaim","background_knowledge","false_identity","false_dichotomy","not_linked_to_task"] 중 하나,
  "student_quote": "...", "passage_refs": ["가-1"], "scaffold_level": 0~5, "support_level_so_far": "independent|question_then_revised|scaffolded|explained_then_restated",
  "thinking_change": null 또는 {"before": "...", "after": "...", "note": "..."}, "handoff_note": "...", "flag_teacher": false}"""
@@ -87,21 +95,38 @@ class DemoTutor(Tutor):
             j.handoff_note = "위험 신호 — 학습 중단, 교사 알림"
             return DANGER_TEXT, j
         ov = ctx.pack.stage_overrides.get(sg.id) if sg else None
-        q0 = (ov.first_question if ov and ov.first_question else card.central_question)
+        q0 = (ov.first_question if ov and ov.first_question else (sg.question if sg and sg.question else card.central_question))
+        lad = ctx.view.get("ladder", {})
 
+        if (m := _PASSAGE_Q.search(text)) and ctx.pack.designated_passages \
+                and m.group(1) not in ctx.pack.designated_passages:
+            j.intent = "undesignated"           # 0단계 장면 6: 자료에 있는 것과 활용을 요구한 것을 구별하게 한다
+            return lad.get("undesignated", "이번 논제에서 직접 활용하라고 지정한 제시문을 찾아볼까요?"), j
         if _ANSWER_REQUEST.search(text):
             j.intent = "answer_request"
-            j.scaffold_level = 5 if run.answer_requests >= 1 else min(run.rung + 1, 5)
-            return "답을 바로 알려 드리면 내 실력이 되지 않아요. 대신 " + self._rung_text(ctx, j.scaffold_level, q0), j
+            # 보충 경로가 정해진 단계는 한 칸씩 (4칸 도움말 없이 5칸 '도움말 가리기'로 뛰지 않게)
+            j.scaffold_level = 5 if (run.answer_requests >= 1 and "4" not in lad) else min(run.rung + 1, 5)
+            head = lad.get("answer_request", "답을 바로 알려 드리면 내 실력이 되지 않아요. 대신")
+            return head + " " + self._rung_text(ctx, j.scaffold_level, q0), j
+        if _NO_RESPONSE.match(text) and "no_response" in lad:
+            j.intent = "no_response"
+            return lad["no_response"], j
         if _LAUGH_OR_MASH.match(text) or (_OFF_TASK_PHRASE.search(text) and len(text) <= 40):
             j.intent = "off_task"
             return f"잠깐 쉬어 가도 괜찮아요. 다시 돌아와서, {q0}", j
-        if _DONT_KNOW.search(text) and len(text) <= 30:
+        sg_shown = bool(sg and (o := ctx.pack.stage_overrides.get(sg.id)) and _groups_met(text, o.demo_signals))
+        if _DONT_KNOW.search(text) and len(text) <= 30 and not sg_shown:   # '아직 모르겠다'가 증거인 항목(S0-6)은 제외
             j.intent = "dont_know"
             j.scaffold_level = min(run.rung + 1, 5)
             return "괜찮아요, 더 작게 나눠 볼게요. " + self._rung_text(ctx, j.scaffold_level, q0), j
 
         errs = [e for e in ctx.view["error_patterns"] if _has(text, e.demo_signals)]
+        # 한 응답에서 확인된 하위목표를 모두 찾는다 (0단계 Ⅴ: 보여 준 것은 다시 묻지 않음)
+        open_ids = [s.id for s in card.subgoals if run.subgoals.get(s.id) and run.subgoals[s.id].status not in ("met", "skipped")]
+        mets = [i for i in open_ids if (o := ctx.pack.stage_overrides.get(i)) and _groups_met(text, o.demo_signals)]
+        if not errs and not mets and _VAGUE.search(text) and len(text) <= 30:
+            j.intent = "vague"
+            return lad.get("vague", "‘{quote}’라는 말만으로는 알기 어려워요. 무엇을 어떻게 할지 구체적으로 말해 볼까요?").format(quote=_quote(text)), j
         if _DISAGREE.search(text):
             j.intent = "disagree"
             if refs:
@@ -112,12 +137,13 @@ class DemoTutor(Tutor):
                 return f"{', '.join(refs)}를 근거로 든 점이 타당해요. 제 지적은 거둘게요. 그 근거로 보면 {q0}", j
             return "그렇게 생각한 근거가 되는 문단을 하나 짚어 줄 수 있나요?", j
 
-        if ov and _groups_met(text, ov.demo_signals) and not errs:
-            j.subgoal_status = "met"
+        if mets and not errs:
+            j.subgoals_met = mets
+            j.subgoal_status = "met" if sg and sg.id in mets else "partial"
             flagged = next((i for i in range(len(run.turns) - 1, -1, -1)
-                            if run.turns[i].role == "tutor" and run.turns[i].judgment
+                            if sg and run.turns[i].role == "tutor" and run.turns[i].judgment
                             and run.turns[i].judgment.subgoal_id == sg.id and run.turns[i].judgment.issue_type), None)
-            if flagged is not None and flagged > 0 and run.turns[flagged - 1].role == "student":
+            if sg and flagged is not None and flagged > 0 and run.turns[flagged - 1].role == "student":
                 j.thinking_change = {"before": _quote(run.turns[flagged - 1].text, 80), "after": _quote(text, 80),
                                      "note": f"{sg.id}: {run.turns[flagged].judgment.issue_type} 지적 후 재진술"}
             return self._advance(ctx, j), j
@@ -147,8 +173,13 @@ class DemoTutor(Tutor):
         refs = re.findall(r"[가나다]-\d", ov.criterion if ov else "")
         ref = refs[0] if refs else next((p.id for ps in ctx.pack.exam.passages for p in ps.paragraphs), "")
         concept = next((c for c in ctx.view["key_concepts"]), None)
+        lad = ctx.view.get("ladder", {})
         if rung <= 0:
             return q0
+        if str(rung) in lad:
+            return lad[str(rung)]
+        if rung == 1 and sg and sg.question and not text:
+            return sg.question
         if rung == 1:
             if text:
                 return f"‘{_quote(text)}’라고 했는데, 그렇게 생각한 까닭을 한 문장으로 더 말해 볼까요?"
@@ -163,13 +194,20 @@ class DemoTutor(Tutor):
 
     def _advance(self, ctx: TutorContext, j: TutorJudgment, prefix: str = "") -> str:
         card, run = ctx.card, ctx.run
-        done = {k for k, v in run.subgoals.items() if v.status in ("met", "skipped")} | {j.subgoal_id}
-        nxt = next((s for s in card.subgoals if s.id not in done), None)
-        quote = f"‘{_quote(ctx.text)}’ — 원문에 기대어 잘 말했어요. " if not prefix else prefix
+        done = {k for k, v in run.subgoals.items() if v.status in ("met", "skipped")} | set(j.subgoals_met)
+        if j.subgoal_id and j.subgoal_status == "met":
+            done.add(j.subgoal_id)
+        nxt = next((s for s in card.subgoals if s.required and s.id not in done), None)
+        quote = prefix or ("잘 짚었어요. " if card.verdicts else f"‘{_quote(ctx.text)}’ — 원문에 기대어 잘 말했어요. ")
+        summary = (f"이제 지금까지 말한 것을 ‘{card.outputs[0].label.split(' —')[0]}’로 정리해 볼까요?"
+                   if card.outputs else "이제 ‘단계 정리’에서 내 말로 정리해 볼까요?")
         if nxt is None:
-            return quote + "이 단계에서 할 일을 모두 했어요. 이제 ‘단계 정리’에서 내 말로 정리해 볼까요?"
+            opt = next((s for s in card.subgoals if not s.required and s.id not in done), None)
+            if opt and opt.question and run.subgoals[opt.id].turns == 0:
+                return quote + "하나만 더 볼게요. " + opt.question     # 선택 항목은 한 번만 묻는다
+            return quote + "이 단계에서 할 일을 모두 했어요. " + summary
         ov = ctx.pack.stage_overrides.get(nxt.id)
-        return quote + (ov.first_question if ov and ov.first_question else nxt.goal)
+        return quote + (nxt.question or (ov.first_question if ov and ov.first_question else nxt.goal))
 
 
 class LLMTutor(Tutor):
@@ -182,7 +220,10 @@ class LLMTutor(Tutor):
         system = (CHARTER + "\n\n<단계_카드>\n" + json.dumps(
             {"stage": card.id, "name": card.name, "central_question": card.central_question, "scope": card.scope,
              "subgoals": [s.model_dump() for s in card.subgoals],
-             "ladder": [r.model_dump() for r in ctx.cards.ladder], "forbidden": ctx.cards.forbidden},
+             "ladder": [r.model_dump() for r in ctx.cards.ladder], "forbidden": ctx.cards.forbidden,
+             "stage_forbidden": card.stage_forbidden, "first_check": card.first_check,
+             "ladder_text(보충_경로_문구)": v.get("ladder", {}),
+             "note": "required=false 인 하위목표는 완료 판정에 필요 없다. 한 번만 묻고 넘어간다."},
             ensure_ascii=False) + "\n</단계_카드>")
         exemplars = [x.model_dump() for x in v["exemplars"]]
         user = json.dumps({
@@ -224,8 +265,13 @@ class DemoJudge(Judge):
     def judge(self, card, pack, fields):
         for f in card.outputs:
             if len(fields.get(f.key, "").strip()) < f.min_chars:
-                return False, f"‘{f.label}’ 칸을 조금 더 채워 주세요.", f.key
+                return False, f"‘{f.label.split(' —')[0]}’ 칸을 조금 더 채워 주세요.", f.key
         allt = " ".join(fields.values())
+        if card.judge_mode == "required_all":       # 핵심 완료 기준을 모두 자기 말로 담았는가
+            for sg in card.subgoals:
+                if sg.required and not _groups_met(allt, pack.stage_overrides[sg.id].demo_signals):
+                    return False, f"메모에 ‘{sg.goal.split(' —')[0]}’이 드러나지 않아요.", card.outputs[0].key
+            return True, "완료 기준 충족", None
         missed = [sg for sg in card.subgoals
                   if not any(_has(allt, g) for g in pack.stage_overrides[sg.id].demo_signals)]
         if len(missed) > len(card.subgoals) // 2:
@@ -241,7 +287,10 @@ class LLMJudge(Judge):
         system = ("너는 논술 학습의 단계 판정자다. 학생이 쓴 단계 정리가 하위 목표의 완료 기준을 충족하는지 본다. "
                   'JSON 하나만: {"pass": true|false, "note": "학생에게 보일 한 문장(~요체)", "field": "다시 물을 칸 key 또는 null"}')
         user = json.dumps({"stage": card.model_dump(include={"id", "name", "subgoals", "outputs"}),
-                           "criteria": {sg.id: pack.stage_overrides[sg.id].criterion for sg in card.subgoals},
+                           "criteria": {sg.id: pack.stage_overrides[sg.id].criterion for sg in card.subgoals
+                                        if sg.required or card.judge_mode != "required_all"},
+                           "mode": "핵심 완료 기준을 모두 학생 말로 담았는지만 본다. 정답 내용(두 관점의 차이 등)은 요구하지 않는다."
+                                   if card.judge_mode == "required_all" else "",
                            "fields": fields}, ensure_ascii=False)
         m = re.search(r"\{.*\}", self.provider._complete(system, user, max_tokens=1500, effort="low"), re.DOTALL)
         d = json.loads(m.group(0)) if m else {"pass": False, "note": "판정 응답 형식 오류", "field": None}

@@ -1,2 +1,4 @@
-<div class="nx-task mvp-prompt"><div class="nx-label">논제</div><p class="nx-prompt">{{ exam.prompt }}</p>
+<div class="nx-task mvp-prompt">
+  <div class="row-between"><div class="nx-label">{{ exam.title }}</div><div class="small muted">총 {{ exam.points }}점 · 시간 {{ exam.minutes }}분</div></div>
+  <div class="nx-label mt">논제</div><p class="nx-prompt">{{ exam.prompt }}</p>
   <ul class="small muted">{% for c in exam.conditions %}<li>{{ c }}</li>{% endfor %}</ul></div>

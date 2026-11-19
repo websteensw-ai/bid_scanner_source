@@ -19,12 +19,15 @@ ISSUE_TYPES = ("keyword_only", "case_as_claim", "overclaim", "background_knowled
 class Subgoal(BaseModel):
     id: str
     goal: str
+    question: str = ""          # 이 항목이 확인되지 않았을 때 묻는 질문
+    required: bool = True       # False 면 완료 판정에 필요하지 않음 (한 번만 묻고 넘어감)
 
 
 class OutputField(BaseModel):
     key: str
     label: str
     min_chars: int = 1
+    prefill: str = ""           # last_student | subgoal:<id> | "" (하위 목표 순서대로)
 
 
 class SelfCheckItem(BaseModel):
@@ -42,6 +45,18 @@ class StageCard(BaseModel):
     outputs: list[OutputField] = Field(default_factory=list)
     selfcheck: list[SelfCheckItem] = Field(default_factory=list)
     thread_steps: list[str] = Field(default_factory=list)
+    first_check: str = ""        # 첫 확인 질문 (튜터의 첫 발화 끝에 붙음)
+    opener: str = ""             # 단계를 시작할 때 튜터의 안내
+    opener_from: str = ""        # 앞 단계 산출물을 불러와 시작
+    judge_mode: str = ""         # required_all: 핵심 완료 기준을 모두 정리에 담아야 통과
+    verdicts: bool = False       # 단계 판정 (준비 확인 / 지원 후 준비 확인 / 추가 지원 필요 / 미확인)
+    tips: list[dict] = Field(default_factory=list)
+    self_questions: list[str] = Field(default_factory=list)
+    stage_forbidden: list[str] = Field(default_factory=list)
+    done_message: str = ""
+
+    def required_ids(self) -> list[str]:
+        return [s.id for s in self.subgoals if s.required]
 
 
 class Rung(BaseModel):
@@ -127,6 +142,8 @@ class Exam(BaseModel):
     passages: list[Passage]
     prompt: str
     conditions: list[str]
+    points: int = 100
+    minutes: int = 100
 
 
 class ErrorPattern(BaseModel):
@@ -172,6 +189,8 @@ class Pack(BaseModel):
     error_patterns: list[ErrorPattern]
     stage_overrides: dict[str, Override]
     exemplars: list[Exemplar] = Field(default_factory=list)
+    stage_ladders: dict[str, dict[str, str]] = Field(default_factory=dict)   # 단계별 보충 경로 문구 (Ⅶ): 사다리 칸·특수 응답
+    designated_passages: list[str] = Field(default_factory=list)             # 논제가 활용을 지정한 제시문
     model_answers: list[ModelAnswer] = Field(default_factory=list)
     followups: list[str] = Field(default_factory=list)
 
@@ -216,6 +235,7 @@ class Pack(BaseModel):
             "error_patterns": [e for e in self.error_patterns if stage in e.stages],
             "overrides": {k: v for k, v in self.stage_overrides.items() if k.startswith(f"S{stage}-")},
             "exemplars": [x for x in self.exemplars if x.stage == stage and (subgoal is None or x.subgoal == subgoal)][:2],
+            "ladder": self.stage_ladders.get(stage, {}),
         }
 
     def view_grader(self) -> dict:

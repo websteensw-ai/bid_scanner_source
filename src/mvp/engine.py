@@ -63,6 +63,17 @@ class MvpEngine:
         self.attempt: MvpAttempt | None = MvpAttempt.model_validate(state.mvp[aid]) if aid else None
         if self.attempt:
             self.pack, self.rubric = load_problem(self.attempt.pack_id)
+            self._sync_cards()
+
+    def _sync_cards(self) -> None:
+        """단계 카드가 바뀌어도 (예: 0단계 재설계) 저장된 회차가 열리도록 없는 하위 목표를 채운다."""
+        for sid in self.cards.order():
+            r = self.attempt.stages.get(sid)
+            if r is None:
+                continue
+            for sg in self.cards.get(sid).subgoals:
+                r.subgoals.setdefault(sg.id, SubgoalRecord(status="skipped" if r.status == "completed" else "not_yet"))
+            r.subgoal_idx = min(r.subgoal_idx, len(self.cards.get(sid).subgoals))
 
     # ------------------------------------------------------------------ 회차
     def latest_id(self) -> str | None:
@@ -81,6 +92,7 @@ class MvpEngine:
         a.stages["0"].status = "in_progress"
         a.stages["0"].started_at = now()
         self.attempt, self.pack, self.rubric = a, pack, rubric
+        self._open_stage(a.stages["0"])
         self.save()
         return a
 
@@ -153,13 +165,17 @@ class MvpEngine:
         r.turns.append(Turn(role="student", text=text[:2000]))
         r.last_seen = now()
         lim = self.cards.limits
-        all_met = all(v.status in ("met", "skipped") for v in r.subgoals.values())
-        if all_met:
+        req_done = all(r.subgoals[x.id].status in ("met", "skipped") for x in card.subgoals if x.required)
+        pending_opt = next((x for x in card.subgoals if not x.required and r.subgoals[x.id].status not in ("met", "skipped")
+                            and r.subgoals[x.id].turns == 0), None) if req_done else None
+        if req_done and not pending_opt:
             r.status = "summarizing"
-            t = Turn(role="tutor", text="좋아요. 방금 말한 내용을 ‘단계 정리’에 반영해 볼까요?",
+            t = Turn(role="tutor", text=f"좋아요. 방금 말한 내용을 ‘{self._summary_name(card)}’에 반영해 볼까요?",
                      judgment=TutorJudgment(intent="answer", subgoal_status="met"), prompt_version="engine")
             r.turns.append(t)
             return t
+        if pending_opt:                                 # 선택 항목은 한 번만 묻고, 답을 받으면 넘어간다
+            r.subgoal_idx = card.subgoals.index(pending_opt)
         sg = card.subgoals[r.subgoal_idx]
         rec = r.subgoals[sg.id]
         rec.turns += 1
@@ -182,17 +198,29 @@ class MvpEngine:
         if j.flag_teacher or j.intent == "danger":
             r.status = "flagged"
             self.alert("danger", r.stage, f"위험 신호: {text[:80]}")
-        elif j.subgoal_status == "met" and j.subgoal_id == sg.id:
-            rec.status, rec.support, rec.evidence_turn = "met", sup, idx - 1
-            self._next_subgoal(r, card)
-        elif j.subgoal_status in ("partial", "not_yet"):
-            rec.status = j.subgoal_status
+        else:
+            met_now = set(j.subgoals_met) | ({sg.id} if j.subgoal_status == "met" and j.subgoal_id == sg.id else set())
+            for sid_ in met_now:                        # 한 응답이 보여 준 항목은 모두 충족 처리 (0단계 Ⅴ)
+                rr = r.subgoals.get(sid_)
+                if rr and rr.status not in ("met", "skipped"):
+                    rr.status, rr.support, rr.evidence_turn = "met", sup, idx - 1
+            if sg.id not in met_now and j.subgoal_status in ("partial", "not_yet") and rec.status not in ("met", "skipped"):
+                rec.status = j.subgoal_status           # 이미 충족한 항목은 낮추지 않는다
+            if not sg.required and sg.id not in met_now:
+                rec.status = "skipped"                  # 선택 항목: 한 번 물었으면 넘어간다
+            if met_now or not sg.required:
+                self._next_subgoal(r, card)
+                if r.status == "summarizing" and not sg.required and sg.id not in met_now:
+                    utter = (f"괜찮아요. 더 확인할 부분은 다음 단계에서 읽으면서 찾아봐요. "
+                             f"이제 지금까지 말한 것을 ‘{self._summary_name(card)}’로 정리해 볼까요?")
         if j.thinking_change:
             a.thinking.append(ThinkingChange(stage=r.stage, before=j.thinking_change.get("before", ""),
                                              after=j.thinking_change.get("after", ""),
                                              note=j.thinking_change.get("note", ""), turn_index=idx - 1))
         if r.student_turns() > lim["turns_per_stage"] and r.status != "completed":
             r.status = "flagged"
+            if card.verdicts:
+                r.verdict = "needs_support"
             self.alert("stall", r.stage, f"학생 발화 {r.student_turns()}회 초과")
         elif r.rung >= 5 and rec.status != "met" and rec.turns >= 3:
             self.alert("stall", r.stage, f"{sg.id} 사다리 5칸 도달 후 미충족")
@@ -225,13 +253,68 @@ class MvpEngine:
         return FALLBACK, j, {**check, "fallback": True}, 1, rejected
 
     def _next_subgoal(self, r: StageRun, card) -> None:
+        """다음 하위 목표: 완료 기준(required) 먼저. 모두 확인되면 선택 항목을 한 번 묻거나 정리로 넘어간다."""
         r.rung = 0
-        nxt = next((i for i, s in enumerate(card.subgoals) if r.subgoals[s.id].status not in ("met", "skipped")), None)
-        if nxt is None:
-            r.subgoal_idx = len(card.subgoals)
-            r.status = "summarizing"
-        else:
-            r.subgoal_idx = nxt
+        open_ = [i for i, s in enumerate(card.subgoals) if r.subgoals[s.id].status not in ("met", "skipped")]
+        req = [i for i in open_ if card.subgoals[i].required]
+        if req:
+            r.subgoal_idx = req[0]
+            return
+        opt = [i for i in open_ if r.subgoals[card.subgoals[i].id].turns == 0]
+        r.subgoal_idx = opt[0] if opt else len(card.subgoals)
+        r.status = "summarizing"
+
+    @staticmethod
+    def _summary_name(card) -> str:
+        return card.outputs[0].label.split(" —")[0] if card.verdicts and card.outputs else "단계 정리"
+
+    def opener_text(self, sid: str) -> str:
+        """단계를 시작할 때 튜터의 첫 안내. 앞 단계 산출물을 불러오는 단계는 그 메모에서 시작한다 (0단계 Ⅸ)."""
+        card = self.cards.get(sid)
+        parts = []
+        if card.opener_from:
+            prev = self.need().stages.get(card.opener_from)
+            if prev and prev.outputs:
+                first = next(iter(prev.outputs[-1].fields.values())).value
+                parts.append(f"내 준비 메모: “{first[:160]}{'…' if len(first) > 160 else ''}”")
+        if card.opener:
+            parts.append(card.opener)
+        if card.first_check:
+            parts.append(card.first_check)
+        return "\n\n".join(parts)
+
+    def _open_stage(self, r: StageRun) -> None:
+        text = self.opener_text(r.stage)
+        if text and not r.turns:
+            r.turns.append(Turn(role="tutor", text=text, prompt_version="engine:opener"))
+
+    def link_record(self, sid: str = "0") -> dict:
+        """0단계 연결 기록 (Ⅸ): 최초 이해, 오해·누락, 제공한 질문과 발판, 수정된 준비 메모, 남은 과제."""
+        r = self.need().stages[sid]
+        card = self.cards.get(sid)
+        students = [t.text for t in r.turns if t.role == "student"]
+        tutor = [t for t in r.turns if t.role == "tutor" and t.judgment]
+        issues = []
+        for t in tutor:
+            j = t.judgment
+            if j.error_code:
+                e = next((x for x in self.pack.error_patterns if x.code == j.error_code), None)
+                note = e.signal if e else j.error_code
+                if note not in issues:
+                    issues.append(note)
+        supports = sorted({t.judgment.scaffold_level for t in tutor if t.judgment.scaffold_level > 0})
+        missing = [sg.goal.split(" —")[0] for sg in card.subgoals
+                   if sg.required and r.subgoals[sg.id].status not in ("met",)]
+        out = r.outputs[-1].fields if r.outputs else {}
+        return {
+            "first": students[0] if students else "",
+            "issues": issues,
+            "supports": [self.cards.ladder[i].name for i in supports if i < len(self.cards.ladder)],
+            "memo": next(iter(out.values())).value if out else "",
+            "unsure": out["unsure"].value if "unsure" in out else "",
+            "missing": missing,
+            "verdict": r.verdict,
+        }
 
     def skip_subgoal(self) -> None:
         r = self.run()
@@ -251,6 +334,19 @@ class MvpEngine:
         student = [(i, t.text) for i, t in enumerate(r.turns) if t.role == "student"]
         out = {}
         for k, f in enumerate(card.outputs):
+            if f.prefill == "evidence_turns":             # 확인받은 학생 발화를 순서대로 (학생 말만)
+                idxs = sorted({v.evidence_turn for v in r.subgoals.values()
+                               if v.evidence_turn is not None and r.turns[v.evidence_turn].role == "student"})
+                out[f.key] = (" ".join(r.turns[i].text for i in idxs), idxs[0] if idxs else None)
+                continue
+            if f.prefill == "last_student":
+                out[f.key] = (student[-1][1], student[-1][0]) if student else ("", None)
+                continue
+            if f.prefill.startswith("subgoal:"):
+                ev = r.subgoals.get(f.prefill.split(":", 1)[1])
+                i = ev.evidence_turn if ev else None
+                out[f.key] = (r.turns[i].text, i) if i is not None and r.turns[i].role == "student" else ("", None)
+                continue
             sg = card.subgoals[k] if k < len(card.subgoals) else None
             idx = r.subgoals[sg.id].evidence_turn if sg else None
             if idx is not None and r.turns[idx].role == "student":
@@ -269,9 +365,13 @@ class MvpEngine:
         card = self.cards.get(r.stage)
         if r.status not in ("summarizing", "in_progress"):
             raise MvpError("지금은 단계 정리를 할 수 없어요.")
-        if r.status == "in_progress" and not all(v.status in ("met", "skipped") for v in r.subgoals.values()):
+        if r.status == "in_progress" and not all(r.subgoals[x.id].status in ("met", "skipped")
+                                                 for x in card.subgoals if x.required):
             raise MvpError("하위 목표를 마친 뒤에 정리할 수 있어요.")
         student = {t.text.strip(): i for i, t in enumerate(r.turns) if t.role == "student"}
+        for v, i in self.summary_candidates().values():   # 학생 발화로만 미리 채운 값도 학생 말로 기록
+            if v.strip() and i is not None:
+                student.setdefault(v.strip(), i)
         vals = {}
         for f in card.outputs:
             v = fields.get(f.key, "").strip()[:1000]
@@ -283,8 +383,14 @@ class MvpEngine:
         ok, note, field = self.roles["judge"].judge(card, self.pack, {k: v.value for k, v in vals.items()})
         out.verdict, out.verdict_note = ("pass" if ok else "fail"), note
         if ok:
+            if card.verdicts:
+                r.verdict = "ready" if r.support == "independent" else "ready_with_support"
+            if card.done_message:
+                r.turns.append(Turn(role="tutor", text=card.done_message, prompt_version="engine:done"))
             self._complete_stage(r)
         else:
+            if card.verdicts and r.verdict is None:
+                r.verdict = "unconfirmed"
             r.status = "in_progress"
             label = next((f.label for f in card.outputs if f.key == field), "정리")
             r.turns.append(Turn(role="tutor", text=f"정리에서 ‘{label}’ 칸을 다시 볼게요. {note}"[:250],
@@ -305,6 +411,8 @@ class MvpEngine:
             n = a.stages[nxt]
             if n.status == "locked":
                 n.status, n.started_at = "in_progress", now()
+                if self.cards.get(nxt).kind == "dialogue":
+                    self._open_stage(n)
 
     # ------------------------------------------------------------------ 6단계 독립 작성 (7장)
     def _ensure_stage(self, sid: str) -> StageRun:

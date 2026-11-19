@@ -21,6 +21,7 @@ class TutorJudgment(BaseModel):
     """튜터의 구조화 판단 (5-4). 학생에게 보이지 않는다."""
     subgoal_id: str | None = None
     subgoal_status: SubgoalState = "not_yet"
+    subgoals_met: list[str] = Field(default_factory=list)   # 이번 발화로 함께 확인된 하위목표
     issue_type: str | None = None
     error_code: str | None = None
     student_quote: str = ""
@@ -77,6 +78,7 @@ class StageRun(BaseModel):
     turns: list[Turn] = Field(default_factory=list)
     outputs: list[StageOutput] = Field(default_factory=list)
     teacher_override: str = ""
+    verdict: str | None = None       # ready / ready_with_support / needs_support / unconfirmed (단계 판정)
     started_at: str | None = None
     finished_at: str | None = None
     last_seen: str | None = None

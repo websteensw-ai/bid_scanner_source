@@ -11,6 +11,15 @@
   <details class="card" {{ 'open' if open_stage == s.id }}>
     <summary><b>{{ s.id }} {{ s.name }}</b> · {{ STAGE_STATUS_KO[r.status] }}{% if r.subgoals %} · 지원 {{ SUPPORT_KO[r.support] }}{% endif %} · 학생 발화 {{ r.student_turns() }}
       {% set issues = r.turns|selectattr('judgment')|map(attribute='judgment')|selectattr('issue_type')|map(attribute='issue_type')|unique|list %}{% if issues %} · 오류 {{ issues|join(', ') }}{% endif %}</summary>
+    {% if s.verdicts %}{% set lr = link0 if s.id == '0' else none %}
+    <div class="link-rec"><div class="nx-label">단계 판정 · {{ VERDICT_KO.get(r.verdict, '진행 중') }}</div>
+    {% if lr %}<table class="tbl small"><tr><th>최초 이해</th><td>{{ lr.first }}</td></tr>
+      <tr><th>확인된 문제</th><td>{{ lr.issues|join(' / ') or '없음' }}</td></tr>
+      <tr><th>지원</th><td>{{ lr.supports|join(', ') or '질문만' }}</td></tr>
+      <tr><th>수정 결과 (준비 메모)</th><td>{{ lr.memo or '아직 정리 전' }}</td></tr>
+      <tr><th>남은 과제</th><td>{{ lr.unsure or '-' }}{% if lr.missing %} · 미확인 항목: {{ lr.missing|join(', ') }}{% endif %}</td></tr>
+      <tr><th>다음 단계</th><td>원문 독해와 근거에 따른 문제 재구성 (1단계는 준비 메모에서 시작)</td></tr></table>{% endif %}</div>
+    {% endif %}
     {% if r.subgoals %}<p class="small">{% for sg in s.subgoals %}{{ sg.id }} {{ r.subgoals[sg.id].status }}({{ SUPPORT_KO[r.subgoals[sg.id].support] }}) {% endfor %}</p>{% endif %}
     {% if r.outputs %}<div class="nx-label">단계 정리 v{{ r.outputs[-1].version }} · {{ r.outputs[-1].verdict }}</div>
       <ul>{% for k, v in r.outputs[-1].fields.items() %}<li>{{ v.value }} <span class="muted small">({{ '학생 발화' if v.source == 'student_turn' else '직접 작성' }})</span></li>{% endfor %}</ul>{% endif %}

@@ -120,13 +120,33 @@ def engine():
     return e
 
 
+GOOD0 = "(다)를 (가)와 (나)의 관점에서 각각 설명하고, 두 설명의 초점 차이를 밝혀야 해요. 제시문에서 관점과 사례를 잇는 대목을 근거로 찾아 확인하고, 700자 이내로 써요."
+
+
+def to_stage1(e):
+    e.student_turn(GOOD0)
+    e.student_turn("아직 두 관점의 정확한 내용은 모르겠어요.")
+    assert e.submit_summary({k: v for k, (v, _) in e.summary_candidates().items()}).verdict == "pass"
+    assert e.attempt.current == "1"
+
+
 def test_ladder_one_rung_per_turn_and_answer_requests():
     e = engine()
+    to_stage1(e)                                       # 보충 경로가 따로 없는 단계: 두 번째 정답 요구는 5칸까지
     e.student_turn("정답 알려줘")
     assert e.run().rung == 1
-    e.student_turn("그냥 답 알려주세요")                 # 두 번째 요구는 5칸까지
+    e.student_turn("그냥 답 알려주세요")
     assert e.run().rung == 5
     assert e.run().support == "explained_then_restated"
+
+
+def test_stage0_support_path_climbs_one_rung_at_a_time():
+    """0단계 설계 Ⅶ: 질문 → 논제를 짧게 나눔 → 빈 틀 → 설명(지원 후 이해). 한 칸씩."""
+    e = engine()
+    texts = [e.student_turn(t).text for t in ["정답 알려줘", "그냥 답 알려주세요", "모르겠어요", "모르겠어요"]]
+    assert e.run().rung == 4 and e.run().support == "explained_then_restated"
+    assert "짧게 나눠" in texts[1] and "빈칸" in texts[2] and "도움말" in texts[3]
+    assert "정답보다 먼저" in texts[0]
 
 
 def test_off_task_redirect_keeps_rung_and_danger_flags():
@@ -150,25 +170,86 @@ def test_stage_turn_limit_flags():
 
 def test_summary_candidates_only_from_student_and_provenance():
     e = engine()
-    for t in ["(다)를 (가)와 (나)로 설명하고 비교하라는 거예요", "(가)(나)는 관점이고 (다)는 적용할 사례예요",
-              "700자 이내로 써야 해요"]:
-        e.student_turn(t)
+    e.student_turn(GOOD0)
+    e.student_turn("아직 두 관점의 정확한 내용은 모르겠어요.")
     tutor_texts = {t.text for t in e.run().turns if t.role == "tutor"}
     cands = e.summary_candidates()
     assert all(v not in tutor_texts for v, _ in cands.values())
     fields = {k: v for k, (v, _) in cands.items()}
-    fields["conditions"] = "700자 이내, 제목 없음"
+    fields["unsure"] = "(가)와 (나)의 실제 관점"
     out = e.submit_summary(fields)
-    assert out.verdict == "pass" and out.fields["tasks"].source == "student_turn"
-    assert out.fields["conditions"].source == "typed"
+    assert out.verdict == "pass" and out.fields["memo"].source == "student_turn"
+    assert out.fields["unsure"].source == "typed"
     assert e.attempt.current == "1" and e.attempt.stages["0"].status == "completed"
+
+
+# ---------------------------------------------------------------- 0단계 설계 (2026-11-14)
+def test_stage0_first_screen_and_opener():
+    e = engine()
+    r = e.run()
+    assert r.turns[0].role == "tutor" and "실제 출제 문제" in r.turns[0].text and "자신의 말로 설명" in r.turns[0].text
+    assert e.pack.exam.points == 100 and e.pack.exam.minutes == 100
+    assert [p.id for p in e.pack.exam.passages] == ["가", "나", "다", "라"]
+    assert e.pack.designated_passages == ["가", "나", "다"]
+
+
+def test_stage0_main_simulation_scenes():
+    """주 시뮬레이션 장면 1~8 의 흐름: 주제·평가 오해 → 지시 표현 확인, 여러 항목 동시 확인, 막연한 다짐 거절, (라) 질문."""
+    e = engine()
+    t = e.student_turn("공동체를 위해 행동하는 것이 왜 중요한지 쓰는 문제 같아요. 박정우가 훌륭한 인물이라는 걸 설명하면 될 것 같아요.")
+    assert t.judgment.error_code == "topic_or_opinion" and "요구하는 표현" in t.text
+    e.student_turn("그대로 요구한 표현은 없어요. (다)를 (가)와 (나)의 관점에서 각각 설명하라고 되어 있어요.")
+    sg = e.run().subgoals
+    assert sg["S0-1"].status == "met" and sg["S0-2"].status == "met"          # 한 응답에서 두 항목
+    t = e.student_turn("이해했어요")
+    assert t.judgment.intent == "vague" and sg["S0-3"].status != "met"
+    t = e.student_turn("그런데 (라)도 있으니 최종 답안에 꼭 넣어야 하나요?")
+    assert t.judgment.intent == "undesignated" and "지정한 제시문" in t.text and "(라)" not in t.text
+    for x in ["아니요. 두 설명의 초점 차이도 밝혀야 해요.", "그 설명을 뒷받침하는 대목을 원문에서 찾아 확인할게요.",
+              "700자 이내이고 제목은 안 써요."]:
+        e.student_turn(x)
+    assert e.run().status == "summarizing"                                     # 핵심 4기준 충족
+    t = e.student_turn("두 관점의 정확한 내용은 아직 확인하지 못했어요.")          # 선택 항목(불확실성)
+    assert e.run().subgoals["S0-6"].status == "met" and "풀이 준비 메모" in t.text
+    out = e.submit_summary({k: v for k, (v, _) in e.summary_candidates().items()})
+    assert out.verdict == "pass"
+    r0 = e.attempt.stages["0"]
+    assert r0.verdict == "ready" and r0.turns[-1].text.startswith("무엇을 해야 하는지")
+    lr = e.link_record("0")
+    assert lr["first"].startswith("공동체를 위해") and lr["issues"] and "700자" in lr["memo"]
+    assert e.attempt.thinking                                                  # 최초 이해 → 수정
+    r1 = e.run()                                                               # 1단계는 준비 메모에서 시작
+    assert r1.stage == "1" and "내 준비 메모" in r1.turns[0].text and "무엇을 해야" not in r1.turns[0].text
+
+
+def test_stage0_proficient_student_moves_on_quickly():
+    e = engine()
+    e.student_turn(GOOD0)
+    assert e.run().status == "summarizing" and e.run().student_turns() == 1
+
+
+def test_stage0_memo_must_show_core_criteria():
+    e = engine()
+    e.student_turn(GOOD0)
+    out = e.submit_summary({"memo": "공동체가 중요하다는 내 생각을 자유롭게 쓰는 문제다. 열심히 잘 쓰겠다.", "unsure": "없음 없음"})
+    assert out.verdict == "fail" and e.attempt.stages["0"].verdict == "unconfirmed"
+
+
+def test_stage0_with_support_is_recorded():
+    e = engine()
+    for t in ["모르겠어요", "모르겠어요"]:
+        e.student_turn(t)
+    e.student_turn(GOOD0)
+    e.student_turn("아직 모르는 부분은 (가)의 관점이에요.")
+    e.submit_summary({k: v for k, (v, _) in e.summary_candidates().items()})
+    assert e.attempt.stages["0"].verdict == "ready_with_support"
 
 
 def advance_to_writing(e):
     for sid in ["0", "1", "2", "3", "4", "5"]:
         while e.run().status == "in_progress":
             e.skip_subgoal()
-        f = {o.key: "가-2 공동체 기여 행적 신뢰 나-1 수양 내면 다-1 곡식 다-2 일기 비교 초점 근거 실패 이어 문단 빼고 700 관점 사례 설명"
+        f = {o.key: "(다)를 각각 가-2 공동체 기여 행적 신뢰 나-1 수양 내면 다-1 곡식 다-2 일기 비교 초점 근거 실패 이어 문단 빼고 700 관점 사례 설명"
              for o in e.cards.get(sid).outputs}
         assert e.submit_summary(f).verdict == "pass"
     assert e.attempt.current == "6"
@@ -262,15 +343,14 @@ def test_web_full_flow(client):
     r = c.get("/mvp/stage/0")
     assert "가-1" in r.text and PACK.exam.prompt in r.text
     assert MODEL[:25] not in r.text and PACK.explanation_criteria["ga"] not in r.text
-    r = c.post("/mvp/stage/0/say", data={"text": "(다)를 (가)와 (나)로 설명하고 비교하라는 거예요"},
-               headers={"HX-Request": "true"})
+    assert "총 100점" in r.text and "문제 앞에서 스스로 물어볼 질문" in r.text and "문제 접근 요령" in r.text
+    assert "실제 출제 문제" in r.text                                   # 튜터의 최초 안내
+    r = c.post("/mvp/stage/0/say", data={"text": GOOD0}, headers={"HX-Request": "true"})
     assert r.status_code == 200 and 'id="dialogue"' in r.text and "subgoal_status" not in r.text
-    for t in ["(가)(나)는 관점이고 (다)는 적용할 사례예요", "700자 이내로 써야 해요"]:
-        c.post("/mvp/stage/0/say", data={"text": t})
+    c.post("/mvp/stage/0/say", data={"text": "아직 두 관점의 정확한 내용은 모르겠어요."})
     r = c.get("/mvp/stage/0")
-    assert "단계 정리" in r.text
-    r = c.post("/mvp/stage/0/summary", data={"f_tasks": "(다)를 (가)와 (나)로 설명하고 비교하라는 거예요",
-                                             "f_roles": "(가)(나)는 관점, (다)는 사례", "f_conditions": "700자 이내"},
+    assert "풀이 준비 메모" in r.text
+    r = c.post("/mvp/stage/0/summary", data={"f_memo": GOOD0, "f_unsure": "두 관점의 정확한 내용"},
                follow_redirects=True)
     assert "1단계" in r.text
     # 나머지 단계는 엔진으로 빠르게 진행 후 저장
@@ -341,3 +421,16 @@ def test_teacher_regrade_keeps_history(client):
     ev = e.teacher_regrade(prev.id, "B3", 3, "표현은 강하나 범위 인식 있음", "교사")
     assert ev.replaces == prev.id and ev.evaluator == "teacher:교사" and ev.total > prev.total
     assert prev in e.attempt.evaluations and re.search("이전 수준", next(i for i in ev.items if i.code == "B3").reason)
+
+
+def test_old_attempt_with_previous_stage0_still_opens():
+    st = LearnerState(student_id="old")
+    e = MvpEngine(st, ai.get_roles(demo=True))
+    e.start()
+    raw = e.attempt.model_dump(mode="json")
+    raw["stages"]["0"]["subgoals"] = {"S0-1": {"status": "met"}, "S0-2": {"status": "not_yet"}, "S0-3": {"status": "not_yet"}}
+    st.mvp[e.attempt.id] = raw
+    e2 = MvpEngine(st, ai.get_roles(demo=True))
+    assert set(e2.run().subgoals) >= {"S0-4", "S0-5", "S0-6"}
+    e2.student_turn(GOOD0)
+    assert e2.run().status == "summarizing"

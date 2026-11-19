@@ -42,12 +42,16 @@ ISSUE_KO = {"keyword_only": "낱말만 말함", "case_as_claim": "사례를 주�
             "background_knowledge": "제시문 밖 지식", "false_identity": "다른 것을 같다고 봄",
             "false_dichotomy": "대립·양자택일로 봄", "not_linked_to_task": "논제와 연결 안 됨"}
 INTENT_KO = {"answer_request": "정답 요구", "off_task": "과제 이탈", "dont_know": "모르겠어요", "disagree": "반대 의견",
-             "danger": "위험 신호"}
+             "danger": "위험 신호", "vague": "막연한 다짐", "undesignated": "지정되지 않은 자료 질문",
+             "no_response": "무응답·불안"}
+VERDICT_KO = {"ready": "준비 확인", "ready_with_support": "지원 후 준비 확인", "needs_support": "추가 지원 필요",
+              "unconfirmed": "미확인"}
 SUBGOAL_KO = {"met": "충족", "partial": "부분", "not_yet": "아직", "skipped": "건너뜀"}
 REVIEW_STEPS = [("diagnose", "① 제출본 인계 · ② 짧은 자기진단"), ("results", "③ 평가 공개 (강점 먼저)"),
                 ("threads", "④ 첨삭 과제 선택 · ⑤ 원고 연결 문답 · ⑥ 수용 판단"), ("revise", "⑦ 수정본 작성"),
                 ("compare", "⑧ 재평가 전후 비교"), ("done", "⑨ 다음 점검 질문 · 돌아보기")]
 WRITE_STEPS = ["① 혼자 쓴 첫 글", "② 스스로 점검", "③ 점검하고 고친 글", "④ 제출 (이후 못 고침)"]
+env.globals.update(VERDICT_KO=VERDICT_KO)
 env.globals.update(ISSUE_KO=ISSUE_KO, INTENT_KO=INTENT_KO, SUBGOAL_KO=SUBGOAL_KO, REVIEW_STEPS=REVIEW_STEPS,
                    WRITE_STEPS=WRITE_STEPS)
 env.globals.update(SUPPORT_KO=SUPPORT_KO, STAGE_STATUS_KO=STAGE_STATUS_KO, DRAFT_KO=DRAFT_KO,
@@ -564,7 +568,7 @@ def teacher_student(request: Request, sid: str, tab: str = "timeline", stage: st
     a = eng.attempt
     evs = [(e, a.draft_by_id(e.draft_id), score_rows(eng.rubric, e)) for e in a.evaluations]
     ref = a.reflection
-    return render(request, "mvp_teacher_student.html", sid=sid, att=a, cards=eng.cards, tab=tab,
+    return render(request, "mvp_teacher_student.html", sid=sid, att=a, cards=eng.cards, tab=tab, link0=eng.link_record("0"),
                   open_stage=stage, evs=evs, rubric=eng.rubric, ref=ref,
                   steps=progress(eng), sub=a.draft("submitted"), fin=a.draft("final"))
 

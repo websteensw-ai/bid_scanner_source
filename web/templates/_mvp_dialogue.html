@@ -7,10 +7,19 @@
   <details class="method-panel" open><summary>{{ icon('scales') }} 이 단계의 방법 · {{ card.id|replace('6.1','6-1') }}단계 {{ card.name }}</summary>
     <p class="small"><b>범위</b> {{ card.scope }}</p>
     <ol class="method-goals">{% for sg in card.subgoals %}{% set rec = run.subgoals[sg.id] %}
-      <li class="g-{{ rec.status }}{{ ' cur' if loop.index0 == run.subgoal_idx and run.status == 'in_progress' }}"><span class="g-st">{{ SUBGOAL_KO[rec.status] }}</span> {{ sg.goal }}</li>{% endfor %}</ol>
+      <li class="g-{{ rec.status }}{{ ' cur' if loop.index0 == run.subgoal_idx and run.status == 'in_progress' }}"><span class="g-st">{{ SUBGOAL_KO[rec.status] }}</span> {{ sg.goal }}{% if not sg.required %} <span class="muted small">(선택 · 완료 판정에 필요 없음)</span>{% endif %}</li>{% endfor %}</ol>
+    {% if card.verdicts %}<p class="small"><b>단계 판정</b> {{ VERDICT_KO.get(run.verdict, '진행 중') }} <span class="muted">· 준비 확인 / 지원 후 준비 확인 / 추가 지원 필요 / 미확인</span></p>{% endif %}
     <p class="small"><b>보충 사다리</b> {% for r in cards.ladder %}<span class="rung{{ ' on' if r.rung == run.rung }}">{{ r.rung }} {{ r.name }}</span>{% endfor %}</p>
     <p class="small muted">규칙: 한 번에 질문 하나 · 한 턴에 사다리 한 칸 · 하위 목표 {{ cards.limits.turns_per_subgoal }}턴마다 한 칸 상승 · 단계 {{ cards.limits.turns_per_stage }}턴 넘으면 선생님 확인 · 정리는 학생 말에서만</p>
   </details>
+  {% endif %}
+  {% if card.self_questions and not readonly %}
+  <div class="ready-qs"><div class="nx-label">문제 앞에서 스스로 물어볼 질문</div>
+    <ol>{% for q in card.self_questions %}<li>{{ q }}</li>{% endfor %}</ol></div>
+  {% endif %}
+  {% if card.tips and not readonly %}
+  <details class="card tips"><summary>{{ icon('open-book') }} 문제 접근 요령 {{ card.tips|length }}가지</summary>
+    <ol>{% for t in card.tips %}<li><b>{{ t.title }}</b> — {{ t.text }}</li>{% endfor %}</ol></details>
   {% endif %}
   {% if subgoal and run.status == 'in_progress' and not readonly %}
   <div class="nx-tip small">{{ icon('ionic-column') }} 지금 할 일 ({{ run.subgoal_idx + 1 }}/{{ card.subgoals|length }}): {{ subgoal.goal }}</div>
@@ -20,7 +29,7 @@
     {% for t in run.turns %}
       {% if t.role == 'student' %}<div class="nx-row me"><div class="nx-msg me"><div>{{ t.text }}</div></div><div class="av me-av">{{ ((user.name if user else '') or '나')[:1] }}</div></div>
       {% elif t.role == 'tutor' %}<div class="nx-row tutor"><img class="av tutor-av" src="/tutor.svg" alt="튜터" width="44" height="44"><div class="nx-msg tutor"><div>{{ t.text }}</div>
-        {% if METHOD_VIEW and t.judgment %}{% set j = t.judgment %}<div class="method-tag">사다리 {{ j.scaffold_level }}칸 · {{ cards.ladder[j.scaffold_level].name if j.scaffold_level < cards.ladder|length else '' }}{% if j.intent in INTENT_KO %} · 학생 의도: {{ INTENT_KO[j.intent] }}{% endif %}{% if j.issue_type %} · 짚은 문제: {{ ISSUE_KO.get(j.issue_type, j.issue_type) }}{% endif %}{% if j.subgoal_id %} · {{ j.subgoal_id }} {{ SUBGOAL_KO.get(j.subgoal_status, '') }}{% endif %}{% if t.regenerated %} · 검사 후 다시 생성{% endif %}{% if t.check and t.check.get('fallback') %} · 안전 문장으로 대체{% endif %}</div>{% endif %}
+        {% if METHOD_VIEW and t.judgment %}{% set j = t.judgment %}<div class="method-tag">사다리 {{ j.scaffold_level }}칸 · {{ cards.ladder[j.scaffold_level].name if j.scaffold_level < cards.ladder|length else '' }}{% if j.intent in INTENT_KO %} · 학생 의도: {{ INTENT_KO[j.intent] }}{% endif %}{% if j.issue_type %} · 짚은 문제: {{ ISSUE_KO.get(j.issue_type, j.issue_type) }}{% endif %}{% if j.subgoals_met %} · 확인: {{ j.subgoals_met|join('·') }}{% elif j.subgoal_id %} · {{ j.subgoal_id }} {{ SUBGOAL_KO.get(j.subgoal_status, '') }}{% endif %}{% if t.regenerated %} · 검사 후 다시 생성{% endif %}{% if t.check and t.check.get('fallback') %} · 안전 문장으로 대체{% endif %}</div>{% endif %}
       </div></div>
       {% else %}<div class="nx-row sys"><div class="muted small">— {{ t.text }} —</div></div>{% endif %}
     {% endfor %}
@@ -29,7 +38,7 @@
     {% if run.status == 'in_progress' %}
     <form class="card composer" method="post" action="/mvp/stage/{{ card.id }}/say" hx-post="/mvp/stage/{{ card.id }}/say"
           hx-target="#dialogue" hx-swap="outerHTML" hx-disabled-elt="find button">
-      <label class="field"><span>내 답 (문단 번호로 근거를 가리키면 좋아요 · 예: 가-2)</span>
+      <label class="field"><span>{{ '내 말로 설명 (짧아도 괜찮아요)' if card.id == '0' else '내 답 (문단 번호로 근거를 가리키면 좋아요 · 예: 가-2)' }}</span>
         <textarea name="text" rows="3" placeholder="먼저 내 말로 써 보세요." required></textarea></label>
       <div class="row-gap"><button class="btn primary grow"><span class="when-idle">➤ 보내기</span><span class="when-busy">생각하는 중…</span></button>
         <button class="btn" formaction="/mvp/stage/{{ card.id }}/skip" hx-post="/mvp/stage/{{ card.id }}/skip" formnovalidate>이 목표 건너뛰기</button></div>
