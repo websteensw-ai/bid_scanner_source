@@ -27,7 +27,7 @@ BAD = MODEL.replace("다만 (가)에 따르면 이 신뢰는 그를 믿을 근�
 # ---------------------------------------------------------------- 데이터
 def test_pack_and_cards_validate():
     cards = stage_cards()
-    assert cards.order() == ["0", "1", "2", "3", "4", "5", "6", "6.1"]
+    assert cards.order() == ["0", "1", "2", "3", "4", "5", "6", "6.1", "6.2", "6.3"]
     assert sum(a.points for a in RUBRIC.areas) == 100
     assert len(RUBRIC.items) == 12
     assert {s.support for s in cards.ladder} == {"independent", "question_then_revised", "scaffolded",
@@ -294,15 +294,20 @@ def test_writing_versions_selfcheck_and_review_flow():
     with pytest.raises(MvpError):
         e.decide(n, "reject", "")
     e.decide(n, "accept", "신뢰와 참은 달라요", "그의 제안이 옳다는 보증은 아니다")
+    assert a.current == "6.2"                          # 6-1 평가기준 적용 → 6-2 첨삭
     e.to_revise()
     assert a.temp_draft == sub.body                     # 결정 4: 제출본 본문을 미리 채움
     fin_body = sub.body.replace("그러므로 그의 주장은 언제나 옳다.", "하지만 그 신뢰가 그의 제안이 옳다는 보증은 아니다.")
-    ev2 = e.submit_final(fin_body)
-    assert ev2.total > ev.total
+    ev2 = e.submit_revision(fin_body)
+    assert ev2.total > ev.total and a.review_phase == "confirm"
     assert first.status == "resolved" and first.revision_link["method"] == "proposal"
     assert a.selfcheck_result["scope"] == "found_unresolved"
-    assert e.model_answer_open()
+    assert not e.model_answer_open()                    # 예시답안은 확정 후에만
+    conf = e.confirm()
+    assert conf.kind == "confirmed" and conf.prev_id == a.draft("revision").id and a.current == "6.3"
+    assert e.model_answer_open() and a.journal and a.transfer["status"] == "unconfirmed"
     e.finish_review("신뢰와 참을 구별했나?")
+    assert a.stages["6.3"].status == "completed" and a.journal["next_check"] == "신뢰와 참을 구별했나?"
     ref = e.save_reflection({"A1": "3 (가)로 설명", "A5": ["묻고 답하기"]}, submit=True)
     assert "A5" not in ref.answers and a.status == "done"   # 의견 문항은 학습 DB 에 넣지 않음
 
@@ -381,12 +386,18 @@ def test_web_full_flow(client):
     r = c.post("/mvp/review/threads", follow_redirects=True)
     assert "ann-num" in r.text and "①" in r.text
     c.post("/mvp/review/decide", data={"number": "1", "decision": "accept", "reason": "맞아요"})
-    c.post("/mvp/review/revise")
-    r = c.post("/mvp/review/final", data={"body": BAD.replace("그러므로 그의 주장은 언제나 옳다.", "하지만 신뢰가 참을 보증하지는 않는다.")},
-               follow_redirects=True)
-    assert "첨삭 후 최종본" in r.text and "예시답안" in r.text
+    r = c.post("/mvp/review/revise", follow_redirects=True)
+    assert "고쳐 쓰기" in r.text and "/mvp/review/autosave" in r.text
+    fixed = BAD.replace("그러므로 그의 주장은 언제나 옳다.", "하지만 신뢰가 참을 보증하지는 않는다.")
+    assert c.post("/mvp/review/autosave", json={"body": fixed}).json()["ok"]
+    r = c.post("/mvp/review/revision", data={"body": fixed}, follow_redirects=True)
+    assert "최종본으로 확정" in r.text and "예시답안" not in r.text
+    r = c.post("/mvp/review/confirm", follow_redirects=True)
+    assert "종합 관찰 일지" in r.text and "예시답안" in r.text and "미확인" in r.text
     r = c.post("/mvp/review/finish", data={"next_question": "신뢰와 참 구별?"}, follow_redirects=True)
-    assert "돌아보기" in r.text
+    assert "학생 의견 남기기" in r.text
+    r = c.get("/mvp/reflect")
+    assert "6-3에서 이미 정했어요" in r.text and "막혔던 지점" in r.text
     r = c.post("/mvp/reflect", data={"A1": "3 (가)로 설명", "A6": "많이 도움이 됐어요", "fb_send": "1", "act": "submit"},
                follow_redirects=True)
     assert "저장했어요" in r.text
@@ -399,6 +410,10 @@ def test_web_full_flow(client):
     assert "검토 대기열" in r.text and "학생별 진행" in r.text
     r = c.get(f"/teacher/mvp/student/{sid}?tab=eval")
     assert "첨삭 후" in r.text and "수정" in r.text
+    r = c.get(f"/teacher/mvp/student/{sid}?tab=reflection")
+    assert "종합 관찰 일지" in r.text and "새 문항 독립 적용" in r.text
+    r = c.get(f"/teacher/mvp/student/{sid}?tab=drafts")
+    assert "시간 복기" in r.text and "내가 확정한 최종 글" in r.text
     r = c.get(f"/teacher/mvp/student/{sid}?tab=timeline")
     assert "사다리" in r.text or "건너뛰" in r.text
     assert c.get("/teacher/mvp/student/someone-else").status_code == 403
@@ -434,3 +449,96 @@ def test_old_attempt_with_previous_stage0_still_opens():
     assert set(e2.run().subgoals) >= {"S0-4", "S0-5", "S0-6"}
     e2.student_turn(GOOD0)
     assert e2.run().status == "summarizing"
+
+
+
+# ---------------------------------------------------------------- 학생 체험 반영 검수 조건 (가이드 개정판 2026-11-20)
+def to_review(e):
+    advance_to_writing(e)
+    e.set_time_plan(60, 20)
+    e.autosave(BAD)
+    d = e.complete_draft()
+    e.submit_selfcheck([{"key": c.key, "judgment": "keep", "quote": d.body[:10], "reason": "확인"}
+                        for c in e.cards.get("6").selfcheck], "a", "b")
+    e.save_pre_revision(d.body)
+    e.submit()
+    e.submit_diagnosis("a", "b", {})
+    e.to_threads()
+    return e.attempt
+
+
+def test_acceptance_rewrite_with_additional_annotation():
+    """수정하면서 (나)의 연결 근거가 빠지면 해당 구절에 추가 문답을 열고 같은 기준으로 다시 검증한다.
+    문제가 해결돼야 확정할 수 있고, 이전 원고와 평가 기록이 남는다."""
+    e = engine()
+    a = to_review(e)
+    e.decide(1, "accept", "신뢰와 참은 달라요")
+    e.to_revise()
+    fixed = a.temp_draft.replace("그러므로 그의 주장은 언제나 옳다.", "하지만 그 신뢰가 제안이 옳다는 보증은 아니다.")
+    dropped = re.sub(r"그는 새벽마다.*?않았다\.", "그는 성실하게 살았다.", fixed, flags=re.S)
+    e.submit_revision(dropped)
+    assert a.review_phase == "threads" and a.review_round == 2
+    extra = e.current_annotations()
+    assert extra and all(x.round == 2 and x.anchor["draft_id"] == a.draft("revision").id for x in extra)
+    assert "C2" in a.diagnosis["rounds"][-1]["remaining"]
+    ok, why = e.can_confirm()
+    assert not ok and "남은 첨삭" in why
+    with pytest.raises(MvpError):
+        e.confirm()
+    for x in extra:
+        e.decide(x.number, "accept", "(나)의 근거를 다시 넣을게요")
+    e.to_revise()
+    assert a.temp_draft == dropped                      # 직전 수정본에서 이어 씀
+    e.submit_revision(fixed)
+    assert a.review_phase == "confirm"
+    conf = e.confirm()
+    revs = [d for d in a.drafts if d.kind == "revision"]
+    assert len(revs) == 2 and revs[1].prev_id == revs[0].id and conf.prev_id == revs[1].id
+    assert {ev.draft_id for ev in a.evaluations} >= {a.draft("submitted").id, revs[0].id, revs[1].id, conf.id}
+
+
+def test_acceptance_keep_with_reason_allows_confirm():
+    e = engine()
+    a = to_review(e)
+    e.to_revise()
+    e.submit_revision(re.sub(r"그는 새벽마다.*?않았다\.", "그는 성실하게 살았다.", a.temp_draft, flags=re.S))
+    if a.review_phase == "threads":
+        for x in e.current_annotations():
+            e.decide(x.number, "reject", "다-2 문단의 성찰은 비교 문단에서 이미 근거로 썼기 때문에 유지합니다")
+        assert e.can_confirm()[0]                       # 타당한 유지 결정은 근거와 함께 기록하고 확정 가능
+    e.confirm()
+    assert a.current == "6.3"
+
+
+def test_acceptance_pause_resume_and_time_recap():
+    """도중에 나갔다 와도 마지막 저장 단계·초안·미완료 작업이 복원되고, 시간 계획과 실제를 비교할 수 있다."""
+    st = LearnerState(student_id="r")
+    e = MvpEngine(st, ai.get_roles(demo=True))
+    e.start()
+    a = to_review(e)
+    e.to_revise()
+    e.autosave_revision(a.temp_draft + "\n덧붙임 문장입니다.")
+    e.save()
+    e2 = MvpEngine(st, ai.get_roles(demo=True))         # 다시 접속
+    assert e2.attempt.current == "6.2" and e2.attempt.review_phase == "revise"
+    assert e2.attempt.temp_draft.endswith("덧붙임 문장입니다.")
+    rc = e2.time_recap()
+    assert rc["plan_write"] == 60 and rc["plan_review"] == 20 and rc["total"] is not None
+    assert set(e2.attempt.times) >= {"write_start", "review_start", "submit", "revise_start"}
+
+
+def test_acceptance_synthesis_journal_and_transfer_unconfirmed():
+    e = engine()
+    a = to_review(e)
+    e.decide(1, "accept", "신뢰와 참은 달라요")
+    e.to_revise()
+    e.submit_revision(a.temp_draft.replace("그러므로 그의 주장은 언제나 옳다.", "하지만 그 신뢰가 제안이 옳다는 보증은 아니다."))
+    e.confirm()
+    j = a.journal
+    assert j["author"] == "튜터" and j["achievement"] and j["evidence"] and j["decisions"]
+    assert j["totals"]["confirmed"] >= j["totals"]["submitted"] and j["support"]
+    assert a.transfer["status"] == "unconfirmed" and a.transfer["new_attempt"] is None
+    with pytest.raises(MvpError):
+        e.save_reflection({}, submit=True)              # 6-3 을 마치기 전에는 의견 단계로 가지 않음
+    e.finish_review("근거 문단을 하나씩 짚는다")
+    assert e.save_reflection({"A4": "다른 답"}, submit=True).status == "submitted"

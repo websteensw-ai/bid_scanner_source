@@ -42,7 +42,8 @@
   <div class="card small">작성 시간 {{ (att.writing_seconds / 60)|round(1) }}분 · 붙여넣기 {{ att.events|selectattr('kind','equalto','paste')|list|length }}회
     ({% for e in att.events if e.kind == 'paste' %}{{ e.size }}자{{ ', ' if not loop.last }}{% endfor %}) · 도움 요청 {{ att.events|selectattr('kind','equalto','help')|list|length }}회
     · 중단 후 보충 {{ att.events|selectattr('kind','equalto','interrupt')|list|length }}회 · 접근성 {{ '사용' if att.events|selectattr('kind','equalto','accessibility')|list else '없음' }}</div>
-  {% for d in att.drafts %}<details class="card"><summary>{{ DRAFT_KO[d.kind] }} · {{ d.chars }}자 / {{ d.cells }}칸 · {{ CONDITION_KO.get(d.condition) }} · {{ d.ts[:16] }}</summary>
+  <div class="card small"><b>시간 복기</b> 쓰기 {{ recap.write }}분{% if recap.plan_write %}(계획 {{ recap.plan_write }}){% endif %} · 점검·제출 {{ recap.review }}분{% if recap.plan_review %}(계획 {{ recap.plan_review }}){% endif %} · 합계 {{ recap.total }}분{% for k, v in att.times.items() %} · {{ k }} {{ v[11:16] }}{% endfor %}</div>
+  {% for d in att.drafts %}<details class="card"><summary>{{ DRAFT_KO[d.kind] }}{% if d.round %} ({{ d.round }}차){% endif %} · {{ d.id }}{% if d.prev_id %} ← {{ d.prev_id }}{% endif %} · {{ d.chars }}자 / {{ d.cells }}칸 · {{ CONDITION_KO.get(d.condition) }} · {{ d.ts[:16] }}</summary>
     {% if not loop.first %}<div class="mvp-paper mvp-diff">{{ diff_html(att.drafts[loop.index0 - 1].body, d.body) }}</div>{% else %}<div class="mvp-paper">{{ d.body }}</div>{% endif %}</details>{% endfor %}
   {% if att.selfcheck %}<div class="card"><div class="nx-label">자기검증</div>
     {% for e in att.selfcheck.entries %}<p class="small">{{ e.key }} · {{ '문제 있음' if e.judgment == 'problem' else '유지' }} · “{{ e.quote }}” · {{ e.reason }}{% if att.selfcheck_result.get(e.key) %} → <b>{{ SELFCHECK_KO[att.selfcheck_result[e.key]] }}</b>{% endif %}</p>{% endfor %}
@@ -50,7 +51,7 @@
 {% elif tab == 'eval' %}
   {% for e, d, rows in evs %}
   <details class="card" {{ 'open' if loop.last }}><summary>{{ e.id }} · {{ DRAFT_KO[d.kind] if d else e.draft_id }} · {{ '%.2f'|format(e.total) }}점{{ ' (잠정)' if e.provisional }} · {{ e.evaluator }} · 채점 {{ e.runs }}회{% if e.replaces %} · {{ e.replaces }} 대체{% endif %}</summary>
-    {% if d and d.kind == 'final' %}<p class="small muted">‘첨삭 후’ 점수 — 독립 수행 점수가 아니에요.</p>{% elif d %}<p class="small muted">작성 조건: {{ CONDITION_KO.get(d.condition) }}</p>{% endif %}
+    {% if d and d.kind in ('final', 'revision', 'confirmed') %}<p class="small muted">‘첨삭 후’ 점수 — 독립 수행 점수가 아니에요.</p>{% elif d %}<p class="small muted">작성 조건: {{ CONDITION_KO.get(d.condition) }}</p>{% endif %}
     {% if e.note %}<p class="small">메모: {{ e.note }}</p>{% endif %}
     <div class="scroll-x"><table class="tbl"><tr><th>항목</th><th>수준</th><th>점수</th><th>근거</th><th>수정</th></tr>
     {% for r in rows %}<tr class="{{ 'warn' if r.eval.review_recommended }}"><td>{{ r.item.code }} {{ r.item.name }}</td><td>{{ r.eval.level if r.eval.level is not none else '보류' }}</td>
@@ -65,6 +66,13 @@
     {% for a in att.annotations %}<p class="small">{{ circled(a.number) }} {{ a.rubric_refs|join(',') }} · {{ NATURE_KO[a.nature] }} · {{ ANN_STATUS_KO[a.status] }}{% if a.decision %} · {{ DECISION_KO[a.decision] }}: {{ a.decision_reason }}{% endif %} · 지원: {{ a.support_steps|join(', ') or '-' }}{% if a.revision_link and a.revision_link.method %} · 대응 구절: {{ a.revision_link.method }}{% endif %}</p>{% endfor %}</div>{% endif %}
   {% for ap in att.appeals %}<div class="alert info small">이의 제기 {{ ap.target }} · {{ ap.reason }} · {{ ALERT_STATUS_KO[ap.status] }} {{ ap.result }}</div>{% endfor %}
 {% elif tab == 'reflection' %}
+  {% if att.journal %}{% set j = att.journal %}<div class="card"><div class="nx-label">6-3 종합 관찰 일지 (튜터 작성 · 채점·익명 의견과 별도)</div>
+    <p><b>대표 성취</b> {{ j.achievement }}{% if j.evidence %} — “{{ j.evidence }}”{% endif %}</p>
+    <p class="small">점수 제출본 {{ j.totals.submitted }} → 확정본(첨삭 후) {{ j.totals.confirmed }} · 첨삭 {{ j.rounds }}회</p>
+    {% for d in j.decisions %}<p class="small">{{ circled(d.number) }} {{ d.round }}차 {{ d.item }} · {{ DECISION_KO.get(d.decision,'') }}: {{ d.reason }}</p>{% endfor %}
+    <p class="small">실제 지원: {% for k, v in j.support.items() %}{{ k }} {{ SUPPORT_KO[v] }}{{ ', ' if not loop.last }}{% endfor %} · 첨삭 지원: {{ j.review_support|join(', ') or '-' }}</p>
+    <p class="small">다음 점검 행동: {{ j.next_check or att.next_check_question or '-' }}</p></div>{% endif %}
+  {% if att.transfer %}<div class="card small"><b>새 문항 독립 적용</b> {{ '미확인' if att.transfer.status == 'unconfirmed' else att.transfer.status }} · {{ att.transfer.note }}</div>{% endif %}
   <div class="card">{% if ref %}<p class="small">상태: {{ ref.status }}{% if ref.first_submitted_at %} · 최초 제출 {{ ref.first_submitted_at[:16] }}{% endif %}</p>
     {% for k, v in ref.answers.items() %}<p><b>{{ k }}</b> {{ v }}</p>{% endfor %}
     <p class="small muted">나란히 보기 — 실제 지원 수준: {% for s in cards.stages if att.stages[s.id].subgoals %}{{ s.id }} {{ SUPPORT_KO[att.stages[s.id].support] }}{{ ', ' if not loop.last }}{% endfor %}</p>

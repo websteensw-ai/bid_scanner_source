@@ -24,6 +24,12 @@
   {% if sub %}
     <div class="alert ok">제출했어요. 6-1 평가·첨삭으로 이동해요. <a href="/mvp/stage/6.1">바로 가기</a></div>
   {% elif not ind %}
+    <form method="post" action="/mvp/write/plan" hx-boost="false" class="card plan">
+      <div class="nx-label">시간 계획 (100분 중)</div>
+      <div class="row-gap"><label>쓰기 <input type="number" name="write" min="0" max="100" value="{{ att.time_plan.write or 60 }}" style="width:5em"> 분</label>
+        <label>점검·제출 <input type="number" name="review" min="0" max="100" value="{{ att.time_plan.review or 20 }}" style="width:5em"> 분</label>
+        <button class="btn">{{ '계획 바꾸기' if att.time_plan else '계획 저장' }}</button></div>
+      <p class="muted small">제출한 뒤 실제로 걸린 시간과 비교해 볼 수 있어요.</p></form>
     <form method="post" action="/mvp/write/draft" hx-boost="false" class="card" id="writeForm">
       <div class="mvp-tabs"><label><input type="radio" name="view" checked onclick="mvpView('text')"> 입력창</label>
         <label><input type="radio" name="view" onclick="mvpView('grid')"> 원고지 미리보기</label></div>

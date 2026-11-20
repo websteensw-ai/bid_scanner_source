@@ -27,7 +27,8 @@ SUPPORT_KO = {"independent": "독립 수행", "question_then_revised": "질문 �
 STAGE_STATUS_KO = {"locked": "잠김", "in_progress": "진행 중", "summarizing": "정리 중", "judging": "판정 중",
                    "completed": "완료", "flagged": "선생님 확인 중"}
 DRAFT_KO = {"independent": "① 혼자 쓴 첫 글", "selfchecked": "② 스스로 점검", "pre_revision": "③ 점검하고 고친 글",
-            "submitted": "④ 제출한 글", "final": "다시 쓴 최종 글"}
+            "submitted": "④ 제출한 글", "revision": "고쳐 쓴 글", "confirmed": "내가 확정한 최종 글",
+            "final": "다시 쓴 최종 글"}
 ANN_STATUS_KO = {"active": "검토 중", "withdrawn": "철회됨", "adjusted": "조정됨", "resolved": "해결", "unresolved": "미해결"}
 NATURE_KO = {"correction": "오류 교정", "optional_improvement": "선택적 개선", "strength": "유지할 강점"}
 DECISION_KO = {"accept": "수용", "partial": "부분 수용", "reject": "비수용"}
@@ -47,9 +48,9 @@ INTENT_KO = {"answer_request": "정답 요구", "off_task": "과제 이탈", "do
 VERDICT_KO = {"ready": "준비 확인", "ready_with_support": "지원 후 준비 확인", "needs_support": "추가 지원 필요",
               "unconfirmed": "미확인"}
 SUBGOAL_KO = {"met": "충족", "partial": "부분", "not_yet": "아직", "skipped": "건너뜀"}
-REVIEW_STEPS = [("diagnose", "① 제출본 인계 · ② 짧은 자기진단"), ("results", "③ 평가 공개 (강점 먼저)"),
-                ("threads", "④ 첨삭 과제 선택 · ⑤ 원고 연결 문답 · ⑥ 수용 판단"), ("revise", "⑦ 수정본 작성"),
-                ("compare", "⑧ 재평가 전후 비교"), ("done", "⑨ 다음 점검 질문 · 돌아보기")]
+REVIEW_STEPS = [("diagnose", "6-1 · 짧은 자기진단"), ("results", "6-1 · 평가 공개 (강점 먼저)"),
+                ("threads", "6-2 · 구절별 문답과 판단"), ("revise", "6-2 · 고쳐 쓰기"), ("confirm", "6-2 · 재평가와 확정"),
+                ("synthesis", "6-3 · 종합 관찰과 다음 점검"), ("done", "선택 · 학생 의견")]
 WRITE_STEPS = ["① 혼자 쓴 첫 글", "② 스스로 점검", "③ 점검하고 고친 글", "④ 제출 (이후 못 고침)"]
 env.globals.update(VERDICT_KO=VERDICT_KO)
 env.globals.update(ISSUE_KO=ISSUE_KO, INTENT_KO=INTENT_KO, SUBGOAL_KO=SUBGOAL_KO, REVIEW_STEPS=REVIEW_STEPS,
@@ -371,6 +372,8 @@ async def mvp_write_action(request: Request, action: str):
             eng.submit()
             persist(eng, user)
             return redirect(stage_href("6.1"))
+        elif action == "plan":
+            eng.set_time_plan(int(form.get("write") or 0), int(form.get("review") or 0))
         elif action == "help":
             msg = eng.help_request(str(form.get("question", "")))
         elif action == "interrupt":
@@ -395,22 +398,33 @@ async def mvp_write_action(request: Request, action: str):
 
 # ---------------------------------------------------------------- 학생: 6-1 평가·첨삭
 def _review_ctx(eng: MvpEngine, sel: int | None = None, error: str | None = None) -> dict:
+    """6-1 평가기준 적용 · 6-2 첨삭·재평가·확정 · 6-3 종합평가·복습 (한 화면, 진행 단계로 내용이 바뀜)."""
     a = eng.attempt
     sub = a.draft("submitted")
-    fin = a.draft("final")
+    target = eng.latest_version()                   # 지금 첨삭·재평가 대상 버전
+    fin = a.draft("confirmed") or a.draft("final")
+    latest_rev = a.draft("revision")
     ev_sub = a.latest_eval(sub.id) if sub else None
+    ev_target = a.latest_eval(target.id) if target else None
     ev_fin = a.latest_eval(fin.id) if fin else None
+    ev_rev = a.latest_eval(latest_rev.id) if latest_rev else None
     show = a.review_phase not in ("diagnose",)      # 본인 채점 결과는 자기진단 이후 공개 (12장)
-    anns = [x for x in a.annotations]
-    sel = sel or next((x.number for x in anns if x.shown and x.nature != "strength"), None)
-    return {**base_ctx(eng), "sub": sub, "fin": fin, "ev_sub": ev_sub if show else None,
-            "ev_fin": ev_fin, "rows_sub": score_rows(eng.rubric, ev_sub) if (show and ev_sub) else [],
-            "rows_fin": score_rows(eng.rubric, ev_fin) if ev_fin else [], "rubric": eng.rubric,
-            "anns": anns if a.review_phase not in ("diagnose", "results") else [x for x in anns if x.nature == "strength"],
+    anns = eng.current_annotations() if a.review_phase not in ("diagnose", "results") else \
+        [x for x in a.annotations if x.nature == "strength"]
+    sel = sel if sel in {x.number for x in anns} else next((x.number for x in anns if x.shown and x.nature != "strength"), None)
+    ok_confirm, why_confirm = eng.can_confirm()
+    return {**base_ctx(eng), "sub": sub, "fin": fin, "target": target, "latest_rev": latest_rev,
+            "ev_sub": ev_sub if show else None, "ev_fin": ev_fin, "ev_rev": ev_rev, "ev_target": ev_target,
+            "rows_sub": score_rows(eng.rubric, ev_sub) if (show and ev_sub) else [],
+            "rows_fin": score_rows(eng.rubric, ev_fin) if ev_fin else [],
+            "rows_rev": score_rows(eng.rubric, ev_rev) if ev_rev else [], "rubric": eng.rubric,
+            "anns": anns, "round": a.review_round, "rounds": a.diagnosis.get("rounds", []),
+            "earlier": [x for x in a.annotations if x.round < a.review_round],
             "sel": sel, "phase": a.review_phase, "error": error, "sc": a.selfcheck,
             "tasks_hint": ["(가) 관점 설명", "(나) 관점 설명", "두 설명 비교", "기타"],
             "model_answers": eng.pack.model_answers if eng.model_answer_open() else [],
-            "card": eng.cards.get("6.1")}
+            "can_confirm": ok_confirm, "why_confirm": why_confirm, "journal": a.journal, "transfer": a.transfer,
+            "recap": eng.time_recap(), "card": eng.cards.get(a.current if a.current.startswith("6.") else "6.1")}
 
 
 @router.get("/mvp/review", response_class=HTMLResponse)
@@ -421,6 +435,19 @@ def mvp_review(request: Request, sel: int | None = None):
     if not a or a.stages["6.1"].status == "locked":
         return redirect("/mvp")
     return render(request, "mvp_review.html", **_review_ctx(eng, sel))
+
+
+@router.post("/mvp/review/autosave")
+async def mvp_review_autosave(request: Request):
+    user = require(request, "student")
+    eng = load(user)
+    data = await request.json()
+    try:
+        info = eng.autosave_revision(str(data.get("body", "")))
+    except MvpError as e:
+        return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
+    persist(eng, user)
+    return JSONResponse({"ok": True, **info})
 
 
 @router.post("/mvp/review/{action}")
@@ -443,12 +470,14 @@ async def mvp_review_action(request: Request, action: str):
             eng.appeal(str(form.get("target", "")), str(form.get("reason", "")))
         elif action == "revise":
             eng.to_revise()
-        elif action == "final":
-            eng.submit_final(str(form.get("body", "")))
+        elif action in ("revision", "final"):
+            eng.submit_revision(str(form.get("body", "")))
+        elif action == "confirm":
+            eng.confirm()
         elif action == "finish":
             eng.finish_review(str(form.get("next_question", "")))
             persist(eng, user)
-            return redirect("/mvp/reflect")
+            return redirect("/mvp/review")
     except MvpError as e:
         return render(request, "mvp_review.html", **_review_ctx(eng, sel, str(e)))
     persist(eng, user)
@@ -568,7 +597,7 @@ def teacher_student(request: Request, sid: str, tab: str = "timeline", stage: st
     a = eng.attempt
     evs = [(e, a.draft_by_id(e.draft_id), score_rows(eng.rubric, e)) for e in a.evaluations]
     ref = a.reflection
-    return render(request, "mvp_teacher_student.html", sid=sid, att=a, cards=eng.cards, tab=tab, link0=eng.link_record("0"),
+    return render(request, "mvp_teacher_student.html", sid=sid, att=a, cards=eng.cards, tab=tab, link0=eng.link_record("0"), recap=eng.time_recap(),
                   open_stage=stage, evs=evs, rubric=eng.rubric, ref=ref,
                   steps=progress(eng), sub=a.draft("submitted"), fin=a.draft("final"))
 

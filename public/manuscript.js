@@ -44,9 +44,10 @@
   ta.addEventListener("paste", function (e) { var d = (e.clipboardData || window.clipboardData).getData("text"); if (d) pastes.push(official(d)); });
   function save() {
     if (ta.dataset.autosave === "off") return;
+    var url = ta.dataset.autosaveUrl || "/mvp/write/autosave";
     if (!dirty || composing) return; dirty = false;
     var st = document.getElementById("saveState"); if (st) st.textContent = "저장 중…";
-    fetch("/mvp/write/autosave", { method: "POST", headers: { "Content-Type": "application/json" },
+    fetch(url, { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ body: ta.value, pastes: pastes.splice(0) }) })
       .then(function (r) { return r.json(); })
       .then(function (j) { if (st) st.textContent = j.ok ? "저장됨 " + new Date().toLocaleTimeString() : (j.error || "저장 실패"); })

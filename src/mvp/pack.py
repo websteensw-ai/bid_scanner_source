@@ -54,6 +54,7 @@ class StageCard(BaseModel):
     self_questions: list[str] = Field(default_factory=list)
     stage_forbidden: list[str] = Field(default_factory=list)
     done_message: str = ""
+    max_rounds: int = 3          # 6-2 추가 첨삭 최대 차수
 
     def required_ids(self) -> list[str]:
         return [s.id for s in self.subgoals if s.required]

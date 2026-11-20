@@ -459,3 +459,5 @@ mark.ann.on{background:var(--warning-50)}
 .link-rec{background:#FBF9F3;border:1px solid #E8DFC8;border-radius:var(--radius-sm);padding:8px 12px;margin:8px 0}
 .link-rec th{white-space:nowrap;width:9em}
 .nx-msg.tutor div{white-space:pre-line}
+.journal blockquote{margin:6px 0;padding:6px 10px;border-left:3px solid #C9A85A;background:#FBF9F3}
+.plan input{min-height:0;padding:4px 6px}

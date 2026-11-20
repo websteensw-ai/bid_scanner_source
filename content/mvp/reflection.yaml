@@ -12,3 +12,4 @@ items:
   - {id: A6, store: feedback, kind: single, text: "튜터의 질문이 생각하는 데 도움이 되었나요?", options: [많이 도움이 됐어요, 조금 도움이 됐어요, 답을 유도하는 느낌이었어요, 같은 질문이 반복됐어요, 판단하기 어려워요]}
   - {id: A7, store: feedback, kind: multi, max: 3, text: "불편했던 점이 있었나요?", options: [화면이 복잡함, 응답이 느림, 질문이 어려움, 원고지 입력이 불편함, 없음]}
   - {id: A8, store: feedback, kind: text, text: 자유롭게 의견을 남겨 주세요.}
+  - {id: A9, store: feedback, kind: text, text: "가장 막혔던 지점은 어디였고, 그다음 어떻게 했나요?"}

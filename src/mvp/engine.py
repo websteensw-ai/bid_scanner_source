@@ -432,6 +432,7 @@ class MvpEngine:
             raise MvpError(f"원고지 {MAX_CELLS}칸을 넘었어요. ({cells}칸)")
         if not a.writing_started:
             a.writing_started = now()
+            a.times["write_start"] = a.writing_started
             a.events.append(WritingEvent(kind="start"))
             r.started_at = r.started_at or now()
         for size in paste_sizes or []:
@@ -482,7 +483,9 @@ class MvpEngine:
             raise MvpError("독립 초고는 이미 고정됐어요.")
         if official_count(a.temp_draft) < 50:
             raise MvpError("초고를 조금 더 써 주세요. (50자 이상)")
-        return self._new_draft("independent", a.temp_draft)
+        d = self._new_draft("independent", a.temp_draft)
+        a.times["review_start"] = d.ts                 # 초고 완성 = 자기 점검 시작
+        return d
 
     def submit_selfcheck(self, entries: list[dict], confident: str, uncertain: str) -> SelfCheck:
         a = self.need()
@@ -540,6 +543,7 @@ class MvpEngine:
         if a.draft("submitted"):
             raise MvpError("이미 제출했어요.")
         d = self._new_draft("submitted", pre.body)
+        a.times["submit"] = d.ts
         if a.writing_started:
             from datetime import datetime
             a.writing_seconds = (datetime.fromisoformat(d.ts) - datetime.fromisoformat(a.writing_started)).total_seconds()
@@ -547,13 +551,45 @@ class MvpEngine:
                                   "submitted_at": d.ts, "condition": d.condition, "chars": d.chars,
                                   "uncertain": a.selfcheck.uncertain if a.selfcheck else ""}
         r.status, r.finished_at = "completed", now()
-        ev = self.grade(d)                             # 즉시 채점, 결과는 자기진단 후 공개
+        ev = self.grade(d)                             # 6-1: 즉시 채점, 결과는 자기진단 후 공개
         self.generate_annotations(ev, d)
-        a.current = "6.1"
-        s61 = a.stages["6.1"]
-        s61.status, s61.started_at = "in_progress", now()
-        a.review_phase = "diagnose"
+        self._enter("6.1", "diagnose")
         return d
+
+    def _enter(self, sid: str, phase: str) -> None:
+        a = self.need()
+        prev = a.current
+        if prev != sid and prev in a.stages and a.stages[prev].status != "completed":
+            a.stages[prev].status, a.stages[prev].finished_at = "completed", now()
+        a.current = sid
+        r = a.stages[sid]
+        if r.status == "locked":
+            r.status, r.started_at = "in_progress", now()
+        a.review_phase = phase
+
+    def latest_version(self) -> DraftVersion | None:
+        """첨삭·재평가의 대상이 되는 가장 최근 버전 (확정본 > 수정본 > 제출본)."""
+        a = self.need()
+        return a.draft("confirmed") or a.draft("final") or a.draft("revision") or a.draft("submitted")
+
+    def time_recap(self) -> dict:
+        """작성 시작·검토 시작·제출 시점과 학생의 시간 계획 비교 (개정판 검수 조건: 시간 복기)."""
+        from datetime import datetime
+        a = self.need()
+        t = {k: datetime.fromisoformat(v) for k, v in a.times.items() if v}
+        if a.writing_started and "write_start" not in t:
+            t["write_start"] = datetime.fromisoformat(a.writing_started)
+
+        def mins(x, y):
+            return round((t[y] - t[x]).total_seconds() / 60, 1) if x in t and y in t else None
+        return {"plan_write": a.time_plan.get("write"), "plan_review": a.time_plan.get("review"),
+                "write": mins("write_start", "review_start"), "review": mins("review_start", "submit"),
+                "total": mins("write_start", "submit")}
+
+    def set_time_plan(self, write: int, review: int) -> None:
+        a = self.need()
+        self._ensure_stage("6")
+        a.time_plan = {"write": max(0, min(int(write), 200)), "review": max(0, min(int(review), 200))}
 
     # ------------------------------------------------------------------ 채점 (8-2)
     def grade(self, d: DraftVersion, replaces: str | None = None, note: str = "") -> Evaluation:
@@ -576,7 +612,7 @@ class MvpEngine:
             for it in merged:
                 it.review_recommended = it.code in mismatch
             n = 3
-            self.alert("grading_mismatch", "6.1", f"{d.kind} 채점 불일치: {', '.join(mismatch)}")
+            self.alert("grading_mismatch", a.current, f"{d.kind} 채점 불일치: {', '.join(mismatch)}")
         calc = compute(self.rubric, merged, d.chars, self.pack.max_chars)
         ev = Evaluation(id=f"ev-{len(a.evaluations) + 1}", draft_id=d.id, rubric_version=self.rubric.full_id,
                         evaluator=f"ai:{getattr(g, 'name', 'grader')}", items=merged, runs=n, replaces=replaces,
@@ -585,20 +621,41 @@ class MvpEngine:
         return ev
 
     # ------------------------------------------------------------------ 첨삭 표시 (8-3·8-4)
-    def generate_annotations(self, ev: Evaluation, d: DraftVersion) -> list[Annotation]:
+
+    # ------------------------------------------------------------------ 첨삭 표시 (8-3·8-4)
+    def _critical(self, ev: Evaluation, prev: Evaluation | None = None) -> list[EvalItem]:
+        """재평가 후에도 남은 중요한 문제: 핵심 요구 누락·오독·비약·새 오류·분량 위반 (개정판 8-1)."""
+        prev_errs = {i.error_code for i in (prev.items if prev else []) if i.error_code}
+        prev_lv = {i.code: i.level for i in (prev.items if prev else []) if i.level is not None}
+        out = []
+        for it in ev.items:
+            if it.level is None:
+                continue
+            ri = self.rubric.item(it.code)
+            dropped = ri.area in "ABCD" and it.code in prev_lv and it.level < prev_lv[it.code]   # 고치다 빠진 근거·연결
+            if dropped or (ri.area == "A" and it.level <= 2) or (it.code in ("B1", "C1") and it.level <= 1) \
+                    or (it.code in ("B3", "C3") and it.level <= 1) or (it.error_code and it.error_code not in prev_errs) \
+                    or (it.code == "E2" and it.level == 0):
+                out.append(it)
+        return out
+
+    def generate_annotations(self, ev: Evaluation, d: DraftVersion, only: list[EvalItem] | None = None,
+                             round_: int = 1) -> list[Annotation]:
+        """첨삭 표시. 1차는 우선순위 상위 2~3개를 보이고, 추가 첨삭(2차 이후)은 남은 중요한 문제만 연다."""
         a = self.need()
         flagged_keys = {e.key for e in (a.selfcheck.entries if a.selfcheck else []) if e.judgment == "problem"}
         self_area = {"tasks": "A", "evidence": "B", "scope": "B", "form": "E", "length": "E"}
         self_areas = {self_area.get(k) for k in flagged_keys}
         cands = []
-        for it in ev.items:
+        for it in (only if only is not None else ev.items):
             ri = self.rubric.item(it.code)
             if it.level is None or it.level >= 4:
                 continue
             cands.append((ri.priority, 0 if ri.area in self_areas else 1, it.level, it, ri))
         cands.sort(key=lambda x: (x[0], x[1], x[2]))
+        base = max((x.number for x in a.annotations), default=0) if round_ > 1 else 0
         anns = []
-        for n, (_, _, _, it, ri) in enumerate(cands, start=1):
+        for k, (_, _, _, it, ri) in enumerate(cands, start=1):
             if it.evidence:
                 e = it.evidence[0]
                 anchor = {"draft_id": d.id, "start": e["start"], "end": e["end"], "quote": e["quote"]}
@@ -606,18 +663,25 @@ class MvpEngine:
             else:
                 anchor = {"draft_id": d.id, "start": len(d.body), "end": len(d.body), "quote": ""}
                 mark = "insert"
-            anns.append(Annotation(number=n, rubric_refs=[it.code], anchor=anchor, mark_type=mark,
+            anns.append(Annotation(number=base + k, rubric_refs=[it.code], anchor=anchor, mark_type=mark, round=round_,
                                    nature="optional_improvement" if ri.area == "E" else "correction",
-                                   margin_note=ri.margin_question, shown=n <= 3))
-        strong = [it for it in ev.items if it.level == 4 and it.evidence and it.code not in ("E1", "E2")]
-        if strong:
-            it = strong[0]
-            e = it.evidence[0]
-            anns.append(Annotation(number=len(anns) + 1, rubric_refs=[it.code], nature="strength", mark_type="circle",
-                                   anchor={"draft_id": d.id, "start": e["start"], "end": e["end"], "quote": e["quote"]},
-                                   margin_note=f"유지할 강점: {self.rubric.item(it.code).name}", shown=True))
-        a.annotations = anns
+                                   margin_note=ri.margin_question, shown=k <= 3 or round_ > 1))
+        if round_ == 1:
+            strong = [it for it in ev.items if it.level == 4 and it.evidence and it.code not in ("E1", "E2")]
+            if strong:
+                it = strong[0]
+                e = it.evidence[0]
+                anns.append(Annotation(number=len(anns) + 1, rubric_refs=[it.code], nature="strength", mark_type="circle",
+                                       anchor={"draft_id": d.id, "start": e["start"], "end": e["end"], "quote": e["quote"]},
+                                       margin_note=f"유지할 강점: {self.rubric.item(it.code).name}", shown=True))
+            a.annotations = anns
+        else:
+            a.annotations.extend(anns)
         return anns
+
+    def current_annotations(self) -> list[Annotation]:
+        a = self.need()
+        return [x for x in a.annotations if x.round == a.review_round]
 
     def annotation(self, number: int) -> Annotation:
         ann = next((x for x in self.need().annotations if x.number == number), None)
@@ -626,6 +690,8 @@ class MvpEngine:
         return ann
 
     # ------------------------------------------------------------------ 6-1 진행 (8-1)
+
+    # ------------------------------------------------------------------ 6-1 평가기준 적용
     def submit_diagnosis(self, confident: str, uncertain: str, paragraph_map: dict[str, str]) -> None:
         a = self.need()
         self._ensure_stage("6.1")
@@ -633,11 +699,17 @@ class MvpEngine:
                                "paragraph_map": paragraph_map}
         a.review_phase = "results"
 
+    # ------------------------------------------------------------------ 6-2 첨삭·재평가·확정
     def to_threads(self) -> None:
         a = self.need()
-        if a.review_phase == "results":
-            a.review_phase = "threads"
-        for ann in a.annotations:
+        if a.current == "6.1":
+            if a.review_phase != "results":
+                raise MvpError("평가를 먼저 확인해 주세요.")
+            self._enter("6.2", "threads")
+        elif a.review_phase not in ("threads", "confirm"):
+            raise MvpError("지금은 첨삭 문답을 열 수 없어요.")
+        a.review_phase = "threads"
+        for ann in self.current_annotations():
             if ann.nature != "strength" and not ann.thread:
                 ann.thread.append(ThreadTurn(role="tutor", step=0, text=roles_mod.thread_question(
                     0, circled(ann.number), ann.anchor.get("quote", ""), ann.margin_note)))
@@ -691,9 +763,9 @@ class MvpEngine:
             msg = ("설명이 타당해요. 이 표시는 거둘게요." if valid
                    else "유지하려는 근거를 제시문 문단과 함께 조금 더 적어 주면 다시 판단할게요.")
         elif decision == "partial":
-            ann.status, msg = "adjusted", "일부만 받아들이는 판단을 기록했어요. 최종본에서 그렇게 고쳐 보세요."
+            ann.status, msg = "adjusted", "일부만 받아들이는 판단을 기록했어요. 수정본에서 그렇게 고쳐 보세요."
         else:
-            msg = "받아들이는 판단을 기록했어요. 최종본에서 내 문장으로 고쳐 보세요."
+            msg = "받아들이는 판단을 기록했어요. 수정본에서 내 문장으로 고쳐 보세요."
         ann.thread_step = 4
         ann.thread.append(ThreadTurn(role="tutor", text=msg, step=4))
         return ann
@@ -706,7 +778,7 @@ class MvpEngine:
         a.appeals.append(ap)
         if target.startswith("eval:"):
             code = target.split(":", 1)[1]
-            d = a.draft("final") or a.draft("submitted")
+            d = self.latest_version()
             prev = a.latest_eval(d.id)
             again = next((i for i in self.roles["grader"].grade(self.pack, self.rubric, d.body) if i.code == code), None)
             old = next((i for i in prev.items if i.code == code), None) if prev else None
@@ -723,40 +795,109 @@ class MvpEngine:
                 ap.status, ap.result = "done", ev.note
                 return ap
         ap.status, ap.result = "reviewing", "선생님 검토 대기열로 보냈어요."
-        self.alert("appeal", "6.1", f"{target}: {ap.reason[:60]}")
+        self.alert("appeal", a.current, f"{target}: {ap.reason[:60]}")
         return ap
+
 
     def to_revise(self) -> None:
         a = self.need()
-        if a.review_phase not in ("threads", "results"):
+        if a.current != "6.2" or a.review_phase not in ("threads", "confirm"):
             raise MvpError("지금은 수정본을 쓸 수 없어요.")
         a.review_phase = "revise"
-        if not a.temp_draft or a.temp_draft == (a.draft("pre_revision").body if a.draft("pre_revision") else ""):
-            a.temp_draft = a.draft("submitted").body            # 결정 4 권장안: 제출본 본문을 미리 채움
+        a.times.setdefault("revise_start", now())
+        latest = self.latest_version()
+        if not a.temp_draft or a.diagnosis.get("revise_from") != latest.id:
+            a.temp_draft = latest.body                  # 결정 4 권장안: 직전 버전 본문을 미리 채움
+            a.diagnosis["revise_from"] = latest.id
 
-    def submit_final(self, body: str) -> Evaluation:
+    def autosave_revision(self, body: str) -> dict:
         a = self.need()
-        self._ensure_stage("6.1")
+        if a.current != "6.2" or a.review_phase != "revise":
+            raise MvpError("수정본 작성 중이 아니에요.")
+        body = body.replace("\r", "")
+        if cells_used(body) > MAX_CELLS:
+            raise MvpError("원고지 800칸을 넘었어요.")
+        a.temp_draft, a.temp_saved_at = body, now()
+        return {"chars": official_count(body), "cells": cells_used(body), "saved_at": a.temp_saved_at}
+
+    def submit_revision(self, body: str) -> Evaluation:
+        """학생 수정본 저장 → 같은 채점표로 재평가 → 남은 중요한 문제가 있으면 추가 첨삭, 없으면 확정 가능."""
+        a = self.need()
+        self._ensure_stage("6.2")
         if a.review_phase != "revise":
             raise MvpError("수정본 작성 단계가 아니에요.")
         body = body.replace("\r", "")
         if cells_used(body) > MAX_CELLS:
             raise MvpError("원고지 800칸을 넘었어요.")
         if official_count(body) < 50:
-            raise MvpError("최종본을 조금 더 써 주세요.")
-        sub = a.draft("submitted")
-        fin = self._new_draft("final", body)
-        ev = self.grade(fin)
-        self._link_revisions(sub, fin)
-        self._check_ai_copy(fin)
-        for ann in a.annotations:
+            raise MvpError("수정본을 조금 더 써 주세요.")
+        prev = self.latest_version()
+        prev_ev = a.latest_eval(prev.id)
+        rev = self._new_draft("revision", body)
+        rev.prev_id, rev.round = prev.id, a.review_round
+        ev = self.grade(rev)
+        self._link_revisions(prev, rev)
+        self._check_ai_copy(rev)
+        for ann in self.current_annotations():          # 이번 차수 표시의 상태 정리
             if ann.nature != "strength" and ann.status == "active":
                 ann.status = "unresolved" if ann.decision is None else "resolved"
             elif ann.status == "adjusted":
                 ann.status = "resolved"
         self._classify_selfcheck()
-        a.review_phase = "compare"
+        remain = self._critical(ev, prev_ev)
+        card = self.cards.get("6.2")
+        a.diagnosis.setdefault("rounds", []).append({"round": a.review_round, "draft": rev.id, "total": ev.total,
+                                                     "remaining": [i.code for i in remain], "ts": rev.ts})
+        if remain and a.review_round < card.max_rounds:
+            a.review_round += 1                         # 추가 첨삭: 남은 문제의 구절만 다시 연다
+            self.generate_annotations(ev, rev, only=remain, round_=a.review_round)
+            a.review_phase = "threads"
+            self.to_threads()
+        else:
+            if remain:
+                self.alert("unresolved", "6.2", f"{card.max_rounds}차 첨삭 후에도 남은 문제: {', '.join(i.code for i in remain)}")
+            a.review_phase = "confirm"
         return ev
+
+    def can_confirm(self) -> tuple[bool, str]:
+        a = self.need()
+        if a.current != "6.2" or a.review_phase not in ("confirm", "threads"):
+            return False, "지금은 확정할 수 없어요."
+        if not a.draft("revision"):
+            return False, "수정본을 한 번 이상 쓴 뒤에 확정할 수 있어요."
+        if a.review_phase == "threads":
+            open_ = [x for x in self.current_annotations() if x.nature != "strength"
+                     and x.status not in ("withdrawn", "resolved") and x.decision is None]
+            if open_:
+                return False, "남은 첨삭 항목을 고치거나, 유지하려면 근거와 함께 판단을 남겨 주세요."
+        return True, ""
+
+    def confirm(self) -> DraftVersion:
+        """학생이 확정한 버전에만 최종본 상태를 준다 (같은 본문, 같은 평가)."""
+        a = self.need()
+        ok, why = self.can_confirm()
+        if not ok:
+            raise MvpError(why)
+        latest = a.draft("revision")
+        ev = a.latest_eval(latest.id)
+        conf = self._new_draft("confirmed", latest.body)
+        conf.prev_id = latest.id
+        a.times["confirm"] = conf.ts
+        if ev:
+            a.evaluations.append(ev.model_copy(update={"id": f"ev-{len(a.evaluations) + 1}", "draft_id": conf.id,
+                                                       "note": f"확정본: {latest.id} 의 평가를 그대로 적용", "ts": now()}))
+        for ann in a.annotations:
+            if ann.nature != "strength" and ann.status == "active":
+                ann.status = "unresolved" if ann.decision is None else "resolved"
+        for ap in a.appeals:                            # 남은 중요한 이의는 교사 검토로
+            if ap.status in ("received", "reviewing"):
+                self.alert("appeal", "6.2", f"확정 후 남은 이의: {ap.target}")
+        self._enter("6.3", "synthesis")
+        a.journal = self.build_journal()
+        a.transfer = a.transfer or {"status": "unconfirmed", "source_attempt": a.id, "new_attempt": None,
+                                    "criterion": a.next_check_question, "passage": "", "support": "",
+                                    "note": "새 문항을 아직 혼자 풀어 보지 않았어요. 다음 문항에서 확인해요."}
+        return conf
 
     def _link_revisions(self, sub: DraftVersion, fin: DraftVersion) -> None:
         sm = difflib.SequenceMatcher(None, sub.body, fin.body, autojunk=False)
@@ -789,7 +930,7 @@ class MvpEngine:
         ai_texts += [m.text for m in self.pack.model_answers]
         for s in sentences(fin.body):
             if any(containment(s, ref) >= 0.8 for ref in ai_texts if len(s) >= 15):
-                self.alert("ai_copy", "6.1", f"튜터 예시와 거의 같은 문장: {s[:50]}")
+                self.alert("ai_copy", "6.2", f"튜터 예시와 거의 같은 문장: {s[:50]}")
                 a.diagnosis["ai_copy"] = True
                 break
 
@@ -799,7 +940,7 @@ class MvpEngine:
         if not a.selfcheck:
             return
         ind, pre = a.draft("independent"), a.draft("pre_revision")
-        sub_ev = a.latest_eval(a.draft("submitted").id)
+        sub_ev = a.latest_eval(a.draft("submitted").id) if a.draft("submitted") else None
         area_of = {"tasks": "A", "evidence": "B", "scope": "B", "form": "E", "length": "E"}
         res = {}
         for e in a.selfcheck.entries:
@@ -812,28 +953,67 @@ class MvpEngine:
                 res[e.key] = "insufficient_check" if weak else "checked_and_kept"
         a.selfcheck_result = res
 
+
+    # ------------------------------------------------------------------ 6-3 종합평가·복습
+    def build_journal(self) -> dict:
+        """종합 관찰 일지 (튜터 작성): 대표 성취와 근거 구절, 수정·유지 이유, 실제 지원, 다음 점검 행동."""
+        a = self.need()
+        sub, conf = a.draft("submitted"), a.draft("confirmed") or a.draft("final")
+        ev0 = a.latest_eval(sub.id) if sub else None
+        ev1 = a.latest_eval(conf.id) if conf else None
+        gains = []
+        if ev0 and ev1:
+            before = {i.code: i.level for i in ev0.items}
+            for it in ev1.items:
+                if it.level is not None and before.get(it.code) is not None:
+                    gains.append((it.level - before[it.code], it.level, it))
+        gains.sort(key=lambda x: (-x[0], -x[1]))
+        rep = gains[0][2] if gains else None
+        rep_ri = self.rubric.item(rep.code) if rep else None
+        decisions = [{"number": x.number, "item": self.rubric.item(x.rubric_refs[0]).name, "decision": x.decision,
+                      "reason": x.decision_reason, "status": x.status, "round": x.round}
+                     for x in a.annotations if x.nature != "strength" and x.decision]
+        support = {sid: r.support for sid, r in a.stages.items() if r.subgoals and r.status == "completed"}
+        steps = sorted({s for x in a.annotations for s in x.support_steps})
+        return {
+            "author": "튜터", "written_at": now(),
+            "achievement": (f"{rep_ri.name}: 수준 {gains[0][2].level}"
+                            + (f" (제출본보다 {gains[0][0]} 올라감)" if gains[0][0] > 0 else "")) if rep else "",
+            "evidence": (rep.evidence[0]["quote"] if rep and rep.evidence else ""),
+            "totals": {"submitted": ev0.total if ev0 else None, "confirmed": ev1.total if ev1 else None},
+            "decisions": decisions,
+            "support": support, "review_support": steps,
+            "rounds": len(a.diagnosis.get("rounds", [])),
+            "next_check": a.next_check_question,
+        }
+
     def finish_review(self, next_question: str) -> None:
         a = self.need()
-        if a.review_phase != "compare":
-            raise MvpError("재평가 비교를 먼저 확인해 주세요.")
+        if a.review_phase not in ("synthesis", "compare"):
+            raise MvpError("최종본을 확정한 뒤에 종합평가를 마칠 수 있어요.")
         if not next_question.strip():
-            raise MvpError("다음 글에서 쓸 점검 질문을 적어 주세요.")
+            raise MvpError("다음 글에서 할 점검 행동을 적어 주세요.")
         a.next_check_question = next_question.strip()[:300]
+        if a.journal is not None:
+            a.journal["next_check"] = a.next_check_question
+        if a.transfer is not None:
+            a.transfer["criterion"] = a.next_check_question
         a.review_phase = "done"
-        r = a.stages["6.1"]
+        sid = "6.3" if "6.3" in a.stages else a.current
+        r = a.stages[sid]
         r.status, r.finished_at = "completed", now()
         a.reflection = a.reflection or Reflection(version=str(reflection_items()["version"]))
 
     def model_answer_open(self) -> bool:
-        """예시답안은 6-1 최종본 확정 후에만 선택 열람 (12장)."""
+        """예시답안은 6-2 최종본 확정 후에만 선택 열람."""
         a = self.need()
-        return a.review_phase in ("compare", "done") and a.draft("final") is not None
+        return a.review_phase in ("synthesis", "compare", "done") and (a.draft("confirmed") or a.draft("final")) is not None
 
     # ------------------------------------------------------------------ 돌아보기 (9장)
     def save_reflection(self, answers: dict, submit: bool = False, skip: bool = False) -> Reflection:
         a = self.need()
         if a.review_phase != "done":
-            raise MvpError("평가·첨삭을 마친 뒤에 돌아볼 수 있어요.")
+            raise MvpError("종합평가·복습을 마친 뒤에 의견을 남길 수 있어요.")
         ref = a.reflection or Reflection(version=str(reflection_items()["version"]))
         personal = {i["id"] for i in reflection_items()["items"] if i["store"] == "personal"}
         clean = {k: v for k, v in answers.items() if k in personal}

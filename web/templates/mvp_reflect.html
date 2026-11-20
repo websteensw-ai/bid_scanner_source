@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 {% block title %}학습 돌아보기 · 엘렝코스{% endblock %}
 {% block content %}
-<div class="nx-hero"><div class="nx-eyebrow">학습 돌아보기</div><h2>이번 학습을 돌아볼까요?</h2>
-  <p>건너뛰어도 학습 완료와 점수는 바뀌지 않아요.</p></div>
+<div class="nx-hero"><div class="nx-eyebrow">선택형 학생 의견</div><h2>이번 학습을 돌아볼까요?</h2>
+  <p>원하는 만큼만 답해요. 건너뛰어도 학습 완료와 점수는 바뀌지 않아요.</p></div>
 {% if sent %}<div class="alert ok">저장했어요. 고마워요!</div>{% endif %}
 <form method="post" action="/mvp/reflect" hx-boost="false" class="stack" id="refl">
   <div class="card"><div class="nx-label">나의 학습 돌아보기</div>
     <p class="muted small">내 학습 기록에 저장되며 담당 선생님이 볼 수 있어요.</p>
     {% set ans = ref.answers if ref else {} %}
     {% for it in items if it.store == 'personal' %}
+    {% if it.id == 'A4' and att and att.next_check_question %}
+    <p class="small muted">{{ it.id }}. 다음 점검 행동은 6-3에서 이미 정했어요: <b>{{ att.next_check_question }}</b> (같은 질문을 다시 묻지 않아요)</p>
+    {% else %}
     <fieldset class="mvp-q" data-id="{{ it.id }}" {% if it.resets %}data-resets="{{ it.resets|join(',') }}"{% endif %}><legend>{{ it.id }}. {{ it.text }}</legend>
       {% if it.kind == 'single' %}{% for o in it.options %}<label class="choice"><input type="radio" name="{{ it.id }}" value="{{ o }}" {{ 'checked' if ans.get(it.id) == o }}> {{ o }}</label>{% endfor %}
       {% elif it.kind == 'pick_text' %}<select name="{{ it.id }}"><option value="">고르기</option>{% for kind, txt in picks %}<option value="{{ kind }}: {{ txt[:80] }}" {{ 'selected' if ans.get(it.id,'').endswith(txt[:80]) and ans.get(it.id) }}>{{ kind }} · {{ txt[:60] }}</option>{% endfor %}</select>
       {% else %}<textarea name="{{ it.id }}" rows="2">{{ ans.get(it.id, '') }}</textarea>{% endif %}
     </fieldset>
+    {% endif %}
     {% endfor %}
   </div>
   <div class="card"><div class="nx-label">지도·시스템 의견</div>

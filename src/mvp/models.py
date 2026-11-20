@@ -11,7 +11,8 @@ from src.learning.state import now
 
 StageStatus = Literal["locked", "in_progress", "summarizing", "judging", "completed", "flagged"]
 SubgoalState = Literal["met", "partial", "not_yet", "skipped"]
-DraftKind = Literal["independent", "selfchecked", "pre_revision", "submitted", "final"]
+# 저장 상태: 고정 제출본 → 학생 수정본(revision, 반복) → 학생 확정본(confirmed). final 은 이전 판 기록 호환용
+DraftKind = Literal["independent", "selfchecked", "pre_revision", "submitted", "revision", "confirmed", "final"]
 WritingCondition = Literal["independent_after_support", "ai_supported", "teacher_supported",
                            "interrupted_then_supplemented"]
 AnnotationStatus = Literal["active", "withdrawn", "adjusted", "resolved", "unresolved"]
@@ -106,6 +107,8 @@ class DraftVersion(BaseModel):
     condition: WritingCondition = "independent_after_support"
     frozen: bool = True
     same_as: str | None = None                 # 수정 없이 저장된 선행 수정본
+    prev_id: str | None = None                 # 이전 버전 (수정본·확정본)
+    round: int = 0                             # 6-2 첨삭 차수 (수정본)
     ts: str = Field(default_factory=now)
 
 
@@ -168,6 +171,7 @@ class ThreadTurn(BaseModel):
 
 
 class Annotation(BaseModel):
+    round: int = 1                              # 첨삭 차수 (재평가 후 추가 첨삭은 2, 3…)
     number: int
     rubric_refs: list[str]
     anchor: dict                                # {draft_id, start, end, quote}
@@ -242,7 +246,13 @@ class MvpAttempt(BaseModel):
     evaluations: list[Evaluation] = Field(default_factory=list)
     annotations: list[Annotation] = Field(default_factory=list)
     diagnosis: dict = Field(default_factory=dict)        # 6-1 짧은 자기진단
-    review_phase: Literal["diagnose", "results", "threads", "revise", "compare", "done"] = "diagnose"
+    # 6-1: diagnose → results / 6-2: threads ⇄ revise → confirm / 6-3: synthesis → done (compare 는 이전 판 호환)
+    review_phase: Literal["diagnose", "results", "threads", "revise", "confirm", "synthesis", "compare", "done"] = "diagnose"
+    review_round: int = 1
+    time_plan: dict[str, int] = Field(default_factory=dict)     # 학생의 시간 계획 (분): write, review
+    times: dict[str, str] = Field(default_factory=dict)         # write_start, review_start, submit, revise_start, confirm
+    journal: dict | None = None                                 # 6-3 종합 관찰 일지 (튜터 작성)
+    transfer: dict | None = None                                # 새 문항 독립 적용 (미수행이면 미확인)
     appeals: list[Appeal] = Field(default_factory=list)
     reflection: Reflection | None = None
     next_check_question: str = ""

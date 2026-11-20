@@ -1,21 +1,25 @@
 {% extends "base.html" %}
-{% block title %}6-1 평가·첨삭 · 엘렝코스{% endblock %}
+{% set sname = {'6.1': '6-1 평가기준 적용', '6.2': '6-2 첨삭·재평가', '6.3': '6-3 종합평가·복습'}.get(att.current, '6-1 평가기준 적용') %}
+{% block title %}{{ sname }} · 엘렝코스{% endblock %}
 {% block content %}
 {% include "_mvp_bar.html" %}
-<div class="mvp-sticky card"><div class="nx-label">6-1단계 · 평가·첨삭</div><b>{{ exam.prompt }}</b>
-  <div class="small muted">{{ limits.max_chars }}자 상한 · 현재 답안: {{ DRAFT_KO['final'] if fin else DRAFT_KO['submitted'] }} · 작성 조건: {{ CONDITION_KO.get(sub.condition, sub.condition) }}</div>
+<div class="mvp-sticky card"><div class="nx-label">{{ sname }}</div><b>{{ exam.prompt }}</b>
+  <div class="small muted">{{ limits.max_chars }}자 상한 · 지금 버전: {{ DRAFT_KO[target.kind] if target else '' }}{% if round > 1 and phase in ('threads','revise') %} · {{ round }}차 첨삭{% endif %} · 작성 조건: {{ CONDITION_KO.get(sub.condition, sub.condition) }}</div>
   <details><summary class="small">제시문 펼쳐 보기</summary>{% include "_mvp_passages.html" %}</details></div>
 {% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
-{% if METHOD_VIEW %}{% set order = REVIEW_STEPS|map(attribute=0)|list %}
-<div class="method-steps">{{ icon('scales') }} <b>6-1단계 진행 순서</b>{% for k, s in REVIEW_STEPS %}<span class="{{ 'now' if k == phase else ('done' if loop.index0 < order.index(phase) else '') }}">{{ s }}</span>{% endfor %}</div>{% endif %}
+{% if METHOD_VIEW %}{% set order = REVIEW_STEPS|map(attribute=0)|list %}{% set ph = 'synthesis' if phase == 'compare' else phase %}
+<div class="method-steps">{{ icon('scales') }} <b>평가·첨삭·복습 진행 순서</b>{% for k, s in REVIEW_STEPS %}<span class="{{ 'now' if k == ph else ('done' if loop.index0 < order.index(ph) else '') }}">{{ s }}</span>{% endfor %}</div>{% endif %}
 
+{# ============================ 6-1 평가기준 적용 ============================ #}
 {% if phase == 'diagnose' %}
+  {% if recap.total is not none %}<div class="card small"><div class="nx-label">시간 돌아보기</div>
+    쓰기 {{ recap.write }}분{% if recap.plan_write %} (계획 {{ recap.plan_write }}분){% endif %} · 점검·제출 {{ recap.review }}분{% if recap.plan_review %} (계획 {{ recap.plan_review }}분){% endif %} · 합계 {{ recap.total }}분</div>{% endif %}
   <form method="post" action="/mvp/review/diagnose" hx-boost="false" class="card">
     <div class="nx-label">짧은 자기진단</div>
     <p class="muted small">평가를 보기 전에 6단계에서 적은 내용을 확인하고 보완해요.</p>
     <label class="field"><span>가장 자신 있는 부분</span><input name="confident" value="{{ sc.confident if sc }}"></label>
     <label class="field"><span>가장 불확실한 부분</span><input name="uncertain" value="{{ sc.uncertain if sc }}"></label>
-    {% if att.diagnosis.help_saved %}<div class="nx-tip small">작성 중 저장해 둔 질문: {{ att.diagnosis.help_saved|join(' / ') }}</div>{% endif %}
+    {% if att.diagnosis.help_saved %}<div class="nx-tip small">작성 중 저장해 둔 질문 (6-2 첨삭에서 함께 봐요): {{ att.diagnosis.help_saved|join(' / ') }}</div>{% endif %}
     <div class="nx-label mt">세 문단은 논제의 어느 요구에 답하나요?</div>
     <div class="mvp-paper">{% for p in sub.body.split('\n') if p.strip() %}<p><b>{{ loop.index }}문단</b> {{ p[:60] }}…</p>{% endfor %}</div>
     {% for k in ['p1','p2','p3'] %}<label class="field"><span>{{ loop.index }}문단</span><select name="{{ k }}">{% for t in tasks_hint %}<option>{{ t }}</option>{% endfor %}</select></label>{% endfor %}
@@ -23,31 +27,35 @@
   </form>
 {% endif %}
 
-{% if phase in ('results','threads','revise','compare','done') and ev_sub %}
-  {% if phase == 'results' %}
-    {% set strengths = anns|selectattr('nature','equalto','strength')|list %}
-    {% if strengths %}<div class="card"><div class="nx-label">유지할 강점</div>{% for s in strengths %}<p>✓ {{ s.margin_note }} — “{{ s.anchor.quote }}”</p>{% endfor %}</div>{% endif %}
-    {% with rows=rows_sub, ev=ev_sub, label='첨삭 전 제출본 평가 · ' ~ CONDITION_KO.get(sub.condition, '') %}{% include "_mvp_scores.html" %}{% endwith %}
-    <div class="card"><div class="nx-label">항목별 판단 이유</div>
-    {% for r in rows_sub %}
-      <details class="mvp-item"><summary>{{ r.item.code }} {{ r.item.name }} — {% if r.eval.level is none %}판정 보류{% else %}수준 {{ r.eval.level }} · {{ '%g'|format(r.eval.score) }}/{{ '%g'|format(r.item.points) }}점{% endif %}</summary>
-        <p>{{ r.eval.reason }}</p>{% for e in r.eval.evidence %}<blockquote>{{ e.quote }}</blockquote>{% endfor %}
-        <form method="post" action="/mvp/review/appeal" hx-boost="false" class="row-gap"><input type="hidden" name="target" value="eval:{{ r.item.code }}">
-          <input name="reason" placeholder="이의 제기 이유" required><button class="btn">이의 제기</button></form>
-      </details>
-    {% endfor %}</div>
-    {% for ap in att.appeals %}<div class="alert info small">이의 제기 {{ ap.target }}: {{ ap.result or ALERT_STATUS_KO[ap.status] }}</div>{% endfor %}
-    <form method="post" action="/mvp/review/threads" hx-boost="false"><button class="btn primary">첨삭 항목 보기 →</button></form>
-  {% endif %}
+{% if phase == 'results' and ev_sub %}
+  {% set strengths = anns|selectattr('nature','equalto','strength')|list %}
+  {% if strengths %}<div class="card"><div class="nx-label">유지할 강점</div>{% for s in strengths %}<p>✓ {{ s.margin_note }} — “{{ s.anchor.quote }}”</p>{% endfor %}</div>{% endif %}
+  {% with rows=rows_sub, ev=ev_sub, label='제출본 평가 · ' ~ CONDITION_KO.get(sub.condition, '') %}{% include "_mvp_scores.html" %}{% endwith %}
+  <div class="card"><div class="nx-label">항목별 판단 이유 — 어느 구절이 기준을 충족했나요?</div>
+  {% for r in rows_sub %}
+    <details class="mvp-item"><summary>{{ r.item.code }} {{ r.item.name }} — {% if r.eval.level is none %}판정 보류{% else %}수준 {{ r.eval.level }} · {{ '%g'|format(r.eval.score) }}/{{ '%g'|format(r.item.points) }}점{% endif %}</summary>
+      <p>{{ r.eval.reason }}</p>{% for e in r.eval.evidence %}<blockquote>{{ e.quote }}</blockquote>{% endfor %}
+      <form method="post" action="/mvp/review/appeal" hx-boost="false" class="row-gap"><input type="hidden" name="target" value="eval:{{ r.item.code }}">
+        <input name="reason" placeholder="이의 제기 이유" required><button class="btn">이의 제기</button></form>
+    </details>
+  {% endfor %}</div>
+  {% for ap in att.appeals %}<div class="alert info small">이의 제기 {{ ap.target }}: {{ ap.result or ALERT_STATUS_KO[ap.status] }}</div>{% endfor %}
+  <form method="post" action="/mvp/review/threads" hx-boost="false"><button class="btn primary">6-2 첨삭으로 →</button></form>
+{% endif %}
 
-  {% if phase == 'threads' %}
+{# ============================ 6-2 첨삭·재평가·확정 ============================ #}
+{% if phase == 'threads' %}
+  {% if round > 1 %}{% set last = rounds[-1] %}
+  <div class="alert info">다시 평가해 보니 고치는 과정에서 생긴 문제가 남아 있어요. 해당 구절만 다시 함께 볼게요 ({{ round }}차 첨삭). 고치거나, 유지하려면 근거와 함께 판단을 남겨 주세요.</div>{% endif %}
   {% set cur = anns|selectattr('number','equalto',sel)|first %}
   <div class="mvp-split">
-    <section class="card mvp-left"><div class="nx-label">{{ DRAFT_KO['submitted'] }} ({{ sub.chars }}자)</div>
-      <div class="mvp-paper">{{ marked_body(sub.body, anns, sel) }}</div>
+    <section class="card mvp-left"><div class="nx-label">{{ DRAFT_KO[target.kind] }} ({{ target.chars }}자)</div>
+      <div class="mvp-paper">{{ marked_body(target.body, anns, sel) }}</div>
       <div class="mvp-legend small">{% for a in anns if a.shown %}<a href="/mvp/review?sel={{ a.number }}#thread" class="{{ 'on' if a.number == sel }}">{{ circled(a.number) }} {{ rubric.item(a.rubric_refs[0]).name }} · {{ NATURE_KO[a.nature] }} · {{ ANN_STATUS_KO[a.status] }}</a>{% endfor %}</div>
       {% set more = anns|rejectattr('shown')|list %}
       {% if more %}<details><summary class="small">더 보기 ({{ more|length }})</summary>{% for a in more %}<p class="small">{{ circled(a.number) }} {{ rubric.item(a.rubric_refs[0]).name }} — {{ a.margin_note }}</p>{% endfor %}</details>{% endif %}
+      {% if earlier %}<details><summary class="small">이전 차수 첨삭 ({{ earlier|length }})</summary>{% for a in earlier %}<p class="small">{{ circled(a.number) }} {{ a.round }}차 · {{ rubric.item(a.rubric_refs[0]).name }} · {{ ANN_STATUS_KO[a.status] }}{% if a.decision %} · {{ DECISION_KO[a.decision] }}: {{ a.decision_reason }}{% endif %}</p>{% endfor %}</details>{% endif %}
+      {% if att.diagnosis.help_saved %}<p class="small muted">6단계에서 저장한 질문: {{ att.diagnosis.help_saved|join(' / ') }}</p>{% endif %}
     </section>
     <section class="card" id="thread">
     {% if cur %}
@@ -64,7 +72,7 @@
       {% if cur.thread_step >= 3 or cur.status == 'active' and cur.decision %}
       <form method="post" action="/mvp/review/decide" hx-boost="false" class="stack mt"><input type="hidden" name="number" value="{{ cur.number }}">
         <div class="row-gap">{% for k, v in DECISION_KO.items() %}<label class="choice"><input type="radio" name="decision" value="{{ k }}" required> {{ v }}</label>{% endfor %}</div>
-        <input name="reason" placeholder="판단한 이유 (비수용이면 제시문 문단 근거를 함께)" required>
+        <input name="reason" placeholder="판단한 이유 (유지하려면 제시문 문단 근거를 함께)" required>
         <input name="revision" placeholder="(선택) 내가 고쳐 쓸 문장 — 내 말로">
         <button class="btn primary">판단 저장</button></form>
       {% endif %}
@@ -73,37 +81,65 @@
     {% endif %}
     </section>
   </div>
-  <form method="post" action="/mvp/review/revise" hx-boost="false" class="mt"><button class="btn primary">최종본 쓰러 가기 →</button>
-    <span class="muted small">판단하지 않은 항목은 ‘미해결’로 남아요.</span></form>
-  {% endif %}
+  <div class="row-gap mt">
+    <form method="post" action="/mvp/review/revise" hx-boost="false"><button class="btn primary">고쳐 쓰러 가기 →</button></form>
+    {% if latest_rev %}<form method="post" action="/mvp/review/confirm" hx-boost="false" onsubmit="return confirm('이 버전({{ DRAFT_KO[latest_rev.kind] }})을 최종본으로 확정할까요?')"><button class="btn" {{ 'disabled' if not can_confirm }}>지금 버전으로 확정</button></form>
+    {% if not can_confirm %}<span class="muted small">{{ why_confirm }}</span>{% endif %}{% endif %}
+  </div>
+{% endif %}
 
-  {% if phase == 'revise' %}
-  <form method="post" action="/mvp/review/final" hx-boost="false" class="card">
-    <div class="row-between"><div class="nx-label">최종본 — 첨삭 표시 없는 새 원고지</div><div><b id="nChars">0</b> / {{ limits.max_chars }}자 · 칸 <span id="nCells">0</span></div></div>
-    <p class="muted small">제출본을 미리 채워 두었어요. 튜터의 문장은 넣지 않아요. 내 판단대로 고쳐 써요.</p>
+{% if phase == 'revise' %}
+  <form method="post" action="/mvp/review/revision" hx-boost="false" class="card">
+    <div class="row-between"><div class="nx-label">고쳐 쓰기 — 첨삭 표시 없는 새 원고지</div><div><b id="nChars">0</b> / {{ limits.max_chars }}자 · 칸 <span id="nCells">0</span> <span class="small muted" id="saveState"></span></div></div>
+    <p class="muted small">직전 버전을 미리 채워 두었어요. 튜터의 문장은 넣지 않아요. 내 판단대로 고쳐 쓰면 같은 채점표로 다시 평가해요. 중간에 나가도 10초마다 저장돼요.</p>
     <div class="mvp-tabs"><label><input type="radio" name="view" checked onclick="mvpView('text')"> 입력창</label>
       <label><input type="radio" name="view" onclick="mvpView('grid')"> 원고지 미리보기</label></div>
-    <textarea id="body" name="body" rows="16" spellcheck="false" class="mvp-input" data-autosave="off">{{ att.temp_draft }}</textarea>
+    <textarea id="body" name="body" rows="16" spellcheck="false" class="mvp-input" data-autosave-url="/mvp/review/autosave">{{ att.temp_draft }}</textarea>
     <div id="grid" class="mvp-grid-paper"></div>
     <details class="mt"><summary class="small">내 첨삭 판단 다시 보기</summary>{% for a in anns if a.nature != 'strength' %}<p class="small">{{ circled(a.number) }} {{ ANN_STATUS_KO[a.status] }} {{ DECISION_KO.get(a.decision,'') }} — {{ a.decision_reason }}{% if a.revision_link and a.revision_link.proposal %} · 수정안: {{ a.revision_link.proposal }}{% endif %}</p>{% endfor %}</details>
-    <button class="btn primary mt" onclick="return confirm('최종본을 확정할까요? 같은 채점표로 다시 평가해요.')">최종본 확정·재평가</button>
+    <button class="btn primary mt" onclick="return confirm('수정본을 저장하고 다시 평가할까요?')">수정본 저장·재평가</button>
   </form>
   <script src="/manuscript.js" defer></script>
-  {% endif %}
+{% endif %}
 
-  {% if phase in ('compare','done') and ev_fin %}
+{% if phase == 'confirm' and ev_rev %}
+  <div class="alert ok">다시 평가해 보니 핵심 문제는 해결됐어요. 더 고치거나, 이 버전을 최종본으로 확정할 수 있어요.</div>
   <div class="grid2">
-    {% with rows=rows_sub, ev=ev_sub, label='첨삭 전 제출본' %}{% include "_mvp_scores.html" %}{% endwith %}
-    {% with rows=rows_fin, ev=ev_fin, label='첨삭 후 최종본' %}{% include "_mvp_scores.html" %}{% endwith %}
+    {% with rows=rows_sub, ev=ev_sub, label='제출본' %}{% include "_mvp_scores.html" %}{% endwith %}
+    {% with rows=rows_rev, ev=ev_rev, label='고쳐 쓴 글 (' ~ latest_rev.id ~ ')' %}{% include "_mvp_scores.html" %}{% endwith %}
   </div>
-  <div class="card"><div class="nx-label">항목별 전후</div><div class="scroll-x"><table class="tbl"><tr><th>항목</th><th>제출본</th><th>최종본</th></tr>
-    {% for r in rows_sub %}{% set f = rows_fin[loop.index0].eval %}<tr><td>{{ r.item.code }} {{ r.item.name }}</td><td>{{ r.eval.level if r.eval.level is not none else '보류' }}</td><td>{{ f.level if f.level is not none else '보류' }}</td></tr>{% endfor %}</table></div></div>
+  <div class="card"><div class="nx-label">바뀐 곳 (제출본 → 지금 버전)</div><div class="mvp-paper mvp-diff">{{ diff_html(sub.body, latest_rev.body) }}</div></div>
+  <div class="row-gap">
+    <form method="post" action="/mvp/review/confirm" hx-boost="false" onsubmit="return confirm('이 버전을 최종본으로 확정할까요? 확정 후에는 바꿀 수 없어요.')"><button class="btn primary">이 버전을 최종본으로 확정</button></form>
+    <form method="post" action="/mvp/review/revise" hx-boost="false"><button class="btn">조금 더 고치기</button></form>
+  </div>
+{% endif %}
+
+{# ============================ 6-3 종합평가·복습 ============================ #}
+{% if phase in ('synthesis','compare','done') and ev_fin %}
+  {% if journal %}
+  <div class="card journal"><div class="row-between"><div class="nx-label">종합 관찰 일지 · 튜터</div><span class="small muted">{{ journal.written_at[:16]|replace('T',' ') }}</span></div>
+    <p><b>대표 성취</b> {{ journal.achievement or '—' }}</p>
+    {% if journal.evidence %}<blockquote>{{ journal.evidence }}</blockquote>{% endif %}
+    <p><b>점수</b> 제출본 {{ journal.totals.submitted }} → 내가 확정한 최종 글 {{ journal.totals.confirmed }} <span class="muted small">(첨삭 후 점수예요. 혼자 쓴 실력은 제출본 점수로 봐요)</span></p>
+    {% if journal.decisions %}<p><b>수정·유지한 이유</b></p><ul class="small">{% for d in journal.decisions %}<li>{{ circled(d.number) }} {{ d.item }} — {{ DECISION_KO.get(d.decision, '') }}: {{ d.reason }}</li>{% endfor %}</ul>{% endif %}
+    <p class="small"><b>받은 도움</b> {% for k, v in journal.support.items() %}{{ k }}단계 {{ SUPPORT_KO[v] }}{{ ' · ' if not loop.last }}{% endfor %}{% if journal.review_support %} · 첨삭: {{ journal.review_support|join(', ') }}{% endif %} · 첨삭 {{ journal.rounds }}회 고쳐 씀</p>
+  </div>
+  {% endif %}
+  <div class="grid2">
+    {% with rows=rows_sub, ev=ev_sub, label='제출본' %}{% include "_mvp_scores.html" %}{% endwith %}
+    {% with rows=rows_fin, ev=ev_fin, label='내가 확정한 최종 글 (첨삭 후)' %}{% include "_mvp_scores.html" %}{% endwith %}
+  </div>
   <div class="card"><div class="nx-label">바뀐 곳</div><div class="mvp-paper mvp-diff">{{ diff_html(sub.body, fin.body) }}</div></div>
   {% if model_answers %}<details class="card"><summary>출제자 예시답안 비교해 보기 (선택)</summary>{% for m in model_answers %}<p class="muted small">{{ m.note }}</p><div class="mvp-paper">{% for p in m.text.split('\n') %}<p>{{ p }}</p>{% endfor %}</div>{% endfor %}</details>{% endif %}
-  {% if phase == 'compare' %}
-  <form method="post" action="/mvp/review/finish" hx-boost="false" class="card"><label class="field"><span>다음 글에서 스스로 던질 점검 질문</span>
-    <input name="next_question" placeholder="예) 신뢰와 참을 구별해 썼나?" required></label><button class="btn primary">돌아보기로 →</button></form>
-  {% else %}<a class="btn primary" href="/mvp/reflect">돌아보기</a>{% endif %}
+  {% if transfer %}<div class="card small"><div class="nx-label">새 문항 독립 적용</div>
+    {{ '미확인' if transfer.status == 'unconfirmed' else transfer.status }} — {{ transfer.note }}</div>{% endif %}
+  {% if phase in ('synthesis','compare') %}
+  <form method="post" action="/mvp/review/finish" hx-boost="false" class="card"><label class="field"><span>다음 글에서 할 나의 점검 행동</span>
+    <input name="next_question" placeholder="예) 근거 문단을 하나씩 짚었는지 확인한다" required></label><button class="btn primary">종합평가 마치기</button></form>
+  {% else %}
+  <div class="card"><p>다음 점검 행동: <b>{{ att.next_check_question }}</b></p>
+    <a class="btn" href="/mvp/reflect">학생 의견 남기기 (선택)</a> <a class="btn" href="/mvp">학습 홈</a></div>
   {% endif %}
 {% endif %}
 {% endblock %}
