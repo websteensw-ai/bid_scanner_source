@@ -67,8 +67,27 @@ class MvpEngine:
 
     def _sync_cards(self) -> None:
         """단계 카드가 바뀌어도 (예: 0단계 재설계) 저장된 회차가 열리도록 없는 하위 목표를 채운다."""
+        a = self.attempt
         for sid in self.cards.order():
-            r = self.attempt.stages.get(sid)
+            if sid not in a.stages:                      # 이후 추가된 단계 (예: 6-2·6-3)
+                card = self.cards.get(sid)
+                a.stages[sid] = StageRun(stage=sid, subgoals={sg.id: SubgoalRecord() for sg in card.subgoals})
+        # 6-1 하나로 진행하던 예전 기록을 6-1·6-2·6-3 흐름에 맞춘다.
+        if a.current == "6.1" and a.review_phase not in ("diagnose", "results"):
+            done = a.review_phase in ("compare", "done")
+            target = "6.3" if done or a.review_phase == "synthesis" else "6.2"
+            for sid in ("6.1", "6.2", "6.3"):
+                r = a.stages[sid]
+                if sid == target:
+                    r.status = "completed" if a.review_phase == "done" else "in_progress"
+                    r.started_at = r.started_at or now()
+                    break
+                r.status, r.finished_at = "completed", r.finished_at or now()
+            a.current = target
+            if done and a.review_phase == "compare":
+                a.review_phase = "synthesis"
+        for sid in self.cards.order():
+            r = a.stages.get(sid)
             if r is None:
                 continue
             for sg in self.cards.get(sid).subgoals:

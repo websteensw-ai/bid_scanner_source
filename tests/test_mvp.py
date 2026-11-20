@@ -542,3 +542,29 @@ def test_acceptance_synthesis_journal_and_transfer_unconfirmed():
         e.save_reflection({}, submit=True)              # 6-3 을 마치기 전에는 의견 단계로 가지 않음
     e.finish_review("근거 문단을 하나씩 짚는다")
     assert e.save_reflection({"A4": "다른 답"}, submit=True).status == "submitted"
+
+
+@pytest.mark.parametrize("phase", ["threads", "revise", "compare", "done"])
+def test_old_attempt_without_new_stages_loads(client, phase):
+    """6-2·6-3 추가 전에 저장된 기록도 열려야 한다 (운영 500 회귀)."""
+    c = client
+    c.post("/mvp/start")
+    sid = next(iter(c.mem.states))
+    e = MvpEngine(c.mem.load(sid), ai.get_roles(demo=True))  # /mvp/start 로 만든 회차를 그대로 진행
+    a = to_review(e)
+    if phase in ("compare", "done"):
+        e.to_revise()
+        e.submit_revision(a.temp_draft)
+    e.save()
+    st = e.state
+    raw = st.mvp[a.id]
+    for k in ("6.2", "6.3"):
+        raw["stages"].pop(k)
+    raw["current"], raw["review_phase"], raw["journal"] = "6.1", phase, None
+    c.mem.save(st, is_demo=True, name="")
+    for url in ["/mvp", "/mvp/review", "/mvp/records", f"/teacher/mvp/student/{sid}?tab=drafts",
+                f"/teacher/mvp/student/{sid}?tab=reflection", "/teacher/mvp"]:
+        r = c.get(url)
+        assert r.status_code == 200, (url, r.text[-500:])
+    e2 = MvpEngine(c.mem.load(sid), ai.get_roles(demo=True))
+    assert e2.attempt.current in ("6.2", "6.3") and "6.3" in e2.attempt.stages
