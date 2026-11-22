@@ -44,7 +44,7 @@ def think_home(request: Request, path: str = "recommended", interest: str = ""):
         return redirect("/think/diagnose")
     path = path if path in PATH_KO else "recommended"
     kb = ad.kb
-    return render(request, "think_home.html", ad=ad, kb=kb, path=path, interest=interest,
+    return render(request, "think_home.html", ad=ad, kb=kb, tab=path, interest=interest,
                   need=ad.most_needed(), recs=ad.recommend(path, interest or None),
                   interests=kb.diagnostic["interests"], current=ad.current())
 

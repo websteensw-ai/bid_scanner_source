@@ -22,7 +22,7 @@ sources:
     tags: [문화비평, 자기비판, 문명사, 유가사상, 금서]
     location: "pdf 24-32쪽"
     summary: "홍콩 출신 종주캉의 금서를 평설한 글이다. 저자는 교양·도덕을 내세우면서 현실에서는 실행하지 않는 ‘허언의 문화’, 사람을 경시하는 풍토, 유가의 형식주의를 비판하고, 유럽처럼 분열 속 경쟁이 문명을 발전시켰다는 관점을 제시한다. 평설자는 그 날카로움을 인정하면서도 일부 논리의 비약과 한족 중심적 한계를 지적하고, 저자가 북유럽 모델을 대안으로 제시한 점에 주목한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
   - id: SRC-C002
     title: "중국이 짝퉁 천국이 된 이유 알고 보니 — 『감추고 싶은 중국의 비밀 35가지』"
     source_type: 평설
@@ -46,7 +46,7 @@ sources:
     tags: [비교문화, 중체서용, 왕조순환, 계급, 민주화]
     location: "pdf 33-43쪽"
     summary: "일본인 저자 가토 도루가 재화를 중시하는 ‘패의 문화’와 명분·주의를 중시하는 ‘양의 문화’라는 두 기질로 중국인을 분석한 책을 평설한다. 중체서용 구조에서는 시장경제가 오히려 일당 체제를 강화할 수 있다는 점, 인구 과잉에 따른 왕조 순환, 과거제로 형성된 사대부 계급의 권력 독점이 시민혁명을 막았다는 해석이 소개된다. 평설자는 이를 현대 중국 행태를 읽는 단서로 활용하되, 경제적 풍요가 장기적으로 자유의 욕구를 키울 가능성도 남겨 둔다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
   - id: SRC-C003
     title: "장독에 빠진 중국인의 노예근성을 질타하다 — 『감추고 싶은 중국의 비밀 35가지』"
     source_type: 평설
@@ -70,7 +70,7 @@ sources:
     tags: [문화비평, 유교, 관료사회, 사상의 자유, 5·4운동]
     location: "pdf 44-53쪽"
     summary: "중국의 문화비평가 보양(柏楊)의 《추악한 중국인》을 평설한 글이다. 보양은 체면 때문에 잘못을 인정하지 못하는 습성, 내분, 노예근성의 뿌리로 사승 전통과 과거 회귀적 사고(탁고개제), 자리를 준 사람에게만 충성하는 관장 문화를 지목한다. 평설자는 이를 자기 민족을 모독하려는 것이 아니라 처절한 자기 성찰을 통해 새 문화를 만들려는 염원으로 읽고, 보양을 5·4운동 정신의 계승자로 평가한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
   - id: SRC-C004
     title: "인민사찰로 집단 우울증에 걸린 중국인 — 『감추고 싶은 중국의 비밀 35가지』"
     source_type: 평설
@@ -94,7 +94,7 @@ sources:
     tags: [감시사회, 우울, 불평등, 지식인의 책임, 처방 비판]
     location: "pdf 54-64쪽"
     summary: "베이징 어언대 교수 량샤오성의 《우울한 중국인》을 평설한다. 저자는 주거·취업난, 부패, 졸부 문화와 함께 평생 따라다니는 개인이력기록 같은 사찰 제도가 사람들을 우울하게 만든다고 묘사한다. 그러나 해법으로 중산층의 희생과 ‘3할의 욕망, 7할의 이성’ 같은 욕망 절제를 제시하는데, 평설자는 이것이 국가적 문제를 개인 차원으로 축소한 처방이라며 지식인의 위축된 현실을 보여준다고 평가한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
   - id: SRC-C005
     title: "중국의 허울뿐인 ‘선공후사 공평무사’ 왜? — 『감추고 싶은 중국의 비밀 35가지』"
     source_type: 평설
@@ -118,7 +118,7 @@ sources:
     tags: [공사관, 사상사, 근대성, 계약론, 개념사]
     location: "pdf 65-71쪽"
     summary: "일본의 중국사상 연구자 미조구치 유조의 《중국의 공과 사》를 평설한다. 『설문해자』에서 ‘사’를 간사함으로 풀이한 이래 송학의 ‘천리의 공, 인욕의 사’를 거치며 사는 부정적 의미에 머물렀고, 황종희·고염무의 사 긍정론도 개인 권리 보장으로 나아가지 못했다는 흐름이 소개된다. 평설자는 개인을 전제하지 않은 공이 군주의 사, 오늘날에는 당의 사로 바뀌었을 뿐이라며, 개인 간 계약에 기초한 공의 정립이 근대의 출발점이라고 주장한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 archetypes:
   - id: ARC-C01
     question: "한 사회의 고질적 문제는 그 사회의 ‘문화’ 탓인가, ‘제도와 권력’ 탓인가?"
@@ -181,7 +181,7 @@ topics:
     expected_turns: "4~6"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved
   - id: TOP-C02
     archetypes: [ARC-C02]
     prompt: "한 학생이 학교 축제 운영의 문제점을 학교 게시판에 공개적으로 강하게 비판했다. 일부는 ‘학교 이미지를 해친다’고 하고, 일부는 ‘이런 비판이 있어야 학교가 나아진다’고 한다. 공동체 내부의 공개적 자기비판은 어떤 조건에서 공동체에 도움이 되는가?"
@@ -192,7 +192,7 @@ topics:
     expected_turns: "6~8"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
   - id: TOP-C03
     archetypes: [ARC-C01]
     prompt: "어떤 사회의 공공질서 문제(예: 새치기, 쓰레기 투기)를 두고 ‘그 사회 사람들의 문화와 습성 때문’이라는 설명과 ‘단속 제도와 공공서비스가 부족하기 때문’이라는 설명이 맞선다. 두 설명을 비교하고, 어느 쪽이 문제 해결에 더 유용한지 논하라."
@@ -203,7 +203,7 @@ topics:
     expected_turns: "8~10"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
   - id: TOP-C04
     archetypes: [ARC-C03]
     prompt: "어느 나라가 경제 원조를 늘리면 상대국이 부유해지고 결국 시민의 자유도 확대될 것이라는 근거로 원조 확대를 추진한다. 경제 성장이 정치적 자유를 가져온다는 이 전제는 타당한가? 원조 정책에 찬성 또는 반대 입장을 밝혀라."
@@ -214,7 +214,7 @@ topics:
     expected_turns: "8~10"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
   - id: TOP-C05
     archetypes: [ARC-C05]
     prompt: "시가 교통 체증 해소라는 공익을 이유로 주민 다수의 반대에도 도로 확장을 위해 일부 주택을 수용하려 한다. ‘공익’은 어떻게 정의되어야 하며, 어떤 절차를 거칠 때 개인의 희생을 요구할 수 있는가?"
@@ -225,4 +225,4 @@ topics:
     expected_turns: "10~12"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved

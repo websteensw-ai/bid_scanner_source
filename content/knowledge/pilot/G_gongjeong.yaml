@@ -22,7 +22,7 @@ sources:
     tags: [국회, 특권, 윤리특별위원회, 지대추구, 공공선택론]
     location: "pp.12~17"
     summary: "저자는 한국 국회의 문제를 무능·부패를 넘어선 총체적 정치실패로 진단한다. 과도한 세비와 무노동 무임금 미적용 등 특권, 입법권을 이용한 경제적·이념적 지대추구를 비판한다. 의원 징계를 동료 의원에게 맡기는 윤리특별위원회는 자정 기능을 잃었다며 전원 민간위원으로 구성하자고 제안하고, 위헌 정당 해산 시 국고보조금 환수 등 제도 보완도 주장한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-G002
     title: "국회, 공정의 파수꾼이 되라 — 『공정이 먼저다』"
@@ -47,7 +47,7 @@ sources:
     tags: [법치, 플라톤, 법률, 입법, 포퓰리즘]
     location: "pp.18~22"
     summary: "플라톤의 《법률》을 통해 입법의 원리를 살핀다. 플라톤은 이상국가 다음 차선으로 지성을 갖춘 입법자가 만든 법에 통치자까지 복종하는 법치 국가를 구상했다. 저자는 이를 근대적 '법의 지배'와 연결하고, 통치자가 법을 자의적 도구로 쓰는 '법에 의한 지배'(중국 법가)와 구별한다. 아리스토텔레스의 민중선동가 경고를 인용하며 국회가 선동에 흔들리지 말고 공정의 보루가 되라고 촉구한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-G003
     title: "내 주권 뺏어가는 연동형 비례대표제 — 『공정이 먼저다』"
@@ -72,7 +72,7 @@ sources:
     tags: [선거제도, 비례대표, 대통령제, 다당제, 패스트트랙]
     location: "pp.29~39 (데일리안 2019-03-24 기고)"
     summary: "2019년 선거제 개편 논의에 대한 기고문이다. 저자는 대통령제와 연동형 비례대표제의 조합은 세계적으로 드물고, 다당제를 고착해 정치 불안과 연정 거래를 낳을 수 있다고 본다. 비례대표 선정권이 정당 지도부에 있어 유권자의 통제가 약하다는 점, 위헌 소지를 지적하며 비례성은 중대선거구제 등으로 보완할 수 있다고 제안한다. 권력구조와 함께 국민적 합의를 거쳐 천천히 논의하자고 주장한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-G004
     title: "보이지 않는 복지를 보라 — 『공정이 먼저다』"
@@ -97,7 +97,7 @@ sources:
     tags: [복지, 무상복지, 스웨덴 모델, 지방재정, 포퓰리즘]
     location: "pp.44~46"
     summary: "저자는 개인에게 직접 주는 복지를 '보이는 복지', 도시 인프라·문화시설 등 불특정 다수를 위한 복지를 '보이지 않는 복지'로 구분한다. 정책 선택이 시민의 근시안적 욕구에 끌려가기 쉽다고 경고하며, 스웨덴이 성장과 근로 책무를 바탕으로 복지를 조정한 사례를 든다. 또 중앙정치가 지자체와 협의 없이 무상복지 비용을 떠넘기는 문제를 지적하고 재원에 맞춘 단계적 도입을 촉구한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-G005
     title: "상식에 어긋난 판사는 퇴출되어야 한다 — 『공정이 먼저다』"
@@ -122,7 +122,7 @@ sources:
     tags: [사법부, 법관, 재임용, 성과평가, 철밥통]
     location: "pp.47~50"
     summary: "근무평정 하위 판사의 재임용 탈락 논란을 계기로 쓴 글이다. 저자는 평가에 한계가 있어도 평가 자체를 부정할 수는 없다며, 민간 기업과 지자체의 저성과자 관리와 비교해 법관 재임용 심사가 유명무실했다고 비판한다. 막말 같은 품위 문제는 징계로 다루고 재임용은 실적으로 판단해야 한다고 구분하며, 재판의 독립을 위축시켜서는 안 된다는 단서도 단다. 경력 법조인을 판사로 충원하는 유연한 제도를 대안으로 제시한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-G006
     title: "실현가능한 공약이 좋은 공약이다 — 『공정이 먼저다』"
@@ -147,7 +147,7 @@ sources:
     tags: [공약, 인수위, 정책결정, 관료제, 공론화]
     location: "pp.51~55"
     summary: "새 정부나 지자체장 인수위와 관료 사이의 갈등을 이상적 가치와 현실 제약의 충돌로 해석한다. 저자는 정책이 바람직함(소망성)과 법·예산·인력 등 실현가능성을 함께 충족해야 한다고 본다. 대안으로 이론과 실무를 겸비한 정책 전문가 양성, 상시 정책평가, 취임 후 공론화를 거친 과제 확정, 인수위의 비전 설정 집중과 인적 구성 개선을 제시한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-G007
     title: "90% 노동자 외면하는 10% 귀족 노조 — 『공정이 먼저다』"
@@ -172,7 +172,7 @@ sources:
     tags: [노동조합, 노사관계, 조직률, 대표성, 기득권]
     location: "pp.70~72"
     summary: "일부 시위의 과격 행태를 출발점으로, 저자는 노조 조직률이 약 10%에 머무는 이유를 묻는다. 그는 노조가 전투적·정치적으로 변하고 정규직 기득권 지키기에 치중하면서 다수 노동자의 신뢰를 잃었다고 본다. 조직률이 높은 스웨덴과 비교하며, 대화와 타협의 노사문화와 합법적 활동으로 국민적 지지를 얻는 것이 노조의 과제라고 제안한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-G008
     title: "공정한 인사운영, 조직의 생명이다 — 『공정이 먼저다』"
@@ -197,7 +197,7 @@ sources:
     tags: [공공기관, 인사, 노조, 정규직화, 이사회, 경영평가]
     location: "pp.130~136"
     summary: "공공기관 경영평가 경험을 바탕으로 쓴 글이다. 저자는 채용자의 다수가 곧 퇴직한 사례를 들어 직무에 맞는 '최적의 인재'를 뽑고 근무조건을 충분히 설명하는 것이 공정한 인사라고 말한다. 단체협약으로 노조원이 징계위원회에 참여하고 회의록을 공유한 사례를 인사권 침해로 비판하며, 일률적 정규직 전환의 부작용과 임금피크제 등 대안을 제시한다. 끝으로 형식에 그친 이사회의 견제 기능을 강화하자고 주장한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-G009
     title: "자유의 충돌 — 『공정이 먼저다』"
@@ -222,7 +222,7 @@ sources:
     tags: [자유, 자연권, 정당방위, 오바마케어, 의무가입]
     location: "pp.174~178"
     summary: "두 사례로 자유의 충돌을 다룬다. 첫째, 홉스·로크의 자연권 개념을 빌려 신체와 재산 방어를 인간의 기본 권리로 보면서도, 폭력 피해 학생의 가해자 살해에 정당방위를 인정한 미국 판결을 들어 과잉방어의 위험과 엄정한 요건 적용을 함께 강조한다. 둘째, 오바마 정부 건강보험 의무가입 조항의 위헌 논쟁을 소개하며 개인의 자기선택과 국가 보호 책무의 충돌을 치열하게 고민하는 미국 사회의 태도를 높이 평가한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-G010
     title: "양성평등이 공정이다 — 『공정이 먼저다』"
@@ -247,7 +247,7 @@ sources:
     tags: [양성평등, 여성할당제, 젠더, 울스턴크래프트, 밀]
     location: "pp.224~229"
     summary: "프랑스 인권선언과 여성 참정권 확대의 역사를 짚은 뒤, 울스턴크래프트의 '합리적 동료애'와 밀의 '완전평등의 원리'를 소개한다. 저자는 제도상 종속은 상당히 해소되었지만 성 역할 사회화, 정치·고위직 과소대표, 일·가정 양립 부담, 낮은 성 격차지수 등 과제가 남았다고 본다. 동시에 일부 분야의 남성 할당 요구 같은 새로운 갈등도 언급하며, 우대조치를 유지하면서 남녀가 서로 보완하는 '양성조화'로 나아가자고 제안한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
 archetypes:
   - id: ARC-G01
@@ -371,7 +371,7 @@ topics:
     expected_turns: "6~10"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G02
     archetypes: [ARC-G01]
@@ -383,7 +383,7 @@ topics:
     expected_turns: "4~6"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G03
     archetypes: [ARC-G02]
@@ -395,7 +395,7 @@ topics:
     expected_turns: "8~12"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G04
     archetypes: [ARC-G03]
@@ -407,7 +407,7 @@ topics:
     expected_turns: "8~12"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G05
     archetypes: [ARC-G03]
@@ -419,7 +419,7 @@ topics:
     expected_turns: "4~6"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G06
     archetypes: [ARC-G04]
@@ -431,7 +431,7 @@ topics:
     expected_turns: "6~8"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G07
     archetypes: [ARC-G04]
@@ -443,7 +443,7 @@ topics:
     expected_turns: "8~10"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G08
     archetypes: [ARC-G05]
@@ -455,7 +455,7 @@ topics:
     expected_turns: "8~12"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G09
     archetypes: [ARC-G05]
@@ -467,7 +467,7 @@ topics:
     expected_turns: "6~10"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G10
     archetypes: [ARC-G06]
@@ -479,7 +479,7 @@ topics:
     expected_turns: "4~6"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G11
     archetypes: [ARC-G06]
@@ -491,7 +491,7 @@ topics:
     expected_turns: "6~8"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G12
     archetypes: [ARC-G07]
@@ -503,7 +503,7 @@ topics:
     expected_turns: "8~10"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G13
     archetypes: [ARC-G08]
@@ -515,7 +515,7 @@ topics:
     expected_turns: "6~10"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G14
     archetypes: [ARC-G08]
@@ -527,7 +527,7 @@ topics:
     expected_turns: "8~12"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G15
     archetypes: [ARC-G09]
@@ -539,7 +539,7 @@ topics:
     expected_turns: "8~10"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G16
     archetypes: [ARC-G09]
@@ -551,7 +551,7 @@ topics:
     expected_turns: "4~8"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G17
     archetypes: [ARC-G10]
@@ -563,7 +563,7 @@ topics:
     expected_turns: "6~10"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
 
   - id: TOP-G18
     archetypes: [ARC-G10]
@@ -575,4 +575,4 @@ topics:
     expected_turns: "4~6"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved

@@ -71,26 +71,34 @@ def test_difficulty_targets_slightly_above_current_level():
     assert low.most_needed().topic.level < high.most_needed().topic.level
 
 
+def _hist(tid, path="recommended"):
+    t = KB.topic(tid)
+    return HistoryItem(topic=t.id, archetypes=t.archetypes, conflicts=sorted(KB.topic_conflicts(t)),
+                       form=t.form, level=t.level, path=path)
+
+
 def test_repetition_prevention_and_harder_variant():
     ad = _profile(define=2, counter=2)
-    ad.ts.history.append(HistoryItem(topic="TOP-002", archetypes=["ARC-001"], conflicts=["진리 vs 설득"],
-                                     form="comparison", level=3, path="recommended"))
+    ad.ts.history.append(_hist("TOP-G05"))                     # ARC-G03 Level 2 를 했다면
     ids = [t.id for t in ad.eligible()]
-    assert "TOP-002" not in ids and "TOP-001" not in ids      # 같은 사고원형은 더 높은 난이도로만
-    assert "TOP-003" in ids                                    # Level 5 변형은 가능
+    assert "TOP-G05" not in ids and "TOP-G04" in ids           # 같은 사고원형은 더 높은 난이도(Level 4)로만
+    ad.ts.history.append(_hist("TOP-G01"))                     # ARC-G01 Level 3 를 했다면
+    ids = [t.id for t in ad.eligible()]
+    assert "TOP-G02" not in ids                                # 더 쉬운 Level 1 변형은 다시 나오지 않음
 
 
 def test_three_entry_paths():
     ad = _profile(rebut=2)
     ad.ts.interests = ["자유"]
-    ad.ts.history.append(HistoryItem(topic="TOP-004", archetypes=["ARC-003"], conflicts=["개인 vs 다수"],
-                                     form="dilemma", level=3, path="recommended"))
+    ad.ts.history.append(_hist("TOP-G01"))
     rec = ad.recommend("recommended")
-    intr = ad.recommend("interest", "진리")
+    intr = ad.recommend("interest", "정의")
     exp = ad.recommend("explore")
     assert rec and intr and exp
-    assert all("ARC-001" in r.topic.archetypes for r in intr)
-    assert all(not (KB.topic_conflicts(r.topic) & {"개인 vs 다수"}) for r in exp)
+    assert all("정의" in (KB.topic_concepts(r.topic) | KB.topic_fields(r.topic)) or
+               any("정의" in KB.archetype(a).question for a in r.topic.archetypes) for r in intr)
+    hist_conf = set(ad.ts.history[0].conflicts)
+    assert all(not (KB.topic_conflicts(r.topic) & hist_conf) for r in exp)
     assert all("편식" in r.reasons[0] for r in exp)
 
 
@@ -148,12 +156,21 @@ def test_web_teacher_knowledge(client):
 
 
 def test_pilot_batches_and_catalog():
-    """책 5권에서 만든 50편 시범 DB 초안과 전체 편 목록 (검수 전이라 학생 추천에는 쓰지 않는다)."""
+    """책 5권에서 만든 50편 시범 DB (전문가 검수 완료)와 전체 편 목록."""
     from src.think.kb import catalog
-    drafts = [s for s in KB.sources if s.review.get("status") == "draft"]
-    assert len(drafts) >= 50 and all(s.public != "full" for s in drafts)
-    assert sum(p["draft"] for p in KB.pilot_progress()) >= 50
+    real = [s for s in KB.sources if s.review.get("status") == "approved"]
+    assert len(real) >= 50 and all(s.public != "full" for s in real)
+    assert sum(p["done"] for p in KB.pilot_progress()) >= 50
     books = catalog()
     assert len(books) == 5 and sum(b["count"] for b in books) >= 285
     assert all(b["structured"] >= 5 for b in books)
-    assert not any(t.id.startswith(("TOP-J", "TOP-H", "TOP-G", "TOP-C", "TOP-K")) for t in KB.approved_topics())
+    real_topics = [t for t in KB.approved_topics() if t.id.startswith(("TOP-J", "TOP-H", "TOP-G", "TOP-C", "TOP-K"))]
+    assert len(real_topics) >= 70
+
+
+def test_real_data_recommendation_uses_reviewed_assets():
+    """리얼 데이터 시험: 검수된 원천 저작 기반 논제가 추천되고, 학생 화면에 자료 제목·저자는 나오지 않는다."""
+    ad = Adaptive(ThinkState())
+    ad.apply_diagnosis(demo_diagnose(KB, ANS, "B"))
+    recs = ad.recommend(n=5)
+    assert any(r.topic.id.startswith(("TOP-J", "TOP-H", "TOP-G", "TOP-C", "TOP-K")) for r in recs)

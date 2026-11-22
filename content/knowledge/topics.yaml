@@ -1,6 +1,6 @@
 # ③ 논제·제시문 DB (7·8·11·12절): 사고원형을 특정 상황으로 구체화한 실제 학습문제
 # level: 논제 사고 난이도 1~5 (자료 기본 난이도와 따로 관리) · mode: A 독서 선행 / B 사고 선행 / C 탐구 발견
-# ※ 샘플 — 검수 상태(review)가 approved 인 논제만 학생 추천에 쓴다
+# ※ 기본계획 문서의 예시 논제 — 원천 저작 기반 시범 DB(pilot/)가 검수 완료되어 학생 추천에서는 제외(retired). approved 인 논제만 추천에 쓴다
 version: 0.1.0
 status: sample
 items:
@@ -13,7 +13,7 @@ items:
     abilities: [understand, define]
     expected_turns: "5~8"
     rebuttal: low
-    review: approved
+    review: retired
   - id: TOP-002
     archetypes: [ARC-001]
     prompt: 전문가의 합의와 대중의 합의를 어떻게 구별해야 하는가?
@@ -23,7 +23,7 @@ items:
     abilities: [define, counter, reason]
     expected_turns: "6~10"
     rebuttal: mid
-    review: approved
+    review: retired
   - id: TOP-003
     archetypes: [ARC-001]
     prompt: 모든 근거를 직접 검증할 수 없는 인간이 타인의 권위에 의존하면서도 지적으로 자립할 수 있는가?
@@ -33,7 +33,7 @@ items:
     abilities: [counter, rebut, revise]
     expected_turns: "8~12"
     rebuttal: high
-    review: approved
+    review: retired
   - id: TOP-004
     archetypes: [ARC-003]
     prompt: 전쟁 중 300명의 병사를 살리기 위해 무고한 지휘관 한 사람을 적군에게 넘겨야 한다면, 그렇게 하는 것이 정당한가?
@@ -43,7 +43,7 @@ items:
     abilities: [reason, counter, rebut]
     expected_turns: "6~10"
     rebuttal: mid
-    review: approved
+    review: retired
   - id: TOP-005
     archetypes: [ARC-001, ARC-004]
     prompt: 사람을 현혹할 가능성이 높은 주장도 표현의 자유라는 이유로 보호해야 하는가?
@@ -54,7 +54,7 @@ items:
     expected_turns: "8~12"
     rebuttal: high
     cross: true
-    review: approved
+    review: retired
   - id: TOP-006
     archetypes: [ARC-002]
     prompt: 살아남기 위해 끝까지 함께한 동료와의 약속을 깨야 하는 상황이라면, 약속을 깨는 것은 용서될 수 있는가?
@@ -64,7 +64,7 @@ items:
     abilities: [reason, revise]
     expected_turns: "5~8"
     rebuttal: low
-    review: approved
+    review: retired
   - id: TOP-007
     archetypes: [ARC-005]
     prompt: 시험 시간을 모든 학생에게 똑같이 주는 것과 필요한 학생에게 더 주는 것 중 어느 쪽이 공정한가?

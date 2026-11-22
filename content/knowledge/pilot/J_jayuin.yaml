@@ -25,7 +25,7 @@ sources:
     tags: [아르기누사이, 민회, 선동, 소크라테스, 펠로폰네소스전쟁]
     location: "PDF 36~38쪽 (관련 칼럼 ‘민주주의의 치명적 오류’ 26~28쪽)"
     summary: "아테네는 아르기누사이 해전에서 대승했지만 폭풍 탓에 난파 선원을 구하지 못했다. 선동가들은 유족처럼 꾸민 군중을 앞세워 분노를 키우고 장군들을 한꺼번에 사형 표결하자고 몰아붙였다. 협의회는 겁에 질려 이를 받아들였고 소크라테스만 개인별 심리를 규정한 법에 어긋난다며 반대했다. 결국 장군 6명이 처형되었고, 아테네인들은 곧 이를 깊이 후회했다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-J002
     title: "소크라테스와 국법 — 『자유인의 선택』"
@@ -52,7 +52,7 @@ sources:
     tags: [크리톤, 탈옥, 사형, 준법, 사회계약]
     location: "PDF 32~35쪽"
     summary: "사형 선고를 받은 소크라테스에게 친구 크리톤이 간수를 매수해 탈옥하자고 설득한다. 크리톤은 자식들에 대한 책임과 친구들의 평판을 내세웠다. 소크라테스는 중요한 것은 그저 사는 것이 아니라 올바르게 사는 것이며, 부당하게 당했다고 해서 앙갚음해서는 안 된다고 답한다. 그는 국법을 지키기로 해 놓고 도망치는 것을 기만으로 보고 독배를 받아들였다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-J003
     title: "소크라테스가 민주주의를 경멸한 이유 — 『자유인의 선택』"
@@ -79,7 +79,7 @@ sources:
     tags: [소크라테스, 민주정 비판, 등에, 페리클레스, 선동가]
     location: "PDF 19~22쪽"
     summary: "소크라테스는 페리클레스의 황금기에 자랐고 장년기에 펠로폰네소스 전쟁과 아테네의 타락을 지켜보았다. 페리클레스 사후 선동가에게 휘둘린 민회는 불법적 결정을 잇달아 내렸다. 소크라테스는 모든 것을 안다고 믿는 무지한 군중이 이끄는 민주정을 비판하고, 시민들에게 통치에 앞서 덕을 쌓으라고 호소했다. 그 자신은 정치가가 아니라 사인으로 사는 길을 택했다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-J004
     title: "훌륭한 정치가와 훌륭한 국민의 조건 — 『자유인의 선택』"
@@ -106,7 +106,7 @@ sources:
     tags: [알키비아데스, 소크라테스, 지도자 자격, 정의, 절제]
     location: "PDF 39~42쪽"
     summary: "펠로폰네소스 전쟁기 아테네에는 민회에서 활약하려는 야심가가 넘쳐났다. 재능 많은 청년 알키비아데스도 지도자가 되려 했고, 사람들은 정의보다 이익을 따질 뿐이라고 말했다. 소크라테스는 이로운 것이 곧 좋은 것인지 물어 그가 안다고 믿는 것을 실은 모른다는 점을 드러냈다. 그는 정치가에게 필요한 것은 무엇이든 할 수 있는 권력이 아니라 정의와 절제라고 일깨웠다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-J005
     title: "동참하지 않는 자 시민이 아니다 — 『자유인의 선택』"
@@ -133,7 +133,7 @@ sources:
     tags: [솔론, 시민참여, 채무탕감, 중립, 아테네 민주정]
     location: "PDF 46~48쪽"
     summary: "솔론은 귀족과 평민이 다투던 아테네에서 채무를 탕감하고 빚 때문에 노예가 된 동포를 해방시켰다. 부자와 빈자 모두 불만이었지만 격차는 크게 줄었고, 최하층에게도 배심원 자격을 주어 참여를 넓혔다. 그는 누구나 피해자를 위해 고발할 수 있게 하고, 당파 싸움에서 어느 편에도 서지 않는 자의 시민권을 박탈하는 법도 만들었다. 시민이 사익 뒤에 숨지 말고 공동체 문제에 나서기를 요구한 것이다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-J006
     title: "크레온의 의무와 안티고네의 의무 — 『자유인의 선택』"
@@ -160,7 +160,7 @@ sources:
     tags: [안티고네, 크레온, 소포클레스, 비극, 자연법]
     location: "PDF 52~54쪽"
     summary: "테베의 왕위를 두고 다투던 형제가 모두 전사하자, 섭정 크레온은 조국을 공격한 폴리네이케스의 시신을 버려두게 하고 장례를 금했다. 여동생 안티고네는 혈육을 묻어 주는 것이 도리라며 죽음을 무릅쓰고 장례를 치렀다. 저자는 당시 관습상 크레온의 명령 자체가 잘못은 아니었다며 둘 다 옳아서 비극이라고 본다. 그리고 법이 인간의 근본 도리와 어긋날 때 생기는 위험을 짚는다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-J007
     title: "도편 추방의 치명적 약점 — 『자유인의 선택』"
@@ -187,7 +187,7 @@ sources:
     tags: [도편추방, 알키비아데스, 니키아스, 히페르볼루스, 제도 설계]
     location: "PDF 55~58쪽"
     summary: "펠로폰네소스 전쟁 중 알키비아데스와 니키아스가 전략을 두고 대립하자, 시민들은 둘 중 한 명을 도편 추방하려 했다. 그 틈에 권력을 노린 히페르볼루스가 추방을 부추겼지만, 위기를 느낀 두 사람은 손을 잡고 오히려 그를 추방시켰다. 위험한 실력자를 견제하려던 제도가 보잘것없는 인물을 쫓아내는 데 쓰이자 시민들은 이를 불명예로 여겼다. 이 일을 계기로 도편 추방은 도입 70년 만에 폐지되었다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-J008
     title: "동맹 파기와 분열의 대가 — 『자유인의 선택』"
@@ -214,7 +214,7 @@ sources:
     tags: [플라타이아, 테베, 스파르타, 동맹, 펠로폰네소스전쟁]
     location: "PDF 59~61쪽"
     summary: "펠로폰네소스 전쟁 중 아테네의 동맹 플라타이아는 스파르타 편인 테베의 공격과 회유에 계속 시달렸다. 지친 유력자들은 아테네와의 동맹을 깨고 몰래 테베인을 성안에 들였다가 뒤늦게 이를 되돌리려 했지만 결국 스파르타에 항복했다. 스파르타는 짧은 심문 끝에 항복한 사람들을 처형했다. 투키디데스는 이런 참극의 원인을 정파 지도자들의 권력욕에서 찾았다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-J009
     title: "언제나 헌법이 우선이다 — 『자유인의 선택』"
@@ -241,7 +241,7 @@ sources:
     tags: [키케로, 카틸리나, 비상사태, 로마공화정, 법치]
     location: "PDF 62~65쪽"
     summary: "기원전 63년 선거에서 패한 카틸리나가 반역을 꾀하자, 집정관 키케로는 원로원에서 그를 탄핵하고 비상사태 속에 반군을 진압했다. 이어 구금 중이던 공모자들을 재판 없이 처형해 국부로 칭송받았다. 그러나 5년 뒤 정적 클로디우스가 로마 시민을 재판 없이 처형한 죄를 묻자 시민들의 마음도 돌아섰고, 키케로는 망명길에 올랐다. 저자는 어떤 목적도 헌법과 절차를 넘어설 수 없다고 강조한다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
   - id: SRC-J010
     title: "외교 실패가 뿌린 적대의 씨앗 — 『자유인의 선택』"
@@ -268,7 +268,7 @@ sources:
     tags: [스파르타, 아테네, 키몬, 헤일로타이, 동맹외교]
     location: "PDF 74~77쪽"
     summary: "기원전 462년 스파르타에 대지진이 일어나고 헤일로타이가 반란을 일으키자, 스파르타는 아테네에도 원군을 청했다. 키몬의 설득으로 아테네는 보병 4천을 보냈지만, 스파르타는 이들이 정변을 일으킬지 모른다며 해명 없이 돌려보냈다. 모욕을 느낀 아테네인들은 스파르타를 증오하게 되었고 키몬까지 추방했다. 저자는 이 일을 두 혈맹이 훗날 전쟁을 벌이게 된 씨앗으로 본다."
-    review: {status: draft, reviewer: ""}
+    review: {status: approved, reviewer: 교육과정 설계 책임자, date: "2026-11-22"}
 
 archetypes:
   - id: ARC-J01
@@ -381,7 +381,7 @@ topics:
     expected_turns: "6~8"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J02
     archetypes: [ARC-J01]
     prompt: "대형 참사 직후 여론은 책임자를 빨리 처벌하라고 요구하지만, 법원은 개인별 책임을 따지느라 재판이 몇 년째 이어지고 있다. 이 경우 신속한 처벌을 위해 절차를 간소화하는 특별법을 만드는 것은 정당한가?"
@@ -392,7 +392,7 @@ topics:
     expected_turns: "8~12"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J03
     archetypes: [ARC-J02]
     prompt: "새로운 감염병이 급속히 퍼지고 있다. 정부는 확진자의 동선을 동의 없이 휴대전화 위치 정보로 추적해 공개하려 한다. 공동체의 안전을 위해 이런 조치를 어디까지 허용할 수 있는가?"
@@ -403,7 +403,7 @@ topics:
     expected_turns: "8~10"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J04
     archetypes: [ARC-J02, ARC-J01]
     prompt: "‘결과적으로 공동체를 구했다면 절차를 어긴 지도자도 정당하다’는 주장과 ‘절차를 어긴 구원은 다음 독재의 선례가 된다’는 주장을 비교하고, 어느 쪽이 더 설득력 있는지 기준을 세워 판단하라."
@@ -414,7 +414,7 @@ topics:
     expected_turns: "10~14"
     rebuttal: high
     cross: true
-    review: draft
+    review: approved
   - id: TOP-J05
     archetypes: [ARC-J03]
     prompt: "축구 결승전에서 명백한 오심으로 패배가 확정될 상황이다. 주장인 당신은 판정에 항의하며 경기장을 떠날 수도, 판정을 받아들이고 끝까지 뛸 수도 있다. 어떻게 하겠는가?"
@@ -425,7 +425,7 @@ topics:
     expected_turns: "4~6"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J06
     archetypes: [ARC-J03]
     prompt: "한 사회에서 혜택을 받으며 살아왔다면 그 사회의 부당한 결정에도 따라야 할 의무가 생기는가? ‘암묵적 동의’라는 개념이 이 의무를 정당화할 수 있는지 따져 보라."
@@ -436,7 +436,7 @@ topics:
     expected_turns: "8~12"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J07
     archetypes: [ARC-J04]
     prompt: "형이 무면허 운전으로 사고를 내고 달아났다는 사실을 당신만 알고 있다. 신고하면 형은 처벌받고, 신고하지 않으면 피해자는 보상을 받기 어렵다. 당신은 어떻게 하겠는가?"
@@ -447,7 +447,7 @@ topics:
     expected_turns: "6~8"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J08
     archetypes: [ARC-J04]
     prompt: "‘법보다 앞서는 인간의 도리가 있다’는 생각은 정의를 지키는 근거인가, 연고주의를 정당화하는 핑계인가? 두 가능성을 모두 검토하고 경계를 제시하라."
@@ -458,7 +458,7 @@ topics:
     expected_turns: "8~12"
     rebuttal: high
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J09
     archetypes: [ARC-J05]
     prompt: "반 친구가 단체 대화방에서 따돌림을 당하고 있다. 끼어들면 나도 표적이 될 수 있다. 아무 말도 하지 않는 것은 중립인가, 가담인가?"
@@ -469,7 +469,7 @@ topics:
     expected_turns: "4~6"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J10
     archetypes: [ARC-J05]
     prompt: "투표를 하지 않거나 사회 갈등에서 어느 편도 들지 않는 시민에게 불이익을 주는 제도(예: 의무 투표제)를 도입해야 하는가? 참여의 의무와 참여하지 않을 자유를 함께 고려해 판단하라."
@@ -480,7 +480,7 @@ topics:
     expected_turns: "8~10"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J11
     archetypes: [ARC-J06]
     prompt: "학생회장 선거에 두 후보가 나왔다. A는 성적과 추진력이 뛰어나 공약 실현 가능성이 높지만 독선적이라는 평이 있고, B는 성과는 평범하지만 공정하고 절제력 있다는 평을 받는다. 누가 더 지도자에 적합한가?"
@@ -491,7 +491,7 @@ topics:
     expected_turns: "6~8"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J12
     archetypes: [ARC-J07]
     prompt: "학급에서 칭찬 스티커 제도를 도입했는데, 일부 학생들이 서로 몰아주기를 하며 제도를 악용하고 있다. 이 제도를 폐지할 것인가, 규칙을 고쳐 유지할 것인가?"
@@ -502,7 +502,7 @@ topics:
     expected_turns: "6~8"
     rebuttal: low
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J13
     archetypes: [ARC-J08]
     prompt: "작은 가게가 오랫동안 거래해 온 납품업체와의 약속을 지키면 문을 닫을 위기다. 다른 업체로 바꾸면 살아남지만 신의를 저버리게 된다. 가게 주인은 어떻게 해야 하는가?"
@@ -513,7 +513,7 @@ topics:
     expected_turns: "6~10"
     rebuttal: mid
     cross: false
-    review: draft
+    review: approved
   - id: TOP-J14
     archetypes: [ARC-J09, ARC-J08]
     prompt: "재난을 당한 나라가 이웃 나라에 구조대를 요청했다가, 구조대가 자국 내 정보를 수집할지 모른다는 우려가 제기되었다. 구조대를 받아들여야 하는가, 돌려보내야 하는가? 신뢰와 안전의 관점에서 판단하라."
@@ -524,4 +524,4 @@ topics:
     expected_turns: "6~10"
     rebuttal: mid
     cross: true
-    review: draft
+    review: approved

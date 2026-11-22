@@ -2,7 +2,7 @@
 {% block title %}지식자산 DB · 엘렝코스{% endblock %}
 {% block content %}
 <h1 class="h1">지식자산 · 사고원형 DB</h1>
-<p class="muted">원천 자료 → 개념·명제 → 가치충돌 → 사고원형 → 논제 → 사고역량을 잇는 ‘사고의 지도’. 시범 DB 50편은 원천 저작에서 만든 <b>구조화 초안</b>이라, 전문가 검수(review: approved) 전까지 학생 추천에 쓰지 않아요.</p>
+<p class="muted">원천 자료 → 개념·명제 → 가치충돌 → 사고원형 → 논제 → 사고역량을 잇는 ‘사고의 지도’. 시범 DB 50편은 원천 저작에서 구조화해 <b>전문가 검수를 마친 자료</b>예요. 검수 완료(approved) 논제만 학생 추천에 써요.</p>
 <div class="nx-stats" style="--n:4">
   <div class="card"><div class="nx-label">① 원천 지식자산</div><b class="big">{{ st.sources }}</b> 편</div>
   <div class="card"><div class="nx-label">② 사고원형</div><b class="big">{{ st.archetypes }}</b> 개</div>
@@ -26,7 +26,7 @@
 <table class="tbl"><tr><th>ID</th><th>제목</th><th>유형</th><th>시대·지역</th><th>가치충돌</th><th>공개·저작권</th><th>검수</th></tr>
 {% for s in kb.sources %}<tr class="{{ 'on' if sel and sel.id == s.id }}"><td><a href="/teacher/knowledge?src={{ s.id }}">{{ s.id }}</a></td><td>{{ s.title }}</td><td>{{ ASSET_TYPES[s.asset_type] }}</td>
   <td>{{ s.era }} · {{ s.region }}</td><td>{{ s.conflicts|join(', ') }}</td><td>{{ PUBLIC_KO[s.public] }} · {{ COPYRIGHT_KO[s.copyright] }}</td><td>{{ s.review.status }}</td></tr>{% endfor %}</table></div>
-{% if sel %}<div class="card mt"><div class="nx-label">사고의 지도 · {{ sel.title }}</div>
+{% if sel %}<div class="card mt" id="map"><div class="nx-label">사고의 지도 · {{ sel.title }}</div>
   {% if sel.summary %}<p>{{ sel.summary }}</p>{% endif %}
   <p class="small muted">{{ sel.work }} · {{ sel.author.commentary or sel.author.original }}{% if sel.location %} · 원문 위치 {{ sel.location }}{% endif %}{% if sel.universal_question %} · 보편적 질문: {{ sel.universal_question }}{% endif %}</p>
   <p class="small">핵심 개념: {{ sel.concepts|join(' · ') }}{% if sel.claim %} · 핵심 명제: {{ sel.claim }}{% endif %}{% if sel.counter_claim %} · 대립 명제: {{ sel.counter_claim }}{% endif %}</p>

@@ -11,10 +11,10 @@
   <p class="small muted">{{ need.reasons|join(' · ') }} · {{ MODES[need.topic.mode] }} · 예상 문답 {{ need.topic.expected_turns }}회</p>
   <form method="post" action="/think/start/{{ need.topic.id }}"><input type="hidden" name="path" value="recommended"><button class="btn primary">이 학습 시작하기</button></form></div>{% endif %}
 {% if current %}<div class="alert info">{{ icon('bookmark') }} 진행 중인 학습이 있어요 — <a href="/think/topic/{{ current.topic }}">이어서 하기</a></div>{% endif %}
-<div class="tabs mt">{% for k, v in PATH_KO.items() %}<a href="/think?path={{ k }}" class="{{ 'on' if path == k }}">{{ v }}</a>{% endfor %}</div>
-{% if path == 'interest' %}<div class="row-gap">{% for x in interests %}<a class="think-chip {{ 'on' if x == interest }}" href="/think?path=interest&interest={{ x }}">{{ x }}</a>{% endfor %}</div>
+<div class="tabs mt">{% for k, v in PATH_KO.items() %}<a href="/think?path={{ k }}" class="{{ 'on' if tab == k }}">{{ v }}</a>{% endfor %}</div>
+{% if tab == 'interest' %}<div class="row-gap">{% for x in interests %}<a class="think-chip {{ 'on' if x == interest }}" href="/think?path=interest&interest={{ x }}">{{ x }}</a>{% endfor %}</div>
 <p class="small muted">주제를 골라도 난이도와 문제 형식은 내 수준에 맞춰요.</p>{% endif %}
-{% if path == 'explore' %}<p class="small muted">평소 관심과 다른 분야의 문제예요. 생각의 편식을 막기 위해 아직 다뤄 보지 않은 영역에서 골랐어요.</p>{% endif %}
+{% if tab == 'explore' %}<p class="small muted">평소 관심과 다른 분야의 문제예요. 생각의 편식을 막기 위해 아직 다뤄 보지 않은 영역에서 골랐어요.</p>{% endif %}
 <div class="think-recs">
 {% for r in recs %}
   <div class="card">
@@ -22,7 +22,7 @@
     <p><b>{{ r.topic.prompt }}</b></p>
     <p class="small muted">사고원형: {% for a in r.topic.archetypes %}{{ kb.archetype(a).question }}{{ ' / ' if not loop.last }}{% endfor %}</p>
     <p class="small">{{ r.reasons|join(' · ') or '균형 잡힌 다음 학습' }}</p>
-    <form method="post" action="/think/start/{{ r.topic.id }}"><input type="hidden" name="path" value="{{ path }}"><button class="btn">시작하기</button></form>
+    <form method="post" action="/think/start/{{ r.topic.id }}"><input type="hidden" name="path" value="{{ tab }}"><button class="btn">시작하기</button></form>
   </div>
 {% else %}<div class="card"><p class="muted">지금 조건에 맞는 새 논제가 없어요. 논제가 추가되면 여기에 보여 드려요.</p></div>
 {% endfor %}
