@@ -1,4 +1,4 @@
-/* 논술랩 스타일 — 디자인 토큰은 기존 src/ui/theme.py 와 같은 값 */
+/* 엘렝코스 스타일 — 디자인 토큰은 기존 src/ui/theme.py 와 같은 값 */
 @font-face { font-family: 'Pretendard Variable'; font-weight: 45 920; font-style: normal; font-display: swap;
   src: url("/fonts/PretendardVariable.woff2") format("woff2-variations"), url("/fonts/PretendardVariable.woff2") format("woff2"); }
 :root {

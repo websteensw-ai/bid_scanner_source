@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}진단 결과 · 논술랩{% endblock %}
+{% block title %}진단 결과 · 엘렝코스{% endblock %}
 {% macro how(level) %}{{ {3:'혼자서 해냈어요',2:'작은 도움으로 해냈어요',1:'도움을 받아 해냈어요',0:'아직 함께 연습이 필요해요'}.get(level, '아직 확인하지 못했어요') }}{% endmacro %}
 {% block content %}
 <div class="nx-header"><div class="nx-eyebrow">{{ icon('laurels') }} 결과</div><h1 class="nx-title">진단 결과</h1>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}엘렝코스 · 논술랩{% endblock %}</title>
-  <meta name="description" content="본격 논술 학습을 준비하는 다섯 가지 기초 학습과 진입 준비 진단">
+  <title>{% block title %}엘렝코스 · 소크라테스식 문답법에 기반한 AI 튜터 논술학습 시스템{% endblock %}</title>
+  <meta name="description" content="엘렝코스 — 소크라테스식 문답법에 기반한 AI 튜터 논술학습 시스템">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/app.css">
   <script src="/htmx.min.js" defer></script>
@@ -14,10 +14,10 @@
 <input type="checkbox" id="navtoggle" class="navtoggle" aria-label="메뉴">
 <header class="topbar">
   <label for="navtoggle" class="burger" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></label>
-  <a href="/" class="brand-sm"><img src="/icon.svg" alt="" width="28" height="28"> 논술랩</a>
+  <a href="/" class="brand-sm"><img src="/icon.svg" alt="" width="28" height="28"> 엘렝코스</a>
 </header>
 <aside class="sidebar">
-  <a href="/" class="brand"><img src="/logo.svg" alt="논술랩 기초 다지기" height="34"></a>
+  <a href="/" class="brand"><img src="/logo.svg" alt="엘렝코스 — 소크라테스식 문답법에 기반한 AI 튜터 논술학습 시스템" height="34"></a>
   <nav>
     {% set is_student = user.role in ('student','admin') %}
     {% set is_staff = user.role in ('teacher','admin') %}

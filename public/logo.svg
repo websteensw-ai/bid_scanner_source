@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="186" height="40" viewBox="0 0 186 40">
+<svg xmlns="http://www.w3.org/2000/svg" width="262" height="40" viewBox="0 0 262 40">
   <svg x="0" y="0" width="40" height="40" viewBox="0 0 120 120"><defs><clipPath id="cl"><circle cx="60" cy="60" r="58"/></clipPath></defs>
   <circle cx="60" cy="60" r="58" fill="#E9F0FF"/>
   <g clip-path="url(#cl)"><g class="bob">
@@ -44,7 +44,7 @@
   <!-- 반짝 (생각 중) -->
   <path class="twinkle" d="M101 22l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC94D"/>
 </svg>
-  <text x="48" y="22" font-family="Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif" font-size="19" font-weight="800" fill="#14254F" letter-spacing="-0.4">논술랩</text>
-  <circle cx="111" cy="19" r="3" fill="#FFC94D"/>
-  <text x="49" y="35" font-family="Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif" font-size="10" font-weight="600" fill="#5B7CFA">묻고 답하며 자라는 글</text>
+  <text x="48" y="22" font-family="Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif" font-size="19" font-weight="800" fill="#14254F" letter-spacing="-0.4">엘렝코스</text>
+  <circle cx="130" cy="19" r="3" fill="#FFC94D"/>
+  <text x="49" y="35" font-family="Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif" font-size="8.2" font-weight="600" fill="#5B7CFA" letter-spacing="-0.2">소크라테스식 문답법에 기반한 AI 튜터 논술학습 시스템</text>
 </svg>

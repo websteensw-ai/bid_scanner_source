@@ -1,4 +1,4 @@
-"""논술랩 웹앱 (FastAPI + Jinja2 + htmx). Vercel 진입점: web.main:app
+"""엘렝코스 웹앱 (FastAPI + Jinja2 + htmx). Vercel 진입점: web.main:app
 
 학습 엔진·콘텐츠·판정(src/learning)은 그대로 쓰고, 화면만 서버 렌더링으로 그린다.
 - 세션: 서명된 쿠키 (SESSION_SECRET)
@@ -43,7 +43,7 @@ if not _secret:
         raise RuntimeError("SESSION_SECRET 환경변수가 필요합니다.")
     _secret = "dev-only-session-secret"
 
-app = FastAPI(title="논술랩 · 기초 다지기", docs_url=None, redoc_url=None, openapi_url=None)
+app = FastAPI(title="엘렝코스", docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(SessionMiddleware, secret_key=_secret, session_cookie="elenchos_session",
                    max_age=60 * 60 * 24 * 14, same_site="lax",
                    https_only=settings.app_env == "production" or ON_VERCEL)
