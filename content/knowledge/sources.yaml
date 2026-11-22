@@ -1,0 +1,68 @@
+# ① 원천 지식자산 DB — 1차 메타데이터(4절) + 2차 사고구조 메타데이터(5절)
+# ※ 아래 3편은 파이프라인 검증용 '샘플 메타데이터'다 (기본계획 문서의 예시를 옮긴 것, 원문 전문 아님).
+#    실제 50편 시범 DB 는 같은 형식으로 추가한다. 형식 안내: README.md
+version: 0.1.0
+status: sample
+items:
+  - id: SRC-0001
+    title: 『소피스트』 평론
+    source_type: 고전평론
+    asset_type: concept          # concept 개념·명제형 / choice 인물·선택·결과형 / policy 정책·사회문제형 / history 역사적 사례형 / literature 문학·인간이해형
+    author: {original: 플라톤, commentary: (자체 평설)}
+    work: 『소피스트』
+    era: 고대
+    region: 그리스
+    fields: [철학, 언어]
+    persons: [플라톤, 소크라테스]
+    public: summary              # full 전문 제공 / summary 요약만 / none 비공개
+    copyright: own               # own 자체 저작 / public_domain / restricted
+    pilot_group: 철학
+    concepts: [진리, 설득, 대중, 지식]
+    claim: 설득의 힘은 진리를 보증하지 않는다.
+    counter_claim: 다수가 납득한 것이 곧 사회적으로 통용되는 진리다.
+    hidden_premise: 진리는 동의의 수와 독립적으로 존재한다.
+    counterexamples: [전문가 합의처럼 다수 동의가 신뢰의 근거가 되는 경우]
+    conflicts: ["진리 vs 설득"]
+    universal_question: 다수의 동의는 진리의 근거가 될 수 있는가?
+    tags: [비판적 사고, 거짓, 언어]
+    review: {status: sample, reviewer: ""}
+  - id: SRC-0002
+    title: 에우메네스 — 『자유인의 선택』 중
+    source_type: 고전칼럼
+    asset_type: choice
+    author: {original: "", commentary: (자체 평설)}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [역사, 윤리, 리더십]
+    persons: [에우메네스]
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [충성, 신의, 생존]
+    situation: 동료들에게 배신당해 적에게 넘겨질 위기
+    choice: (평설 원문 기준으로 검수 시 기입)
+    conflicts: ["생존 vs 신의", "개인 vs 다수"]
+    universal_question: 생존을 위해 신의를 저버릴 수 있는가?
+    tags: [배신, 책임, 선택]
+    review: {status: sample, reviewer: ""}
+  - id: SRC-0003
+    title: 밀 『자유론』 평론
+    source_type: 명저평론
+    asset_type: concept
+    author: {original: 존 스튜어트 밀, commentary: (자체 평설)}
+    work: 『자유론』
+    era: 근대
+    region: 유럽
+    fields: [정치, 철학, 법]
+    persons: [존 스튜어트 밀]
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [자유, 표현의 자유, 해악]
+    claim: 표현의 자유는 틀린 의견에도 보장되어야 한다.
+    counter_claim: 해악을 낳을 표현은 제한되어야 한다.
+    conflicts: ["자유 vs 안전", "자유 vs 책임"]
+    universal_question: 해악의 가능성이 있는 말도 자유롭게 할 수 있어야 하는가?
+    tags: [민주주의, 관용]
+    review: {status: sample, reviewer: ""}

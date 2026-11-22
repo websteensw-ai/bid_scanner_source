@@ -1,0 +1,18 @@
+# 사고역량 목록 (지식자산 기본계획 ⅩⅤ장 14절 예시 7개)
+# ※ 기본계획의 '11개 역량' 전체 목록을 받으면 이 파일만 바꾸면 된다 (코드 수정 불필요).
+version: 0.1.0
+status: draft
+levels: {1: 시작, 2: 기초, 3: 보통, 4: 능숙, 5: 탁월}
+items:
+  - {id: understand, name: 문제 이해, desc: 무엇을 묻는지 정확히 파악한다}
+  - {id: define, name: 개념 정의, desc: 핵심 개념의 뜻과 경계를 구별한다}
+  - {id: reason, name: 논리적 추론, desc: 주장–이유–근거를 잇는다}
+  - {id: respond, name: 질문 대응, desc: 질문을 받고 생각을 구체화한다}
+  - {id: counter, name: 반론 이해, desc: 다른 입장의 가장 강한 형태를 이해한다}
+  - {id: rebut, name: 재반론, desc: 반론에 근거를 들어 다시 답한다}
+  - {id: revise, name: 자기수정, desc: 자기 주장의 일부를 고쳐 논증을 강화한다}
+# 학생 수준 (15절): 프로파일 평균으로 계산하되 세부 프로파일은 항상 함께 보존
+overall:
+  - {name: 초급, max: 2.4}
+  - {name: 중급, max: 3.6}
+  - {name: 고급, max: 5}

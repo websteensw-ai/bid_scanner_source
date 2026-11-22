@@ -1,0 +1,47 @@
+# ② 사고원형 DB (6절): 하나의 글·사건을 넘어 반복 적용되는 보편적 사고구조
+# ※ 샘플 (기본계획 문서의 예시)
+version: 0.1.0
+status: sample
+items:
+  - id: ARC-001
+    question: 다수의 동의는 진리의 근거가 될 수 있는가?
+    sources: [SRC-0001]
+    conflicts: ["진리 vs 설득"]
+    concepts: [진리, 설득, 대중]
+    positions: [다수의 동의는 진리의 유력한 근거다, 동의의 수는 진리와 무관하다]
+    counterexamples: [전문가 합의, 집단 착각의 역사적 사례]
+    situations: [여론조사, 온라인 평점, 과학적 합의]
+    abilities: [define, counter, reason]
+    level_range: [1, 5]
+  - id: ARC-002
+    question: 생존을 위해 신의를 저버릴 수 있는가?
+    sources: [SRC-0002]
+    conflicts: ["생존 vs 신의"]
+    concepts: [신의, 충성, 생존]
+    positions: [생존이 우선이다, 신의는 생존보다 무겁다]
+    abilities: [reason, rebut, revise]
+    level_range: [2, 5]
+  - id: ARC-003
+    question: 다수를 위해 한 사람을 희생할 수 있는가?
+    sources: [SRC-0002]
+    conflicts: ["개인 vs 다수"]
+    concepts: [희생, 정의, 공리]
+    positions: [더 많은 생명을 구해야 한다, 무고한 사람을 수단으로 삼을 수 없다]
+    abilities: [reason, counter, rebut]
+    level_range: [1, 5]
+  - id: ARC-004
+    question: 해악의 가능성이 있는 말도 표현의 자유로 보호해야 하는가?
+    sources: [SRC-0003]
+    conflicts: ["자유 vs 안전"]
+    concepts: [표현의 자유, 해악]
+    positions: [틀린 말도 보호해야 진리가 드러난다, 해악이 분명하면 제한해야 한다]
+    abilities: [counter, rebut, define]
+    level_range: [2, 5]
+  - id: ARC-005
+    question: 공정하다는 것은 모든 사람을 똑같이 대하는 것인가?
+    sources: []
+    conflicts: ["평등 vs 동일대우"]
+    concepts: [공정, 평등]
+    positions: [똑같이 대하는 것이 공정이다, 다른 처지는 다르게 대해야 공정하다]
+    abilities: [define, understand]
+    level_range: [1, 3]

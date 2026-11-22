@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}초기 사고역량 진단 · 엘렝코스{% endblock %}
+{% block content %}
+<div class="nx-hero">
+  <div class="nx-eyebrow">사고 성장 학습 · 처음 한 번</div>
+  <h2>지금 내 생각의 모양을 알아볼게요</h2>
+  <p>성적을 매기는 시험이 아니에요. 처음 보는 짧은 질문 세 가지에 내 생각을 써 주면, 어떤 사고 능력이 강하고 어디를 더 키우면 좋을지 알려 드려요.</p>
+</div>
+<div class="tutor-hello"><img src="/tutor.svg" alt="튜터"><div class="bubble">정답은 없어요. 길게 쓰지 않아도 괜찮아요.<br>왜 그렇게 생각하는지만 꼭 적어 주세요.</div></div>
+{% if error %}<div class="alert warn">{{ error }}</div>{% endif %}
+<form method="post" action="/think/diagnose" hx-boost="false" class="stack">
+{% for t in tasks %}
+  <div class="card">
+    <div class="nx-label">과제 {{ loop.index }} · {{ t.title }}</div>
+    <p><b>{{ t.prompt }}</b></p>
+    {% if t.positions %}<div class="think-pos">
+      {% for k, v in t.positions.items() %}<label class="think-opt"><input type="radio" name="choice" value="{{ k }}"> <b>입장 {{ k }}</b> {{ v }}</label>{% endfor %}
+    </div>{% endif %}
+    <textarea name="{{ t.id }}" rows="5" placeholder="내 생각과 그 이유를 써 보세요.">{{ (answers or {}).get(t.id, '') }}</textarea>
+  </div>
+{% endfor %}
+  <div class="card"><div class="nx-label">관심 있는 주제 (최대 3개, 선택)</div>
+    <div class="row-gap">{% for x in interests %}<label class="think-chip"><input type="checkbox" name="interests" value="{{ x }}" {{ 'checked' if x in ad.ts.interests }}> {{ x }}</label>{% endfor %}</div>
+    <p class="small muted">관심 주제는 추천에 참고하지만, 지금 가장 필요한 학습이 먼저예요.</p></div>
+  <button class="btn primary">{{ icon('owl') }} 진단 마치고 내 사고 프로파일 보기</button>
+</form>
+{% endblock %}

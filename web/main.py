@@ -567,8 +567,10 @@ def quality(request: Request, report: str | None = None, all_cases: int = 0):
 from web import accounts as _accounts  # noqa: E402  (헬퍼 정의 뒤에 불러와야 순환 참조가 풀린다)
 from web import email_auth as _email_auth  # noqa: E402
 from web import mvp as _mvp  # noqa: E402
+from web import think as _think  # noqa: E402
 
 app.include_router(_mvp.router)
+app.include_router(_think.router)
 app.include_router(_accounts.router)
 app.include_router(_email_auth.router)
 

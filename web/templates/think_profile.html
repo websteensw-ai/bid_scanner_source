@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}나의 사고 프로파일 · 엘렝코스{% endblock %}
+{% block content %}
+<div class="nx-hero">
+  <div class="nx-eyebrow">사고 성장 학습 · 초기 진단 결과</div>
+  <h2>지금 수준: {{ ad.overall() }}</h2>
+  <p>종합 수준은 참고일 뿐이에요. 아래처럼 능력마다 강점과 보완할 점이 달라요.</p>
+</div>
+<div class="grid2">
+  <div class="card"><div class="nx-label">능력별 프로파일 (1~5)</div>{% include "_think_profile.html" %}
+    <p class="small muted">판정: {{ '튜터' if d.evaluator.startswith('ai') else '규칙 기반 예비 판정' }} · {{ d.ts[:10] }}{% if d.note %} — {{ d.note }}{% endif %}</p></div>
+  <div class="card">
+    <div class="nx-label">강점</div><p>{{ ad.strengths()|comp|join(' · ') }}</p>
+    <div class="nx-label">보완하면 좋은 능력</div><p>{{ ad.weaknesses()|comp|join(' · ') }}</p>
+    {% if d.evidence %}<div class="nx-label">근거가 된 내 문장</div>
+      {% for c, q in d.evidence.items() %}<p class="small">· <b>{{ kb.competencies.name(c) }}</b> “{{ q }}”</p>{% endfor %}{% endif %}
+  </div>
+</div>
+{% if need %}<div class="card mt think-need"><div class="nx-label">지금 나에게 가장 필요한 학습</div>
+  <p><b>{{ need.topic.prompt }}</b></p><p class="small muted">{{ need.reasons|join(' · ') }}</p>
+  <a class="btn primary" href="/think">{{ icon('stairs') }} 추천 학습 보러 가기</a></div>{% endif %}
+{% endblock %}

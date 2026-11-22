@@ -461,3 +461,22 @@ mark.ann.on{background:var(--warning-50)}
 .nx-msg.tutor div{white-space:pre-line}
 .journal blockquote{margin:6px 0;padding:6px 10px;border-left:3px solid #C9A85A;background:#FBF9F3}
 .plan input{min-height:0;padding:4px 6px}
+/* 사고 성장 학습 · 지식자산 DB */
+.h1{font-size:1.5rem;font-weight:800;margin:.2rem 0 .3rem}
+.big{font-size:1.7rem;font-weight:800;color:var(--navy-900)}
+.think-prof{display:flex;flex-direction:column;gap:.45rem;margin:.4rem 0 .6rem}
+.tp-row{display:grid;grid-template-columns:7.5rem 1fr 4.6rem;gap:.6rem;align-items:center;font-size:.92rem}
+.tp-bar{height:10px;background:#E9EDF5;border-radius:999px;overflow:hidden}
+.tp-bar div{height:100%;background:var(--primary);border-radius:999px}
+.tp-bar div.weak{background:#E2A03F}.tp-bar div.strong{background:#2E9E6B}
+.tp-v{font-size:.82rem;color:var(--text-muted);text-align:right}
+.think-need{border:2px solid var(--primary);background:linear-gradient(180deg,#F3F6FF,#fff)}
+.think-recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.9rem;margin-top:.9rem}
+.think-recs .card{display:flex;flex-direction:column}.think-recs .card form{margin-top:auto}
+.think-chip{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .65rem;margin:.15rem .2rem .15rem 0;border:1px solid var(--border);border-radius:999px;font-size:.85rem;background:var(--surface);color:var(--text)}
+.think-chip.on{border-color:var(--primary);color:var(--primary);font-weight:700}
+.think-pos{display:flex;flex-direction:column;gap:.4rem;margin:.4rem 0 .7rem}
+.think-opt{display:block;padding:.6rem .8rem;border:1px solid var(--border);border-radius:10px;font-size:.94rem;line-height:1.55}
+.think-map{padding:.5rem 0;border-bottom:1px dashed var(--border);line-height:2}
+.think-yaml{background:#0F1A33;color:#E6ECFF;padding:1rem;border-radius:10px;font-size:.82rem;overflow:auto;white-space:pre-wrap;max-height:420px}
+@media (max-width:720px){.tp-row{grid-template-columns:6rem 1fr 3.8rem}}

@@ -1,0 +1,25 @@
+# 초기 사고역량 진단 (13절): 성적이 아니라 현재 사고 프로파일을 파악. 지식시험이 아니라 처음 보는 사고과제 2~3개.
+version: 0.1.0
+tasks:
+  - id: D1
+    kind: concept
+    title: 개념 판단
+    prompt: 공정하다는 것은 모든 사람을 똑같이 대하는 것인가요? 내 생각과 그 이유를 써 주세요.
+    measures: [understand, define, reason]
+  - id: D2
+    kind: dilemma
+    title: 도덕적 딜레마
+    prompt: 다수를 살리기 위해 무고한 한 사람을 희생할 수 있을까요? 내 판단과 이유, 그리고 반대 입장이 내세울 이유도 함께 써 주세요.
+    measures: [reason, counter, respond]
+  - id: D3
+    kind: rebuttal
+    title: 반론 판단
+    prompt: 두 입장 중 어느 쪽이 더 설득력 있는지 고르고, 고르지 않은 쪽의 가장 강한 반론에 다시 답해 보세요. 쓰다가 생각이 바뀌면 바뀐 대로 고쳐 써도 돼요.
+    positions:
+      A: 많은 사람이 동의한 의견은 대체로 믿을 만하다. 집단의 판단은 한 사람의 판단보다 오류가 적기 때문이다.
+      B: 동의한 사람의 수는 의견이 옳은지와 상관이 없다. 다수가 함께 틀린 일은 역사에 여러 번 있었다.
+    measures: [counter, rebut, revise]
+# 적응형 추천 점수 가중치 (18절) — 우선순위(17절): 취약능력 > 적정 난이도 > 미경험 사고원형 > 관심주제 > 다양성
+# ※ 정확한 가중치는 시범운영 데이터로 조정
+weights: {weak: 0.35, difficulty: 0.25, unexplored: 0.17, interest: 0.12, diversity: 0.07, link: 0.04}
+interests: [정의, 자유, 행복, 우정, 리더십, 민주주의, 전쟁, 과학기술, 인간의 욕망, 진리, 공정]

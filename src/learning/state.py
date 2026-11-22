@@ -125,6 +125,7 @@ class LearnerState(BaseModel):
     events: list[Event] = Field(default_factory=list)
     reviews: list[ReviewRecord] = Field(default_factory=list)
     mvp: dict[str, dict] = Field(default_factory=dict)     # 6단계 회차 (src/mvp/models.MvpAttempt JSON)
+    think: dict = Field(default_factory=dict)              # 사고 프로파일·적응형 이력 (think.ThinkState)
 
     def log(self, type_: str, source: str, **payload) -> None:
         self.events.append(Event(type=type_, source=source, payload=payload))

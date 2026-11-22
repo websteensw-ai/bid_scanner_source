@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}사고 성장 학습 · 엘렝코스{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="nx-label">Level {{ t.level }} · {{ TOPIC_FORMS[t.form] }}{% if t.cross %} · 교차 논제{% endif %} · {{ MODES[t.mode] }} · {{ PATH_KO[h.path] }}</div>
+  <h2 class="h2">{{ t.prompt }}</h2>
+  <p class="small muted">이 논제가 훈련하는 능력: {{ t.abilities|comp|join(' · ') }} · 예상 문답 {{ t.expected_turns }}회 · 반론 강도 {{ REBUTTAL_KO[t.rebuttal] }}</p>
+</div>
+<div class="tutor-hello"><img src="/tutor.svg" alt="튜터"><div class="bubble">{% if t.mode == 'B' %}먼저 아무것도 읽지 않고, 지금 내 생각을 그대로 적어 볼까요? 나중에 생각이 어떻게 바뀌었는지 비교해 볼 거예요.{% elif t.mode == 'A' %}먼저 관련 평론을 읽고 핵심 개념을 정리한 뒤, 내 생각을 적어 볼 거예요.{% else %}스스로 질문을 세워 탐구해 볼 거예요. 먼저 이 문제에서 가장 중요한 질문이 무엇인지 적어 보세요.{% endif %}</div></div>
+<form method="post" action="/think/topic/{{ t.id }}/first" hx-boost="false" class="card">
+  <div class="nx-label">{{ '처음 생각 (읽기 전)' if t.mode == 'B' else '처음 생각' }}</div>
+  <textarea name="text" rows="6" placeholder="내 판단과 그 이유를 써 보세요.">{{ h.first_thought }}</textarea>
+  <button class="btn primary mt">저장</button>
+  {% if h.first_thought %}<p class="small muted">저장했어요 · 이 생각은 학습 뒤 변화를 비교하는 기준이 돼요.</p>{% endif %}
+</form>
+<div class="card"><div class="nx-label">생각해 볼 갈림길</div>
+  {% for a in arcs %}<p><b>{{ a.question }}</b></p>
+    <p class="small muted">가치충돌: {{ a.conflicts|join(' · ') }}</p>
+    {% if a.positions %}<ul class="small">{% for p in a.positions %}<li>{{ p }}</li>{% endfor %}</ul>{% endif %}{% endfor %}
+</div>
+<p class="small muted">이 논제로 튜터와 묻고 답하며 논박하는 학습은 6단계 문답 엔진과 연결하는 중이에요. 지금은 처음 생각을 기록해 두면 학습 이력과 추천에 반영돼요.</p>
+<a class="btn" href="/think">{{ icon('return-arrow') }} 추천 학습으로</a>
+{% endblock %}

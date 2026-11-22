@@ -1,0 +1,8 @@
+{# 역량 프로파일 막대 — 종합 수준만이 아니라 세부 프로파일을 항상 함께 보여 준다 (14절) #}
+<div class="think-prof">
+{% for c in kb.competencies.items %}{% set v = ad.ts.profile.get(c.id, 0) %}
+  <div class="tp-row"><span class="tp-name" title="{{ c.desc }}">{{ c.name }}</span>
+    <div class="tp-bar"><div style="width: {{ v * 20 }}%" class="{{ 'weak' if c.id in ad.weaknesses(2) else ('strong' if c.id in ad.strengths(2) else '') }}"></div></div>
+    <span class="tp-v">{{ v }} · {{ kb.competencies.levels[v] if v else '-' }}</span></div>
+{% endfor %}
+</div>

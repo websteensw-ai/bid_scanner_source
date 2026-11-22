@@ -27,6 +27,9 @@
     <a href="/mvp/records" class="{{ 'on' if path == '/mvp/records' }}"><span>{{ icon('scroll-unfurled') }}</span>나의 기록</a>
     {% if user.role == 'student' %}<a href="/mvp/join" class="{{ 'on' if path == '/mvp/join' }}"><span>{{ icon('ionic-column') }}</span>학급 참여</a>{% endif %}
     <a href="/mvp/guide" class="{{ 'on' if path == '/mvp/guide' }}"><span>{{ icon('open-book') }}</span>안내</a>
+    <div class="navsec">사고 성장 학습</div>
+    <a href="/think" class="{{ 'on' if path in ('/think', '/think/profile') or path.startswith('/think/topic') }}"><span>{{ icon('owl') }}</span>맞춤 추천 학습</a>
+    <a href="/think/diagnose" class="{{ 'on' if path == '/think/diagnose' }}"><span>{{ icon('magnifying-glass') }}</span>사고역량 진단</a>
     <div class="navsec">기초 다지기</div>
     <a href="/home" class="{{ 'on' if path == '/home' }}"><span>{{ icon('classical-knowledge') }}</span>기초 홈</a>
     <a href="/home#topics" class="{{ 'on' if path.startswith('/learn') }}"><span>{{ icon('quill-ink') }}</span>학습하기</a>
@@ -38,6 +41,7 @@
     <a href="/teacher/mvp" class="{{ 'on' if path.startswith('/teacher/mvp') }}"><span>{{ icon('discussion') }}</span>6단계 학급 현황</a>
     <a href="/teacher/accounts" class="{{ 'on' if path.startswith('/teacher/accounts') }}"><span>{{ icon('key') }}</span>계정·학급 관리</a>
     <a href="/teacher/records" class="{{ 'on' if path == '/teacher/records' }}"><span>{{ icon('scroll-quill') }}</span>학습 기록</a>
+    <a href="/teacher/knowledge" class="{{ 'on' if path.startswith('/teacher/knowledge') }}"><span>{{ icon('classical-knowledge') }}</span>지식자산 DB</a>
     <a href="/teacher/content" class="{{ 'on' if path == '/teacher/content' }}"><span>{{ icon('tied-scroll') }}</span>자료 관리</a>
     <a href="/teacher/quality" class="{{ 'on' if path == '/teacher/quality' }}"><span>{{ icon('checklist') }}</span>튜터 품질</a>
     {% endif %}
