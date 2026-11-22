@@ -2,7 +2,7 @@
 {% block title %}지식자산 DB · 엘렝코스{% endblock %}
 {% block content %}
 <h1 class="h1">지식자산 · 사고원형 DB</h1>
-<p class="muted">원천 자료 → 개념·명제 → 가치충돌 → 사고원형 → 논제 → 사고역량을 잇는 ‘사고의 지도’. 현재 데이터는 형식 검증용 <b>샘플</b>이에요.</p>
+<p class="muted">원천 자료 → 개념·명제 → 가치충돌 → 사고원형 → 논제 → 사고역량을 잇는 ‘사고의 지도’. 시범 DB 50편은 원천 저작에서 만든 <b>구조화 초안</b>이라, 전문가 검수(review: approved) 전까지 학생 추천에 쓰지 않아요.</p>
 <div class="nx-stats" style="--n:4">
   <div class="card"><div class="nx-label">① 원천 지식자산</div><b class="big">{{ st.sources }}</b> 편</div>
   <div class="card"><div class="nx-label">② 사고원형</div><b class="big">{{ st.archetypes }}</b> 개</div>
@@ -16,7 +16,7 @@
     <p class="small muted">입력 형식: <a href="/teacher/knowledge/template.yaml">자료 입력 안내 받기</a> · 검사: <code>python -m src.think.kb</code></p></div>
   <div class="card"><div class="nx-label">1차 유형 분포 · 가치충돌</div>
     {% for k, v in st.by_type.items() %}<span class="think-chip">{{ k }} {{ v }}</span>{% endfor %}
-    <p class="small mt">{% for c in st.conflicts %}<span class="think-chip">{{ c }}</span>{% endfor %}</p></div>
+    <details class="mt"><summary class="small">가치충돌 {{ st.conflicts|length }}종 보기</summary><p class="small">{% for c in st.conflicts %}<span class="think-chip">{{ c }}</span>{% endfor %}</p></details></div>
 </div>
 {% if books %}<div class="card mt"><div class="nx-label">원천 자료 목록 · 책별 (전체 {{ books|sum(attribute='count') }}편 등재 · 구조화 {{ books|sum(attribute='structured') }}편)</div>
 <table class="tbl"><tr><th>책</th><th>등재 편수</th><th>구조화(초안)</th><th>편 목록</th></tr>
@@ -32,12 +32,12 @@
   <p class="small">핵심 개념: {{ sel.concepts|join(' · ') }}{% if sel.claim %} · 핵심 명제: {{ sel.claim }}{% endif %}{% if sel.counter_claim %} · 대립 명제: {{ sel.counter_claim }}{% endif %}</p>
   {% for m in smap %}<div class="think-map"><span class="think-chip">{{ m.conflicts|join(' · ') }}</span> → <b>{{ m.archetype.question }}</b> →
     {% for t in m.topics %}<span class="think-chip">L{{ t.level }} {{ t.prompt[:24] }}…</span>{% endfor %} → <span class="small muted">{{ m.abilities|join(' · ') }}</span></div>{% endfor %}</div>{% endif %}
-<div class="card mt"><div class="nx-label">사고원형과 논제</div>
+<details class="card mt"><summary class="nx-label">사고원형과 논제 ({{ kb.archetypes|length }}개 · {{ kb.topics|length }}개) 펼치기</summary>
 <table class="tbl"><tr><th>사고원형</th><th>출처</th><th>훈련 역량</th><th>논제 (난이도)</th></tr>
 {% for a in kb.archetypes %}<tr><td><b>{{ a.question }}</b><br><span class="small muted">{{ a.conflicts|join(' · ') }}</span></td><td class="small">{{ a.sources|join(', ') or '—' }}</td>
 <td class="small">{{ a.abilities|comp|join(' · ') }}</td>
 <td class="small">{% for t in kb.topics_for(a.id) %}L{{ t.level }} {{ t.prompt[:30] }}… <span class="muted">({{ t.review }})</span><br>{% endfor %}</td></tr>{% endfor %}</table>
-{% if cross %}<p class="small mt"><b>교차출제 후보</b> ({{ cross|length }}쌍 중 12쌍) · {% for a, b, sh in cross[:12] %}{{ a.id }} + {{ b.id }} ({{ sh|join(', ') }}){{ ' · ' if not loop.last }}{% endfor %}</p>{% endif %}</div>
+{% if cross %}<p class="small mt"><b>교차출제 후보</b> ({{ cross|length }}쌍 중 12쌍) · {% for a, b, sh in cross[:12] %}{{ a.id }} + {{ b.id }} ({{ sh|join(', ') }}){{ ' · ' if not loop.last }}{% endfor %}</p>{% endif %}</details>
 <form method="post" action="/teacher/knowledge/structure" hx-boost="false" class="card mt" id="structure">
   <div class="nx-label">AI 1차 구조화 → 전문가 검수 (원문 한 편)</div>
   <label class="field"><span>자료 제목</span><input name="title" value="{{ title or '' }}"></label>
