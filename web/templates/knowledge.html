@@ -10,8 +10,9 @@
   <div class="card"><div class="nx-label">④ 학습자 성장</div><span class="small">학생별 역량 프로파일·학습 이력 (학생 상세에서 확인)</span></div>
 </div>
 <div class="grid2 mt">
-  <div class="card"><div class="nx-label">50편 시범 DB 구축 현황 (검수 완료 기준)</div>
-    {% for p in pilot %}<div class="tp-row"><span class="tp-name">{{ p.group }}</span><div class="tp-bar"><div style="width: {{ (p.done / p.target * 100)|round }}%"></div></div><span class="tp-v">{{ p.done }}/{{ p.target }}</span></div>{% endfor %}
+  <div class="card"><div class="nx-label">50편 시범 DB 구축 현황</div>
+    {% for p in pilot %}<div class="tp-row"><span class="tp-name">{{ p.group }}</span><div class="tp-bar"><div style="width: {{ ([p.done + p.draft, p.target]|min / p.target * 100)|round }}%" class="{{ '' if p.done >= p.target else 'weak' }}"></div></div><span class="tp-v">{{ p.done }}+{{ p.draft }}/{{ p.target }}</span></div>{% endfor %}
+    <p class="small muted">검수 완료 + 검수 대기 초안 / 목표 · 주황 막대는 검수 대기 포함</p>
     <p class="small muted">입력 형식: <a href="/teacher/knowledge/template.yaml">자료 입력 안내 받기</a> · 검사: <code>python -m src.think.kb</code></p></div>
   <div class="card"><div class="nx-label">1차 유형 분포 · 가치충돌</div>
     {% for k, v in st.by_type.items() %}<span class="think-chip">{{ k }} {{ v }}</span>{% endfor %}
@@ -22,6 +23,8 @@
 {% for s in kb.sources %}<tr class="{{ 'on' if sel and sel.id == s.id }}"><td><a href="/teacher/knowledge?src={{ s.id }}">{{ s.id }}</a></td><td>{{ s.title }}</td><td>{{ ASSET_TYPES[s.asset_type] }}</td>
   <td>{{ s.era }} · {{ s.region }}</td><td>{{ s.conflicts|join(', ') }}</td><td>{{ PUBLIC_KO[s.public] }} · {{ COPYRIGHT_KO[s.copyright] }}</td><td>{{ s.review.status }}</td></tr>{% endfor %}</table></div>
 {% if sel %}<div class="card mt"><div class="nx-label">사고의 지도 · {{ sel.title }}</div>
+  {% if sel.summary %}<p>{{ sel.summary }}</p>{% endif %}
+  <p class="small muted">{{ sel.work }} · {{ sel.author.commentary or sel.author.original }}{% if sel.location %} · 원문 위치 {{ sel.location }}{% endif %}{% if sel.universal_question %} · 보편적 질문: {{ sel.universal_question }}{% endif %}</p>
   <p class="small">핵심 개념: {{ sel.concepts|join(' · ') }}{% if sel.claim %} · 핵심 명제: {{ sel.claim }}{% endif %}{% if sel.counter_claim %} · 대립 명제: {{ sel.counter_claim }}{% endif %}</p>
   {% for m in smap %}<div class="think-map"><span class="think-chip">{{ m.conflicts|join(' · ') }}</span> → <b>{{ m.archetype.question }}</b> →
     {% for t in m.topics %}<span class="think-chip">L{{ t.level }} {{ t.prompt[:24] }}…</span>{% endfor %} → <span class="small muted">{{ m.abilities|join(' · ') }}</span></div>{% endfor %}</div>{% endif %}

@@ -1,7 +1,7 @@
 """지식자산·사고원형 DB 로더와 지식 그래프 (지식자산 기본계획 ⅩⅤ장).
 
 네 가지 핵심 DB (25절)
-  ① 원천 지식자산 DB   content/knowledge/sources.yaml
+  ① 원천 지식자산 DB   content/knowledge/sources.yaml + pilot/*.yaml (책 단위 시범 묶음)
   ② 사고원형 DB         content/knowledge/archetypes.yaml
   ③ 논제·제시문 DB      content/knowledge/topics.yaml
   ④ 학습자 성장 DB      LearnerState.think (학생별 프로파일·이력, src/think/adaptive.py)
@@ -77,6 +77,8 @@ class Source(BaseModel):
     situation: str = ""
     choice: str = ""
     tags: list[str] = Field(default_factory=list)
+    location: str = ""                                      # 원문 위치 (내부 검증용 — 학생 화면에 싣지 않음)
+    summary: str = ""                                       # 요약 (public 이 summary 일 때만 학생에게 제공 가능)
     review: dict = Field(default_factory=dict)              # {status: draft|sample|approved, reviewer}
 
     @model_validator(mode="after")
@@ -232,11 +234,14 @@ class KnowledgeBase(BaseModel):
 
     # ---------- 구축 현황 (24절) ----------
     def pilot_progress(self) -> list[dict]:
-        cnt = defaultdict(int)
+        done, draft = defaultdict(int), defaultdict(int)
         for s in self.sources:
-            if s.review.get("status") == "approved":
-                cnt[s.pilot_group] += 1
-        return [{"group": g, "target": n, "done": cnt.get(g, 0)} for g, n in PILOT_QUOTA.items()]
+            st = s.review.get("status")
+            if st == "approved":
+                done[s.pilot_group] += 1
+            elif st == "draft":
+                draft[s.pilot_group] += 1
+        return [{"group": g, "target": n, "done": done.get(g, 0), "draft": draft.get(g, 0)} for g, n in PILOT_QUOTA.items()]
 
     def stats(self) -> dict:
         return {"sources": len(self.sources), "archetypes": len(self.archetypes), "topics": len(self.topics),
@@ -249,12 +254,23 @@ def _read(name: str) -> dict:
     return yaml.safe_load((ROOT / name).read_text(encoding="utf-8"))
 
 
+def _pilot() -> dict[str, list]:
+    """시범 DB 묶음 (content/knowledge/pilot/*.yaml) — 책 한 권 단위로 sources·archetypes·topics 를 함께 담는다."""
+    out: dict[str, list] = {"sources": [], "archetypes": [], "topics": []}
+    for f in sorted((ROOT / "pilot").glob("*.yaml")):
+        d = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
+        for k in out:
+            out[k] += d.get(k) or []
+    return out
+
+
 @lru_cache
 def knowledge() -> KnowledgeBase:
+    extra = _pilot()
     return KnowledgeBase(competencies=Competencies.model_validate(_read("competencies.yaml")),
-                         sources=[Source.model_validate(x) for x in _read("sources.yaml")["items"]],
-                         archetypes=[Archetype.model_validate(x) for x in _read("archetypes.yaml")["items"]],
-                         topics=[Topic.model_validate(x) for x in _read("topics.yaml")["items"]],
+                         sources=[Source.model_validate(x) for x in _read("sources.yaml")["items"] + extra["sources"]],
+                         archetypes=[Archetype.model_validate(x) for x in _read("archetypes.yaml")["items"] + extra["archetypes"]],
+                         topics=[Topic.model_validate(x) for x in _read("topics.yaml")["items"] + extra["topics"]],
                          diagnostic=_read("diagnostic.yaml"))
 
 
