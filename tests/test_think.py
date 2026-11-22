@@ -145,3 +145,15 @@ def test_web_teacher_knowledge(client):
     r = c.post("/teacher/knowledge/structure", data={"title": "시험", "text": "소피스트는 진리보다 설득을 앞세웠다. " * 3})
     assert "사고구조 초안" in r.text and "진리 vs 설득" in r.text and "검수" in r.text
     assert "입력 안내" in c.get("/teacher/knowledge/template.yaml").text
+
+
+def test_pilot_batches_and_catalog():
+    """책 5권에서 만든 50편 시범 DB 초안과 전체 편 목록 (검수 전이라 학생 추천에는 쓰지 않는다)."""
+    from src.think.kb import catalog
+    drafts = [s for s in KB.sources if s.review.get("status") == "draft"]
+    assert len(drafts) >= 50 and all(s.public != "full" for s in drafts)
+    assert sum(p["draft"] for p in KB.pilot_progress()) >= 50
+    books = catalog()
+    assert len(books) == 5 and sum(b["count"] for b in books) >= 285
+    assert all(b["structured"] >= 5 for b in books)
+    assert not any(t.id.startswith(("TOP-J", "TOP-H", "TOP-G", "TOP-C", "TOP-K")) for t in KB.approved_topics())

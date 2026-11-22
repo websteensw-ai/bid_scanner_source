@@ -1,0 +1,228 @@
+sources:
+  - id: SRC-C001
+    title: "중국인, 스스로의 부끄러운 DNA를 폭로하다 — 『감추고 싶은 중국의 비밀 35가지』"
+    source_type: 평설
+    asset_type: history
+    author: {original: "종주캉(《다시는 중국인으로 태어나지 않겠다》)", commentary: 박경귀}
+    work: 『감추고 싶은 중국의 비밀 35가지』
+    era: 현대
+    region: 동아시아
+    fields: [역사, 문화, 사회]
+    persons: [종주캉, 루쉰, 보양, 꺼젠슝, 정화]
+    public: summary
+    copyright: own
+    pilot_group: 과학·사회·문명
+    concepts: [허언의 문화, 이상 문화와 현실 문화의 괴리, 분열과 경쟁의 문명 발전, 자기비판]
+    claim: "저자 종주캉은 표방하는 가치와 실제 현실이 어긋나는 ‘허언의 문화’와 이를 키운 통치 권력이 사회 병폐의 뿌리이며, 철저한 자기 성찰 없이는 진정한 대국이 될 수 없다고 본다."
+    counter_claim: "한 사회의 병폐를 문화 전체나 민족성 탓으로 돌리는 것은 지나친 일반화이며, 개별 제도와 정책의 문제로 나누어 보아야 한다."
+    hidden_premise: "한 사회의 구성원은 공유된 문화적 습성을 지니며, 그것이 정치·경제 현실을 상당 부분 설명한다."
+    counterexamples: ["평설자 스스로 ‘흑사병이라도 있었더라면’ 같은 저자의 상상을 황당하다고 평가함", "분열이 문명을 발전시킨다는 논리를 확장하면 소수민족 독립까지 인정해야 하는데 저자는 그러지 않는다는 평설자의 지적"]
+    conflicts: ["통일 vs 분열과 경쟁", "공동체의 체면 vs 자기 성찰"]
+    universal_question: "자기 공동체의 치부를 드러내는 비판은 공동체를 해치는가, 살리는가?"
+    tags: [문화비평, 자기비판, 문명사, 유가사상, 금서]
+    location: "pdf 24-32쪽"
+    summary: "홍콩 출신 종주캉의 금서를 평설한 글이다. 저자는 교양·도덕을 내세우면서 현실에서는 실행하지 않는 ‘허언의 문화’, 사람을 경시하는 풍토, 유가의 형식주의를 비판하고, 유럽처럼 분열 속 경쟁이 문명을 발전시켰다는 관점을 제시한다. 평설자는 그 날카로움을 인정하면서도 일부 논리의 비약과 한족 중심적 한계를 지적하고, 저자가 북유럽 모델을 대안으로 제시한 점에 주목한다."
+    review: {status: draft, reviewer: ""}
+  - id: SRC-C002
+    title: "중국이 짝퉁 천국이 된 이유 알고 보니 — 『감추고 싶은 중국의 비밀 35가지』"
+    source_type: 평설
+    asset_type: history
+    author: {original: "가토 도루(《패貝의 중국인 양羊의 중국인》)", commentary: 박경귀}
+    work: 『감추고 싶은 중국의 비밀 35가지』
+    era: 현대
+    region: 동아시아
+    fields: [역사, 문화, 정치]
+    persons: [가토 도루, 마인추, 마오쩌둥, 쑨원]
+    public: summary
+    copyright: own
+    pilot_group: 과학·사회·문명
+    concepts: [패의 문화와 양의 문화, 중체서용, 왕조 순환, 사대부 계급 독점, 시민혁명]
+    claim: "경제 발전이 ‘용(用)’에 그치고 일당 체제라는 ‘체(體)’를 강화하는 수단으로 쓰이는 한, 생활수준 향상이 곧 민주화로 이어진다는 통상의 공식은 들어맞지 않는다."
+    counter_claim: "경제적 풍요가 쌓이면 자유에 대한 욕구와 시민 의식도 커져 결국 정치 변화의 임계점에 이르게 된다."
+    hidden_premise: "수천 년 이어진 집단의 기질 코드가 현대 국가의 정치 행태를 예측하는 데 유효하다."
+    counterexamples: ["평설자 스스로 국민 의식이 임계점에 이르면 억압 체제에도 변화가 올 수 있다고 덧붙임"]
+    conflicts: ["경제 성장 vs 정치적 자유", "명분 vs 본심"]
+    universal_question: "경제가 부유해지면 사회는 저절로 더 자유로워지는가?"
+    tags: [비교문화, 중체서용, 왕조순환, 계급, 민주화]
+    location: "pdf 33-43쪽"
+    summary: "일본인 저자 가토 도루가 재화를 중시하는 ‘패의 문화’와 명분·주의를 중시하는 ‘양의 문화’라는 두 기질로 중국인을 분석한 책을 평설한다. 중체서용 구조에서는 시장경제가 오히려 일당 체제를 강화할 수 있다는 점, 인구 과잉에 따른 왕조 순환, 과거제로 형성된 사대부 계급의 권력 독점이 시민혁명을 막았다는 해석이 소개된다. 평설자는 이를 현대 중국 행태를 읽는 단서로 활용하되, 경제적 풍요가 장기적으로 자유의 욕구를 키울 가능성도 남겨 둔다."
+    review: {status: draft, reviewer: ""}
+  - id: SRC-C003
+    title: "장독에 빠진 중국인의 노예근성을 질타하다 — 『감추고 싶은 중국의 비밀 35가지』"
+    source_type: 평설
+    asset_type: history
+    author: {original: "보양(《추악한 중국인》)", commentary: 박경귀}
+    work: 『감추고 싶은 중국의 비밀 35가지』
+    era: 현대
+    region: 동아시아
+    fields: [역사, 문화, 사상]
+    persons: [보양, 루쉰, 공자, 쑨원]
+    public: summary
+    copyright: own
+    pilot_group: 과학·사회·문명
+    concepts: [장독문화, 사승, 탁고개제, 관장 문화, 독립적 사고]
+    claim: "보양은 스승의 가르침을 벗어나지 못하게 한 사승 전통과 전제정치가 고인 물 같은 ‘장독문화’를 만들어 독립적 사고와 도덕적 용기를 쇠퇴시켰다고 본다."
+    counter_claim: "전통문화에는 공동체 결속과 지혜의 계승이라는 긍정적 기능도 있으며, 사고의 정체는 문화보다 정치적 억압의 결과로 보아야 한다."
+    hidden_premise: "사고방식과 교육 전통이 오랜 세월에 걸쳐 집단적 성향을 형성한다."
+    counterexamples: ["보양 스스로 중국인의 자질 자체는 나쁘지 않았고 근면함 등 미덕도 있다고 인정함", "아편전쟁 이후 서양 관념과의 충격이 변화의 계기가 되었다는 서술"]
+    conflicts: ["전통 계승 vs 독립적 사고", "공동체의 체면 vs 자기 성찰"]
+    universal_question: "전통을 존중하는 것과 전통에 갇히는 것은 어떻게 구별할 수 있는가?"
+    tags: [문화비평, 유교, 관료사회, 사상의 자유, 5·4운동]
+    location: "pdf 44-53쪽"
+    summary: "중국의 문화비평가 보양(柏楊)의 《추악한 중국인》을 평설한 글이다. 보양은 체면 때문에 잘못을 인정하지 못하는 습성, 내분, 노예근성의 뿌리로 사승 전통과 과거 회귀적 사고(탁고개제), 자리를 준 사람에게만 충성하는 관장 문화를 지목한다. 평설자는 이를 자기 민족을 모독하려는 것이 아니라 처절한 자기 성찰을 통해 새 문화를 만들려는 염원으로 읽고, 보양을 5·4운동 정신의 계승자로 평가한다."
+    review: {status: draft, reviewer: ""}
+  - id: SRC-C004
+    title: "인민사찰로 집단 우울증에 걸린 중국인 — 『감추고 싶은 중국의 비밀 35가지』"
+    source_type: 평설
+    asset_type: policy
+    author: {original: "량샤오성(《우울한 중국인》)", commentary: 박경귀}
+    work: 『감추고 싶은 중국의 비밀 35가지』
+    era: 현대
+    region: 동아시아
+    fields: [사회, 정치, 심리]
+    persons: [량샤오성, 루쉰, 량치차오, 쑨원]
+    public: summary
+    copyright: own
+    pilot_group: 과학·사회·문명
+    concepts: [사회적 우울, 개인이력기록(개인 사찰), 빈부격차, 중산층의 책무, 욕망의 절제]
+    claim: "평설자는 사회적 우울의 근원이 불만을 표출할 통로를 막는 감시·통제 체제에 있으므로, 이를 개인의 욕망 절제나 중산층의 각성으로 풀자는 량샤오성의 처방은 문제의 핵심을 비껴간다고 비판한다."
+    counter_claim: "제도 개혁이 어려운 현실에서는 개인의 마음 관리와 중산층의 연대 같은 작은 실천도 의미 있는 대안이다."
+    hidden_premise: "구조가 만든 문제는 구조를 바꿔야만 근본적으로 해결된다."
+    counterexamples: ["량샤오성이 국학 열풍이 하층민을 달래는 수단에 불과하다고 비판한 점은 평설자도 날카로운 통찰로 인정함"]
+    conflicts: ["개인 책임 vs 구조적 책임", "사회 안정 vs 표현의 자유"]
+    universal_question: "사회가 만든 고통을 개인의 마음가짐으로 이겨내라고 말하는 것은 정당한가?"
+    tags: [감시사회, 우울, 불평등, 지식인의 책임, 처방 비판]
+    location: "pdf 54-64쪽"
+    summary: "베이징 어언대 교수 량샤오성의 《우울한 중국인》을 평설한다. 저자는 주거·취업난, 부패, 졸부 문화와 함께 평생 따라다니는 개인이력기록 같은 사찰 제도가 사람들을 우울하게 만든다고 묘사한다. 그러나 해법으로 중산층의 희생과 ‘3할의 욕망, 7할의 이성’ 같은 욕망 절제를 제시하는데, 평설자는 이것이 국가적 문제를 개인 차원으로 축소한 처방이라며 지식인의 위축된 현실을 보여준다고 평가한다."
+    review: {status: draft, reviewer: ""}
+  - id: SRC-C005
+    title: "중국의 허울뿐인 ‘선공후사 공평무사’ 왜? — 『감추고 싶은 중국의 비밀 35가지』"
+    source_type: 평설
+    asset_type: history
+    author: {original: "미조구치 유조(《중국의 공과 사》)", commentary: 박경귀}
+    work: 『감추고 싶은 중국의 비밀 35가지』
+    era: 근대
+    region: 동아시아
+    fields: [사상사, 정치철학, 역사]
+    persons: [미조구치 유조, 허신, 여불위, 황종희, 고염무, 캉유웨이]
+    public: summary
+    copyright: own
+    pilot_group: 과학·사회·문명
+    concepts: [공과 사, 선공후사, 천리와 인욕, 자사자리, 계약적 공동체]
+    claim: "개인의 권리를 전제하지 않은 ‘공(公)’은 결국 통치자의 ‘사(私)’를 가리는 명분이 되기 쉬우며, 진정한 공은 자유롭고 평등한 개인들 사이의 계약과 동의에서만 성립한다."
+    counter_claim: "개인의 사익을 앞세우면 공동체가 해체되므로, 공익을 우선하는 선공후사의 윤리가 사회 통합에 필요하다."
+    hidden_premise: "근대성의 핵심은 개인의 사적 권리를 정당한 것으로 인정하는 데 있다."
+    counterexamples: ["황종희·고염무처럼 사(私)를 긍정하고 ‘천하의 사를 합한 공’을 말한 사상가도 있었음", "저자 미조구치는 청말의 ‘자유평등의 공’을 중국적 근대화로 옹호함(평설자는 설득력이 약하다고 봄)"]
+    conflicts: ["공익 vs 개인의 권리", "집단 평등 vs 개인 자유"]
+    universal_question: "‘모두를 위한다’는 명분은 누가, 어떤 절차로 정해야 정당한가?"
+    tags: [공사관, 사상사, 근대성, 계약론, 개념사]
+    location: "pdf 65-71쪽"
+    summary: "일본의 중국사상 연구자 미조구치 유조의 《중국의 공과 사》를 평설한다. 『설문해자』에서 ‘사’를 간사함으로 풀이한 이래 송학의 ‘천리의 공, 인욕의 사’를 거치며 사는 부정적 의미에 머물렀고, 황종희·고염무의 사 긍정론도 개인 권리 보장으로 나아가지 못했다는 흐름이 소개된다. 평설자는 개인을 전제하지 않은 공이 군주의 사, 오늘날에는 당의 사로 바뀌었을 뿐이라며, 개인 간 계약에 기초한 공의 정립이 근대의 출발점이라고 주장한다."
+    review: {status: draft, reviewer: ""}
+archetypes:
+  - id: ARC-C01
+    question: "한 사회의 고질적 문제는 그 사회의 ‘문화’ 탓인가, ‘제도와 권력’ 탓인가?"
+    sources: [SRC-C001, SRC-C003, SRC-C002]
+    conflicts: ["문화 결정론 vs 제도 책임론"]
+    concepts: [민족성, 장독문화, 허언의 문화, 제도, 일반화의 오류]
+    positions: ["오랜 세월 축적된 사고방식과 습성이 제도를 만들고 유지시키므로 문화부터 바뀌어야 한다", "문화는 제도와 권력이 만든 결과이므로 제도를 바꾸면 행동도 바뀐다"]
+    counterexamples: ["같은 문화권이라도 체제가 다른 지역(타이완·홍콩)에서 다른 사회가 형성되었다는 종주캉의 언급", "보양이 문제의 상당 부분을 전제정치의 영향으로 돌린 점"]
+    situations: ["특정 집단의 행동을 ‘원래 그런 사람들’로 설명하는 언론 보도", "조직 문화 개선 vs 규정 개정 논쟁"]
+    abilities: [understand, define, reason, counter]
+    level_range: [3, 5]
+  - id: ARC-C02
+    question: "자기 공동체에 대한 혹독한 자기비판은 공동체를 해치는가, 살리는가?"
+    sources: [SRC-C001, SRC-C003]
+    conflicts: ["공동체의 체면 vs 자기 성찰"]
+    concepts: [자기비판, 성찰, 체면, 금서, 내부고발]
+    positions: ["치부를 드러내는 비판이 있어야 공동체가 변화할 수 있다", "지나친 자기비하는 구성원의 자존감을 해치고 외부의 편견을 강화할 수 있다"]
+    counterexamples: ["종주캉의 책이 ‘자해행위’라는 규탄과 열렬한 지지를 동시에 받은 사례"]
+    situations: ["학교·회사의 문제를 공개적으로 비판한 구성원에 대한 평가", "자국 역사의 어두운 면을 교과서에 어떻게 실을지"]
+    abilities: [understand, reason, respond]
+    level_range: [2, 4]
+  - id: ARC-C03
+    question: "경제가 부유해지면 사회는 저절로 더 자유로워지는가?"
+    sources: [SRC-C002]
+    conflicts: ["경제 성장 vs 정치적 자유"]
+    concepts: [중체서용, 근대화론, 시민 의식, 계급 다원화]
+    positions: ["풍요가 쌓이면 자유와 참여에 대한 욕구도 커져 정치 변화가 따른다", "성장이 기존 권력을 강화하는 수단으로 쓰이면 풍요와 자유는 따로 갈 수 있다"]
+    counterexamples: ["가토 도루가 말하는 ‘체’를 강화하는 ‘용’으로서의 시장경제", "평설자가 덧붙인 ‘의식 수준이 임계점에 이르면 변화가 온다’는 전망"]
+    situations: ["경제 원조를 하며 상대국의 정치 개혁을 기대하는 외교 정책", "소득이 늘어난 지역의 정치 참여 변화 분석"]
+    abilities: [define, reason, counter, rebut]
+    level_range: [3, 5]
+  - id: ARC-C04
+    question: "사회가 만든 고통을 개인의 마음가짐으로 극복하라고 권하는 것은 정당한가?"
+    sources: [SRC-C004]
+    conflicts: ["개인 책임 vs 구조적 책임"]
+    concepts: [사회적 우울, 욕망의 절제, 구조 개혁, 힐링]
+    positions: ["구조 개혁이 어려울 때 개인이 할 수 있는 마음 관리는 현실적인 대안이다", "구조적 원인을 외면한 개인 처방은 문제를 은폐하고 책임을 전가한다"]
+    counterexamples: ["량샤오성의 ‘3할의 욕망, 7할의 이성’ 처방에 대한 평설자의 비판"]
+    situations: ["입시 경쟁 스트레스를 명상·상담으로 해결하자는 학교 방침", "청년 주거난에 대한 ‘눈높이를 낮추라’는 조언"]
+    abilities: [understand, reason, respond, counter]
+    level_range: [2, 4]
+  - id: ARC-C05
+    question: "‘모두를 위한다’는 공익의 명분은 누가, 어떤 절차로 정해야 정당한가?"
+    sources: [SRC-C005]
+    conflicts: ["공익 vs 개인의 권리"]
+    concepts: [공과 사, 선공후사, 사회계약, 동의, 대표]
+    positions: ["공동체 유지를 위해 개인은 공익을 우선해야 한다", "공익은 자유롭고 평등한 개인들의 동의 절차를 거쳐야만 정당하다"]
+    counterexamples: ["군주가 공을 독점해 사실상 사적 지배가 된 역사(청말 《공사편》의 지적)", "황종희의 자사자리 주장"]
+    situations: ["공공사업을 위한 토지 수용", "단체의 이익을 이유로 개인에게 희생을 요구하는 경우"]
+    abilities: [define, reason, counter, rebut, revise]
+    level_range: [4, 5]
+topics:
+  - id: TOP-C01
+    archetypes: [ARC-C04]
+    prompt: "어느 고등학교가 학생들의 극심한 입시 스트레스에 대응하려고 ‘마음 챙김 명상 수업’을 의무화했다. 일부는 학생 개인이 스트레스를 다스리는 힘을 키우는 좋은 방법이라고 하고, 일부는 경쟁 구조는 그대로 둔 채 개인에게 책임을 떠넘기는 것이라고 비판한다. 이 방침에 찬성하는가, 반대하는가?"
+    form: dilemma
+    level: 2
+    mode: A
+    abilities: [understand, reason, respond]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-C02
+    archetypes: [ARC-C02]
+    prompt: "한 학생이 학교 축제 운영의 문제점을 학교 게시판에 공개적으로 강하게 비판했다. 일부는 ‘학교 이미지를 해친다’고 하고, 일부는 ‘이런 비판이 있어야 학교가 나아진다’고 한다. 공동체 내부의 공개적 자기비판은 어떤 조건에서 공동체에 도움이 되는가?"
+    form: concept
+    level: 3
+    mode: B
+    abilities: [understand, reason, respond, counter]
+    expected_turns: "6~8"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-C03
+    archetypes: [ARC-C01]
+    prompt: "어떤 사회의 공공질서 문제(예: 새치기, 쓰레기 투기)를 두고 ‘그 사회 사람들의 문화와 습성 때문’이라는 설명과 ‘단속 제도와 공공서비스가 부족하기 때문’이라는 설명이 맞선다. 두 설명을 비교하고, 어느 쪽이 문제 해결에 더 유용한지 논하라."
+    form: comparison
+    level: 4
+    mode: B
+    abilities: [define, reason, counter, rebut]
+    expected_turns: "8~10"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-C04
+    archetypes: [ARC-C03]
+    prompt: "어느 나라가 경제 원조를 늘리면 상대국이 부유해지고 결국 시민의 자유도 확대될 것이라는 근거로 원조 확대를 추진한다. 경제 성장이 정치적 자유를 가져온다는 이 전제는 타당한가? 원조 정책에 찬성 또는 반대 입장을 밝혀라."
+    form: policy
+    level: 4
+    mode: B
+    abilities: [reason, counter, rebut]
+    expected_turns: "8~10"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-C05
+    archetypes: [ARC-C05]
+    prompt: "시가 교통 체증 해소라는 공익을 이유로 주민 다수의 반대에도 도로 확장을 위해 일부 주택을 수용하려 한다. ‘공익’은 어떻게 정의되어야 하며, 어떤 절차를 거칠 때 개인의 희생을 요구할 수 있는가?"
+    form: concept
+    level: 5
+    mode: C
+    abilities: [define, reason, counter, rebut, revise]
+    expected_turns: "10~12"
+    rebuttal: high
+    cross: false
+    review: draft

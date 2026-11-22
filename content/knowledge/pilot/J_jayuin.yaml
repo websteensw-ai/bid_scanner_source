@@ -1,0 +1,527 @@
+# 『자유인의 선택』(박경귀) 구조화 초안 — 본문 판독 범위(PDF 1~80쪽) 안의 칼럼에서 10편 선정
+sources:
+  - id: SRC-J001
+    title: "민주주의와 절차적 정의 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: history
+    author: {original: "크세노폰 『헬레니카』", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [역사, 정치, 법]
+    persons: [소크라테스, 테라메네스, 칼릭세노스, 에우립톨레모스]
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [절차적 정의, 선동, 일괄 표결, 적법 절차]
+    situation: "기원전 406년 아르기누사이 해전에서 대승한 뒤 폭풍 때문에 난파 선원을 구조하지 못하자, 민회에서 장군들의 책임을 묻는 여론이 선동으로 격앙됨."
+    choice: "협의회 위원들이 군중의 협박에 겁먹어 장군들을 한꺼번에 표결하는 위법 안건에 찬성할 때, 소크라테스만 개인별 심리를 규정한 법에 어긋난다며 홀로 반대함."
+    claim: "의분이 아무리 커도 합리적 절차를 건너뛴 결정은 무고한 희생과 공동체의 후회를 낳는다."
+    counter_claim: "다수 시민의 분명한 의사가 있다면 절차보다 신속한 책임 추궁이 민주적 정의에 더 부합한다."
+    hidden_premise: "다수의 감정은 쉽게 조작될 수 있으므로 절차가 다수의 판단을 제어하는 장치여야 한다."
+    counterexamples: ["절차가 지연을 위한 핑계로 악용되어 명백한 책임자가 처벌을 피하는 경우"]
+    conflicts: ["민중의 분노 vs 적법 절차", "다수 의사 vs 개인의 권리"]
+    universal_question: "다수가 분노로 한목소리를 낼 때, 절차를 고집하는 소수는 정의를 지키는 것인가 방해하는 것인가?"
+    tags: [아르기누사이, 민회, 선동, 소크라테스, 펠로폰네소스전쟁]
+    location: "PDF 36~38쪽 (관련 칼럼 ‘민주주의의 치명적 오류’ 26~28쪽)"
+    summary: "아테네는 아르기누사이 해전에서 대승했지만 폭풍 탓에 난파 선원을 구하지 못했다. 선동가들은 유족처럼 꾸민 군중을 앞세워 분노를 키우고 장군들을 한꺼번에 사형 표결하자고 몰아붙였다. 협의회는 겁에 질려 이를 받아들였고 소크라테스만 개인별 심리를 규정한 법에 어긋난다며 반대했다. 결국 장군 6명이 처형되었고, 아테네인들은 곧 이를 깊이 후회했다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-J002
+    title: "소크라테스와 국법 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: choice
+    author: {original: "플라톤 『크리톤』", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [철학, 윤리, 법]
+    persons: [소크라테스, 크리톤]
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [준법, 잘 사는 것, 사회적 합의, 보복 금지]
+    situation: "부당한 죄목으로 사형 선고를 받고 수감된 소크라테스에게 친구 크리톤이 간수를 매수해 탈옥하자고 권함."
+    choice: "소크라테스는 탈옥을 거부하고 사형을 받아들임. 중요한 것은 오래 사는 것이 아니라 올바르게 사는 것이며, 국법을 지키기로 해 놓고 도망치는 것은 기만이자 공동체에 대한 불의라고 보았기 때문."
+    claim: "자신에게 부당한 판결이라도 그 공동체의 법에 동의해 온 사람은 불복으로 앙갚음해서는 안 된다."
+    counter_claim: "부당한 판결에 따르는 것은 불의에 가담하는 일이며, 부정의한 법 집행에는 저항할 권리가 있다."
+    hidden_premise: "그 나라에 살며 법의 혜택을 받아 온 것은 법을 따르겠다는 암묵적 합의다."
+    counterexamples: ["크리톤의 논거: 남은 어린 자식들에 대한 책임과 친구들이 비겁하다는 평판"]
+    conflicts: ["생존 vs 법에 대한 신의", "가족에 대한 책임 vs 원칙"]
+    universal_question: "부당한 결정을 받았을 때, 규칙에 따르는 것과 규칙을 벗어나는 것 중 어느 쪽이 더 올바른가?"
+    tags: [크리톤, 탈옥, 사형, 준법, 사회계약]
+    location: "PDF 32~35쪽"
+    summary: "사형 선고를 받은 소크라테스에게 친구 크리톤이 간수를 매수해 탈옥하자고 설득한다. 크리톤은 자식들에 대한 책임과 친구들의 평판을 내세웠다. 소크라테스는 중요한 것은 그저 사는 것이 아니라 올바르게 사는 것이며, 부당하게 당했다고 해서 앙갚음해서는 안 된다고 답한다. 그는 국법을 지키기로 해 놓고 도망치는 것을 기만으로 보고 독배를 받아들였다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-J003
+    title: "소크라테스가 민주주의를 경멸한 이유 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: choice
+    author: {original: "플라톤 『소크라테스의 변론』; 투키디데스 『펠로폰네소스 전쟁사』", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [철학, 정치, 역사]
+    persons: [소크라테스, 페리클레스]
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [무지의 지, 추첨제, 우중정치, 공인과 사인]
+    situation: "페리클레스 사후 선동가에 휘둘린 아테네 민회가 장군 처형, 멜로스 학살 같은 불법을 일삼으며 민주정이 타락해 감."
+    choice: "소크라테스는 정치가가 되지 않고 철학자로, 공인이 아닌 사인으로 사는 길을 택함. 군중에 정면으로 맞서 부정을 막으려는 사람은 살아남지 못한다고 보았기 때문."
+    claim: "덕을 갖추지 못한 군중이 주도하는 민주정은 타락하며, 통치에 참여하기 전에 먼저 덕을 쌓아야 한다."
+    counter_claim: "제대로 아는 소수에게 통치를 맡기자는 생각은 엘리트 독재로 흐를 수 있으며, 시민 모두의 참여가 민주정의 본질이다."
+    hidden_premise: "통치에는 정의에 대한 앎이 필요하고 그런 앎은 누구에게나 고르게 있지 않다."
+    counterexamples: ["페리클레스 시대처럼 추첨제와 민회가 비교적 잘 작동해 민주정이 안착한 시기"]
+    conflicts: ["정의를 위한 참여 vs 정의를 지키기 위한 거리두기", "다수의 통치 vs 아는 자의 통치"]
+    universal_question: "부패한 공적 영역에서 옳은 사람은 안으로 들어가 싸워야 하는가, 밖에 남아 자신을 지켜야 하는가?"
+    tags: [소크라테스, 민주정 비판, 등에, 페리클레스, 선동가]
+    location: "PDF 19~22쪽"
+    summary: "소크라테스는 페리클레스의 황금기에 자랐고 장년기에 펠로폰네소스 전쟁과 아테네의 타락을 지켜보았다. 페리클레스 사후 선동가에게 휘둘린 민회는 불법적 결정을 잇달아 내렸다. 소크라테스는 모든 것을 안다고 믿는 무지한 군중이 이끄는 민주정을 비판하고, 시민들에게 통치에 앞서 덕을 쌓으라고 호소했다. 그 자신은 정치가가 아니라 사인으로 사는 길을 택했다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-J004
+    title: "훌륭한 정치가와 훌륭한 국민의 조건 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: choice
+    author: {original: "플라톤 『알키비아데스 Ⅰ』", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [철학, 정치, 윤리]
+    persons: [소크라테스, 알키비아데스]
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [정의와 이익, 무지, 절제, 지도자의 지혜]
+    situation: "재능과 외모, 명성을 모두 갖춘 청년 알키비아데스가 교육도 받기 전에 정치와 군대의 지도자가 되려고 나섬."
+    choice: "알키비아데스는 사람들이 따지는 것은 무엇이 정의로운가가 아니라 무엇이 이로운가라고 답하며 정치에 뛰어들고자 함. 소크라테스는 이로운 것이 곧 좋은 것인지 되물어 그의 무지를 드러냄."
+    claim: "지도자에게 필요한 것은 원하는 대로 할 수 있는 권력이 아니라 정의와 절제이며, 나라의 힘도 시민의 훌륭함 없이는 소용없다."
+    counter_claim: "정치는 결과로 평가받는 일이므로 지도자는 추상적 정의보다 공동체에 이로운 것을 우선해야 한다."
+    hidden_premise: "행동의 잘못은 알지 못하면서 안다고 믿는 무지에서 생긴다."
+    counterexamples: []
+    conflicts: ["이익 vs 정의", "야망 vs 자기 인식"]
+    universal_question: "공동체를 이끌 자격은 능력과 성과에서 오는가, 무엇이 옳은지에 대한 앎에서 오는가?"
+    tags: [알키비아데스, 소크라테스, 지도자 자격, 정의, 절제]
+    location: "PDF 39~42쪽"
+    summary: "펠로폰네소스 전쟁기 아테네에는 민회에서 활약하려는 야심가가 넘쳐났다. 재능 많은 청년 알키비아데스도 지도자가 되려 했고, 사람들은 정의보다 이익을 따질 뿐이라고 말했다. 소크라테스는 이로운 것이 곧 좋은 것인지 물어 그가 안다고 믿는 것을 실은 모른다는 점을 드러냈다. 그는 정치가에게 필요한 것은 무엇이든 할 수 있는 권력이 아니라 정의와 절제라고 일깨웠다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-J005
+    title: "동참하지 않는 자 시민이 아니다 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: choice
+    author: {original: "플루타르코스 『영웅전』", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [역사, 정치, 법]
+    persons: [솔론]
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [시민 참여, 채무 탕감, 공익 소송, 중립 금지]
+    situation: "귀족과 평민이 대립하고 빚에 쪼들린 민중이 노예로 전락하던 아테네에서 솔론이 입법을 맡음."
+    choice: "솔론은 토지를 뺀 채무를 탕감하고 정치 참여를 넓혔으며, 누구나 피해자를 위해 소송할 수 있게 하고 당파 싸움에서 어느 편에도 서지 않는 자의 공민권을 박탈하는 법까지 만듦. 시민이 사익과 안전에만 숨지 말고 공동체 문제에 나서야 한다고 보았기 때문."
+    claim: "공동체의 갈등 앞에서 침묵하는 다수로 머무는 시민은 자유와 권익을 누릴 자격이 없으며, 민주주의의 성패는 참여에 달려 있다."
+    counter_claim: "어느 편에도 서지 않을 자유 역시 시민의 권리이며, 참여를 강제하는 것은 오히려 자유를 침해한다."
+    hidden_premise: "시민들이 치열하게 논쟁하면 더 정의롭고 합리적인 대안이 나온다."
+    counterexamples: ["솔론의 개혁에 부자는 채권을 잃었다고, 빈자는 토지를 나눠주지 않았다고 모두 불만을 품음"]
+    conflicts: ["개인의 안전 vs 공동체 참여의 의무", "중립의 자유 vs 연대 책임"]
+    universal_question: "공동체가 갈라졌을 때 어느 편에도 서지 않는 것은 신중함인가, 책임 회피인가?"
+    tags: [솔론, 시민참여, 채무탕감, 중립, 아테네 민주정]
+    location: "PDF 46~48쪽"
+    summary: "솔론은 귀족과 평민이 다투던 아테네에서 채무를 탕감하고 빚 때문에 노예가 된 동포를 해방시켰다. 부자와 빈자 모두 불만이었지만 격차는 크게 줄었고, 최하층에게도 배심원 자격을 주어 참여를 넓혔다. 그는 누구나 피해자를 위해 고발할 수 있게 하고, 당파 싸움에서 어느 편에도 서지 않는 자의 시민권을 박탈하는 법도 만들었다. 시민이 사익 뒤에 숨지 말고 공동체 문제에 나서기를 요구한 것이다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-J006
+    title: "크레온의 의무와 안티고네의 의무 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: literature
+    author: {original: "소포클레스 『안티고네』", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [문학, 윤리, 법]
+    persons: [크레온, 안티고네, 폴리네이케스]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: [국법, 인륜, 신의 법, 예외 없는 법 집행]
+    situation: "조국 테베를 공격하다 전사한 폴리네이케스의 시신을 섭정 크레온이 방치하게 하고, 장례를 치르는 자는 사형에 처한다고 포고함."
+    choice: "안티고네는 죽음을 무릅쓰고 오빠의 시신을 몰래 묻어 줌. 혈육을 묻는 것이 자신의 죽음보다 영광스럽다고 믿었기 때문. 크레온은 반역자에게 예외를 둘 수 없다는 법 집행자의 책무를 고수함."
+    claim: "엄격한 법 집행도 중요하지만 법이 인간의 자연적 도리와 어긋날 때 또 다른 갈등과 비극의 씨앗이 된다."
+    counter_claim: "혈연을 이유로 법에 예외를 허용하면 법의 공정성이 무너지고 연고주의가 정의를 흐린다."
+    hidden_premise: "국가의 법보다 앞서는 보편적 도리가 존재한다."
+    counterexamples: ["저자 자신이 지적하듯 혈연·지연·학연의 예외가 인륜으로 포장되어 법과 정의를 흐리는 경우"]
+    conflicts: ["국법 vs 인륜", "법의 일관성 vs 가족에 대한 의무"]
+    universal_question: "공동체의 규칙과 가족에 대한 도리가 정면으로 부딪칠 때 무엇이 우선해야 하는가?"
+    tags: [안티고네, 크레온, 소포클레스, 비극, 자연법]
+    location: "PDF 52~54쪽"
+    summary: "테베의 왕위를 두고 다투던 형제가 모두 전사하자, 섭정 크레온은 조국을 공격한 폴리네이케스의 시신을 버려두게 하고 장례를 금했다. 여동생 안티고네는 혈육을 묻어 주는 것이 도리라며 죽음을 무릅쓰고 장례를 치렀다. 저자는 당시 관습상 크레온의 명령 자체가 잘못은 아니었다며 둘 다 옳아서 비극이라고 본다. 그리고 법이 인간의 근본 도리와 어긋날 때 생기는 위험을 짚는다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-J007
+    title: "도편 추방의 치명적 약점 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: history
+    author: {original: "플루타르코스 『영웅전』", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [역사, 정치]
+    persons: [알키비아데스, 니키아스, 히페르볼루스]
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [도편 추방, 제도의 악용, 정치적 야합, 견제 장치]
+    situation: "펠로폰네소스 전쟁 중 호전파 알키비아데스와 평화파 니키아스의 대립으로 전략이 교착되자, 둘 중 하나를 도편 추방해야 할 상황이 됨."
+    choice: "추방 위기에 몰린 두 경쟁자가 손을 잡고, 어부지리를 노리던 히페르볼루스를 대신 추방시킴."
+    claim: "민주정을 지키려고 만든 제도도 지지 기반이 약한 자들의 한 방 승부나 정치적 야합에 악용되면 그 취지를 잃는다."
+    counter_claim: "제도가 한 번 악용되었다고 폐지하기보다는 보완해야 하며, 도편 추방은 70년간 참주의 출현을 막는 견제 장치로 기능했다."
+    hidden_premise: "제도의 정당성은 의도가 아니라 실제로 어떻게 작동하는지에 달려 있다."
+    counterexamples: ["도편 추방이 오랫동안 민주정을 위협하는 정치 엘리트를 견제하는 장치로 기능한 점"]
+    conflicts: ["제도의 취지 vs 정략적 악용", "정적과의 연대 vs 정치적 원칙"]
+    universal_question: "좋은 취지의 제도가 악용되었을 때, 그 제도를 고쳐 쓸 것인가 없앨 것인가?"
+    tags: [도편추방, 알키비아데스, 니키아스, 히페르볼루스, 제도 설계]
+    location: "PDF 55~58쪽"
+    summary: "펠로폰네소스 전쟁 중 알키비아데스와 니키아스가 전략을 두고 대립하자, 시민들은 둘 중 한 명을 도편 추방하려 했다. 그 틈에 권력을 노린 히페르볼루스가 추방을 부추겼지만, 위기를 느낀 두 사람은 손을 잡고 오히려 그를 추방시켰다. 위험한 실력자를 견제하려던 제도가 보잘것없는 인물을 쫓아내는 데 쓰이자 시민들은 이를 불명예로 여겼다. 이 일을 계기로 도편 추방은 도입 70년 만에 폐지되었다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-J008
+    title: "동맹 파기와 분열의 대가 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: history
+    author: {original: "투키디데스 『펠로폰네소스 전쟁사』", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [역사, 국제정치]
+    persons: []
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [동맹, 내부 분열, 정파 이익, 권력욕]
+    situation: "아테네의 동맹 도시 플라타이아가 스파르타 편인 이웃 테베의 끈질긴 공격과 회유에 시달리던 중, 아테네는 다른 전선에 몰두함."
+    choice: "지친 플라타이아 유력자들이 아테네와의 동맹을 깨고 몰래 테베와 협정을 맺어 성문을 열었으나, 뒤늦게 테베인을 살해하는 등 혼란 끝에 스파르타 봉쇄에 굴복함."
+    claim: "적을 앞에 둔 공동체에게 내부 분열과 동맹 파기보다 무서운 적은 없다."
+    counter_claim: "멀리 있는 동맹이 지켜 주지 못할 때 약소국이 살아남기 위해 노선을 바꾸는 것은 정당한 생존 전략이다."
+    hidden_premise: "동맹에 대한 신의를 지키는 것이 결국 장기적인 생존에도 유리하다."
+    counterexamples: []
+    conflicts: ["생존 vs 신의", "정파 이익 vs 국익"]
+    universal_question: "압박에 몰린 약자가 약속을 깨고 살 길을 찾는 것은 배신인가, 현실적 선택인가?"
+    tags: [플라타이아, 테베, 스파르타, 동맹, 펠로폰네소스전쟁]
+    location: "PDF 59~61쪽"
+    summary: "펠로폰네소스 전쟁 중 아테네의 동맹 플라타이아는 스파르타 편인 테베의 공격과 회유에 계속 시달렸다. 지친 유력자들은 아테네와의 동맹을 깨고 몰래 테베인을 성안에 들였다가 뒤늦게 이를 되돌리려 했지만 결국 스파르타에 항복했다. 스파르타는 짧은 심문 끝에 항복한 사람들을 처형했다. 투키디데스는 이런 참극의 원인을 정파 지도자들의 권력욕에서 찾았다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-J009
+    title: "언제나 헌법이 우선이다 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: choice
+    author: {original: "키케로 『카틸리나 탄핵』(『설득의 정치』 수록)", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 로마
+    fields: [역사, 정치, 법]
+    persons: [키케로, 카틸리나, 클로디우스]
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [국가 비상사태, 절차적 정당성, 즉결 처형, 공화정 수호]
+    situation: "기원전 63년 집정관 선거에서 패한 카틸리나가 군대를 모아 반역을 꾀하고, 원로원이 그를 국가의 적으로 규정해 비상사태를 선포함."
+    choice: "집정관 키케로는 반군을 진압한 뒤, 로마에 남아 구금 중이던 공모자들을 재판 없이 즉결 처형함. 공화정에 악의 뿌리가 내리는 것을 막으려 했기 때문."
+    claim: "헌정을 지키려는 숭고한 목적이라도 시민의 생사를 다룰 때는 절차적 정당성이 앞서야 하며, 비상조치도 헌법을 넘어설 수 없다."
+    counter_claim: "국가 전복의 위기에서는 신속한 비상조치가 공동체를 지키는 유일한 수단이며, 결과적으로 공화정을 구했다면 정당하다."
+    hidden_premise: "예외를 한 번 허용하면 언제든 시민이 재판 없이 처형될 수 있는 선례가 된다."
+    counterexamples: ["키케로는 반란 진압 직후 시민들에게 ‘국부’로 칭송받았음"]
+    conflicts: ["국가 안보 vs 절차적 정당성", "신속한 결단 vs 법치"]
+    universal_question: "공동체를 지키기 위한 비상조치는 어디까지 개인의 권리를 유보할 수 있는가?"
+    tags: [키케로, 카틸리나, 비상사태, 로마공화정, 법치]
+    location: "PDF 62~65쪽"
+    summary: "기원전 63년 선거에서 패한 카틸리나가 반역을 꾀하자, 집정관 키케로는 원로원에서 그를 탄핵하고 비상사태 속에 반군을 진압했다. 이어 구금 중이던 공모자들을 재판 없이 처형해 국부로 칭송받았다. 그러나 5년 뒤 정적 클로디우스가 로마 시민을 재판 없이 처형한 죄를 묻자 시민들의 마음도 돌아섰고, 키케로는 망명길에 올랐다. 저자는 어떤 목적도 헌법과 절차를 넘어설 수 없다고 강조한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-J010
+    title: "외교 실패가 뿌린 적대의 씨앗 — 『자유인의 선택』"
+    source_type: 고전칼럼
+    asset_type: choice
+    author: {original: "플루타르코스 『영웅전』", commentary: 박경귀}
+    work: 『자유인의 선택』
+    era: 고대
+    region: 그리스
+    fields: [역사, 국제정치]
+    persons: [키몬]
+    public: summary
+    copyright: own
+    pilot_group: 리더십·역사적 선택
+    concepts: [동맹의 신뢰, 외교 관례, 불신, 상호 존중]
+    situation: "기원전 462년 대지진 직후 헤일로타이 반란이 일어나자, 스파르타가 페르시아 전쟁 때의 동맹을 근거로 아테네에 원군을 요청함."
+    choice: "아테네는 친스파르타파 키몬의 설득으로 중무장 보병 4천을 보냈으나, 스파르타는 아테네군이 정변을 일으킬지 모른다며 해명 없이 돌려보냄. 아테네는 이에 분노해 키몬을 도편 추방함."
+    claim: "동맹 외교의 핵심은 상호 존중과 신뢰이며, 그 신뢰를 저버리면 혈맹도 적으로 돌아선다."
+    counter_claim: "자국 체제의 안전이 위협받을 수 있다면, 동맹의 원군이라도 경계하고 거리를 두는 것이 신중한 판단이다."
+    hidden_premise: "한번 깨진 신뢰는 오래 지속되는 적대로 이어진다."
+    counterexamples: []
+    conflicts: ["자국 안전 vs 동맹의 신뢰", "의심 vs 예의"]
+    universal_question: "도움을 청해 놓고 상대를 의심하게 되었을 때, 자기 보호와 신뢰 중 무엇을 택해야 하는가?"
+    tags: [스파르타, 아테네, 키몬, 헤일로타이, 동맹외교]
+    location: "PDF 74~77쪽"
+    summary: "기원전 462년 스파르타에 대지진이 일어나고 헤일로타이가 반란을 일으키자, 스파르타는 아테네에도 원군을 청했다. 키몬의 설득으로 아테네는 보병 4천을 보냈지만, 스파르타는 이들이 정변을 일으킬지 모른다며 해명 없이 돌려보냈다. 모욕을 느낀 아테네인들은 스파르타를 증오하게 되었고 키몬까지 추방했다. 저자는 이 일을 두 혈맹이 훗날 전쟁을 벌이게 된 씨앗으로 본다."
+    review: {status: draft, reviewer: ""}
+
+archetypes:
+  - id: ARC-J01
+    question: "다수가 분노로 한목소리를 낼 때, 정해진 절차를 지키는 것이 정의인가?"
+    sources: [SRC-J001]
+    conflicts: ["민중의 분노 vs 적법 절차", "다수 의사 vs 개인의 권리"]
+    concepts: [절차적 정의, 선동, 다수결, 적법 절차]
+    positions: ["절차는 감정이 조작될 수 있는 다수를 제어하는 최후의 장치이므로 지켜야 한다", "명백한 다수 의사와 신속한 책임 추궁이 절차보다 민주적이다"]
+    counterexamples: ["절차가 지연과 면죄의 수단으로 악용되는 경우"]
+    situations: ["온라인 여론이 수사 결과 전에 특정인을 처벌하라고 요구하는 상황", "학급 회의에서 다수가 소명 기회 없이 한 학생에게 책임을 묻는 상황"]
+    abilities: [understand, reason, counter, rebut]
+    level_range: [2, 5]
+
+  - id: ARC-J02
+    question: "공동체를 지키기 위한 비상조치는 어디까지 개인의 권리와 절차를 유보할 수 있는가?"
+    sources: [SRC-J009]
+    conflicts: ["국가 안보 vs 절차적 정당성", "신속한 결단 vs 법치"]
+    concepts: [비상사태, 법치, 예외 상태, 선례]
+    positions: ["존립 위기에서는 결과로 정당화되는 비상조치가 불가피하다", "한 번의 예외가 선례가 되므로 어떤 위기에도 절차를 지켜야 한다"]
+    counterexamples: ["비상조치 덕분에 실제로 공동체가 붕괴를 면한 경우"]
+    situations: ["감염병 확산 때 개인 위치 정보를 동의 없이 수집하는 조치", "테러 위협을 이유로 영장 없이 용의자를 구금하는 문제"]
+    abilities: [define, reason, counter, revise]
+    level_range: [3, 5]
+
+  - id: ARC-J03
+    question: "자신에게 부당한 결정이라도 그 공동체의 규칙에 따라야 하는가?"
+    sources: [SRC-J002]
+    conflicts: ["생존 vs 법에 대한 신의", "가족에 대한 책임 vs 원칙"]
+    concepts: [준법, 암묵적 동의, 시민 불복종, 보복 금지]
+    positions: ["규칙의 혜택을 누려 온 사람은 불리할 때도 규칙을 지켜야 한다", "부당한 결정에 따르는 것은 불의에 가담하는 것이므로 거부할 수 있다"]
+    counterexamples: ["크리톤의 논거처럼 원칙을 지키는 선택이 가족 등 타인에게 피해를 주는 경우"]
+    situations: ["부당하다고 느끼는 징계를 받은 학생이 결정을 따를지 거부할지 고민하는 상황", "불합리한 판정을 받은 선수가 경기를 거부할지 고민하는 상황"]
+    abilities: [understand, reason, respond, counter]
+    level_range: [1, 4]
+
+  - id: ARC-J04
+    question: "공동체의 규칙과 가족·가까운 사람에 대한 도리가 충돌할 때 무엇이 우선하는가?"
+    sources: [SRC-J006]
+    conflicts: ["국법 vs 인륜", "법의 일관성 vs 가족에 대한 의무"]
+    concepts: [자연법, 실정법, 연고주의, 예외 없는 법 집행]
+    positions: ["법보다 앞서는 인간의 도리가 있으며 그것을 거스르는 법은 따를 수 없다", "가족을 이유로 예외를 허용하면 법의 공정성이 무너진다"]
+    counterexamples: ["혈연·지연이 인륜으로 포장되어 청탁과 특혜를 정당화하는 경우"]
+    situations: ["가족이 저지른 잘못을 알게 된 사람이 신고할지 고민하는 상황", "규칙상 금지된 일을 친구를 위해 눈감아 줄지 고민하는 상황"]
+    abilities: [understand, define, reason, counter]
+    level_range: [1, 4]
+
+  - id: ARC-J05
+    question: "공동체가 타락하거나 갈라졌을 때, 옳은 사람은 안으로 들어가 싸워야 하는가 물러나 자신을 지켜야 하는가?"
+    sources: [SRC-J003, SRC-J005]
+    conflicts: ["개인의 안전 vs 공동체 참여의 의무", "중립의 자유 vs 연대 책임"]
+    concepts: [시민 참여, 중립, 공인과 사인, 침묵하는 다수]
+    positions: ["참여하지 않는 시민은 공동체의 타락에 책임을 나눠지며 권리를 누릴 자격도 줄어든다", "부패한 장에 뛰어들면 자신과 정의가 함께 무너지므로 거리를 두는 것도 정의를 지키는 방식이다"]
+    counterexamples: ["어느 편에도 서지 않은 사람 덕분에 극단적 대립이 누그러진 경우", "솔론의 개혁이 모든 계층의 불만을 산 점"]
+    situations: ["학교 내 따돌림을 목격했지만 끼어들지 않는 다수", "양극화된 정치 논쟁에서 판단을 유보하는 시민"]
+    abilities: [understand, reason, respond, counter, rebut]
+    level_range: [1, 5]
+
+  - id: ARC-J06
+    question: "공동체를 이끌 자격은 능력과 성과에서 오는가, 무엇이 옳은지에 대한 앎과 절제에서 오는가?"
+    sources: [SRC-J004, SRC-J003]
+    conflicts: ["이익 vs 정의", "야망 vs 자기 인식"]
+    concepts: [지도자의 자격, 무지의 지, 절제, 정의와 이익]
+    positions: ["지도자는 결과로 평가받으므로 공동체에 이로운 성과를 내는 능력이 핵심이다", "정의와 절제 없는 능력은 공동체를 해치므로 지혜와 덕이 먼저다"]
+    counterexamples: []
+    situations: ["성적 우수하고 인기 많지만 독선적인 학생회장 후보와 성실하지만 평범한 후보", "성과는 뛰어나나 윤리 논란이 있는 기업 대표"]
+    abilities: [define, reason, counter]
+    level_range: [2, 4]
+
+  - id: ARC-J07
+    question: "좋은 취지로 만든 제도가 악용되었을 때, 고쳐 쓸 것인가 없앨 것인가?"
+    sources: [SRC-J007]
+    conflicts: ["제도의 취지 vs 정략적 악용", "정적과의 연대 vs 정치적 원칙"]
+    concepts: [제도 설계, 의도하지 않은 결과, 견제 장치]
+    positions: ["악용이 드러난 제도는 신뢰를 잃었으므로 폐지해야 한다", "한 번의 악용보다 제도가 해 온 순기능이 크므로 보완해 유지해야 한다"]
+    counterexamples: ["도편 추방이 70년간 견제 장치로 기능한 점"]
+    situations: ["학급 투표제가 인기 투표로 변질되었을 때", "국민청원 제도가 특정 집단의 동원 수단이 될 때"]
+    abilities: [understand, reason, respond, revise]
+    level_range: [2, 4]
+
+  - id: ARC-J08
+    question: "압박에 몰린 약자가 약속을 깨고 살 길을 찾는 것은 배신인가, 현실적 선택인가?"
+    sources: [SRC-J008]
+    conflicts: ["생존 vs 신의", "정파 이익 vs 국익"]
+    concepts: [동맹, 신의, 생존 전략, 내부 분열]
+    positions: ["약속은 어려울 때 지켜야 의미가 있으며 깨면 결국 더 큰 대가를 치른다", "지켜 주지 못하는 상대와의 약속보다 구성원의 생존이 우선이다"]
+    counterexamples: []
+    situations: ["경영난 속에서 오랜 협력업체와의 계약을 깨고 더 큰 회사와 손잡을지 고민하는 기업", "팀 프로젝트 중 불리해지자 다른 팀으로 옮길지 고민하는 학생"]
+    abilities: [understand, reason, counter]
+    level_range: [1, 3]
+
+  - id: ARC-J09
+    question: "도움을 청한 상대를 의심하게 되었을 때, 자기 보호와 신뢰 중 무엇을 택해야 하는가?"
+    sources: [SRC-J010]
+    conflicts: ["자국 안전 vs 동맹의 신뢰", "의심 vs 예의"]
+    concepts: [신뢰, 상호 존중, 안보 딜레마, 외교 관례]
+    positions: ["위험 가능성이 있다면 관계를 해치더라도 자신을 먼저 지켜야 한다", "근거 없는 의심으로 신뢰를 깨면 더 큰 적대를 낳는다"]
+    counterexamples: []
+    situations: ["도움을 요청해 온 이웃 국가의 지원 인력을 보안을 이유로 거부할지", "도와주겠다고 온 친구가 내 비밀을 알게 될까 봐 돌려보낼지"]
+    abilities: [understand, reason, respond]
+    level_range: [1, 3]
+
+topics:
+  - id: TOP-J01
+    archetypes: [ARC-J01]
+    prompt: "학교에서 도난 사건이 일어났고, 대다수 학생이 한 학생을 범인으로 지목하며 즉시 징계하라고 요구한다. 학생부장은 당사자 소명과 조사를 거친 뒤 결정하겠다고 한다. 학생부장의 판단은 옳은가?"
+    form: dilemma
+    level: 2
+    mode: B
+    abilities: [understand, reason, counter]
+    expected_turns: "6~8"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-J02
+    archetypes: [ARC-J01]
+    prompt: "대형 참사 직후 여론은 책임자를 빨리 처벌하라고 요구하지만, 법원은 개인별 책임을 따지느라 재판이 몇 년째 이어지고 있다. 이 경우 신속한 처벌을 위해 절차를 간소화하는 특별법을 만드는 것은 정당한가?"
+    form: policy
+    level: 4
+    mode: B
+    abilities: [reason, counter, rebut]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-J03
+    archetypes: [ARC-J02]
+    prompt: "새로운 감염병이 급속히 퍼지고 있다. 정부는 확진자의 동선을 동의 없이 휴대전화 위치 정보로 추적해 공개하려 한다. 공동체의 안전을 위해 이런 조치를 어디까지 허용할 수 있는가?"
+    form: policy
+    level: 3
+    mode: B
+    abilities: [define, reason, counter]
+    expected_turns: "8~10"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-J04
+    archetypes: [ARC-J02, ARC-J01]
+    prompt: "‘결과적으로 공동체를 구했다면 절차를 어긴 지도자도 정당하다’는 주장과 ‘절차를 어긴 구원은 다음 독재의 선례가 된다’는 주장을 비교하고, 어느 쪽이 더 설득력 있는지 기준을 세워 판단하라."
+    form: comparison
+    level: 5
+    mode: A
+    abilities: [define, reason, rebut, revise]
+    expected_turns: "10~14"
+    rebuttal: high
+    cross: true
+    review: draft
+  - id: TOP-J05
+    archetypes: [ARC-J03]
+    prompt: "축구 결승전에서 명백한 오심으로 패배가 확정될 상황이다. 주장인 당신은 판정에 항의하며 경기장을 떠날 수도, 판정을 받아들이고 끝까지 뛸 수도 있다. 어떻게 하겠는가?"
+    form: dilemma
+    level: 1
+    mode: B
+    abilities: [understand, respond, reason]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-J06
+    archetypes: [ARC-J03]
+    prompt: "한 사회에서 혜택을 받으며 살아왔다면 그 사회의 부당한 결정에도 따라야 할 의무가 생기는가? ‘암묵적 동의’라는 개념이 이 의무를 정당화할 수 있는지 따져 보라."
+    form: concept
+    level: 4
+    mode: A
+    abilities: [define, reason, counter, rebut]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-J07
+    archetypes: [ARC-J04]
+    prompt: "형이 무면허 운전으로 사고를 내고 달아났다는 사실을 당신만 알고 있다. 신고하면 형은 처벌받고, 신고하지 않으면 피해자는 보상을 받기 어렵다. 당신은 어떻게 하겠는가?"
+    form: dilemma
+    level: 2
+    mode: B
+    abilities: [understand, reason, respond]
+    expected_turns: "6~8"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-J08
+    archetypes: [ARC-J04]
+    prompt: "‘법보다 앞서는 인간의 도리가 있다’는 생각은 정의를 지키는 근거인가, 연고주의를 정당화하는 핑계인가? 두 가능성을 모두 검토하고 경계를 제시하라."
+    form: concept
+    level: 4
+    mode: A
+    abilities: [define, reason, counter, revise]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-J09
+    archetypes: [ARC-J05]
+    prompt: "반 친구가 단체 대화방에서 따돌림을 당하고 있다. 끼어들면 나도 표적이 될 수 있다. 아무 말도 하지 않는 것은 중립인가, 가담인가?"
+    form: dilemma
+    level: 1
+    mode: B
+    abilities: [understand, reason, respond]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-J10
+    archetypes: [ARC-J05]
+    prompt: "투표를 하지 않거나 사회 갈등에서 어느 편도 들지 않는 시민에게 불이익을 주는 제도(예: 의무 투표제)를 도입해야 하는가? 참여의 의무와 참여하지 않을 자유를 함께 고려해 판단하라."
+    form: policy
+    level: 3
+    mode: B
+    abilities: [reason, counter, rebut]
+    expected_turns: "8~10"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-J11
+    archetypes: [ARC-J06]
+    prompt: "학생회장 선거에 두 후보가 나왔다. A는 성적과 추진력이 뛰어나 공약 실현 가능성이 높지만 독선적이라는 평이 있고, B는 성과는 평범하지만 공정하고 절제력 있다는 평을 받는다. 누가 더 지도자에 적합한가?"
+    form: comparison
+    level: 2
+    mode: B
+    abilities: [define, reason, counter]
+    expected_turns: "6~8"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-J12
+    archetypes: [ARC-J07]
+    prompt: "학급에서 칭찬 스티커 제도를 도입했는데, 일부 학생들이 서로 몰아주기를 하며 제도를 악용하고 있다. 이 제도를 폐지할 것인가, 규칙을 고쳐 유지할 것인가?"
+    form: policy
+    level: 2
+    mode: B
+    abilities: [understand, reason, revise]
+    expected_turns: "6~8"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-J13
+    archetypes: [ARC-J08]
+    prompt: "작은 가게가 오랫동안 거래해 온 납품업체와의 약속을 지키면 문을 닫을 위기다. 다른 업체로 바꾸면 살아남지만 신의를 저버리게 된다. 가게 주인은 어떻게 해야 하는가?"
+    form: dilemma
+    level: 3
+    mode: B
+    abilities: [reason, counter]
+    expected_turns: "6~10"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-J14
+    archetypes: [ARC-J09, ARC-J08]
+    prompt: "재난을 당한 나라가 이웃 나라에 구조대를 요청했다가, 구조대가 자국 내 정보를 수집할지 모른다는 우려가 제기되었다. 구조대를 받아들여야 하는가, 돌려보내야 하는가? 신뢰와 안전의 관점에서 판단하라."
+    form: dilemma
+    level: 3
+    mode: C
+    abilities: [understand, reason, respond]
+    expected_turns: "6~10"
+    rebuttal: mid
+    cross: true
+    review: draft

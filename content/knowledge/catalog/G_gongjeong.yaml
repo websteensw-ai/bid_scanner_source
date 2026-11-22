@@ -1,0 +1,65 @@
+book:
+  title: "『공정이 먼저다』"
+  author: 박경귀
+  publisher: 가나북스
+  published: "2019-12-05"
+  pdf_pages: 300
+  note: "PDF 쪽수 = 책 쪽수(일치 확인). 머리말 제외. 인터뷰 8편 포함. 쪽수는 목차 기준 시작 쪽."
+piece_count: 50
+pieces:
+  # 제1부 무너진 공정, 정치부터 바꿔라
+  - {no: 1, title: "특권 없는 국회가 되라", page: "12", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 2, title: "국회, 공정의 파수꾼이 되라", page: "18", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 3, title: "이런 사람이 혁신 리더다", page: "23", asset_type_guess: concept, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 4, title: "이미지 정치를 타파하라", page: "26", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 5, title: "내 주권 뺏어가는 연동형 비례대표제", page: "29", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 6, title: "인터뷰: 박경귀 \"文정부, 과감한 정책전환 필요\"", page: "40", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  # 제2부 정부 혁신은 끝이 없다
+  - {no: 7, title: "보이지 않는 복지를 보라", page: "44", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 8, title: "상식에 어긋난 판사는 퇴출되어야 한다", page: "47", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 9, title: "실현가능한 공약이 좋은 공약이다", page: "51", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 10, title: "NLL 흔들리지 말라", page: "56", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 11, title: "학계는 국방안보에 관심 가져라", page: "59", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 12, title: "중국은 법치국가가 아니다", page: "64", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 13, title: "'미-중 줄타기 외교'를 경계하라", page: "67", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 14, title: "90% 노동자 외면하는 10% 귀족 노조", page: "70", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 15, title: "정부 구조조정, 생산성을 높여라", page: "73", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 16, title: "행정서비스 약속, 제대로 지켜라", page: "78", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 17, title: "영·호남 행정구역을 개편하자", page: "81", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 18, title: "주민자치가 풀뿌리 민주주의다", page: "85", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 19, title: "지역축제, 이렇게 하면 성공한다", page: "88", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 20, title: "인터뷰: 박경귀 한국정책평가연구원장 \"민주 넘치고 공화 실종 허울뿐인 민주공화국\"", page: "92", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  # 제3부 정부혁신의 동력, 성과관리
+  - {no: 21, title: "평가하지 않고 관리할 수 없다", page: "102", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 22, title: "성과달성의 측정 척도가 중요하다", page: "109", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 23, title: "성과평가, 어떻게 활용할 것인가", page: "112", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 24, title: "성과관리 장애요인 이렇게 극복하라", page: "117", asset_type_guess: policy, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 25, title: "국방기관도 성과평가 예외 없다", page: "123", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  # 제4부 공공기관 혁신, 공정이 먼저다
+  - {no: 26, title: "공정한 인사운영, 조직의 생명이다", page: "130", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 27, title: "비리 예방, 내부에 엄정하라", page: "137", asset_type_guess: policy, pilot_group_guess: "인간관계·윤리"}
+  - {no: 28, title: "고객서비스 접점을 관리하라", page: "143", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 29, title: "공공기관장의 자질과 역량", page: "146", asset_type_guess: concept, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 30, title: "목표달성 90%가 100%보다 못한 것일까?", page: "151", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 31, title: "공기업 위기관리 '백신'을 갖춰라", page: "153", asset_type_guess: policy, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 32, title: "새로운 변화와 도전, 언제나 어렵다", page: "155", asset_type_guess: policy, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 33, title: "공기업 혁신, 시대적 소명이다", page: "159", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  # 제5부 다시 세우는 자유와 정의
+  - {no: 34, title: "자유의 충돌", page: "174", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 35, title: "자유 없는 민주주의는 홀로 설 수 없다", page: "179", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 36, title: "위대한 탄생, 자유를 진작하라!", page: "186", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 37, title: "자유주의 위협하는 국가주의", page: "195", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 38, title: "인터뷰: 트윗119 운영 집단계정 폭파 막는 박경귀 참개인가치연대 대표 \"공지영 허위 트윗 총선서 안 먹힌 진짜 이유는\"", page: "199", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  # 제6부 공정이 국민통합이다
+  - {no: 39, title: "다문화 가정과 함께, 국민통합의 시작", page: "204", asset_type_guess: policy, pilot_group_guess: "인간관계·윤리"}
+  - {no: 40, title: "국민통합, 대한민국 긍정의 가치관에서 출발해야", page: "207", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 41, title: "대한민국 국민통합의 가치를 논하다", page: "215", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 42, title: "양성평등이 공정이다", page: "224", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 43, title: "한국사회의 갈등 요인과 합리적 해법", page: "230", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 44, title: "다양성 시대의 사회문제 해결과 사회통합", page: "246", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 45, title: "국민 행복을 위한 사회통합의 과제", page: "259", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 46, title: "인터뷰: 박경귀 국민대통합위원회 기획단장 \"국민 갈등해결의 답은 고전에서 찾아야\"", page: "271", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {no: 47, title: "인터뷰⑪: 박경귀 국민대통합위 기획단장 \"갈등 해소 국민통합이 이 시대 애국… 상생 가치 실천해야\"", page: "276", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {no: 48, title: "인터뷰: 박경귀 기획단장에게 듣는 '그리스 문명에서 배우는 국민통합의 길'", page: "282", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 49, title: "인터뷰: 박경귀 국민통합기획단장 \"상대 배려·다양성 존중이 국민대통합의 기본\"", page: "287", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {no: 50, title: "인터뷰: 박경귀 \"금수저 흙수저론, 패배주의 부채질하는 측면 있어\"", page: "291", asset_type_guess: concept, pilot_group_guess: "정치·법"}

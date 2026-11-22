@@ -1,0 +1,105 @@
+book: "『행복한 고전읽기 101』 초고 — 오래된 길, 행복한 만남: 동서양 고전이 전하는 101가지 선물 (박경귀, ver.1, PDF 542쪽)"
+piece_count: 101
+note: "page는 PDF 쪽 번호(본문 인쇄 쪽수는 목차 기준으로 약 0~6쪽 작음). 목차의 89번이 '99'로 오기되어 있어 89로 바로잡음. asset_type_guess·pilot_group_guess는 제목·목차 기반 추정이며 미검토."
+pieces:
+  - {"no": 1, title: "영생의 허욕에 대한 날카로운 깨우침", classic: "『길가메시 서사시』", original_author: "저자 미상", page: "19", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 2, title: "트로이 전쟁을 수놓은 삶과 죽음의 대서사시", classic: "『일리아스(Ilias)』", original_author: "호메로스", page: "22", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 3, title: "인생의 험난한 여정과 해후를 그린 대서사시", classic: "『오디세이아(Odysseia)』", original_author: "호메로스", page: "25", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 4, title: "인간을 닮은 신들의 가계(家系)", classic: "『신들의 계보』", original_author: "헤시오도스", page: "28", asset_type_guess: literature, pilot_group_guess: "과학·사회·문명"}
+  - {"no": 5, title: "비극적 운명이 주는 카타르시스", classic: "『오이디푸스 왕』", original_author: "소포클레스", page: "31", asset_type_guess: literature, pilot_group_guess: "철학"}
+  - {"no": 6, title: "트로이 전쟁을 위한 인신공양의 비극", classic: "〈아울리스의 이피게네이아〉", original_author: "에우리피데스", page: "34", asset_type_guess: literature, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 7, title: "황금양피를 구하는 이아손과 그리스 영웅들의 모험담", classic: "『아르고호 이야기(Argonautika)』", original_author: "아폴로니오스 로디오스", page: "37", asset_type_guess: literature, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 8, title: "트로이 영웅, 로마 건국의 먼 시조가 되다", classic: "『아이네이스(Aeneis)』", original_author: "베르길리우스", page: "41", asset_type_guess: literature, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 9, title: "인간의 욕망과 상상이 만드는 변신의 교감", classic: "『변신이야기』", original_author: "오비디우스", page: "45", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 10, title: "신과 영웅들의 희로애락", classic: "『그리스 로마 신화』", original_author: "토머스 볼핀치", page: "48", asset_type_guess: literature, pilot_group_guess: "과학·사회·문명"}
+  - {"no": 11, title: "인간의 탐욕을 경고한 풍자와 해학", classic: "『이솝 우화』", original_author: "아이소포스", page: "52", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 12, title: "좋은 생각과 행동이 행복을 부른다", classic: "『니코마코스 윤리학』", original_author: "아리스토텔레스", page: "55", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 13, title: "중용의 덕이 행복을 만든다", classic: "『에우데모스 윤리학』", original_author: "아리스토텔레스", page: "58", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 14, title: "행복한 가정을 만드는 묘약, 효(孝)", classic: "『효경(孝經)』", original_author: "저자 미상", page: "61", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 15, title: "모자라지도 넘치지도 말라", classic: "『중용(中庸)』", original_author: "저자 미상", page: "67", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 16, title: "무위자연의 초탈한 삶", classic: "『장자(莊子)』", original_author: "장자", page: "71", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 17, title: "마음의 평정이 진정한 쾌락이다", classic: "『쾌락』", original_author: "에피쿠로스", page: "79", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 18, title: "도덕적 행위기준의 바이블", classic: "『의무론』", original_author: "키케로", page: "83", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 19, title: "쾌락과 이성의 조화가 행복한 삶이다", classic: "『최고선악론』", original_author: "키케로", page: "86", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 20, title: "철인 황제의 경건한 자기 성찰", classic: "『명상록』", original_author: "마르쿠스 아우렐리우스", page: "89", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 21, title: "이성적 삶, 나는 생각한다. 고로 존재한다.", classic: "『방법서설』", original_author: "데카르트", page: "92", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 22, title: "쾌락의 유혹, 악마와의 계약", classic: "『파우스트(Faust)』", original_author: "괴테", page: "106", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 23, title: "그리스 인이 꿈꾸던 이상(理想) 국가", classic: "『국가』", original_author: "플라톤", page: "119", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 24, title: "법치로 만드는 차선의 국가", classic: "『법률』", original_author: "플라톤", page: "123", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 25, title: "선동가를 막아야 민주주의가 산다", classic: "『정치학』", original_author: "아리스토텔레스", page: "129", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 26, title: "법치와 자유의 터전", classic: "『국가론』", original_author: "키케로", page: "133", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 27, title: "르네상스를 빛낸 공화정", classic: "『피렌체 찬가』", original_author: "레오나르드 브루니", page: "137", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 28, title: "국가 주권을 발굴하다", classic: "『국가론』", original_author: "장 보댕", page: "141", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 29, title: "국가는 다수가 합의한 필요악?", classic: "『리바이어던(Leviathan)』", original_author: "토머스 홉스", page: "150", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 30, title: "국가의 목적은 자유다", classic: "『정치론』", original_author: "스피노자", page: "157", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 31, title: "자유민주주의 통치의 원리를 정초하다", classic: "『통치론』", original_author: "존 로크", page: "168", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 32, title: "사회 질서는 약속의 산물이다", classic: "『사회계약론』", original_author: "장 자크 루소", page: "177", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 33, title: "좋은 대의정부는 의회개혁에서 출발한다", classic: "『대의정부론』", original_author: "존 스튜어트 밀", page: "184", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 34, title: "살라미스 해전, 승자와 패자의 엇갈린 운명", classic: "〈페르시아인들〉", original_author: "아이스킬로스", page: "195", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 35, title: "자유냐 굴종이냐, 동양과 서양의 최초의 격돌", classic: "『역사』", original_author: "헤로도토스", page: "199", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 36, title: "그리스 문명의 몰락을 초래한 비극적 내전", classic: "『펠로폰네소스 전쟁사』", original_author: "투키디데스", page: "203", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 37, title: "갈 수 없는 곳은 아름답다", classic: "『유토피아』", original_author: "토머스 모어", page: "208", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 38, title: "공유(共有)와 공산(共産)의 기독교적 유토피아", classic: "『자유의 법 강령』", original_author: "제라드 윈스턴리", page: "211", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 39, title: "인간은 태어나면서부터 불평등하다?", classic: "『인간불평등기원론』", original_author: "장 자크 루소", page: "219", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 40, title: "자유 없이 평화 없다", classic: "『영구평화론』", original_author: "임마누엘 칸트", page: "224", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 41, title: "타인의 자유를 침해할 자유는 없다", classic: "『자유론』", original_author: "존 스튜어트 밀", page: "231", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 42, title: "양성평등은 세상을 움직이는 두 바퀴", classic: "『여성종속론』", original_author: "존 스튜어트 밀", page: "236", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 43, title: "열강에 둘러싸인 한반도의 외교전략", classic: "『조선책략』", original_author: "황준헌", page: "243", asset_type_guess: policy, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 44, title: "공동체의 생존은 올바른 리더에 달렸다", classic: "『아나바시스(Anabasis)』", original_author: "크세노폰", page: "251", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 45, title: "리더의 부재가 그리스 쇠망을 불렀다", classic: "『헬레니카(Hellenika)』", original_author: "크세노폰", page: "256", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 46, title: "이상적 정치가의 조건", classic: "『정치가』", original_author: "플라톤", page: "259", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 47, title: "가벼운 죄를 무겁게 물어라", classic: "『상군서』", original_author: "상앙", page: "262", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {"no": 48, title: "신상필벌로 천하를 평정하라", classic: "『한비자』", original_author: "한비", page: "269", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {"no": 49, title: "인간의 이기심에 기초한 사마천의 경제학", classic: "『사기』 〈화식열전〉", original_author: "사마천", page: "279", asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {"no": 50, title: "여우처럼 교활하고 사자처럼 용맹하라", classic: "『군주론』", original_author: "마키아벨리", page: "288", asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 51, title: "로마 멸망의 원인은 시민 덕성의 퇴조", classic: "『로마의 성공, 로마제국의 실패』", original_author: "몽테스키외", page: "293", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 52, title: "최대 다수의 최대 행복", classic: "『공리주의』", original_author: "존 스튜어트 밀", page: "298", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 53, title: "신념 윤리와 책임 윤리를 조화시켜라", classic: "『직업으로서의 정치』", original_author: "막스 베버", page: "301", asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 54, title: "예와 인으로 세상을 일깨우다", classic: "『논어(論語)』", original_author: "공자", page: "308", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 55, title: "사회 안정을 위한 통치 이념으로 숭상된 유교", classic: "『사기(史記)』 〈공자세가․중니제자열전〉", original_author: "사마천", page: "319", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {"no": 56, title: "공자가 천하를 주유한 이유는?", classic: "『공자평전』", original_author: "안핑 친", page: "323", asset_type_guess: history, pilot_group_guess: "철학"}
+  - {"no": 57, title: "‘집 잃은 개’, 인간 공자의 염원과 좌절", classic: "『집 잃은 개(喪家狗, 我讀論語)』", original_author: "리링", page: "330", asset_type_guess: history, pilot_group_guess: "철학"}
+  - {"no": 58, title: "인의에 바탕을 둔 왕도정치", classic: "『맹자』", original_author: "맹자", page: "338", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 59, title: "공자, 맹자, 순자의 철학적 특징과 한계", classic: "『맹자평전』", original_author: "양구오롱", page: "345", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 60, title: "꾸미지 않는 삶, 무위(無爲)의 대자연으로 돌아가라", classic: "『노자주(老子注)』", original_author: "왕필", page: "348", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 61, title: "현대인에 유용한 인간관계의 지혜", classic: "『노자강의』", original_author: "야오간밍", page: "357", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 62, title: "인간의 심리와 내면을 치유하는 노자 철학", classic: "『노자와 융』", original_author: "이부영", page: "364", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 63, title: "수신제가(修身齊家), 치국평천하(治國平天下)", classic: "『대학(大學)』", original_author: "주희", page: "371", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 64, title: "탁월함은 가르쳐 질 수 있는가?", classic: "『메논(Menon)』", original_author: "플라톤", page: "375", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 65, title: "본질이 담겨야 올바른 이름이다", classic: "『크라틸로스(Kratylos)』", original_author: "플라톤", page: "379", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 66, title: "악법도 법이다?", classic: "『크리톤(Criton)』", original_author: "플라톤", page: "382", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 67, title: "고대 그리스인의 자의식과 감성의 서정시", classic: "『고대 그리스 서정시선』", original_author: "아르킬로코스 외", page: "385", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 68, title: "사랑에 배신당한 여인의 처절한 복수극", classic: "〈메데이아(Medeia)〉", original_author: "에우리피데스", page: "391", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 69, title: "에로스는 아름다움에 대한 사랑이다", classic: "『향연』", original_author: "플라톤", page: "395", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 70, title: "영혼을 이끄는 절제 있는 마중사랑", classic: "『파이드로스(Phaidros)』", original_author: "플라톤", page: "398", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 71, title: "그리스인들을 설레게 한 인류 최초의 로맨스 소설", classic: "『샤갈의 다프니스와 클로에』", original_author: "롱고스", page: "402", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 72, title: "이룰 수 없는 비극적 사랑", classic: "『젊은 베르테르의 슬픔』", original_author: "괴테", page: "407", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 73, title: "자유로운 영혼의 사랑의 낭만시", classic: "『바이런 시선』", original_author: "바이런", page: "413", asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 74, title: "고대 그리스 예술의 기적, ‘고귀한 단순, 위대한 고요’", classic: "『그리스 미술 모방론』", original_author: "빈켈만", page: "416", asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {"no": 75, title: "그리스의 이상적 예술미에 빠지다", classic: "『예술론』", original_author: "괴테", page: "420", asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {"no": 76, title: "본 대로 느낀 대로 표현하라", classic: "『예술론』", original_author: "로댕", page: "425", asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {"no": 77, title: "연설술은 정의를 위해 쓰라", classic: "『고르기아스(Gorgias)』", original_author: "플라톤", page: "431", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 78, title: "거짓으로 대중을 현혹하는 소피스트를 경계하라", classic: "『소피스트(Sophist)』", original_author: "플라톤", page: "434", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 79, title: "사익과 공익의 변론", classic: "『변론』", original_author: "이사이오스", page: "438", asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {"no": 80, title: "진정한 소통의 기술", classic: "『수사학 Ⅰ』", original_author: "아리스토텔레스", page: "441", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 81, title: "인간 이해가 설득의 시작이다.", classic: "『수사학 Ⅱ』", original_author: "아리스토텔레스", page: "444", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 82, title: "설득과 담론에 효과적인 문장론", classic: "『수사학 Ⅲ』", original_author: "아리스토텔레스", page: "447", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 83, title: "로마 인문주의자의 소통론", classic: "『수사학』", original_author: "키케로", page: "450", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 84, title: "천기누설, 이기기 위한 왜곡과 기만의 토론술", classic: "『토론의 법칙』", original_author: "쇼펜하우어", page: "453", asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {"no": 85, title: "군주의 도리와 신하를 다루는 용인술", classic: "『육도(六韜)』", original_author: "여상", page: "458", asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 86, title: "치국과 용병의 균형적 통치 전략", classic: "『삼략(三略)』", original_author: "황석공", page: "461", asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 87, title: "싸우지 않고 이기는 법", classic: "『손자병법』", original_author: "손무", page: "465", asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 88, title: "인간의 본성을 간파한 승리의 전술", classic: "『오자병법』", original_author: "오기", page: "470", asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 89, title: "줄행랑도 전략이다", classic: "『삼십육계』", original_author: "저자 미상", page: "476", asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 90, title: "마음과의 싸움에서 이겨라", classic: "『오륜서(五輪書)』", original_author: "미야모토 무사시", page: "481", asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 91, title: "학익진 전법을 생생하게 그린 승첩의 장계", classic: "『임진장초(壬辰狀草)』", original_author: "이순신", page: "489", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 92, title: "조선을 구한 충무공의 비망록", classic: "『난중일기(亂中日記)』", original_author: "이순신", page: "493", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 93, title: "이순신의 인간미와 예술성", classic: "『한묵첩(翰墨帖)』", original_author: "이순신", page: "496", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 94, title: "아직 전쟁은 끝나지 않았다", classic: "『징비록(懲毖錄)』", original_author: "유성룡", page: "499", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 95, title: "일본에 인과응보 가르친 사명대사", classic: "『사명당집(四溟堂集)』", original_author: "유정", page: "507", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 96, title: "조선 선비의 임진왜란 포로 생환기", classic: "『간양록(看羊錄)』", original_author: "강항", page: "511", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 97, title: "임진왜란의 비참한 상황을 고발한 일본 스님", classic: "『임진왜란 종군기』", original_author: "케이넨", page: "516", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 98, title: "파란 눈의 선교사가 본 국제전 임진왜란", classic: "『임진난의 기록』", original_author: "루이스 프로이스", page: "520", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {"no": 99, title: "천천히 음미하며 읽어라", classic: "『독서술』", original_author: "에밀 파게", page: "527", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 100, title: "자신의 취향에 맞는 책을 선택하라", classic: "『독서의 기술』", original_author: "헤르만 헤세", page: "531", asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {"no": 101, title: "독서 수준을 단계적으로 높여가라", classic: "『논리적 독서법』", original_author: "모티머 J. 애들러", page: "535", asset_type_guess: concept, pilot_group_guess: "철학"}

@@ -1,0 +1,98 @@
+# 출처: Google Drive read_file_content 텍스트. 목차(전 86편)는 완전, 본문은 PDF 약 80쪽(19번 칼럼 중간)까지만 반환됨.
+# page = 목차 쪽수(본문 쪽 표기와 PDF 쪽이 일치함을 1~19번에서 확인). 끝쪽은 다음 칼럼 시작 전 쪽으로 추정.
+# persons: 본문을 읽은 1~19번은 본문 근거, 20번 이후는 제목에 드러난 인물만 기재(본문 미확인).
+book: "『자유인의 선택』 (박경귀, 북앤피플, 2018)"
+piece_count: 86
+text_coverage: "PDF 1~80쪽 (머리말·목차 전체, 본문 1~18편 전문, 19편 일부)"
+parts:
+  - {part: 1, title: "국가란 무엇인가", page: "13", range: "1~33"}
+  - {part: 2, title: "리더란 무엇인가", page: "139", range: "34~56"}
+  - {part: 3, title: "나는 자유인인가", page: "221", range: "57~72"}
+  - {part: 4, title: "어떻게 살 것인가", page: "281", range: "73~86"}
+pieces:
+  - {no: 1, title: "민주공화국에 대한 오해와 진실", page: "14-18", persons: [아리스토텔레스, 키케로], asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 2, title: "소크라테스가 민주주의를 경멸한 이유", page: "19-22", persons: [소크라테스, 페리클레스, 플라톤], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 3, title: "민주주의의 진정한 위기", page: "23-25", persons: [아리스토텔레스], asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 4, title: "민주주의의 치명적 오류", page: "26-28", persons: [소크라테스, 에우립톨레모스, 페리클레스, 크세노폰], asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 5, title: "민중 독재를 경계하라", page: "29-31", persons: [아리스토텔레스, 페리클레스], asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 6, title: "소크라테스와 국법", page: "32-35", persons: [소크라테스, 크리톤, 플라톤], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 7, title: "민주주의와 절차적 정의", page: "36-38", persons: [소크라테스, 테라메네스, 칼릭세노스, 에우립톨레모스, 크세노폰], asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 8, title: "훌륭한 정치가와 훌륭한 국민의 조건", page: "39-42", persons: [소크라테스, 알키비아데스, 플라톤], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 9, title: "법 안의 자유가 공화다", page: "43-45", persons: [키케로], asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 10, title: "동참하지 않는 자 시민이 아니다", page: "46-48", persons: [솔론, 플루타르코스], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 11, title: "플라톤의 결혼장려 법안", page: "49-51", persons: [플라톤], asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 12, title: "크레온의 의무와 안티고네의 의무", page: "52-54", persons: [크레온, 안티고네, 폴리네이케스, 에테오클레스, 소포클레스], asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {no: 13, title: "도편 추방의 치명적 약점", page: "55-58", persons: [알키비아데스, 니키아스, 히페르볼루스, 플루타르코스], asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 14, title: "동맹 파기와 분열의 대가", page: "59-61", persons: [투키디데스], asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 15, title: "언제나 헌법이 우선이다", page: "62-65", persons: [키케로, 카틸리나, 클로디우스, 술라], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 16, title: "개헌, 승자 독식을 타파하라", page: "66-69", persons: [플라톤], asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 17, title: "개헌, 스파르타 헌법을 배워라", page: "70-73", persons: [리쿠르고스, 크세노폰, 플라톤, 플루타르코스], asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 18, title: "외교 실패가 뿌린 적대의 씨앗", page: "74-77", persons: [키몬, 플루타르코스], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 19, title: "300인 참주를 폐하라", page: "78-82", persons: [아리스토텔레스, 폴리비오스], asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 20, title: "자유와 번영은 공짜가 없다", page: "83-87", persons: [], asset_type_guess: "", pilot_group_guess: ""}
+  - {no: 21, title: "지역주의 완화의 착시", page: "88-93", persons: [], asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 22, title: "굴욕적 외교 의전의 숨은 뜻은?", page: "94-98", persons: [], asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 23, title: "누가 국가의 최고 권력자인가", page: "99-102", persons: [], asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 24, title: "진정한 민주주의 수호자들", page: "103-106", persons: [], asset_type_guess: "", pilot_group_guess: "정치·법"}
+  - {no: 25, title: "민주정을 유지시키는 교육", page: "107-110", persons: [], asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 26, title: "누가 민중을 선동하는가", page: "111-113", persons: [], asset_type_guess: "", pilot_group_guess: "정치·법"}
+  - {no: 27, title: "품격사회를 위하여", page: "114-117", persons: [], asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {no: 28, title: "아테네 전사의 선서와 사기관리", page: "118-121", persons: [], asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 29, title: "스파르타 용사의 전투복과 군인의 제복", page: "122-125", persons: [], asset_type_guess: history, pilot_group_guess: "과학·사회·문명"}
+  - {no: 30, title: "아테네 전사의 비상식량과 한국군의 전투식량", page: "126-128", persons: [], asset_type_guess: history, pilot_group_guess: "과학·사회·문명"}
+  - {no: 31, title: "스파르타 전사의 전우애와 GOP 위험병사", page: "129-132", persons: [], asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 32, title: "장병의 사기진작과 문화정책", page: "133-135", persons: [], asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 33, title: "아리스토텔레스의 풍수지리학", page: "136-138", persons: [아리스토텔레스], asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {no: 34, title: "‘진실한 사람’ 키케로", page: "140-143", persons: [키케로], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 35, title: "공직 출마자에게 소크라테스가 묻다", page: "144-146", persons: [소크라테스], asset_type_guess: concept, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 36, title: "현혹의 유세와 로고스", page: "147-151", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 37, title: "국가 안위와 정파의 이익", page: "152-155", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 38, title: "균등한 보상과 공평한 보상", page: "156-159", persons: [], asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 39, title: "공동체를 구하는 리더십과 팔로우십", page: "160-163", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 40, title: "정치가는 처자식을 공유하라?", page: "164-166", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 41, title: "신이 보낸 등에 소크라테스", page: "167-170", persons: [소크라테스], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 42, title: "전사 소크라테스의 교훈", page: "171-173", persons: [소크라테스], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 43, title: "공직자 범죄 유형과 방지 대책", page: "174-176", persons: [], asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 44, title: "헌법 무시와 선동이 부른 참주", page: "177-180", persons: [], asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 45, title: "말에 속지 말고 행적을 보라", page: "181-183", persons: [], asset_type_guess: "", pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 46, title: "촛불광장에서 촛불경선하자?", page: "184-186", persons: [], asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 47, title: "혁명의 광풍 속 의인", page: "187-189", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 48, title: "과감한 혁신이 부른 승리", page: "190-193", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 49, title: "국회의원의 교양과 품격", page: "194-196", persons: [], asset_type_guess: concept, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 50, title: "복종을 얻는 법", page: "197-199", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 51, title: "사령관을 판 배신의 대가", page: "200-203", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 52, title: "통치자의 재산관리법", page: "204-206", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 53, title: "반역 모의한 아들을 죽인 집정관", page: "207-210", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 54, title: "공약의 유용성과 실현가능성", page: "211-213", persons: [], asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 55, title: "‘진짜 사나이’ 헨리 이병과 아테네 전사 소크라테스", page: "214-216", persons: [소크라테스], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 56, title: "‘악마 조교’ 천정명과 고대 아테네 군 조교", page: "217-220", persons: [], asset_type_guess: history, pilot_group_guess: "과학·사회·문명"}
+  - {no: 57, title: "자유냐 굴종이냐", page: "222-225", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 58, title: "‘살라미스’ 승전비결은 자유의 갈망", page: "226-229", persons: [], asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 59, title: "자유를 누리기에 과분한 사람", page: "230-233", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 60, title: "용기란 무엇인가", page: "234-236", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 61, title: "알파고는 영혼이 없다", page: "237-239", persons: [], asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {no: 62, title: "말은 행동의 그림자", page: "240-242", persons: [], asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {no: 63, title: "도전하라, 도전하라, 또 도전하라", page: "243-246", persons: [], asset_type_guess: choice, pilot_group_guess: "인간관계·윤리"}
+  - {no: 64, title: "사생아 이온, 아테네의 왕이 되다", page: "247-249", persons: [이온], asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {no: 65, title: "판단중지와 합리적 추론", page: "250-252", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 66, title: "이율배반적인 기억의 정치학", page: "253-255", persons: [], asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 67, title: "미움 받을 용기", page: "256-258", persons: [], asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {no: 68, title: "무고는 비열한 범죄다", page: "259-262", persons: [], asset_type_guess: concept, pilot_group_guess: "정치·법"}
+  - {no: 69, title: "개인의 자유정신을 진작하라", page: "263-265", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 70, title: "낭독과 암송의 힘", page: "266-269", persons: [], asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {no: 71, title: "음악 교육은 필수의 교양", page: "270-274", persons: [], asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {no: 72, title: "몸 교육과 마음 교육의 균형", page: "275-280", persons: [], asset_type_guess: concept, pilot_group_guess: "과학·사회·문명"}
+  - {no: 73, title: "세상에서 가장 행복한 사람", page: "282-286", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 74, title: "소크라테스가 받은 최고의 선물", page: "287-290", persons: [소크라테스], asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {no: 75, title: "헤라클레스는 흙수저였다", page: "291-295", persons: [헤라클레스], asset_type_guess: literature, pilot_group_guess: "인간관계·윤리"}
+  - {no: 76, title: "올림픽 출전 선수들의 고충", page: "296-300", persons: [], asset_type_guess: history, pilot_group_guess: "과학·사회·문명"}
+  - {no: 77, title: "잊어버려야 더 많이 기억한다", page: "301-303", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 78, title: "자녀교육을 망친 아버지의 무관심", page: "304-306", persons: [], asset_type_guess: choice, pilot_group_guess: "인간관계·윤리"}
+  - {no: 79, title: "영혼의 사랑과 도착된 사랑", page: "307-311", persons: [], asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {no: 80, title: "행복한 삶의 조건", page: "312-315", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 81, title: "어떻게 살 것인가", page: "316-318", persons: [], asset_type_guess: concept, pilot_group_guess: "철학"}
+  - {no: 82, title: "스파르타의 자녀 교육법", page: "319-321", persons: [], asset_type_guess: history, pilot_group_guess: "과학·사회·문명"}
+  - {no: 83, title: "권력 앞에 부모형제도 없다", page: "322-324", persons: [], asset_type_guess: choice, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 84, title: "은혜 베풂과 배은의 심리학", page: "325-328", persons: [], asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {no: 85, title: "배은망덕의 세 가지 원인", page: "329-331", persons: [], asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}
+  - {no: 86, title: "허위 결혼 신고의 심리학", page: "332-", persons: [], asset_type_guess: concept, pilot_group_guess: "인간관계·윤리"}

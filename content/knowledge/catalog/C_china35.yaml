@@ -1,0 +1,40 @@
+book: "『감추고 싶은 중국의 비밀 35가지』"
+authors: ["박경귀 (지음·평설)"]
+note: "국내외 저자 35명의 중국 관련 저작을 박경귀가 평설한 책. 데일리안 연재 ‘중국 톺아보기’(2014년 11월 머리말). Drive 텍스트는 머리말·차례·제1부(01~05, ~71쪽)까지만 추출됨. 06~35는 차례 정보로만 목록화. page는 책 쪽수(차례 기준)."
+piece_count: 35
+pieces:
+  - {no: 1, title: "중국인, 스스로의 부끄러운 DNA를 폭로하다 (종주캉, 《다시는 중국인으로 태어나지 않겠다》)", page: "24-32", asset_type_guess: history, pilot_group_guess: "과학·사회·문명"}
+  - {no: 2, title: "중국이 짝퉁 천국이 된 이유 알고 보니 (가토 도루, 《패貝의 중국인 양羊의 중국인》)", page: "33-43", asset_type_guess: history, pilot_group_guess: "과학·사회·문명"}
+  - {no: 3, title: "장독에 빠진 중국인의 노예근성을 질타하다 (보양, 《추악한 중국인》)", page: "44-53", asset_type_guess: history, pilot_group_guess: "과학·사회·문명"}
+  - {no: 4, title: "인민사찰로 집단 우울증에 걸린 중국인 (량샤오성, 《우울한 중국인》)", page: "54-64", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 5, title: "중국의 허울뿐인 ‘선공후사 공평무사’ 왜? (미조구치 유조, 《중국의 공과 사》)", page: "65-71", asset_type_guess: history, pilot_group_guess: "과학·사회·문명"}
+  - {no: 6, title: "황하자본주의 찬양하는 어용 지식인은 누구? (마크 레너드, 《중국은 무엇을 생각하는가》)", page: "74-88", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 7, title: "세계는 지금 중국의 거짓행복에 속고 있다 (랑셴핑, 《부자 중국, 가난한 중국인》)", page: "89-101", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 8, title: "잘나가는 중국 경제의 아킬레스건은 바로... (랑셴핑·쑨진, 《벼랑 끝에 선 중국 경제》)", page: "102-111", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 9, title: "서서히 미국을 죽이는 중국의 전략 대 공개 (피터 나바로·그렉 오트리, 《중국이 세상을 지배하는 그날》)", page: "112-123", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 10, title: "공산당이 국가 위에 군림하는 당-국가 체제 (니시무라 시게오·고쿠분 료세이, 《중국의 당과 국가》)", page: "126-135", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 11, title: "동방명주에 감탄한 당신 중국에 속고 있다 (리처드 맥그레거, 《중국 공산당의 비밀》)", page: "136-148", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 12, title: "기 소르망이 밝혀내는 중국의 불편한 진실 (기 소르망, 《중국이라는 거짓말》)", page: "149-159", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 13, title: "개혁의 두려움이 중국 도둑정치 키웠다 (민신 페이, 《불확실한 중국의 미래》)", page: "160-166", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 14, title: "류샤오보의 경고 “중국은 애국주의로 망한다” (류샤오보, 《류샤오보 중국을 말하다》)", page: "167-175", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 15, title: "중국 공산당이 은폐한 불편한 진실들 (왕단, 《왕단의 중국현대사》)", page: "176-191", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 16, title: "16년간 갇힌 자오쯔양이 털어놓은 톈안먼 비사 (자오쯔양, 《국가의 죄수》)", page: "192-207", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 17, title: "“반체제 당신 딸을 처형했으니 총알 값 내라” (필립 판, 《마오의 제국》)", page: "208-218", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 18, title: "중국이 사회 안정에 병적으로 집착하는 이유는? (수잔 셔크, 《판도라의 상자 중국》)", page: "219-229", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 19, title: "중국 패권에 굴종하는 오바마의 슬픈 자화상 (브렛 M. 데커·윌리엄 C. 트리플렛 2세, 《중국 패권의 위협》)", page: "232-243", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 20, title: "한국 앞바다 꿀꺽하려는 중국의 진짜 속내는... (장문목, 《중국해권에 관한 논의》)", page: "244-253", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 21, title: "민족주의 부추기는 중국 정부의 검은 속내는... (쉬즈위안, 《독재의 유혹》)", page: "254-265", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 22, title: "중국이 패권국가가 될 수 없는 31가지 이유 (칼 라크루와·데이빗 매리어트, 《왜 중국은 세계의 패권을 쥘 수 없는가》)", page: "266-278", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 23, title: "중국과 일본이 충돌하면 한국이 피 보는 이유 (리처드 C. 부시, 《위험한 이웃, 중국과 일본》)", page: "279-289", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 24, title: "세계를 집어삼키는 중국의 문어발식 이민전술 (버틸 린트너, 《차이나 브라더스》)", page: "290-297", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 25, title: "영원한 적도 우방도 없는 중국외교 (가와시마 신·모리 가즈코, 《중국외교 150년사》)", page: "300-311", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 26, title: "러시아에 굴종한 핀란드, 우리도 중국에...? (복거일, 《한반도에 드리운 중국의 그림자》)", page: "312-319", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 27, title: "중국-북한 이상기류? 꿈 깨야하는 이유 (히라이와 순지, 《북한 중국관계 60년》)", page: "320-332", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 28, title: "탈북 난민보호 외면하는 중국의 검은 속내 (정주선, 《탈북자 문제의 인식 2》)", page: "333-339", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 29, title: "핵심이익 확대하는 중국의 강경 외교 (이상국·신범철·이강규, 《후진타오 시기 중국의 안보 국방정책 결정 메커니즘 분석》)", page: "340-345", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 30, title: "고구려 역사 침탈하는 동북공정 (마다정 외, 《동북공정 고구려사》)", page: "348-360", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 31, title: "중국, 동북공정 이어 이번엔 청나라 역사까지... (정혜중·김형종·유장근, 《중국의 청사공정 연구》)", page: "361-370", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 32, title: "북 정권 유사시 중국 무력개입이 공상이라고? (요코야마 히로아키, 《중화민족의 탄생》)", page: "371-380", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 33, title: "달라이 라마는 왜 독립 아닌 자치를 요구하나 (로버트 서먼, 《달라이 라마에게 무슨 일이 일어났는가?》)", page: "381-393", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 34, title: "류큐 놓치고 이어도에 침 흘리는 중국의 속내 (강효백, 《중국의 습격》)", page: "394-401", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 35, title: "중국 언론 “한국이 이어도 침략 점거” 적반하장 (고충석·강병철, 《이어도 해양분쟁과 중국 민족주의》)", page: "402-410", asset_type_guess: policy, pilot_group_guess: "정치·법"}

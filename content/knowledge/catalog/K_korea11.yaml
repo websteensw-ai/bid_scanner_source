@@ -1,0 +1,19 @@
+book: "『11인 지성들의 대한민국 진단』 — 우리 시대 최고 지성의 경륜과 통찰의 강연 평설"
+authors: ["박경귀 (지음·강연 평설)"]
+lecturers: ["노재봉", "조윤제", "정운찬", "채명신", "조갑제", "김희상", "성 김", "한승주", "콘스탄틴 브누코프", "정종욱", "정길생", "김종대"]
+note: "한국안보문제연구소 KINSA 아카데미 강연(2012~2013)을 박경귀가 청강·메모한 뒤 자신의 견해를 더해 쓴 평설집(머리말 2014년 2월). 표지 연사 12명이며, 머리말에 언급된 홍석현 강연은 차례에 없음. Drive 텍스트는 07(성 김) 중간까지만 추출됨. page는 차례 기준 책 쪽수."
+piece_count: 13
+pieces:
+  - {no: 1, title: "대한민국의 현실과 당면과제 (전 국무총리 노재봉)", page: "11-23", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 2, title: "경제위기 리스크 관리가 우선이다 (전 청와대 경제보좌관 조윤제)", page: "24-39", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 3, title: "동반성장과 상생의 길 (전 국무총리 정운찬)", page: "40-47", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 4, title: "내부의 적을 더 경계하라 (전 초대 주월한국군 사령관 채명신)", page: "48-51", asset_type_guess: history, pilot_group_guess: "정치·법"}
+  - {no: 5, title: "이념의 잣대로 본 대한민국의 현주소 (조갑제닷컴 대표 조갑제)", page: "52-63", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 6, title: "김정은 체제의 미래와 한반도 (한국안보문제연구소 이사장 김희상)", page: "64-73", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 7, title: "한·미동맹의 현실과 비전 (주한 미국대사 성 김)", page: "74-85", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 8, title: "한·중·일 불안한 삼각관계, 한국 외교 전략의 방향 (전 외무부장관 한승주)", page: "86-115", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 9, title: "평화정착과 경제협력의 한·러 파트너십 (주한 러시아 대사 콘스탄틴 브누코프)", page: "116-127", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 10, title: "중국의 새 지도부와 한반도 정세 전망 (전 주중 대사 정종욱)", page: "128-144", asset_type_guess: policy, pilot_group_guess: "정치·법"}
+  - {no: 11, title: "대한민국 과학기술의 현황과 미래 (한국과학기술한림원 원장 정길생)", page: "145-159", asset_type_guess: policy, pilot_group_guess: "과학·사회·문명"}
+  - {no: 12, title: "충무공 이순신의 리더십 (전 헌법재판소 재판관 김종대)", page: "160-168", asset_type_guess: history, pilot_group_guess: "리더십·역사적 선택"}
+  - {no: 13, title: "[부록] 북한 3차 핵실험 10문 10답 (한국안보문제연구소 이사장 김희상)", page: "169-", asset_type_guess: policy, pilot_group_guess: "정치·법"}

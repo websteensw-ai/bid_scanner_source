@@ -274,8 +274,26 @@ def knowledge() -> KnowledgeBase:
                          diagnostic=_read("diagnostic.yaml"))
 
 
+@lru_cache
+def catalog() -> list[dict]:
+    """원천 자료 목록 (content/knowledge/catalog/*.yaml): 책별 전체 편 목록. 구조화 여부는 SRC-<접두어> 로 센다."""
+    kb = knowledge()
+    out = []
+    for f in sorted((ROOT / "catalog").glob("*.yaml")):
+        d = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
+        book = d.get("book")
+        title = book.get("title", "") if isinstance(book, dict) else str(book or f.stem)
+        prefix = f.stem.split("_")[0]
+        out.append({"key": f.stem, "title": title.split(" — ")[0].split(" (")[0], "pieces": d.get("pieces") or [],
+                    "count": int(d.get("piece_count") or len(d.get("pieces") or [])),
+                    "structured": sum(1 for s in kb.sources if s.id.startswith(f"SRC-{prefix}"))})
+    return out
+
+
 if __name__ == "__main__":       # python -m src.think.kb : 형식·참조 검사와 50편 구축 현황
     kb = knowledge()
     print("검사 통과:", kb.stats())
     for p in kb.pilot_progress():
-        print(f"  {p['group']}: {p['done']}/{p['target']}")
+        print(f"  {p['group']}: 검수 완료 {p['done']} + 초안 {p['draft']} / {p['target']}")
+    for b in catalog():
+        print(f"  {b['title']}: 목록 {b['count']}편 · 구조화 {b['structured']}편")

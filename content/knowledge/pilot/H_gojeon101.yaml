@@ -1,0 +1,1011 @@
+# 『행복한 고전읽기 101』 초고(박경귀) — 구조화 초안 20건 (철학 10 / 인간관계·윤리 10)
+# location은 PDF 쪽 번호 기준. 모든 항목 review: draft (미검토).
+sources:
+  - id: SRC-H001
+    title: "『니코마코스 윤리학』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "아리스토텔레스", commentary: "박경귀"}
+    work: "『니코마코스 윤리학』"
+    era: 고대
+    region: 그리스
+    fields: [철학, 윤리]
+    persons: ["아리스토텔레스", "플라톤"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["행복(에우다이모니아)", "탁월성(아레테)", "성격적 탁월성", "중용", "습관화"]
+    claim: "행복은 타고나는 것이 아니라 좋은 행위를 반복해 길러진 성격적 탁월성, 곧 중용의 품성에서 나온다."
+    counter_claim: "행복은 품성보다 재산·건강·운 같은 외적 조건에 의해 좌우된다."
+    hidden_premise: "인간의 품성은 교육과 습관을 통해 바뀔 수 있다."
+    counterexamples: ["『에우데모스 윤리학』의 포괄주의적 행복관처럼 재산·명예·건강 같은 외적 선을 행복의 요소로 보는 입장"]
+    conflicts: ["품성 vs 외적 조건", "무절제 vs 목석 같음"]
+    universal_question: "행복은 얻는 것인가, 길러지는 것인가?"
+    tags: [행복, 덕윤리, 중용, 습관, 교육]
+    location: "pdf 55~57쪽 (본문 53~55쪽)"
+    summary: "평론은 행복을 그 자체로 추구되는 최고선으로 규정한 아리스토텔레스의 논의를 소개한다. 행복을 결정짓는 것은 육체가 아닌 영혼의 탁월성이며, 지적 탁월성은 학습으로, 성격적 탁월성은 습관으로 길러진다. 두려움 앞의 용기, 즐거움 앞의 절제처럼 지나침과 모자람 사이의 중용이 최고의 탁월성이라는 점을 강조한다. 결국 행복은 자신의 생각·행동·습관에 달렸다고 정리한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H002
+    title: "『에우데모스 윤리학』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "아리스토텔레스", commentary: "박경귀"}
+    work: "『에우데모스 윤리학』"
+    era: 고대
+    region: 그리스
+    fields: [철학, 윤리, 정치]
+    persons: ["아리스토텔레스", "아스파시오스"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["포괄주의적 행복관", "외적 선", "중용", "친애(필리아)", "선택"]
+    claim: "행복은 덕의 실현과 함께 외적 선을 포괄하며, 각자의 선택과 중용, 그리고 공동체의 친애를 통해 스스로 만들어 가는 것이다."
+    counter_claim: "행복은 오직 최상의 덕(지성)의 실현에 달려 있으며 외적 조건은 본질이 아니다."
+    hidden_premise: "개인의 행복은 공동체의 관계(친애)와 분리될 수 없다."
+    counterexamples: ["『니코마코스 윤리학』의 주지주의적 입장"]
+    conflicts: ["주지주의 vs 포괄주의", "개인의 행복 vs 공동체의 행복"]
+    universal_question: "나의 행복은 타인과의 관계 없이 완성될 수 있는가?"
+    tags: [행복, 친애, 우정, 중용, 윤리와정치]
+    location: "pdf 58~60쪽 (본문 56~58쪽)"
+    summary: "평론은 『에우데모스 윤리학』이 『니코마코스 윤리학』과 짝을 이루며 행복관을 더 유연하게 확장한다고 본다. 행복에는 덕의 실현뿐 아니라 재산·명예·건강 같은 외적 선도 포함되며, 쾌락과 고통은 자발적 선택에서 비롯되므로 덕의 질이 행복의 질을 가른다. 극단을 악덕으로, 중간을 덕으로 보는 중용론과 함께 가족·친구·이웃을 잇는 친애가 공동체 행복의 핵심 요소로 제시된다. 평론은 이를 윤리학과 정치학의 조화 가능성으로 읽는다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H003
+    title: "『장자』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "장자", commentary: "박경귀"}
+    work: "『장자(莊子)』"
+    era: 고대
+    region: 동아시아
+    fields: [철학, 윤리]
+    persons: ["장자", "노자", "공자", "자공", "도척"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["무위자연", "무용지용(쓸모없음의 쓰임)", "분수", "팔자사환", "무심"]
+    claim: "인위적 욕망과 경쟁을 내려놓고 본성대로 사는 무위자연의 태도는, 유위의 삶을 살 수밖에 없는 현대인에게도 자기 직분에 꾸밈없이 정성을 다하는 방식으로 실천될 수 있다."
+    counter_claim: "부와 권력·지식에 대한 욕망은 인간 본성에 내장되어 있으므로 무위자연은 현실도피적 이상에 불과하다."
+    hidden_premise: "인간의 참된 본성은 욕망이 아니라 꾸밈없는 맑은 마음이다."
+    counterexamples: ["경쟁적 자본주의 사회에서 직업적 열정 없이는 생존하기 어렵다는 현실", "장자의 관점이 반주지주의·반문명주의로 비칠 수 있다는 평론의 지적"]
+    conflicts: ["무위 vs 유위", "본성 vs 문명", "쓸모 vs 쓸모없음"]
+    universal_question: "쓸모 있는 사람이 되려는 노력은 언제 나를 잃게 만드는가?"
+    tags: [노장사상, 무위, 문명비판, 자유, 현대인]
+    location: "pdf 71~78쪽 (본문 69~76쪽)"
+    summary: "평론자는 장자가 노자의 무위 사상을 더 과감하게 밀고 나가 유가의 인의와 예를 인위적인 것으로 비판했다고 소개한다. 쓸모없어 베이지 않은 거목, 나비 꿈, 어부의 팔자사환론, 두레박을 거부한 노인의 우화 등을 통해 분수에 맞는 삶과 기계·문명에 사로잡힌 마음의 위험을 짚는다. 동시에 욕망이 본성일 수도 있고 현대인이 무위를 그대로 실천하기는 어렵다고 인정한다. 결론적으로 무위는 게으름이 아니라 유위의 삶 속에서 꾸밈없이 정성을 다하는 태도로 재해석된다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H004
+    title: "『쾌락』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "에피쿠로스", commentary: "박경귀"}
+    work: "『쾌락』"
+    era: 고대
+    region: 그리스
+    fields: [철학, 윤리]
+    persons: ["에피쿠로스", "데모크리토스", "피론", "존 스튜어트 밀"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["쾌락주의", "아타락시아(마음의 평정)", "헛된 욕망", "자연적 정의", "원자론"]
+    claim: "진정한 쾌락은 헛된 욕망을 걸러내고 자연에 대한 이성적 이해로 공포와 미신에서 벗어나 얻는 마음의 평정이다."
+    counter_claim: "쾌락을 최고선으로 삼으면 판단이 감각에 의존하게 되어 덕과 공동체의 책무를 소홀히 하게 된다."
+    hidden_premise: "고통과 공포의 상당 부분은 무지와 잘못된 믿음에서 생긴다."
+    counterexamples: ["감각적 쾌락을 강조한 점 때문에 스토아학파의 공격을 받은 사례", "개인과 공동체 사이의 사회적·정치적 갈등에 대한 해답은 제시하지 못했다는 평론의 비판"]
+    conflicts: ["쾌락 vs 덕", "개인의 평정 vs 공동체 참여"]
+    universal_question: "고통이 없는 상태는 곧 행복한 상태인가?"
+    tags: [쾌락, 행복, 헬레니즘, 개인주의, 평정]
+    location: "pdf 79~82쪽 (본문 77~80쪽)"
+    summary: "평론은 에피쿠로스의 쾌락주의가 펠로폰네소스 전쟁 패배 이후 좌절과 개인주의가 퍼진 아테네의 시대적 산물이라고 본다. 에피쿠로스는 쾌락을 나쁘게 보지 않았으나 자연적이지도 필연적이지도 않은 헛된 욕망은 몰아내야 한다고 했고, 서로 해치지 않기로 한 상호 이익의 협정을 자연적 정의로 보았다. 마음의 평정은 덕이 아니라 자연학을 통해 미신과 공포에서 벗어날 때 얻어진다는 점에서 회의론과 구별된다. 평론은 이 사상이 공동체 속 갈등에는 답하지 못한 시대적 한계를 지닌다고 평가한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H005
+    title: "『최고선악론』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "키케로", commentary: "박경귀"}
+    work: "『최고선악론』"
+    era: 고대
+    region: 로마
+    fields: [철학, 윤리]
+    persons: ["키케로", "에피쿠로스", "소크라테스", "플라톤", "아리스토텔레스"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["최고선", "에피쿠로스파", "스토아파", "절충주의", "삶의 목적(텔로스)"]
+    claim: "최고선은 쾌락(감각)만도 이성(도덕)만도 아니라 육체의 건전함과 정신의 이성이 상호작용하며 쌓이는 덕에 가깝다."
+    counter_claim: "본성에 따른 도덕적 삶만이 최고선이며 감각적 욕구는 금욕의 대상이다."
+    hidden_premise: "인간은 정신과 육체로 구성되므로 어느 한쪽만으로 좋은 삶을 설명할 수 없다."
+    counterexamples: ["쾌락을 최고선으로 삼는 에피쿠로스파", "일상적 감성과 욕망을 배제하려는 스토아파의 금욕주의"]
+    conflicts: ["감성 vs 이성", "개인의 안락 vs 공공의 책무"]
+    universal_question: "삶의 ‘어떻게’에 몰두하느라 ‘왜’를 잃고 있지는 않은가?"
+    tags: [최고선, 절충, 로마철학, 삶의목적]
+    location: "pdf 86~88쪽 (본문 84~86쪽)"
+    summary: "평론은 키케로가 헬레니즘 시대의 두 학파를 비판적으로 소화해 대안을 제시했다고 본다. 에피쿠로스파는 판단을 감각에 맡기고 공적 책무를 소홀히 한다는 점에서, 스토아파는 건강·가사·통치 같은 일상의 의무를 배제해 도덕성마저 소멸시킨다는 점에서 비판된다. 키케로는 정신과 육체의 덕이 함께 쌓여야 최고선에 다가간다는 절충적 관점을 택한다. 평론자는 이를 통해 삶의 목적을 묻지 않는 현대인의 얄팍함을 돌아보게 한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H006
+    title: "『명상록』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "마르쿠스 아우렐리우스", commentary: "박경귀"}
+    work: "『명상록』"
+    era: 고대
+    region: 로마
+    fields: [철학, 윤리, 리더십]
+    persons: ["마르쿠스 아우렐리우스"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["지배적 이성(헤게모니콘)", "자기 성찰", "수신", "노블레스 오블리주", "죽음에 대한 달관"]
+    claim: "외적 제약이 없는 권력자일수록 지배적 이성으로 스스로를 다스리는 내면의 투쟁이 필요하며, 그 수신은 공동체에 대한 의무 실천으로 이어져야 한다."
+    counter_claim: "도덕적 절제는 외부의 감시와 제도로 보장되는 것이지 개인의 내면 수양에 기댈 수 없다."
+    hidden_premise: "이성적 존재는 본래 공동체적 존재이다."
+    counterexamples: []
+    conflicts: ["이성 vs 육체적 쾌락", "무한한 권력 vs 자기 절제"]
+    universal_question: "아무도 나를 감시하지 않을 때에도 스스로를 지킬 이유는 무엇인가?"
+    tags: [스토아, 성찰, 리더, 절제, 죽음]
+    location: "pdf 89~91쪽 (본문 87~89쪽)"
+    summary: "평론은 『명상록』을 황제의 오만이 아니라 평범한 인간으로서 규범을 지키려 애쓴 철학자의 고백 일기로 읽는다. 아우렐리우스는 변하고 소멸하는 육신의 충동이 아니라 지배적 이성으로 자신을 다스릴 때 절제 있는 삶이 가능하다고 보았고, 죽음보다 이성이 잠들어 쾌락과 고통에 굴복하는 상태를 두려워했다. 원하는 것을 다 가질 수 있었던 그가 외부 시선이 아닌 내면의 싸움으로 수신에 매진했다는 점이 강조된다. 평론자는 이를 페스트와 외침 속에서 공동체 의무를 다한 노블레스 오블리주의 전형으로 평가한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H007
+    title: "『방법서설』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "데카르트", commentary: "박경귀"}
+    work: "『방법서설』"
+    era: 근대
+    region: 유럽
+    fields: [철학, 인식론, 논리]
+    persons: ["르네 데카르트"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["방법적 회의", "명증성의 규칙", "잠정적 도덕 격률", "코기토", "순환 논증"]
+    claim: "속단과 편견을 피하고 명석판명한 것만 참으로 받아들이는 방법적 회의는 학문뿐 아니라 일상의 판단에도 유용한 이성의 사용설명서다."
+    counter_claim: "모든 것을 의심하는 태도는 확실한 출발점을 주지 못하며, 신앙이나 전통 같은 증명 불가능한 영역까지 이성으로 재단할 수는 없다."
+    hidden_premise: "이성은 모든 인간에게 동등하게 주어져 있다."
+    counterexamples: ["데카르트의 신 존재 증명이 결론을 전제로 쓰는 순환 논증의 오류를 범한다는 평론의 지적", "송과선·심장의 불 같은 시대적 한계의 주장"]
+    conflicts: ["회의 vs 믿음", "이성 vs 권위", "정신 vs 육체"]
+    universal_question: "무엇이 확실하다고 말하려면 어디서부터 의심해야 하는가?"
+    tags: [근대철학, 회의, 비판적사고, 논증오류, 이성]
+    location: "pdf 92~105쪽 (본문 90~103쪽)"
+    summary: "평론은 『방법서설』을 진리 탐구 과정을 담은 데카르트의 자기 고백이자 이성의 올바른 사용설명서로 소개한다. 명증성·분해·정렬(평론자의 명명)·열거의 네 규칙과 네 가지 잠정적 도덕 격률을 일상에서도 쓸 만한 판단 기준으로 정리한다. 모든 것을 의심하는 동안에도 의심하는 내가 존재한다는 코기토를 제일원리로 설명하면서, 신 존재 증명은 순환 논증의 오류를 안고 있다고 비판한다. 평론자는 데카르트를 최후의 중세인이자 최초의 근대인으로 보고, 매체에 종속된 현대인에게 스스로 묻고 검증하라는 교훈을 읽어낸다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H008
+    title: "『메논』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "플라톤", commentary: "박경귀"}
+    work: "『메논(Menon)』"
+    era: 고대
+    region: 그리스
+    fields: [철학, 교육, 인식론]
+    persons: ["소크라테스", "메논", "아니토스", "프로타고라스"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["탁월함(아레테)", "엘렝코스(논박)", "산파술", "상기설", "참된 확신"]
+    claim: "탁월함이 인식일 때에만 진정한 교사가 있고 가르쳐질 수 있으며, 자칭 교사인 소피스트나 지성 없이 성공한 정치가는 탁월함의 교사가 아니다."
+    counter_claim: "탁월함은 수사술처럼 기술로 가르칠 수 있으며, 실제로 큰일을 해낸 성공한 사람이 곧 탁월함의 교사다."
+    hidden_premise: "참된 앎은 외부에서 주입되는 것이 아니라 스스로의 탐구를 통해 드러난다."
+    counterexamples: ["지성 없이 참된 확신과 영감으로 큰일을 해내는 정치가들"]
+    conflicts: ["인식 vs 참된 확신", "철학자 vs 소피스트"]
+    universal_question: "훌륭함은 가르칠 수 있는가, 스스로 깨달아야 하는가?"
+    tags: [소크라테스, 교육, 엘렝코스, 덕, 멘토]
+    location: "pdf 375~378쪽 (본문 373~376쪽)"
+    summary: "평론은 민주정 아테네에서 성공을 위한 기술 교육 수요가 늘며 소피스트가 양산된 배경에서 『메논』을 읽는다. 소크라테스는 탁월함의 본질, 가르침의 본질, 두 개념의 결합 가능성을 문답으로 검토하며, 메논의 확신을 반복해 무너뜨리는 엘렝코스로 상대가 스스로 탐구하도록 돕는다. 배움은 상기로 규정되고, 탁월함이 인식이 아니라면 가르쳐질 수 없다는 결론 속에서 정치가들의 성공은 영감에 의존한 참된 확신으로 풍자된다. 평론자는 멘토는 넘치나 지혜는 가문 오늘의 상황에 이를 비춘다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H009
+    title: "『크라틸로스』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "플라톤", commentary: "박경귀"}
+    work: "『크라틸로스(Kratylos)』"
+    era: 고대
+    region: 그리스
+    fields: [철학, 언어]
+    persons: ["소크라테스", "헤르모게네스", "크라틸로스"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["이름의 올바름", "자연주의", "규약주의", "모상", "어원"]
+    claim: "올바른 이름은 사물의 본질을 담아야 하지만, 완벽한 모방은 불가능하므로 합의와 관습에 의한 보완이 필요하다."
+    counter_claim: "이름은 순전히 합의의 산물이므로 사람들이 동의하기만 하면 어떤 이름이든 올바르다."
+    hidden_premise: "이름은 단순한 표지가 아니라 사물을 가르치고 구별하는 인식의 도구다."
+    counterexamples: ["완벽하게 닮은 이름은 더 이상 이름이 아니라 대상 그 자체가 된다는 소크라테스의 반박"]
+    conflicts: ["자연 vs 규약", "본질 vs 합의"]
+    universal_question: "이름을 바꾸면 그 대상도 바뀌는가?"
+    tags: [언어철학, 이름, 개명, 본질]
+    location: "pdf 379~381쪽 (본문 377~379쪽)"
+    summary: "평론은 『크라틸로스』가 이름이 자연적으로 정해지는지 합의로 정해지는지를 둘러싼 대화편이라고 소개한다. 소크라테스는 무엇이든 합의만 있으면 된다는 헤르모게네스에게 본질을 모방하지 못한 이름은 잘못된 이름일 수 있다고 반박하며 수많은 어원을 검토한다. 반대로 완전한 모상이 아니면 이름이 아니라는 크라틸로스에게는 완벽한 모방이 오히려 모순이라며 규약주의적 보완을 요구한다. 평론자는 앎은 이름보다 사물 자체를 통해 얻어야 한다는 인식론적 문제와 함께 정당 개명 사례에 이를 적용해 본다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H010
+    title: "『크리톤』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "플라톤", commentary: "박경귀"}
+    work: "『크리톤(Criton)』"
+    era: 고대
+    region: 그리스
+    fields: [철학, 법, 윤리]
+    persons: ["소크라테스", "크리톤", "울피아누스"]
+    public: summary
+    copyright: own
+    pilot_group: 철학
+    concepts: ["준법", "판결의 효력", "악으로 악을 갚지 않음", "시민의 복종 의무", "절차적 정당성"]
+    claim: "부당하게 내려진 판결이라도 개인이 임의로 무효화하면 국가와 법이 존속할 수 없으므로, 시민은 탈옥 대신 판결을 따르는 것이 정의다."
+    counter_claim: "부당한 판결에 복종하는 것은 불의를 승인하는 것이므로 저항하거나 피하는 것이 정의다."
+    hidden_premise: "국가에 머물며 법의 혜택을 받아온 시민은 그 법에 따르기로 약속한 것과 같다."
+    counterexamples: ["‘악법도 법이다’라는 말은 소크라테스가 아니라 로마 법학자 울피아누스의 말로 알려져 있고 교과서에서 삭제된 일도 있다는 사실"]
+    conflicts: ["법의 안정 vs 개인의 정의", "생명 vs 신념"]
+    universal_question: "옳지 않은 규칙이라도 지켜야 하는 경우가 있는가?"
+    tags: [소크라테스, 준법, 시민불복종, 법치, 정의]
+    location: "pdf 382~384쪽 (본문 380~382쪽)"
+    summary: "평론은 사형 집행을 기다리던 소크라테스가 탈옥을 권하는 친구 크리톤에게 판결을 따라야 하는 이유를 설파한 대화편을 정리한다. 소크라테스의 논거는 악을 악으로 갚지 말 것, 판결을 개인이 무효화하면 국가가 존속할 수 없다는 것, 조국에 머무는 시민의 복종 의무, 비굴하게 살기보다 법이 아닌 인간의 희생물로 죽겠다는 것의 네 가지로 요약된다. 평론은 ‘악법도 법이다’라는 말의 출처 문제도 짚는다. 평론자는 국법과 사법을 조롱하는 오늘의 세태에 경종으로 삼고자 한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H011
+    title: "『이솝 우화』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: literature
+    author: {original: "아이소포스", commentary: "박경귀"}
+    work: "『이솝 우화』"
+    era: 고대
+    region: 그리스
+    fields: [문학, 윤리]
+    persons: ["아이소포스(이솝)"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["우화", "풍자와 해학", "탐욕", "분수", "약자의 지혜"]
+    claim: "이솝 우화는 어린이용 교훈집이 아니라 탐욕과 위선에 찌든 어른에게 냉혹한 현실을 견뎌 낼 지혜를 주는 풍자다."
+    counter_claim: "우화는 단순한 권선징악의 동화로서 아이들의 도덕 교육에 적합한 이야기다."
+    hidden_premise: "직접 비판하기 위험한 현실에서는 의인화된 이야기가 진실을 말하는 안전한 방법이 된다."
+    counterexamples: ["기독교 윤리가 지배한 서양에서 불편한 내용을 첨삭해 교훈 위주로 바꾼 이본들"]
+    conflicts: ["강자의 위선 vs 약자의 지혜", "교훈 vs 풍자"]
+    universal_question: "힘없는 사람은 어떻게 말해야 살아남으면서도 진실을 말할 수 있는가?"
+    tags: [우화, 풍자, 탐욕, 노예, 지혜]
+    location: "pdf 52~54쪽 (본문 50~52쪽)"
+    summary: "평론은 그리스어 원전 완역본을 보면 이솝 우화가 아이들보다 동심을 잃은 성인을 위한 책임을 알 수 있다고 말한다. 노예였던 아이소포스는 동식물에 빗댄 짧은 이야기로 위험을 피하며 탐욕·거짓·전쟁이 만연한 현실을 비판했을 것으로 추정된다. 주된 주제는 강자가 약자를 빼앗으려는 위선과 모략, 지혜로운 말로 위기를 벗어나는 약자, 분수를 모른 탐욕의 파멸 등이다. 평론자는 근엄한 도덕 교사처럼 굴지 않는 풍자와 해학을 이 책의 미덕으로 꼽는다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H012
+    title: "『효경』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "저자 미상(공자·증자 문답)", commentary: "박경귀"}
+    work: "『효경(孝經)』"
+    era: 고대
+    region: 동아시아
+    fields: [윤리, 철학, 가족]
+    persons: ["공자", "증자", "서만", "심청"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["효", "충효", "양구체와 양지", "쌍방향 덕목", "형식주의"]
+    claim: "효의 실천 방식은 시대에 따라 바뀌어야 하지만, 부모의 내리사랑에 보답하는 자연스러운 효의 감성은 가정과 사회 도덕의 기초로 여전히 가치가 있다."
+    counter_claim: "효는 가부장적 전제 통치를 정당화하고 개인의 자유와 평등을 억압한 낡은 이념이므로 버려야 한다."
+    hidden_premise: "효는 교육 이전에 인간 본성에서 우러나는 정감이다."
+    counterexamples: ["손가락을 자르거나 몸을 파는 극단적 효행 설화", "충효사상이 조선의 사회 변동과 근대 시민의식의 발아를 지체시킨 측면"]
+    conflicts: ["전통적 의무 vs 개인의 자유", "형식 vs 진심", "일방적 복종 vs 쌍방향 덕목"]
+    universal_question: "시대가 바뀌어도 자식이 부모에게 져야 할 의무는 남아 있는가?"
+    tags: [효, 유교, 가족, 세대, 전통]
+    location: "pdf 61~66쪽 (본문 59~64쪽)"
+    summary: "평론은 극단적 효행 고사들로 시작해 1인 가구 시대에 효의 의미를 다시 묻는다. 『효경』은 신체를 훼손하지 않는 데서 시작해 바르게 살아 부모를 드러내는 데서 끝나는 효의 본질과 효자의 다섯 기준을 제시한다. 평론은 효가 형식주의로 흐르고 충효로 확장되며 가부장적 통치 이념이 되었다는 비판을 인정하면서도, 공자는 위에서 아래로의 박애와 덕이 전제된 쌍방향 덕목으로 보았다고 짚는다. 결론적으로 물질적 봉양(양구체)보다 부모 마음을 편하게 하는 양지가 최고의 효라고 정리한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H013
+    title: "『중용』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "저자 미상(자사 전승)", commentary: "박경귀"}
+    work: "『중용(中庸)』"
+    era: 고대
+    region: 동아시아
+    fields: [철학, 윤리]
+    persons: ["공자", "자사", "주희"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["중용", "충서", "오달도", "지인용", "지성(至誠)"]
+    claim: "중용은 자기 견해와 이익에 대한 집착을 넘어 상반된 의견을 포괄하는 조화의 상태이며, 그 통로는 남을 내 마음처럼 헤아리는 충서와 지극한 정성이다."
+    counter_claim: "극단적 이념과 이해관계가 충돌하는 현실에서 중용은 구체적 지침 없는 추상적 덕목에 불과하다."
+    hidden_premise: "내면의 수양(수신)이 대인관계와 사회의 조화로 확장될 수 있다."
+    counterexamples: ["『중용』이 구체적 실천 지침이나 방법론을 제시하지 않는다는 평론의 지적"]
+    conflicts: ["자기 이익 vs 타인의 관점", "원칙 vs 조화"]
+    universal_question: "서로 반대되는 의견을 모두 품는 것은 가능한가?"
+    tags: [중용, 유교, 정성, 소통, 수신]
+    location: "pdf 67~70쪽 (본문 65~68쪽)"
+    summary: "평론은 중용을 상황에 맞게 두루 조화를 이루는 것으로 풀이하며, 공자조차 백성이 오래 지키기 어렵다고 했을 만큼 실천이 쉽지 않다고 말한다. 중용은 나의 속마음이 남과 같은 마음이 되는 충서를 통해 다가갈 수 있으며, 군신·부자·부부·형제·붕우의 다섯 관계와 지·인·용의 세 덕목이 제시된다. 『중용』은 특히 지극한 정성(지성)이 자신과 남을 함께 완성한다고 강조한다. 평론자는 갈등 사회에서 구체적 방책을 얻기는 어렵지만, 지성은 세상과 진솔하게 소통하고 스스로를 완성하는 살아있는 덕목이라고 본다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H014
+    title: "『의무론』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "키케로", commentary: "박경귀"}
+    work: "『의무론』"
+    era: 고대
+    region: 로마
+    fields: [윤리, 철학]
+    persons: ["키케로", "볼테르", "프리드리히 대왕", "카이사르"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["도덕적 선", "의무", "호의와 선행", "착함과 도덕적 선의 구별", "유익"]
+    claim: "선의와 선행은 베푸는 사람의 의도만으로 도덕적 선이 되지 않으며, 도덕적으로 선하지 않은 것은 유익하더라도 추구해서는 안 된다."
+    counter_claim: "좋은 의도로 한 일이라면 결과나 상대의 태도와 상관없이 선한 행위이며, 큰 이익이 있다면 약간의 도덕적 흠은 용인될 수 있다."
+    hidden_premise: "도덕적 선은 개인의 마음씨가 아니라 공동체 속 의무로 실행될 때 완성된다."
+    counterexamples: ["‘착한 투표’·‘착한 복지’처럼 가치중립적 개념에 착함을 덧씌우는 언어 사용"]
+    conflicts: ["착함 vs 도덕적 선", "유익 vs 도덕"]
+    universal_question: "좋은 마음으로 한 일은 언제나 좋은 일인가?"
+    tags: [의무, 도덕, 선행, 공공성, 로마]
+    location: "pdf 83~85쪽 (본문 81~83쪽)"
+    summary: "평론은 『의무론』을 스토아 윤리를 전해 서양 정신세계에 큰 영향을 준 실천 도덕철학서로 소개한다. 키케로는 도덕적 선의 원천으로 진리에 대한 통찰, 신의, 정신의 위대함, 절도와 온건함을 들고, 호의를 베풀 때에도 받는 사람의 마음가짐과 공동체에서의 태도를 숙고해야 한다고 했다. 평론자는 이를 근거로 착함과 도덕적 선을 구별하며 무엇에나 ‘착한’을 붙이는 세태를 비판한다. 도덕적 선과 유익이 충돌할 때 선하지 않은 것은 추구하지 말라는 원칙이 핵심으로 제시된다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H015
+    title: "『파우스트』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: literature
+    author: {original: "괴테", commentary: "박경귀"}
+    work: "『파우스트(Faust)』"
+    era: 근대
+    region: 유럽
+    fields: [문학, 윤리, 철학]
+    persons: ["파우스트", "메피스토펠레스", "그레트헨", "헬레나"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["유혹", "악마와의 계약", "두 개의 영혼", "노력과 방황", "구원"]
+    claim: "인간은 노력하는 한 방황하지만, 유혹과의 긴장을 놓지 않고 끊임없이 노력하며 사회적 책임으로 나아가는 존재는 구원받을 수 있다."
+    counter_claim: "쾌락을 위해 영혼을 팔고 죄를 저지른 자가 구원받는다는 것은 도덕적 책임을 흐리는 결말이다."
+    hidden_premise: "인간 안에는 신성과 악마성이 공존하며, 내면의 악과의 싸움이 선을 강화한다."
+    counterexamples: ["그레트헨에 대한 죄 등 파우스트가 저지른 관능적 쾌락과 악행"]
+    conflicts: ["신성 vs 악마성", "쾌락 vs 소명", "멈춤 vs 노력"]
+    universal_question: "유혹에 흔들리며 방황하는 것은 실패인가, 성장의 과정인가?"
+    tags: [괴테, 유혹, 욕망, 구원, 노력]
+    location: "pdf 106~117쪽 (본문 104~115쪽)"
+    summary: "평론자는 『파우스트』를 신을 닮으려는 신성과 욕망에 충실하려는 악마성 사이를 오간 유혹과 갈등의 순례로 읽는다. 학문을 다 이루고도 공허했던 파우스트는 ‘멈추어라, 너 정말 아름답구나!’를 외치면 영혼을 넘기겠다는 계약을 맺고, 메피스토펠레스는 그의 내면이 투영된 존재로 해석된다. 쾌락의 허망함을 겪고 눈이 먼 뒤 백성을 위한 간척에 헌신한 순간 그 말을 외치지만, 그 뜻이 악마의 기대와 달라 천상의 구원을 받는다. 평론은 행동과 생성의 노력을 선으로, 정지를 악으로 본 괴테의 인간관을 소개한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H016
+    title: "『논어』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "공자", commentary: "박경귀"}
+    work: "『논어(論語)』"
+    era: 고대
+    region: 동아시아
+    fields: [철학, 윤리, 교육, 정치]
+    persons: ["공자", "안회", "자공", "제경공", "계강자"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["호학", "문질빈빈", "정명", "충서", "극기복례", "화이부동"]
+    claim: "『논어』의 핵심은 배움과 성찰, 이름에 걸맞은 ‘다움’(정명), 그리고 자기가 원하지 않는 것을 남에게 시키지 않는 서(恕)의 실천에 있다."
+    counter_claim: "신격화된 공자의 가르침은 현대의 일상과 동떨어진 고리타분한 규범일 뿐이다."
+    hidden_premise: "정치와 대인관계의 질서는 개인의 수신에서 출발한다."
+    counterexamples: ["세속의 관점에서 공자는 어떤 제후에게도 등용되지 못한 실패한 정치인이었다는 점"]
+    conflicts: ["형식 vs 본질", "학습 vs 사색", "조화 vs 동화"]
+    universal_question: "‘~답게’ 산다는 것은 무엇을 요구하는가?"
+    tags: [공자, 유교, 배움, 정명, 황금률]
+    location: "pdf 308~318쪽 (본문 306~316쪽)"
+    summary: "평론은 신격화된 공자가 아닌 좌절을 겪은 인간 공자를 마주해야 『논어』를 제대로 읽을 수 있다고 말한다. 배우고 때로 익히는 기쁨, 스스로 분발할 때 깨우쳐 주는 교육법, 배움과 사색의 상호 보완, 형식과 본질의 조화(문질빈빈)를 차례로 소개한다. 정명은 임금은 임금답고 자식은 자식다운 ‘다움’으로, 충은 무조건적 복종이 아니라 예를 전제로 한 진심으로 풀이된다. 극기복례와 ‘자기가 원하지 않는 것을 남에게 시키지 말라’는 서(恕)가 대인관계의 황금률로 제시된다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H017
+    title: "『노자강의』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "야오간밍(노자 『도덕경』 해설)", commentary: "박경귀"}
+    work: "『노자강의』"
+    era: 현대
+    region: 동아시아
+    fields: [철학, 윤리]
+    persons: ["노자", "야오간밍", "유비", "안자", "제경공", "위안스카이"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["처하(낮춤)", "위이부쟁(다투지 않음)", "불언지교(말 없는 가르침)", "덕선", "지인과 자지"]
+    claim: "노자가 말하는 인간관계의 가장 중요한 지혜는 자신을 낮추고 다투지 않으며, 착하지 않은 사람까지 선으로 대해 감화시키는 것이다."
+    counter_claim: "낯가죽이 두껍고 속이 검어야 출세한다는 후흑의 처세처럼 경쟁 사회에서는 자기를 내세우고 이기는 것이 현실적이다."
+    hidden_premise: "선한 태도는 상대를 변화시키는 힘을 가진다."
+    counterexamples: ["권모술수로 권력을 잡았다가 자멸한 위안스카이의 사례(후흑의 반례로 제시)", "고사 중심 해석이 지나친 확장 오류의 위험을 안는다는 평론의 지적"]
+    conflicts: ["낮춤 vs 내세움", "다투지 않음 vs 경쟁"]
+    universal_question: "자신을 낮추는 것은 약함인가, 이기는 방법인가?"
+    tags: [노자, 처세, 인간관계, 겸손, 감화]
+    location: "pdf 357~363쪽 (본문 355~361쪽)"
+    summary: "평론은 CCTV 강좌를 바탕으로 한 야오간밍의 『노자강의』가 고사와 현대 사례로 『도덕경』을 쉽게 풀어낸 입문서라고 소개한다. 저자는 만족과 그칠 줄 앎, 자신을 아는 명철함 등을 역사적 일화로 설명하며, 인간관계의 핵심 지혜로 유비의 사례를 든 ‘낮춤’을 꼽는다. 안자가 직접 나무라지 않고 제경공을 깨우친 일화는 말 없는 가르침의 예로, 착하지 않은 이도 착하게 여기는 덕선은 후흑학과 대비된다. 평론자는 독창적 해석이 돋보이지만 지나친 확장의 위험도 있다고 덧붙인다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H018
+    title: "〈메데이아〉 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: literature
+    author: {original: "에우리피데스", commentary: "박경귀"}
+    work: "〈메데이아(Medeia)〉"
+    era: 고대
+    region: 그리스
+    fields: [문학, 윤리]
+    persons: ["메데이아", "이아손", "크레온", "글라우케"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["배신", "복수", "모정과 증오", "책임의 귀속", "이방인의 고독"]
+    claim: "메데이아의 자식 살해는 비난을 면할 수 없지만, 그 비극의 뿌리에는 권력욕으로 아내를 버린 이아손의 배신과 무책임이 있다."
+    counter_claim: "어떤 배신도 무고한 자식을 죽인 행위를 정당화하거나 책임을 나눌 근거가 될 수 없으며, 책임은 전적으로 메데이아에게 있다."
+    hidden_premise: "행위의 도덕적 평가는 그 행위를 낳은 관계와 상황을 함께 보아야 한다."
+    counterexamples: ["동생과 펠리아스를 죽인 데서 드러나는 메데이아의 잔혹한 성정"]
+    conflicts: ["사랑 vs 증오", "가해자 vs 피해자", "개인의 분노 vs 인륜"]
+    universal_question: "상처받은 사람의 복수는 어디까지 이해될 수 있는가?"
+    tags: [그리스비극, 배신, 복수, 책임, 사랑]
+    location: "pdf 391~394쪽 (본문 389~392쪽)"
+    summary: "평론은 최악의 악녀로 꼽히는 메데이아를 그녀의 비극적 처지와 함께 보아야 한다고 말한다. 조국과 가족을 배신하면서까지 이아손을 도왔던 메데이아는 왕의 사위가 되려는 이아손에게 버림받고 이국에서 고립된 채 추방 명령까지 받는다. 그녀는 독이 묻은 선물로 왕녀와 크레온을 죽이고 두 아들까지 살해하며, 에우리피데스는 모정과 증오 사이의 갈등을 섬세하게 그린다. 평론자는 자식 살해는 비난받아 마땅하지만 메데이아에게 의존하다 파멸을 부른 이아손의 귀책도 크다고 본다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H019
+    title: "『향연』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: concept
+    author: {original: "플라톤", commentary: "박경귀"}
+    work: "『향연』"
+    era: 고대
+    region: 그리스
+    fields: [철학, 윤리]
+    persons: ["소크라테스", "파이드로스", "파우사니아스", "알키비아데스", "아가톤"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["에로스", "판데모스 에로스와 우라니아 에로스", "영혼의 아름다움", "결핍과 욕망", "에로스의 사다리"]
+    claim: "진정한 사랑(에로스)은 육체의 아름다움이 아니라 영혼의 아름다움과 선한 것을 향한 사랑이다."
+    counter_claim: "사랑은 본래 감각적·육체적 끌림에서 시작하며 외모의 아름다움을 사랑하는 것도 정당한 사랑이다."
+    hidden_premise: "사랑은 자신에게 없는 것을 바라는 결핍에서 생긴다."
+    counterexamples: ["그리스 시대에 여성에 대한 사랑을 고귀한 사랑으로 보지 않았던 한계(평론의 지적)"]
+    conflicts: ["육체 vs 영혼", "통속적 사랑 vs 천상의 사랑"]
+    universal_question: "우리는 사람의 무엇을 사랑하는가?"
+    tags: [사랑, 에로스, 아름다움, 소크라테스]
+    location: "pdf 395~397쪽 (본문 393~395쪽)"
+    summary: "평론은 아가톤의 우승 축하연에서 참석자들이 돌아가며 에로스를 찬미하는 『향연』의 구성을 소개한다. 파이드로스는 사랑이 용기를 낳는다고 하고, 파우사니아스는 육체를 사랑하는 통속적 에로스와 고귀한 인격을 사랑하는 천상의 에로스를 구분한다. 소크라테스는 에로스를 선하고 아름다운 것에 대한 욕망으로 정의하고, 육체의 아름다움으로 영혼의 아름다움을 사려는 알키비아데스를 ‘청동을 황금과 바꾸려 한다’며 꾸짖는다. 평론자는 영혼에서 아름다움을 찾는 것이 진정한 에로스라고 정리한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-H020
+    title: "『젊은 베르테르의 슬픔』 평론 — 『행복한 고전읽기 101』"
+    source_type: 고전평론
+    asset_type: literature
+    author: {original: "괴테", commentary: "박경귀"}
+    work: "『젊은 베르테르의 슬픔』"
+    era: 근대
+    region: 유럽
+    fields: [문학, 윤리]
+    persons: ["베르테르", "로테", "알베르트", "괴테", "샤를로테 부프"]
+    public: summary
+    copyright: own
+    pilot_group: 인간관계·윤리
+    concepts: ["열정과 절제", "이룰 수 없는 사랑", "사회 규범", "자살", "베르테르 신드롬"]
+    claim: "베르테르의 사랑은 순수한 열정의 아름다움을 보여주지만, 그 자유로운 감정은 사회적 규범과 제약을 넘지 못하고 비극으로 끝난다."
+    counter_claim: "사회 규범을 넘어선 사랑을 끝까지 좇은 것은 순수함이 아니라 타인(로테·알베르트)을 고려하지 않은 자기중심적 집착이다."
+    hidden_premise: "개인의 감정은 사회적 관계와 규범 안에서 한계를 지닌다."
+    counterexamples: ["침착한 절제력으로 감정을 다스린 로테", "작품이 모방 자살을 퍼뜨린 ‘베르테르 신드롬’"]
+    conflicts: ["열정 vs 절제", "개인의 감정 vs 사회 규범"]
+    universal_question: "사랑해서는 안 되는 사람을 사랑하게 되었을 때 어떻게 해야 하는가?"
+    tags: [괴테, 사랑, 열정, 질풍노도, 자살]
+    location: "pdf 407~412쪽 (본문 405~410쪽)"
+    summary: "평론자는 중학생 시절 탐독했던 『젊은 베르테르의 슬픔』을 다시 읽으며 사랑에 빠진 인간의 복잡한 감성 묘사에 감탄한다. 베르테르는 약혼자가 있는 로테를 사랑하게 되어 떠났다가, 관료 사회에도 적응하지 못하고 결혼한 로테에게 돌아와 열정과 절제 사이에서 방황한다. 그의 사랑은 사회적 규범을 넘지 못하고 알베르트의 권총으로 삶을 끝내며, 괴테 자신의 실연과 친구 예루살렘의 자살이 결합된 이야기로 소개된다. 평론은 자살을 당대처럼 선악으로만 재단하기 어렵다고 보면서도 베르테르 신드롬이라는 역설적 영향을 언급한다."
+    review: {status: draft, reviewer: ""}
+
+archetypes:
+  - id: ARC-H01
+    question: "행복은 타고난 조건에서 오는가, 스스로 기른 습관과 품성에서 오는가?"
+    sources: [SRC-H001, SRC-H002]
+    conflicts: ["품성 vs 외적 조건", "주지주의 vs 포괄주의"]
+    concepts: ["행복", "탁월성", "습관화", "외적 선"]
+    positions: ["행복은 반복된 좋은 행위로 길러진 품성에 달려 있다", "재산·건강·명예 같은 외적 조건도 행복의 필수 요소다"]
+    counterexamples: ["좋은 품성을 지녔지만 극심한 가난과 병으로 고통받는 사람", "모든 조건을 갖추고도 공허한 사람"]
+    situations: ["복권 당첨자의 행복도 논쟁", "학교에서 인성 습관 교육이 행복을 높이는가"]
+    abilities: [understand, define, reason, counter]
+    level_range: [1, 4]
+
+  - id: ARC-H02
+    question: "‘지나치지도 모자라지도 않은’ 중용은 최고의 판단인가, 애매한 타협인가?"
+    sources: [SRC-H001, SRC-H002, SRC-H013]
+    conflicts: ["원칙 vs 조화", "무모함 vs 비겁함"]
+    concepts: ["중용", "용기", "절제", "충서"]
+    positions: ["중용은 상황에 맞는 최적의 판단이자 덕이다", "중용은 구체적 기준이 없어 결단을 회피하는 타협이 되기 쉽다"]
+    counterexamples: ["명백한 불의 앞에서 ‘중간’을 택하는 것은 방관일 수 있다", "『중용』이 구체적 실천 지침을 주지 않는다는 지적"]
+    situations: ["찬반이 팽팽한 학급회의에서의 결정", "극단적 이념 대립 속 정치인의 입장"]
+    abilities: [define, reason, counter, rebut]
+    level_range: [2, 5]
+
+  - id: ARC-H03
+    question: "쾌락은 좋은 삶의 목적이 될 수 있는가?"
+    sources: [SRC-H004, SRC-H005, SRC-H015]
+    conflicts: ["쾌락 vs 덕", "감성 vs 이성"]
+    concepts: ["쾌락주의", "아타락시아", "헛된 욕망", "최고선"]
+    positions: ["헛된 욕망을 걸러낸 쾌락(마음의 평정)이 삶의 목적이다", "쾌락을 기준으로 삼으면 감각에 끌려 덕과 책무를 잃는다", "감성과 이성이 함께 쌓인 덕이 최고선이다"]
+    counterexamples: ["쾌락의 정점에서 허망함을 느낀 파우스트", "고통을 감수해야 얻는 성취의 기쁨"]
+    situations: ["즐거움 위주의 진로 선택", "게임·쇼핑 등 즉각적 만족의 추구"]
+    abilities: [understand, define, reason, counter]
+    level_range: [1, 4]
+
+  - id: ARC-H04
+    question: "개인의 마음의 평화와 공동체에 대한 책임 중 무엇이 먼저인가?"
+    sources: [SRC-H004, SRC-H005, SRC-H006]
+    conflicts: ["개인의 평정 vs 공동체 참여", "개인의 안락 vs 공공의 책무"]
+    concepts: ["아타락시아", "공적 책무", "이성적·공동체적 존재"]
+    positions: ["혼란한 시대에는 먼저 자신의 평정을 지키는 것이 현명하다", "이성적 인간은 공동체적 존재이므로 공적 책무를 피할 수 없다"]
+    counterexamples: ["쇠퇴기 아테네에서 개인주의로 흐른 에피쿠로스 사상의 한계", "전선에서 죽을 때까지 공적 의무를 다한 아우렐리우스"]
+    situations: ["번아웃 직장인의 사회 활동 중단", "투표 불참과 정치적 무관심"]
+    abilities: [reason, respond, counter, rebut]
+    level_range: [2, 5]
+
+  - id: ARC-H05
+    question: "아무도 막을 수 없는 힘을 가진 사람은 왜, 어떻게 스스로를 절제해야 하는가?"
+    sources: [SRC-H006]
+    conflicts: ["무한한 권력 vs 자기 절제", "외부 통제 vs 내면 수양"]
+    concepts: ["지배적 이성", "수신", "노블레스 오블리주"]
+    positions: ["권력자일수록 내면의 이성으로 스스로를 다스려야 한다", "권력의 절제는 개인 수양보다 제도적 견제로 보장해야 한다"]
+    counterexamples: ["내면 수양을 강조하는 지도자도 권력을 남용한 역사적 사례들"]
+    situations: ["감시가 없는 온라인 익명 공간에서의 행동", "대기업 총수·고위 공직자의 윤리"]
+    abilities: [understand, reason, respond, revise]
+    level_range: [2, 4]
+
+  - id: ARC-H06
+    question: "쓸모 있는 사람이 되려는 노력은 언제 나를 잃게 만드는가?"
+    sources: [SRC-H003]
+    conflicts: ["무위 vs 유위", "본성 vs 문명", "쓸모 vs 쓸모없음"]
+    concepts: ["무위자연", "무용지용", "분수", "기계에 사로잡힌 마음"]
+    positions: ["경쟁과 인위적 노력을 내려놓고 본성대로 살아야 자유롭다", "욕망과 노력도 인간 본성이며 현대 사회에서 무위는 비현실적이다", "유위의 삶 속에서 꾸밈없이 직분에 정성을 다하는 것이 현대적 무위다"]
+    counterexamples: ["쓸모없어 베이지 않고 거목이 된 나무 우화", "편리한 두레박을 거부한 노인 우화"]
+    situations: ["스펙 경쟁에 몰두하는 청년", "스마트폰·AI 도구에 대한 의존"]
+    abilities: [understand, define, reason, counter, revise]
+    level_range: [1, 5]
+
+  - id: ARC-H07
+    question: "확실한 앎에 이르려면 무엇을, 어디까지 의심해야 하는가?"
+    sources: [SRC-H007]
+    conflicts: ["회의 vs 믿음", "이성 vs 권위"]
+    concepts: ["방법적 회의", "명증성", "코기토", "순환 논증"]
+    positions: ["명석판명하지 않은 것은 모두 보류하는 회의가 확실한 앎의 출발점이다", "모든 것을 의심하면 행동할 수 없으므로 잠정적 믿음과 규칙이 필요하다"]
+    counterexamples: ["데카르트 자신도 의심하는 동안 지킬 잠정적 도덕 격률을 세운 점", "신 존재 증명이 순환 논증에 빠졌다는 비판"]
+    situations: ["SNS 뉴스·가짜뉴스 판별", "권위자의 말을 그대로 믿어도 되는가"]
+    abilities: [understand, define, reason, counter, rebut]
+    level_range: [2, 5]
+
+  - id: ARC-H08
+    question: "훌륭함(탁월함)은 가르칠 수 있는가?"
+    sources: [SRC-H008, SRC-H001]
+    conflicts: ["인식 vs 참된 확신", "가르침 vs 스스로의 깨달음"]
+    concepts: ["아레테", "엘렝코스", "상기", "습관화"]
+    positions: ["탁월함은 앎이므로 진정한 교사가 있다면 가르칠 수 있다", "탁월함은 습관과 실천으로 길러지는 것이지 말로 가르칠 수 없다", "성공한 사람의 경험이 곧 탁월함을 전하는 길이다"]
+    counterexamples: ["지성 없이 영감과 확신으로 큰일을 해낸 정치가들", "멘토는 넘치지만 지혜는 가문 현실"]
+    situations: ["인성 교육 과목의 효과", "성공한 유명인의 자기계발 강연"]
+    abilities: [define, reason, counter, rebut]
+    level_range: [2, 5]
+
+  - id: ARC-H09
+    question: "이름은 본질을 담아야 하는가, 사람들이 합의하기만 하면 되는가?"
+    sources: [SRC-H009, SRC-H016]
+    conflicts: ["자연 vs 규약", "본질 vs 합의", "이름 vs 실질"]
+    concepts: ["이름의 올바름", "자연주의", "규약주의", "정명"]
+    positions: ["이름은 대상의 본질을 드러내야 올바르다", "이름은 합의된 약속이므로 무엇이든 동의하면 올바르다", "본질을 담되 불완전한 부분은 합의로 보완해야 한다"]
+    counterexamples: ["완벽하게 닮은 이름은 대상 자체가 되어 모순에 빠진다는 반박", "가치를 담지 못한 정당 개명 사례"]
+    situations: ["기업·정당의 이미지 세탁용 개명", "학교·지명 개칭 논란", "‘~답지 못한’ 직함의 문제"]
+    abilities: [understand, define, reason, counter]
+    level_range: [1, 4]
+
+  - id: ARC-H10
+    question: "옳지 않은 판결이나 규칙에도 따라야 할 때가 있는가?"
+    sources: [SRC-H010]
+    conflicts: ["법의 안정 vs 개인의 정의", "생명 vs 신념"]
+    concepts: ["준법", "판결의 효력", "시민의 약속", "악으로 악을 갚지 않음"]
+    positions: ["개인이 판결을 임의로 무효화하면 법과 국가가 무너지므로 따라야 한다", "부당한 법에 복종하는 것은 불의를 승인하는 것이므로 거부해야 한다"]
+    counterexamples: ["‘악법도 법이다’라는 말의 출처 논란과 교과서 삭제", "추방 대신 사형을 받아들인 소크라테스의 선택"]
+    situations: ["불합리한 교칙을 어기는 학생", "양심적 거부와 시민불복종"]
+    abilities: [understand, reason, respond, counter, rebut]
+    level_range: [2, 5]
+
+  - id: ARC-H11
+    question: "좋은 의도로 한 일은 언제나 좋은 일인가, 이익이 되면 작은 잘못은 괜찮은가?"
+    sources: [SRC-H014]
+    conflicts: ["착함 vs 도덕적 선", "유익 vs 도덕"]
+    concepts: ["도덕적 선", "의무", "호의의 조건", "유익"]
+    positions: ["선행은 받는 사람의 태도와 공동체적 결과까지 고려해야 도덕적 선이 된다", "의도가 선하면 그 행위는 선하다", "도덕적으로 선하지 않은 것은 이익이 있어도 추구해서는 안 된다"]
+    counterexamples: ["도움이 오히려 상대의 의존과 위선을 낳는 경우", "‘착한’이라는 말을 정책에 붙이는 언어유희"]
+    situations: ["무분별한 기부·적선", "회사를 위한 작은 회계 조작"]
+    abilities: [define, reason, counter, rebut]
+    level_range: [1, 4]
+
+  - id: ARC-H12
+    question: "시대가 바뀐 지금, 부모에 대한 효와 윗사람에 대한 공경은 어떤 의무인가?"
+    sources: [SRC-H012, SRC-H016]
+    conflicts: ["전통적 의무 vs 개인의 자유", "형식 vs 진심", "일방적 복종 vs 쌍방향 덕목"]
+    concepts: ["효", "양구체와 양지", "충", "쌍방향 덕목"]
+    positions: ["효는 본성에서 우러나는 정감이므로 방식은 바뀌어도 가치는 지켜야 한다", "효·충은 가부장적 억압의 도구였으므로 개인의 선택에 맡겨야 한다", "윗사람의 덕과 예가 전제될 때만 공경과 충이 의미가 있다"]
+    counterexamples: ["손가락을 자르는 극단적 효행 설화", "충효사상이 근대 시민의식 발아를 지체시킨 측면"]
+    situations: ["1인 가구 시대의 부모 부양", "직장 상사에 대한 충성 요구"]
+    abilities: [understand, define, reason, respond, revise]
+    level_range: [1, 4]
+
+  - id: ARC-H13
+    question: "‘내가 원하지 않는 것을 남에게 하지 말라’는 원칙만으로 좋은 관계를 만들 수 있는가?"
+    sources: [SRC-H016, SRC-H013]
+    conflicts: ["자기 기준 vs 타인의 기준", "조화 vs 동화"]
+    concepts: ["서(恕)", "충서", "추기급인", "화이부동"]
+    positions: ["자기 마음을 미루어 남을 헤아리는 서는 관계의 황금률이다", "사람마다 원하는 것이 달라 나를 기준으로 삼는 원칙은 불충분하다"]
+    counterexamples: ["내가 괜찮은 농담이 상대에게는 상처가 되는 경우"]
+    situations: ["친구 사이의 장난과 배려", "다문화 교실에서의 예절 차이"]
+    abilities: [understand, define, reason, counter]
+    level_range: [1, 3]
+
+  - id: ARC-H14
+    question: "자신을 낮추고 다투지 않는 것은 약함인가, 이기는 지혜인가?"
+    sources: [SRC-H017, SRC-H011]
+    conflicts: ["낮춤 vs 내세움", "다투지 않음 vs 경쟁", "강자의 위선 vs 약자의 지혜"]
+    concepts: ["처하", "위이부쟁", "불언지교", "약자의 지혜"]
+    positions: ["낮추고 다투지 않는 태도가 결국 사람을 얻고 성공으로 이끈다", "경쟁 사회에서는 자기를 드러내고 다퉈야 손해를 보지 않는다"]
+    counterexamples: ["자신을 낮춰 천하 삼분에 성공한 유비", "권모술수로 권력을 잡았다 자멸한 위안스카이", "지혜로운 말로 강자의 마수를 벗어나는 우화 속 약자"]
+    situations: ["조별 과제에서 공을 양보하는 학생", "협상에서 먼저 물러서는 전략"]
+    abilities: [understand, reason, respond, counter]
+    level_range: [1, 4]
+
+  - id: ARC-H15
+    question: "배신당해 상처받은 사람의 복수는 어디까지 이해될 수 있으며, 비극의 책임은 누구에게 있는가?"
+    sources: [SRC-H018]
+    conflicts: ["가해자 vs 피해자", "사랑 vs 증오", "개인의 분노 vs 인륜"]
+    concepts: ["배신", "복수", "책임의 귀속"]
+    positions: ["어떤 이유로도 무고한 이를 해친 행위의 책임은 전적으로 행위자에게 있다", "비극을 낳은 배신과 권력욕에도 책임이 나뉘어야 한다"]
+    counterexamples: ["동생과 펠리아스를 죽인 메데이아의 이전 행적", "메데이아에게 의존하다 파멸을 부른 이아손"]
+    situations: ["학교폭력 피해자의 보복 사건", "배신당한 동업자의 맞소송"]
+    abilities: [understand, reason, respond, rebut]
+    level_range: [2, 5]
+
+  - id: ARC-H16
+    question: "우리는 사람의 무엇을 사랑하는가 — 겉모습인가 영혼인가?"
+    sources: [SRC-H019]
+    conflicts: ["육체 vs 영혼", "통속적 사랑 vs 천상의 사랑"]
+    concepts: ["에로스", "결핍", "영혼의 아름다움"]
+    positions: ["진정한 사랑은 영혼과 선한 것을 향한다", "외모에 대한 끌림도 사랑의 정당한 출발점이다"]
+    counterexamples: ["미모로 영혼의 아름다움을 사려 한 알키비아데스를 꾸짖은 소크라테스"]
+    situations: ["외모 중심의 소개팅 앱", "아이돌 팬덤의 사랑"]
+    abilities: [understand, define, reason, counter]
+    level_range: [1, 3]
+
+  - id: ARC-H17
+    question: "사회가 허락하지 않는 감정을 품었을 때 열정을 따를 것인가, 절제할 것인가?"
+    sources: [SRC-H020, SRC-H018]
+    conflicts: ["열정 vs 절제", "개인의 감정 vs 사회 규범"]
+    concepts: ["이룰 수 없는 사랑", "사회 규범", "자기 파괴"]
+    positions: ["진실한 감정은 규범보다 소중하며 억누르면 자신을 잃는다", "타인의 관계와 사회 규범을 존중해 감정을 절제해야 한다"]
+    counterexamples: ["침착한 절제력으로 감정을 다스린 로테", "모방 자살을 낳은 베르테르 신드롬"]
+    situations: ["친구의 연인을 좋아하게 된 경우", "연예인 사생활과 팬심"]
+    abilities: [understand, reason, respond, revise]
+    level_range: [2, 4]
+
+  - id: ARC-H18
+    question: "유혹에 흔들리고 방황하는 것은 실패인가, 성장의 과정인가?"
+    sources: [SRC-H015]
+    conflicts: ["신성 vs 악마성", "멈춤 vs 노력", "쾌락 vs 소명"]
+    concepts: ["유혹", "노력과 방황", "구원", "두 개의 영혼"]
+    positions: ["노력하는 한 방황은 불가피하며 끝내 올바른 길로 나아가면 구원받을 수 있다", "유혹에 굴복해 저지른 잘못은 이후의 노력으로 지워지지 않는다"]
+    counterexamples: ["그레트헨에 대한 파우스트의 죄", "말년에 백성을 위한 간척에 헌신한 파우스트"]
+    situations: ["실수가 잦은 청소년기를 어떻게 볼 것인가", "과거 잘못을 저지른 사람의 사회 복귀"]
+    abilities: [understand, reason, counter, rebut, revise]
+    level_range: [2, 5]
+
+topics:
+  - id: TOP-H01
+    archetypes: [ARC-H01]
+    prompt: "같은 반 두 친구가 있습니다. A는 집안 형편이 넉넉하지만 늘 불평이 많고, B는 형편이 어렵지만 매일 운동과 독서를 꾸준히 하며 즐겁게 지냅니다. 행복은 주어진 조건과 스스로 만든 습관 중 무엇에 더 달려 있을까요?"
+    form: comparison
+    level: 1
+    mode: B
+    abilities: [understand, reason]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-H02
+    archetypes: [ARC-H01, ARC-H08]
+    prompt: "학교가 ‘행복 수업’을 만들어 매일 감사 일기와 친절한 행동을 습관으로 훈련시키겠다고 합니다. 이런 훈련으로 사람의 품성과 행복을 바꿀 수 있다고 보나요? 근거를 들어 판단해 보세요."
+    form: policy
+    level: 3
+    mode: B
+    abilities: [define, reason, counter]
+    expected_turns: "6~8"
+    rebuttal: mid
+    cross: true
+    review: draft
+  - id: TOP-H03
+    archetypes: [ARC-H02]
+    prompt: "친구들 사이에 다툼이 생겨 양쪽이 모두 당신에게 편을 들어 달라고 합니다. 한쪽이 명백히 잘못했는데도 ‘중간’ 입장을 지키는 것은 지혜로운 중용일까요, 비겁한 회피일까요?"
+    form: dilemma
+    level: 2
+    mode: B
+    abilities: [define, reason, counter]
+    expected_turns: "5~7"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-H04
+    archetypes: [ARC-H02]
+    prompt: "‘용기는 무모함과 비겁함의 중간이다’라는 주장이 있습니다. 그렇다면 목숨을 걸고 불길 속에 뛰어든 소방관의 행동은 무모함일까요, 용기일까요? ‘중간’이라는 기준의 한계까지 따져 보세요."
+    form: concept
+    level: 4
+    mode: A
+    abilities: [define, counter, rebut, revise]
+    expected_turns: "7~10"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-H05
+    archetypes: [ARC-H03]
+    prompt: "‘하고 싶은 것만 하며 즐겁게 사는 것이 최고의 인생이다’라는 말에 동의하나요? 여기서 말하는 ‘즐거움’이 무엇인지부터 정의하고 판단해 보세요."
+    form: concept
+    level: 1
+    mode: B
+    abilities: [define, reason]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-H06
+    archetypes: [ARC-H03, ARC-H04]
+    prompt: "어떤 철학자는 ‘헛된 욕망을 버리고 마음의 평화를 얻는 것이 진짜 쾌락’이라 했고, 다른 철학자는 ‘그런 태도는 사회적 책임을 외면하게 만든다’고 비판했습니다. 두 입장을 비교하고, 오늘날 청소년에게 더 필요한 태도는 무엇인지 주장해 보세요."
+    form: comparison
+    level: 4
+    mode: A
+    abilities: [understand, reason, counter, rebut]
+    expected_turns: "7~10"
+    rebuttal: high
+    cross: true
+    review: draft
+  - id: TOP-H07
+    archetypes: [ARC-H04]
+    prompt: "정치 뉴스가 스트레스를 주어 아예 보지도 않고 선거에도 관심을 끊었다는 친구가 있습니다. ‘내 마음의 평화가 먼저’라는 그의 선택은 정당할까요?"
+    form: dilemma
+    level: 3
+    mode: B
+    abilities: [reason, respond, counter]
+    expected_turns: "5~8"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-H08
+    archetypes: [ARC-H05]
+    prompt: "무엇이든 마음대로 할 수 있는 권력을 가진 사람이 있습니다. 그가 스스로 절제하도록 하는 데에는 개인의 내면 수양과 법·제도의 견제 중 무엇이 더 효과적일까요?"
+    form: comparison
+    level: 3
+    mode: B
+    abilities: [reason, respond, revise]
+    expected_turns: "5~8"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-H09
+    archetypes: [ARC-H06]
+    prompt: "숲에서 쓸모없다고 버려진 굽은 나무만 베이지 않고 끝까지 살아남아 큰 나무가 되었다는 이야기가 있습니다. ‘쓸모없음’이 오히려 나를 지켜 줄 수 있을까요? 자신의 경험에 비추어 생각해 보세요."
+    form: concept
+    level: 1
+    mode: C
+    abilities: [understand, reason]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-H10
+    archetypes: [ARC-H06]
+    prompt: "한 노인이 ‘편리한 기계를 쓰면 기계에 사로잡히는 마음이 생긴다’며 두레박을 거절했습니다. AI 숙제 도우미를 쓰는 오늘의 학생에게 이 노인의 말은 여전히 유효할까요? 노인의 주장을 반박하고, 다시 그 반박을 재반박해 보세요."
+    form: concept
+    level: 5
+    mode: A
+    abilities: [define, counter, rebut, revise]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-H11
+    archetypes: [ARC-H07]
+    prompt: "SNS에서 ‘유명 의사가 추천한 건강법’이 퍼지고 있습니다. 이 정보를 믿기 전에 무엇을 어떤 순서로 의심하고 확인해야 할까요? 나만의 판단 규칙을 세워 보세요."
+    form: concept
+    level: 2
+    mode: B
+    abilities: [understand, define, reason]
+    expected_turns: "5~7"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-H12
+    archetypes: [ARC-H07]
+    prompt: "‘내가 분명하게 아는 것은 참이다. 신이 존재하므로 내가 분명하게 아는 것은 참이 보장된다. 나는 신을 분명하게 안다. 그러므로 신은 존재한다.’ 이 논증의 구조에서 무엇이 문제인지 찾아내고, 같은 오류가 일상 대화에서 나타나는 예를 들어 보세요."
+    form: concept
+    level: 5
+    mode: C
+    abilities: [define, counter, rebut]
+    expected_turns: "7~10"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-H13
+    archetypes: [ARC-H08]
+    prompt: "수백만 구독자를 가진 ‘성공 멘토’ 유튜버가 ‘나를 따라 하면 누구나 훌륭한 사람이 된다’고 말합니다. 그는 훌륭함을 가르칠 자격이 있는 사람일까요? ‘가르친다’와 ‘훌륭함’의 뜻을 먼저 정해 보세요."
+    form: concept
+    level: 4
+    mode: B
+    abilities: [define, reason, counter, rebut]
+    expected_turns: "7~10"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-H14
+    archetypes: [ARC-H09]
+    prompt: "사고와 비리로 이미지가 나빠진 회사가 이름만 바꾸고 경영 방식은 그대로 두었습니다. 사람들이 새 이름에 동의했다면 그것은 ‘올바른 이름’일까요?"
+    form: concept
+    level: 2
+    mode: B
+    abilities: [define, reason, counter]
+    expected_turns: "5~7"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-H15
+    archetypes: [ARC-H09, ARC-H12]
+    prompt: "‘선생님은 선생님다워야 하고, 학생은 학생다워야 한다’는 말이 있습니다. ‘~답다’는 기준은 누가, 어떻게 정해야 할까요? 이 말이 좋은 기준이 되는 경우와 억압이 되는 경우를 비교해 보세요."
+    form: comparison
+    level: 3
+    mode: C
+    abilities: [define, reason, counter, revise]
+    expected_turns: "6~9"
+    rebuttal: mid
+    cross: true
+    review: draft
+  - id: TOP-H16
+    archetypes: [ARC-H10]
+    prompt: "억울하게 중벌을 선고받은 사람에게 친구들이 돈을 모아 해외로 도피시켜 주겠다고 합니다. 그는 판결이 부당하다고 확신하지만 도피를 거절합니다. 그의 선택은 옳은가요?"
+    form: dilemma
+    level: 3
+    mode: A
+    abilities: [understand, reason, counter]
+    expected_turns: "6~8"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-H17
+    archetypes: [ARC-H10]
+    prompt: "학생 다수가 불합리하다고 여기는 교칙이 있습니다. ‘규칙이 바뀌기 전까지는 지켜야 한다’는 입장과 ‘부당한 규칙은 어겨서라도 바꿔야 한다’는 입장 중 하나를 택해 주장하고, 상대 입장의 가장 강한 반론에 답해 보세요."
+    form: policy
+    level: 5
+    mode: B
+    abilities: [reason, respond, rebut, revise]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-H18
+    archetypes: [ARC-H11]
+    prompt: "길에서 돈을 달라는 사람에게 매번 돈을 주는 친구가 있습니다. 그 돈이 좋지 않은 곳에 쓰일 수도 있다면, 좋은 마음으로 준 것만으로 착한 행동이라고 할 수 있을까요?"
+    form: dilemma
+    level: 1
+    mode: B
+    abilities: [define, reason]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-H19
+    archetypes: [ARC-H11]
+    prompt: "회사를 살리기 위해 실적을 조금 부풀려 보고하면 직원 수백 명의 일자리를 지킬 수 있습니다. ‘도덕적으로 옳지 않은 일은 이익이 있어도 해서는 안 된다’는 원칙은 이런 상황에서도 지켜져야 할까요?"
+    form: dilemma
+    level: 4
+    mode: B
+    abilities: [reason, counter, rebut]
+    expected_turns: "7~10"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-H20
+    archetypes: [ARC-H12]
+    prompt: "멀리 떨어져 사는 부모님께 비싼 선물을 자주 보내는 것과 매일 짧게라도 안부 전화를 드리는 것 중 어느 쪽이 더 큰 효도일까요? 효도의 핵심이 무엇인지 정의하며 답해 보세요."
+    form: comparison
+    level: 1
+    mode: B
+    abilities: [define, reason]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-H21
+    archetypes: [ARC-H12]
+    prompt: "‘윗사람을 공경하라’는 가르침이 회사에서 상사의 부당한 지시에도 따르라는 요구로 쓰이고 있습니다. 공경과 충성은 일방적 의무일까요, 서로의 덕이 전제된 관계일까요?"
+    form: concept
+    level: 3
+    mode: A
+    abilities: [understand, define, respond, counter]
+    expected_turns: "6~8"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-H22
+    archetypes: [ARC-H13]
+    prompt: "나는 친구가 장난으로 별명을 불러도 괜찮은데, 같은 별명을 들은 다른 친구는 크게 상처를 받았습니다. ‘내가 싫지 않으면 남에게 해도 된다’는 기준에는 어떤 문제가 있을까요?"
+    form: concept
+    level: 2
+    mode: B
+    abilities: [understand, reason, counter]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-H23
+    archetypes: [ARC-H14]
+    prompt: "조별 과제에서 실제로 가장 많이 기여했지만, 발표 때 공을 다른 친구들에게 돌리는 학생이 있습니다. 이런 ‘낮춤’은 손해일까요, 장기적으로 이기는 전략일까요?"
+    form: dilemma
+    level: 2
+    mode: B
+    abilities: [reason, respond]
+    expected_turns: "5~7"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-H24
+    archetypes: [ARC-H14]
+    prompt: "‘낯이 두껍고 속이 검어야 출세한다’는 처세술과 ‘자신을 낮추고 다투지 않는 자가 결국 사람을 얻는다’는 처세술이 있습니다. 실제 인물이나 사례를 들어 어느 쪽이 더 설득력 있는지 비교 탐구해 보세요."
+    form: comparison
+    level: 4
+    mode: C
+    abilities: [understand, reason, counter, rebut]
+    expected_turns: "7~10"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-H25
+    archetypes: [ARC-H15]
+    prompt: "오랜 세월 헌신한 배우자에게 버림받고 모든 것을 잃은 사람이 끔찍한 복수를 저질렀습니다. 그의 행동에 대한 책임은 전적으로 그에게 있을까요, 배신한 사람에게도 책임이 있을까요?"
+    form: dilemma
+    level: 4
+    mode: B
+    abilities: [reason, respond, rebut]
+    expected_turns: "7~10"
+    rebuttal: high
+    cross: false
+    review: draft
+  - id: TOP-H26
+    archetypes: [ARC-H16]
+    prompt: "외모가 뛰어난 사람과 대화할수록 존경스러운 사람 중 한 명을 짝으로 고른다면 누구를 고르겠습니까? 우리가 누군가를 사랑할 때 사랑하는 것은 그 사람의 무엇인지 정의해 보세요."
+    form: comparison
+    level: 1
+    mode: B
+    abilities: [understand, define]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+  - id: TOP-H27
+    archetypes: [ARC-H17]
+    prompt: "가장 친한 친구의 연인을 좋아하게 되었습니다. 마음을 고백하는 것과 감정을 접고 거리를 두는 것 중 무엇이 옳을까요? 감정의 진실성과 관계에 대한 책임을 함께 고려해 답해 보세요."
+    form: dilemma
+    level: 2
+    mode: B
+    abilities: [reason, respond]
+    expected_turns: "5~7"
+    rebuttal: mid
+    cross: false
+    review: draft
+  - id: TOP-H28
+    archetypes: [ARC-H18]
+    prompt: "중학생 시절 큰 잘못을 저질렀던 사람이 이후 수년간 봉사와 노력으로 삶을 바꿨습니다. ‘노력하는 한 방황은 불가피하다’는 관점에서 그의 과거를 용서할 수 있을까요? 반대 입장의 반론까지 다뤄 보세요."
+    form: dilemma
+    level: 5
+    mode: B
+    abilities: [reason, counter, rebut, revise]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft

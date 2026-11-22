@@ -18,6 +18,10 @@
     {% for k, v in st.by_type.items() %}<span class="think-chip">{{ k }} {{ v }}</span>{% endfor %}
     <p class="small mt">{% for c in st.conflicts %}<span class="think-chip">{{ c }}</span>{% endfor %}</p></div>
 </div>
+{% if books %}<div class="card mt"><div class="nx-label">원천 자료 목록 · 책별 (전체 {{ books|sum(attribute='count') }}편 등재 · 구조화 {{ books|sum(attribute='structured') }}편)</div>
+<table class="tbl"><tr><th>책</th><th>등재 편수</th><th>구조화(초안)</th><th>편 목록</th></tr>
+{% for b in books %}<tr><td>{{ b.title }}</td><td>{{ b.count }}</td><td>{{ b.structured }}</td>
+<td class="small"><details><summary>펼치기</summary>{% for x in b.pieces %}{{ loop.index }}. {{ x.title }}{{ ' · ' if not loop.last }}{% endfor %}</details></td></tr>{% endfor %}</table></div>{% endif %}
 <div class="card mt"><div class="nx-label">원천 자료</div>
 <table class="tbl"><tr><th>ID</th><th>제목</th><th>유형</th><th>시대·지역</th><th>가치충돌</th><th>공개·저작권</th><th>검수</th></tr>
 {% for s in kb.sources %}<tr class="{{ 'on' if sel and sel.id == s.id }}"><td><a href="/teacher/knowledge?src={{ s.id }}">{{ s.id }}</a></td><td>{{ s.title }}</td><td>{{ ASSET_TYPES[s.asset_type] }}</td>
@@ -33,7 +37,7 @@
 {% for a in kb.archetypes %}<tr><td><b>{{ a.question }}</b><br><span class="small muted">{{ a.conflicts|join(' · ') }}</span></td><td class="small">{{ a.sources|join(', ') or '—' }}</td>
 <td class="small">{{ a.abilities|comp|join(' · ') }}</td>
 <td class="small">{% for t in kb.topics_for(a.id) %}L{{ t.level }} {{ t.prompt[:30] }}… <span class="muted">({{ t.review }})</span><br>{% endfor %}</td></tr>{% endfor %}</table>
-{% if cross %}<p class="small mt"><b>교차출제 후보</b> · {% for a, b, sh in cross %}{{ a.id }} + {{ b.id }} ({{ sh|join(', ') }}){{ ' · ' if not loop.last }}{% endfor %}</p>{% endif %}</div>
+{% if cross %}<p class="small mt"><b>교차출제 후보</b> ({{ cross|length }}쌍 중 12쌍) · {% for a, b, sh in cross[:12] %}{{ a.id }} + {{ b.id }} ({{ sh|join(', ') }}){{ ' · ' if not loop.last }}{% endfor %}</p>{% endif %}</div>
 <form method="post" action="/teacher/knowledge/structure" hx-boost="false" class="card mt" id="structure">
   <div class="nx-label">AI 1차 구조화 → 전문가 검수 (원문 한 편)</div>
   <label class="field"><span>자료 제목</span><input name="title" value="{{ title or '' }}"></label>

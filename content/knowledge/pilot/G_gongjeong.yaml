@@ -1,0 +1,578 @@
+sources:
+  - id: SRC-G001
+    title: "특권 없는 국회가 되라 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: policy
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국
+    fields: [정치, 법]
+    persons: [제임스 뷰캐넌]
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [정치실패, 지대추구, 대리인 문제, 의원 특권, 자정기능]
+    claim: "국회의원은 국민의 대리인일 뿐이므로 특권을 내려놓고, 동료 의원이 아닌 외부 민간위원이 의원 윤리를 심사하도록 국회를 개혁해야 한다."
+    counter_claim: "의원 징계는 입법부의 자율권에 속하므로 외부 위원에게 넘기면 권력분립과 의회 독립이 훼손된다."
+    hidden_premise: "같은 집단의 구성원은 서로를 엄정하게 심판하지 못하며, 외부 위원은 정파적 이해에서 상대적으로 자유롭다."
+    counterexamples: ["외부 위원도 추천 정당의 영향을 받아 정파적으로 움직일 수 있다", "입법 규제가 모두 지대추구인 것은 아니며 시장 실패를 바로잡는 입법도 있다"]
+    conflicts: ["대표자의 자율 vs 외부 통제", "특권 보장 vs 책임 추궁"]
+    universal_question: "권력을 위임받은 사람을 누가, 어떻게 감시해야 하는가?"
+    tags: [국회, 특권, 윤리특별위원회, 지대추구, 공공선택론]
+    location: "pp.12~17"
+    summary: "저자는 한국 국회의 문제를 무능·부패를 넘어선 총체적 정치실패로 진단한다. 과도한 세비와 무노동 무임금 미적용 등 특권, 입법권을 이용한 경제적·이념적 지대추구를 비판한다. 의원 징계를 동료 의원에게 맡기는 윤리특별위원회는 자정 기능을 잃었다며 전원 민간위원으로 구성하자고 제안하고, 위헌 정당 해산 시 국고보조금 환수 등 제도 보완도 주장한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-G002
+    title: "국회, 공정의 파수꾼이 되라 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: concept
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국
+    fields: [정치, 법, 철학]
+    persons: [플라톤, 아리스토텔레스, 한비자]
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [법의 지배, 법에 의한 지배, 지성의 배분, 훌륭한 법질서(에우노미아), 민중선동]
+    claim: "통치자도 법 아래 놓이는 '법의 지배'가 민주정의 전제이며, 입법은 지성에 근거해야지 대중 선동이나 특권 유지 수단이 되어서는 안 된다."
+    counter_claim: "민주정에서 법의 정당성은 입법자의 지성보다 다수 시민의 의사에서 나오므로, 대중의 요구를 반영하는 입법이 곧 정당한 입법이다."
+    hidden_premise: "무엇이 '지성적'이고 '최선'인 법인지 판별할 수 있는 기준이 존재한다."
+    counterexamples: ["지성을 앞세운 엘리트 입법이 다수 시민의 이익을 외면한 사례", "대중 운동이 기존 법의 부정의를 바로잡은 사례(참정권 확대 등)"]
+    conflicts: ["법의 지배 vs 다수의 의지", "전문성 vs 민주적 정당성"]
+    universal_question: "법이 통치자를 지배하는가, 통치자가 법을 도구로 쓰는가?"
+    tags: [법치, 플라톤, 법률, 입법, 포퓰리즘]
+    location: "pp.18~22"
+    summary: "플라톤의 《법률》을 통해 입법의 원리를 살핀다. 플라톤은 이상국가 다음 차선으로 지성을 갖춘 입법자가 만든 법에 통치자까지 복종하는 법치 국가를 구상했다. 저자는 이를 근대적 '법의 지배'와 연결하고, 통치자가 법을 자의적 도구로 쓰는 '법에 의한 지배'(중국 법가)와 구별한다. 아리스토텔레스의 민중선동가 경고를 인용하며 국회가 선동에 흔들리지 말고 공정의 보루가 되라고 촉구한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-G003
+    title: "내 주권 뺏어가는 연동형 비례대표제 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: policy
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국
+    fields: [정치, 법]
+    persons: []
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [연동형 비례대표제, 다수대표제, 투표의 비례성, 정치적 안정, 국민 주권]
+    claim: "대통령제·단원제 국회에서 연동형 비례대표제를 도입하면 다당제와 정치 불안을 낳고 정당 지도부에 의원 선정권을 넘겨 국민 주권을 훼손하므로, 충분한 국민적 합의 없이 추진해서는 안 된다."
+    counter_claim: "연동형 비례대표제는 사표를 줄이고 득표율과 의석의 괴리를 바로잡아 다양한 민의를 반영하므로 오히려 국민 주권을 강화한다."
+    hidden_premise: "양당 구조가 다당제보다 정치적 안정과 국익에 유리하다."
+    counterexamples: ["독일·뉴질랜드처럼 비례성 높은 제도에서도 안정적 연정이 운영된 사례", "지역구 다수대표제가 지역주의와 사표를 심화시킨 사례"]
+    conflicts: ["비례성 vs 정치적 안정", "다양한 대표 vs 직접 선출"]
+    universal_question: "공정한 선거제도란 표의 가치를 똑같이 반영하는 것인가, 안정된 정부를 만드는 것인가?"
+    tags: [선거제도, 비례대표, 대통령제, 다당제, 패스트트랙]
+    location: "pp.29~39 (데일리안 2019-03-24 기고)"
+    summary: "2019년 선거제 개편 논의에 대한 기고문이다. 저자는 대통령제와 연동형 비례대표제의 조합은 세계적으로 드물고, 다당제를 고착해 정치 불안과 연정 거래를 낳을 수 있다고 본다. 비례대표 선정권이 정당 지도부에 있어 유권자의 통제가 약하다는 점, 위헌 소지를 지적하며 비례성은 중대선거구제 등으로 보완할 수 있다고 제안한다. 권력구조와 함께 국민적 합의를 거쳐 천천히 논의하자고 주장한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-G004
+    title: "보이지 않는 복지를 보라 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: policy
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국
+    fields: [정치, 경제, 행정]
+    persons: [키케로]
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [보이는 복지, 보이지 않는 복지, 재정 지속가능성, 포퓰리즘, 중앙-지방 재정분담]
+    claim: "위정자는 즉각적 수혜감을 주는 개인 현금성 복지보다 공공 인프라·교육 같은 '보이지 않는 복지'와 재정 여건에 맞춘 단계적 복지를 중시해야 한다."
+    counter_claim: "당장 생활이 어려운 사람에게는 직접 지원이 가장 시급하고 확실한 복지이며, 보편적 직접 지원도 장기적 인적 투자가 될 수 있다."
+    hidden_premise: "유권자는 근시안적 수혜를 선호하고 정치인은 그에 영합하는 경향이 있다."
+    counterexamples: ["무상급식처럼 직접 지원이 교육 여건과 아동 건강 개선으로 이어졌다는 평가", "인프라 투자도 정치적 생색내기용 사업으로 변질되는 사례"]
+    conflicts: ["단기 수혜 vs 장기 투자", "복지 확대 vs 재정 건전성"]
+    universal_question: "눈에 보이지 않는 공공의 이익을 위해 눈앞의 요구를 미룰 수 있는가?"
+    tags: [복지, 무상복지, 스웨덴 모델, 지방재정, 포퓰리즘]
+    location: "pp.44~46"
+    summary: "저자는 개인에게 직접 주는 복지를 '보이는 복지', 도시 인프라·문화시설 등 불특정 다수를 위한 복지를 '보이지 않는 복지'로 구분한다. 정책 선택이 시민의 근시안적 욕구에 끌려가기 쉽다고 경고하며, 스웨덴이 성장과 근로 책무를 바탕으로 복지를 조정한 사례를 든다. 또 중앙정치가 지자체와 협의 없이 무상복지 비용을 떠넘기는 문제를 지적하고 재원에 맞춘 단계적 도입을 촉구한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-G005
+    title: "상식에 어긋난 판사는 퇴출되어야 한다 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: policy
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국
+    fields: [법, 행정]
+    persons: [잭 웰치]
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [법관 재임용 심사, 근무성적평정, 상대평가, 사법 독립, 사법 신뢰]
+    claim: "법관 재임용 심사는 객관적 실적과 근무평정에 근거해 엄격히 운영되어야 하며, 실적이 현저히 불량한 판사는 퇴출해야 한다."
+    counter_claim: "판사에게 성과 평가와 퇴출 위협을 가하면 다수 여론이나 인사권자의 눈치를 보게 되어 사법 독립이 훼손된다."
+    hidden_premise: "판사의 직무 성과를 객관적으로 측정할 수 있으며, 평가 결과가 판결 내용에 대한 압력으로 작용하지 않게 분리할 수 있다."
+    counterexamples: ["재판 처리 건수 위주 평가가 신중한 심리를 저해할 수 있다", "인사평가가 특정 성향 판사를 배제하는 도구로 악용된 논란"]
+    conflicts: ["사법 독립 vs 책임성", "신분 보장 vs 성과 평가"]
+    universal_question: "독립성이 필요한 직위의 사람을 평가하고 해임할 수 있는가?"
+    tags: [사법부, 법관, 재임용, 성과평가, 철밥통]
+    location: "pp.47~50"
+    summary: "근무평정 하위 판사의 재임용 탈락 논란을 계기로 쓴 글이다. 저자는 평가에 한계가 있어도 평가 자체를 부정할 수는 없다며, 민간 기업과 지자체의 저성과자 관리와 비교해 법관 재임용 심사가 유명무실했다고 비판한다. 막말 같은 품위 문제는 징계로 다루고 재임용은 실적으로 판단해야 한다고 구분하며, 재판의 독립을 위축시켜서는 안 된다는 단서도 단다. 경력 법조인을 판사로 충원하는 유연한 제도를 대안으로 제시한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-G006
+    title: "실현가능한 공약이 좋은 공약이다 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: policy
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국
+    fields: [정치, 행정]
+    persons: []
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [정책의 소망성, 실현가능성, 인수위원회, 정책평가, 공론화]
+    claim: "공약은 소망성과 실현가능성을 모두 갖추어야 정책이 될 수 있으므로, 인수위는 서둘러 공약을 밀어붙이기보다 검증과 공론화를 거쳐 정책화해야 한다."
+    counter_claim: "선거로 위임받은 공약은 국민과의 약속이므로 관료의 현실론에 밀려 수정되기보다 원안대로 신속히 이행되어야 한다."
+    hidden_premise: "선거 공약은 충분한 정책 분석 없이 급조되는 경우가 많다."
+    counterexamples: ["실현가능성 검토를 이유로 개혁 공약이 관료 저항에 무력화된 사례", "초기에 신속히 추진하지 않아 개혁 동력을 잃은 정부 사례"]
+    conflicts: ["약속 이행 vs 실현가능성", "개혁 속도 vs 숙의"]
+    universal_question: "약속을 지키는 것과 상황에 맞게 약속을 고치는 것 중 무엇이 더 책임 있는 태도인가?"
+    tags: [공약, 인수위, 정책결정, 관료제, 공론화]
+    location: "pp.51~55"
+    summary: "새 정부나 지자체장 인수위와 관료 사이의 갈등을 이상적 가치와 현실 제약의 충돌로 해석한다. 저자는 정책이 바람직함(소망성)과 법·예산·인력 등 실현가능성을 함께 충족해야 한다고 본다. 대안으로 이론과 실무를 겸비한 정책 전문가 양성, 상시 정책평가, 취임 후 공론화를 거친 과제 확정, 인수위의 비전 설정 집중과 인적 구성 개선을 제시한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-G007
+    title: "90% 노동자 외면하는 10% 귀족 노조 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: policy
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국
+    fields: [정치, 노동, 사회]
+    persons: []
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [노조 조직률, 대표성, 과다대표, 기득권, 노사 대화]
+    claim: "노조가 투쟁 일변도와 정치화로 다수 노동자의 지지를 잃었으므로, 대화와 합법적 활동으로 다수 노동자를 대변하는 방향으로 바뀌어야 한다."
+    counter_claim: "낮은 조직률은 노조의 행태보다 노조 활동을 어렵게 하는 법제와 고용 구조 탓이며, 강한 투쟁은 약자의 정당한 협상 수단이다."
+    hidden_premise: "노동자들이 노조에 가입하지 않는 주된 이유는 노조의 행태에 대한 반감이다."
+    counterexamples: ["비정규직·소규모 사업장 노동자는 가입 자체가 어려워 조직률이 낮다는 분석", "노조 투쟁의 성과가 비조합원 노동조건 개선으로 확산된 사례"]
+    conflicts: ["소수 조직의 대표성 vs 다수의 이익", "투쟁 vs 대화"]
+    universal_question: "소수가 조직된 집단은 전체를 대변할 자격이 있는가?"
+    tags: [노동조합, 노사관계, 조직률, 대표성, 기득권]
+    location: "pp.70~72"
+    summary: "일부 시위의 과격 행태를 출발점으로, 저자는 노조 조직률이 약 10%에 머무는 이유를 묻는다. 그는 노조가 전투적·정치적으로 변하고 정규직 기득권 지키기에 치중하면서 다수 노동자의 신뢰를 잃었다고 본다. 조직률이 높은 스웨덴과 비교하며, 대화와 타협의 노사문화와 합법적 활동으로 국민적 지지를 얻는 것이 노조의 과제라고 제안한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-G008
+    title: "공정한 인사운영, 조직의 생명이다 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: policy
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국
+    fields: [행정, 법, 노동]
+    persons: []
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [최적 인재, 인사권, 단체협약, 비정규직 정규직화, 견제와 균형]
+    claim: "공공기관의 공정한 인사는 '최고'가 아닌 '최적'의 인재 선발, 노사협약에 침해받지 않는 인사권, 이사회의 실질적 견제를 통해 확보된다."
+    counter_claim: "인사위원회에 노조가 참여하고 정보를 공유해야 경영진의 자의적 인사를 막을 수 있으며, 비정규직의 일괄 정규직화가 공정한 처우의 출발점이다."
+    hidden_premise: "경영진의 인사권은 노조의 참여보다 공정성을 더 잘 보장한다."
+    counterexamples: ["기관장의 낙하산·보은 인사처럼 경영진 인사권이 불공정하게 행사된 사례", "노동자 이사제·공동결정제로 경영 투명성이 높아졌다는 평가"]
+    conflicts: ["경영권 vs 노동자 참여", "고용 안정 vs 고용 유연성"]
+    universal_question: "공정한 선발과 인사는 누가 결정권을 가질 때 가장 잘 보장되는가?"
+    tags: [공공기관, 인사, 노조, 정규직화, 이사회, 경영평가]
+    location: "pp.130~136"
+    summary: "공공기관 경영평가 경험을 바탕으로 쓴 글이다. 저자는 채용자의 다수가 곧 퇴직한 사례를 들어 직무에 맞는 '최적의 인재'를 뽑고 근무조건을 충분히 설명하는 것이 공정한 인사라고 말한다. 단체협약으로 노조원이 징계위원회에 참여하고 회의록을 공유한 사례를 인사권 침해로 비판하며, 일률적 정규직 전환의 부작용과 임금피크제 등 대안을 제시한다. 끝으로 형식에 그친 이사회의 견제 기능을 강화하자고 주장한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-G009
+    title: "자유의 충돌 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: concept
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국·미국
+    fields: [정치, 법, 철학]
+    persons: [토마스 홉스, 존 로크, 버락 오바마]
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [자연권, 정당방위, 소유권, 개인의 자유, 국가의 보호 책무]
+    claim: "자기 신체와 재산을 지키는 것은 자연권이며, 개인의 선택의 자유와 국가의 보호 책무가 충돌할 때 개인의 자유를 진지하게 우선 고려해야 한다."
+    counter_claim: "건강보험 의무가입처럼 국가가 개인 선택을 일부 강제해야 모두의 안전과 실질적 자유가 보장된다."
+    hidden_premise: "국가의 강제는 그 목적이 개인의 이익이라 해도 자유의 침해에 해당한다."
+    counterexamples: ["의무가입이 없으면 건강한 사람이 빠져 보험 제도 자체가 무너지는 역선택 문제", "정당방위를 넓게 인정하자 과잉 대응 사건이 늘었다는 논란"]
+    conflicts: ["개인의 자유 vs 국가의 보호", "자기방어 vs 과잉방어"]
+    universal_question: "국가는 나를 위해서라도 나의 선택을 강제할 수 있는가?"
+    tags: [자유, 자연권, 정당방위, 오바마케어, 의무가입]
+    location: "pp.174~178"
+    summary: "두 사례로 자유의 충돌을 다룬다. 첫째, 홉스·로크의 자연권 개념을 빌려 신체와 재산 방어를 인간의 기본 권리로 보면서도, 폭력 피해 학생의 가해자 살해에 정당방위를 인정한 미국 판결을 들어 과잉방어의 위험과 엄정한 요건 적용을 함께 강조한다. 둘째, 오바마 정부 건강보험 의무가입 조항의 위헌 논쟁을 소개하며 개인의 자기선택과 국가 보호 책무의 충돌을 치열하게 고민하는 미국 사회의 태도를 높이 평가한다."
+    review: {status: draft, reviewer: ""}
+
+  - id: SRC-G010
+    title: "양성평등이 공정이다 — 『공정이 먼저다』"
+    source_type: 칼럼
+    asset_type: concept
+    author: {original: "", commentary: 박경귀}
+    work: 『공정이 먼저다』
+    era: 현대
+    region: 한국
+    fields: [정치, 사회, 법]
+    persons: [메리 울스턴크래프트, 존 스튜어트 밀]
+    public: summary
+    copyright: own
+    pilot_group: 정치·법
+    concepts: [양성평등, 적극적 우대조치, 완전평등의 원리, 과소대표, 양성조화]
+    claim: "양성평등은 아직 미완의 과제이므로 제도적 우대조치를 유지하되, 남녀의 관점을 조화시키는 '양성조화'로 패러다임을 넓혀야 지속가능하게 실현된다."
+    counter_claim: "할당제 같은 우대조치는 개인의 능력 경쟁 원칙에 어긋나며, 형식적 기회의 평등이 보장된 이상 결과 격차는 개인 선택의 문제다."
+    hidden_premise: "남녀는 서로 보완할 수 있는 고유한 강점과 약점을 가진다."
+    counterexamples: ["성별 고유 강점론이 고정적 성 역할을 정당화하는 데 쓰인 역사", "공개 경쟁 시험 분야에서 남성 할당 요구가 나타나는 현상"]
+    conflicts: ["형식적 평등 vs 실질적 평등", "적극적 우대 vs 능력주의"]
+    universal_question: "같게 대하는 것과 공정하게 대하는 것은 언제 서로 달라지는가?"
+    tags: [양성평등, 여성할당제, 젠더, 울스턴크래프트, 밀]
+    location: "pp.224~229"
+    summary: "프랑스 인권선언과 여성 참정권 확대의 역사를 짚은 뒤, 울스턴크래프트의 '합리적 동료애'와 밀의 '완전평등의 원리'를 소개한다. 저자는 제도상 종속은 상당히 해소되었지만 성 역할 사회화, 정치·고위직 과소대표, 일·가정 양립 부담, 낮은 성 격차지수 등 과제가 남았다고 본다. 동시에 일부 분야의 남성 할당 요구 같은 새로운 갈등도 언급하며, 우대조치를 유지하면서 남녀가 서로 보완하는 '양성조화'로 나아가자고 제안한다."
+    review: {status: draft, reviewer: ""}
+
+archetypes:
+  - id: ARC-G01
+    question: "권력을 위임받은 대표자는 누구에게 심판받아야 하는가?"
+    sources: [SRC-G001]
+    conflicts: ["대표자의 자율 vs 외부 통제", "특권 보장 vs 책임 추궁"]
+    concepts: [대리인 문제, 자정기능, 권력분립, 의원 특권]
+    positions: ["동료 집단은 서로 봐주기 쉬우므로 외부 민간위원이 심판해야 한다", "입법부의 독립을 위해 징계는 의회 자율에 맡기고 최종 심판은 선거로 해야 한다"]
+    counterexamples: ["외부 위원도 추천 세력의 영향을 받는다", "의원 면책특권이 권력 견제에 기여한 사례"]
+    situations: ["국회 윤리위원회 구성", "전문직 단체의 자율 징계", "학생회 임원 징계"]
+    abilities: [define, reason, counter]
+    level_range: [2, 4]
+
+  - id: ARC-G02
+    question: "법은 통치자 위에 있어야 하는가, 다수의 의지를 따라야 하는가?"
+    sources: [SRC-G002]
+    conflicts: ["법의 지배 vs 다수의 의지", "전문성 vs 민주적 정당성"]
+    concepts: [법의 지배, 법에 의한 지배, 민중선동, 입헌주의]
+    positions: ["다수의 요구도 헌법과 법의 원리 안에서만 정당하다", "법의 정당성은 시민의 의사에서 나오므로 다수가 원하면 법도 바뀌어야 한다"]
+    counterexamples: ["다수결로 소수의 권리를 박탈한 역사", "기존 법질서가 부정의해서 시민 불복종이 정당화된 사례"]
+    situations: ["여론과 헌법재판소 판단이 충돌할 때", "국민투표 결과가 기본권과 충돌할 때"]
+    abilities: [understand, define, rebut]
+    level_range: [3, 5]
+
+  - id: ARC-G03
+    question: "공정한 선거제도는 표의 등가성을 우선해야 하는가, 정치적 안정을 우선해야 하는가?"
+    sources: [SRC-G003]
+    conflicts: ["비례성 vs 정치적 안정", "다양한 대표 vs 직접 선출"]
+    concepts: [사표, 비례대표제, 다수대표제, 다당제, 국민 주권]
+    positions: ["득표율대로 의석을 나누어야 모든 표가 같은 가치를 가진다", "승자를 분명히 해야 책임 정치와 안정이 가능하다"]
+    counterexamples: ["비례성 높은 국가의 안정적 연정", "다수대표제 국가의 양극화와 교착"]
+    situations: ["학급 대표 선출 방식 결정", "국회 선거제 개편 논의"]
+    abilities: [understand, reason, counter, respond]
+    level_range: [2, 5]
+
+  - id: ARC-G04
+    question: "눈앞의 직접 혜택과 보이지 않는 장기 공공재 중 무엇에 먼저 투자해야 하는가?"
+    sources: [SRC-G004]
+    conflicts: ["단기 수혜 vs 장기 투자", "복지 확대 vs 재정 건전성"]
+    concepts: [보이는 복지, 보이지 않는 복지, 공공재, 재정 지속가능성]
+    positions: ["당장 어려운 사람에게 직접 지원하는 것이 우선이다", "인프라·교육 같은 공공재가 더 많은 사람에게 오래 이익을 준다"]
+    counterexamples: ["직접 지원이 인적 자본 투자 효과를 낸 사례", "인프라 사업의 예산 낭비 사례"]
+    situations: ["지자체 예산 배분", "학교 운영비 사용처 결정"]
+    abilities: [understand, reason, respond]
+    level_range: [1, 4]
+
+  - id: ARC-G05
+    question: "독립성이 필요한 자리에 있는 사람도 성과로 평가하고 교체할 수 있는가?"
+    sources: [SRC-G005]
+    conflicts: ["사법 독립 vs 책임성", "신분 보장 vs 성과 평가"]
+    concepts: [신분 보장, 재임용 심사, 근무평정, 사법 독립]
+    positions: ["공직도 실적이 불량하면 교체해야 신뢰를 지킨다", "평가와 퇴출 위협은 소신 있는 판단을 위축시킨다"]
+    counterexamples: ["처리 건수 중심 평가의 부작용", "평가 없는 종신 보장이 낳은 무사안일"]
+    situations: ["법관 재임용", "교수 정년 보장 심사", "언론사 편집권과 인사"]
+    abilities: [define, reason, counter, rebut]
+    level_range: [3, 5]
+
+  - id: ARC-G06
+    question: "약속을 그대로 지키는 것과 현실에 맞게 고치는 것 중 무엇이 더 책임 있는가?"
+    sources: [SRC-G006]
+    conflicts: ["약속 이행 vs 실현가능성", "개혁 속도 vs 숙의"]
+    concepts: [소망성, 실현가능성, 선거 위임, 공론화]
+    positions: ["유권자가 선택한 약속은 원안대로 이행해야 한다", "검증 결과 실현이 어렵다면 수정하고 그 이유를 설명하는 것이 책임이다"]
+    counterexamples: ["현실론을 명분으로 공약을 사실상 폐기한 사례", "무리한 공약 이행이 부작용을 낳은 사례"]
+    situations: ["새 정부 출범기 공약 이행", "학생회 선거 공약 수정"]
+    abilities: [understand, reason, respond, revise]
+    level_range: [1, 3]
+
+  - id: ARC-G07
+    question: "소수가 조직된 집단은 전체를 대변할 정당성을 가지는가?"
+    sources: [SRC-G007]
+    conflicts: ["소수 조직의 대표성 vs 다수의 이익", "투쟁 vs 대화"]
+    concepts: [조직률, 대표성, 무임승차, 집단행동]
+    positions: ["조직된 소수의 활동은 비조직 다수에게도 이익을 확산시킨다", "가입자가 적은 조직은 자기 구성원의 이익만 대변할 위험이 크다"]
+    counterexamples: ["노조 협약이 비조합원 처우 개선으로 이어진 사례", "정규직 중심 협약이 비정규직 격차를 키운 사례"]
+    situations: ["노동조합의 사회적 대화 참여", "학생 단체가 전체 학생 의견을 대표하는 문제"]
+    abilities: [define, reason, counter]
+    level_range: [2, 4]
+
+  - id: ARC-G08
+    question: "국가는 개인을 보호하기 위해 개인의 선택을 강제할 수 있는가?"
+    sources: [SRC-G009]
+    conflicts: ["개인의 자유 vs 국가의 보호", "자기방어 vs 과잉방어"]
+    concepts: [자연권, 온정주의, 정당방위, 의무가입, 역선택]
+    positions: ["자기 삶에 관한 선택은 결과까지 개인이 책임지는 것이 자유다", "제도가 유지되고 모두가 보호받으려면 일정한 강제가 필요하다"]
+    counterexamples: ["안전벨트 의무화의 효과", "의무가입 없는 보험의 붕괴 사례"]
+    situations: ["건강보험 의무가입", "정당방위 인정 범위", "헬멧·안전벨트 의무"]
+    abilities: [understand, define, reason, rebut]
+    level_range: [2, 5]
+
+  - id: ARC-G09
+    question: "같게 대하는 것이 공정인가, 다르게 대해야 공정해지는 경우가 있는가?"
+    sources: [SRC-G010]
+    conflicts: ["형식적 평등 vs 실질적 평등", "적극적 우대 vs 능력주의"]
+    concepts: [형식적 평등, 실질적 평등, 적극적 우대조치, 과소대표]
+    positions: ["출발선의 구조적 격차를 바로잡으려면 한시적 우대가 필요하다", "개인을 집단 소속으로 우대·차별하는 것은 그 자체로 불공정하다"]
+    counterexamples: ["우대조치로 다양성과 대표성이 개선된 사례", "우대조치가 역차별 논란과 수혜자 낙인을 낳은 사례"]
+    situations: ["공직·의회 성별 할당제", "대학 입시 지역·계층 균형 선발"]
+    abilities: [define, reason, counter, revise]
+    level_range: [2, 5]
+
+  - id: ARC-G10
+    question: "조직의 공정한 인사는 누가 결정권을 가질 때 가장 잘 지켜지는가?"
+    sources: [SRC-G008]
+    conflicts: ["경영권 vs 노동자 참여", "고용 안정 vs 고용 유연성"]
+    concepts: [인사권, 최적 인재, 견제와 균형, 정규직화]
+    positions: ["책임을 지는 경영진이 인사권을 가져야 공정과 효율이 함께 선다", "구성원이 참여하고 견제해야 자의적 인사를 막을 수 있다"]
+    counterexamples: ["기관장의 보은 인사", "노조 참여가 징계 절차를 왜곡한 사례"]
+    situations: ["공공기관 인사위원회 구성", "비정규직 정규직 전환 방식", "학교 동아리 임원 선발"]
+    abilities: [understand, reason, respond, counter]
+    level_range: [1, 4]
+
+topics:
+  - id: TOP-G01
+    archetypes: [ARC-G01]
+    prompt: "국회의원 징계를 심사하는 윤리위원회를 현직 의원 대신 외부 민간위원만으로 구성하자는 제안이 있다. 이 제안의 장점과 위험을 따져 보고 찬반 입장을 정하라."
+    form: policy
+    level: 3
+    mode: B
+    abilities: [reason, counter]
+    expected_turns: "6~10"
+    rebuttal: mid
+    cross: false
+    review: draft
+
+  - id: TOP-G02
+    archetypes: [ARC-G01]
+    prompt: "학급 회장이 규칙을 어겼을 때, 학급 임원들이 징계를 정하는 것과 담임교사나 다른 반 학생 위원이 정하는 것 중 어느 쪽이 더 공정할까?"
+    form: dilemma
+    level: 1
+    mode: B
+    abilities: [define, reason]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+
+  - id: TOP-G03
+    archetypes: [ARC-G02]
+    prompt: "국민 다수가 찬성하는 법률이 헌법재판소에서 위헌 결정을 받았다. '법의 지배'와 '다수의 뜻' 개념을 정의하고, 어느 쪽 판단이 우선해야 하는지 논하라."
+    form: concept
+    level: 5
+    mode: A
+    abilities: [define, rebut]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft
+
+  - id: TOP-G04
+    archetypes: [ARC-G03]
+    prompt: "득표율만큼 의석을 나누는 비례대표를 늘리는 선거제 개편안과, 지역구에서 가장 많은 표를 얻은 사람만 당선되는 현행 방식 강화안이 맞서고 있다. 대통령제라는 조건을 고려해 어느 쪽이 더 공정한 제도인지 논하라."
+    form: comparison
+    level: 4
+    mode: A
+    abilities: [reason, counter, respond]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft
+
+  - id: TOP-G05
+    archetypes: [ARC-G03]
+    prompt: "학급 대표를 뽑을 때 1등 한 명만 뽑는 방식과 득표 비율대로 여러 명의 대표단을 꾸리는 방식 중 무엇이 더 좋을까?"
+    form: comparison
+    level: 2
+    mode: B
+    abilities: [understand, reason]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+
+  - id: TOP-G06
+    archetypes: [ARC-G04]
+    prompt: "시 예산 100억 원을 모든 가구에 현금으로 나누어 줄지, 도서관·공원·대중교통 확충에 쓸지 결정해야 한다. 시장이라면 어떻게 하겠는가?"
+    form: policy
+    level: 2
+    mode: B
+    abilities: [reason, respond]
+    expected_turns: "6~8"
+    rebuttal: mid
+    cross: false
+    review: draft
+
+  - id: TOP-G07
+    archetypes: [ARC-G04]
+    prompt: "중앙정부가 새 보편 복지 정책을 만들면서 비용의 절반을 지방자치단체가 부담하도록 했다. 복지 확대의 필요성과 지방 재정 부담을 함께 고려해 이 결정 방식이 바람직한지 평가하라."
+    form: policy
+    level: 4
+    mode: C
+    abilities: [understand, reason, counter]
+    expected_turns: "8~10"
+    rebuttal: mid
+    cross: false
+    review: draft
+
+  - id: TOP-G08
+    archetypes: [ARC-G05]
+    prompt: "판사를 10년마다 재임용 심사하면서 사건 처리 실적과 근무평정이 낮으면 탈락시키는 제도가 있다. 이 제도는 사법 신뢰를 높이는가, 사법 독립을 해치는가?"
+    form: policy
+    level: 4
+    mode: A
+    abilities: [reason, counter, rebut]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft
+
+  - id: TOP-G09
+    archetypes: [ARC-G05]
+    prompt: "공무원의 정년 보장을 없애고 하위 성과자를 일정 비율 퇴출하는 제도를 도입하자는 주장이 있다. 공직의 안정성과 책임성 사이에서 입장을 정하고 예상 반론에 답하라."
+    form: policy
+    level: 3
+    mode: B
+    abilities: [define, reason, counter]
+    expected_turns: "6~10"
+    rebuttal: mid
+    cross: false
+    review: draft
+
+  - id: TOP-G10
+    archetypes: [ARC-G06]
+    prompt: "학생회장 후보가 '매점 24시간 운영'을 공약해 당선되었는데, 학교 측이 인력과 안전 문제로 불가능하다고 한다. 회장은 공약을 끝까지 밀어붙여야 할까, 수정해야 할까?"
+    form: dilemma
+    level: 1
+    mode: B
+    abilities: [reason, revise]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
+
+  - id: TOP-G11
+    archetypes: [ARC-G06]
+    prompt: "새 정부가 핵심 공약을 취임 직후 바로 추진할지, 몇 달간 실현가능성 검증과 공론화를 거칠지 결정해야 한다. 각 선택의 장단점을 비교하고 원칙을 제시하라."
+    form: comparison
+    level: 3
+    mode: A
+    abilities: [understand, reason, respond]
+    expected_turns: "6~8"
+    rebuttal: mid
+    cross: false
+    review: draft
+
+  - id: TOP-G12
+    archetypes: [ARC-G07]
+    prompt: "노동조합 조직률이 약 10%인 상황에서, 노조가 전체 노동자를 대표해 정부·경영계와 사회적 합의에 참여하는 것은 정당한가? 낮은 조직률의 원인 해석과 함께 논하라."
+    form: policy
+    level: 4
+    mode: C
+    abilities: [define, reason, counter]
+    expected_turns: "8~10"
+    rebuttal: high
+    cross: false
+    review: draft
+
+  - id: TOP-G13
+    archetypes: [ARC-G08]
+    prompt: "건강보험 가입을 모든 국민에게 의무화하는 것은 개인의 자유 침해인가, 모두를 보호하기 위한 정당한 강제인가? 미국 오바마케어 논쟁을 참고해 논하라."
+    form: policy
+    level: 3
+    mode: A
+    abilities: [reason, rebut]
+    expected_turns: "6~10"
+    rebuttal: mid
+    cross: false
+    review: draft
+
+  - id: TOP-G14
+    archetypes: [ARC-G08]
+    prompt: "오랫동안 폭력에 시달린 학생이 폭행당하던 중 가해자에게 치명상을 입혔다. 정당방위로 볼 수 있는 범위는 어디까지이며, 정당방위를 넓게 인정할 때와 좁게 인정할 때 각각 어떤 결과가 생길까?"
+    form: dilemma
+    level: 5
+    mode: B
+    abilities: [define, reason, rebut]
+    expected_turns: "8~12"
+    rebuttal: high
+    cross: false
+    review: draft
+
+  - id: TOP-G15
+    archetypes: [ARC-G09]
+    prompt: "공무원 채용시험에서 한 성별의 합격자가 일정 비율 미만이면 추가 합격시키는 양성평등채용목표제가 있다. 이 제도는 공정을 실현하는가, 능력주의 원칙에 어긋나는가?"
+    form: policy
+    level: 4
+    mode: B
+    abilities: [define, reason, counter]
+    expected_turns: "8~10"
+    rebuttal: high
+    cross: false
+    review: draft
+
+  - id: TOP-G16
+    archetypes: [ARC-G09]
+    prompt: "'다른 것은 다르게, 같은 것은 같게 대하는 것이 공정이다'라는 말을 학교 생활의 예로 설명하고, 이 원칙이 적용하기 어려운 경우를 찾아보라."
+    form: concept
+    level: 2
+    mode: C
+    abilities: [understand, define, revise]
+    expected_turns: "4~8"
+    rebuttal: low
+    cross: false
+    review: draft
+
+  - id: TOP-G17
+    archetypes: [ARC-G10]
+    prompt: "공공기관 징계위원회에 노조 추천 위원을 참여시키고 회의록을 당사자에게 공개하자는 요구가 있다. 절차의 투명성과 위원의 소신 있는 판단 중 무엇을 우선해야 하는지 논하라."
+    form: policy
+    level: 3
+    mode: B
+    abilities: [reason, counter]
+    expected_turns: "6~10"
+    rebuttal: mid
+    cross: false
+    review: draft
+
+  - id: TOP-G18
+    archetypes: [ARC-G10]
+    prompt: "동아리 부원을 뽑을 때 실력이 가장 뛰어난 지원자와 동아리 활동에 가장 잘 맞는 지원자 중 누구를 뽑는 것이 공정할까?"
+    form: comparison
+    level: 1
+    mode: B
+    abilities: [understand, reason]
+    expected_turns: "4~6"
+    rebuttal: low
+    cross: false
+    review: draft
