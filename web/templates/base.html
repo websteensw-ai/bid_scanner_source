@@ -56,7 +56,7 @@
   </div>
 </aside>
 <main class="main">
-{% if METHOD_VIEW and not path.startswith(('/think', '/teacher/knowledge')) %}<div class="method-banner">{{ icon('scales') }}<div><b>방법론 검증 단계</b> · 제시문과 문항은 방법을 확인하기 위한 예시예요. 내용보다 <b>각 단계가 정해진 규칙대로 진행되는지</b>를 봐 주세요.</div></div>{% endif %}
+{% if METHOD_VIEW and not path.startswith(('/think', '/teacher/knowledge')) %}<div class="method-banner">{{ icon('scales') }}<div><b>방법론 검증 단계</b> · 실제 출제 문제로 <b>각 단계가 정해진 규칙대로 진행되는지</b> 확인하고 있어요.</div></div>{% endif %}
 {% block content %}{% endblock %}</main>
 {% else %}
 <main class="main solo">{% block solo %}{% endblock %}</main>

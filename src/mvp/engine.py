@@ -100,7 +100,7 @@ class MvpEngine:
             return None
         return max(self.state.mvp, key=lambda k: self.state.mvp[k].get("started_at", ""))
 
-    def start(self, pack_id: str = "BASIC-Q1") -> MvpAttempt:
+    def start(self, pack_id: str | None = None) -> MvpAttempt:
         pack, rubric = load_problem(pack_id)
         a = MvpAttempt(id=f"att-{secrets.token_hex(4)}", pack_id=pack.id, pack_version=pack.version,
                        rubric_version=rubric.full_id, cards_version=self.cards.version,

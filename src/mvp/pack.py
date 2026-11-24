@@ -3,6 +3,7 @@
 엔진은 패키지만 읽고 문제마다 다른 코드를 쓰지 않는다. 화면·AI 로 보낼 자료는
 반드시 이 모듈의 view 함수를 거쳐, 공개 범위 밖의 항목이 응답에 아예 실리지 않게 한다.
 """
+import os
 from functools import lru_cache
 from pathlib import Path
 
@@ -254,8 +255,17 @@ def stage_cards() -> StageCards:
     return StageCards.model_validate(_read(ROOT / "stage_cards.yaml"))
 
 
+def default_pack() -> str:
+    """새 회차에 배정할 문제 (MVP_PACK, 기본: 실제 출제 문제 1). 테스트는 SAMPLE-Q1 을 쓴다."""
+    return os.getenv("MVP_PACK", "BASIC-Q1")
+
+
+def load_problem(pack_id: str | None = None) -> tuple[Pack, Rubric]:
+    return _load_problem(pack_id or default_pack())
+
+
 @lru_cache
-def load_problem(pack_id: str = "BASIC-Q1") -> tuple[Pack, Rubric]:
+def _load_problem(pack_id: str) -> tuple[Pack, Rubric]:
     d = ROOT / "packs" / pack_id
     pack = Pack.model_validate(_read(d / "pack.yaml"))
     rubric = Rubric.model_validate(_read(d / "rubric.yaml"))

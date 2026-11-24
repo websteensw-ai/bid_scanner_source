@@ -180,10 +180,11 @@ def class_create(request: Request, name: str = Form(""), teacher_id: str = Form(
         if teacher_id not in {t["id"] for t in _store().account_list("teacher")}:
             raise Forbidden()
         owner = teacher_id
+    from src.mvp.pack import default_pack
     from web.email_auth import new_code
 
     cid = new_id("c")
-    _store().class_create(cid, name, owner, "BASIC-Q1")
+    _store().class_create(cid, name, owner, default_pack())
     _store().class_set_code(cid, new_code())
     _store().audit(user["id"], "class_create", cid)
     return redirect("/teacher/accounts")
