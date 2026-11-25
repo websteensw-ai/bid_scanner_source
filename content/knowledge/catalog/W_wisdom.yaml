@@ -1,0 +1,55 @@
+book: "『지혜 사용설명서』"
+subtitle: "거인의 어깨 위에 올라서라 — 그리스 로마 문명 3천년의 지혜에서 대한민국의 미래를 찾다"
+authors: ["박경귀"]
+publication: "북앤피플, 2022년 1월 20일 초판 1쇄, ISBN 978-89-97871-56-8 03810"
+piece_count: 37
+parts:
+  - "제1부 소통과 설득의 기술"
+  - "제2부 정치가의 길, 국민의 길"
+  - "제3부 희망의 국가, 어떻게 만들 것인가"
+  - "제4부 행복한 인생, 어떻게 살 것인가"
+note: >-
+  Drive read_file_content 텍스트(약 21.6만 자)로 판독. 판권면·머리말·차례 전체와 본문 p.15~159
+  (17번 알렉산드로스의 리더십 중간)까지 읽힘; 18~37번은 차례로만 목록화(본문 미확인).
+  page는 PDF 쪽이 아니라 책 인쇄 쪽수(차례 기준, 범위 끝은 다음 글 시작-1로 추정).
+  차례의 10번(096)·11번(103)은 본문 쪽표시와 불일치하여 본문 기준(약 088, 096)으로 보정.
+  각 글은 그리스·로마 고전 1권에 대한 고전평론(머리말: '엄선한 37권의 고전평론').
+  download_file_content는 사용하지 않음(본문 열람 범위 확장 불요 판단).
+pieces:
+  - {"no": 1, title: "연설술은 정의를 위해 쓰라", source: "플라톤, 《고르기아스》", page: "17-22", persons: [플라톤, 소크라테스, 고르기아스], asset_type_guess: concept, pilot_group_guess: 철학}
+  - {"no": 2, title: "거짓으로 대중을 현혹하는 소피스트를 경계하라", source: "플라톤, 《소피스트》", page: "23-28", persons: [플라톤], asset_type_guess: concept, pilot_group_guess: 철학}
+  - {"no": 3, title: "사익과 공익의 조화", source: "이사이오스, 《변론》", page: "29-35", persons: [이사이오스], asset_type_guess: policy, pilot_group_guess: 정치·법}
+  - {"no": 4, title: "진정한 소통의 기술", source: "아리스토텔레스, 《수사학》", page: "36-44", persons: [아리스토텔레스], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 5, title: "로마 인문주의 소통론", source: "키케로, 《수사학》", page: "45-51", persons: [키케로], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 6, title: "대중의 마음을 사로잡는 페리클레스의 명연설", source: "페리클레스 외, 《그리스의 위대한 연설》", page: "52-64", persons: [페리클레스], asset_type_guess: history, pilot_group_guess: 리더십·역사적 선택}
+  - {"no": 7, title: "키케로의 실천적 변론술", source: "키케로, 《연설가에 대하여》", page: "65-70", persons: [키케로], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 8, title: "냉철한 설득과 따뜻한 소통의 정치", source: "키케로, 《설득의 정치》", page: "71-80", persons: [키케로], asset_type_guess: choice, pilot_group_guess: 정치·법}
+  - {"no": 9, title: "공동체의 생존은 올바른 리더에 달렸다", source: "크세노폰, 《아나바시스》", page: "81-87", persons: [크세노폰], asset_type_guess: choice, pilot_group_guess: 리더십·역사적 선택}
+  - {"no": 10, title: "리더의 부재가 그리스 쇠망을 불렀다", source: "크세노폰, 《헬레니카》", page: "88-95 (차례 096은 오기로 추정)", persons: [크세노폰], asset_type_guess: history, pilot_group_guess: 리더십·역사적 선택}
+  - {"no": 11, title: "이상적 정치가의 조건", source: "플라톤, 《정치가》", page: "96-101 (차례 103은 오기로 추정)", persons: [플라톤], asset_type_guess: concept, pilot_group_guess: 정치·법}
+  - {"no": 12, title: "죽음 앞에서도 시민을 일깨운 소크라테스", source: "플라톤, 《소크라테스의 변론》", page: "102-116", persons: [소크라테스, 플라톤], asset_type_guess: choice, pilot_group_guess: 철학}
+  - {"no": 13, title: "악법도 법이다?", source: "플라톤, 《크리톤》", page: "117-124", persons: [소크라테스, 플라톤, 크리톤], asset_type_guess: choice, pilot_group_guess: 정치·법}
+  - {"no": 14, title: "조국과 자유를 지키려는 죽음의 의미", source: "플라톤, 《메넥세노스》", page: "125-132", persons: [플라톤], asset_type_guess: history, pilot_group_guess: 정치·법}
+  - {"no": 15, title: "계층갈등 해소를 위한 중용의 지혜", source: "아리스토텔레스·크세노폰, 《고대 그리스정치사 사료》", page: "133-145", persons: [아리스토텔레스, 크세노폰], asset_type_guess: policy, pilot_group_guess: 정치·법}
+  - {"no": 16, title: "세계 최초의 제국 세운 제왕의 리더십", source: "크세노폰, 《키로파에디아(키루스의 교육)》", page: "146-155", persons: [크세노폰, 키루스], asset_type_guess: history, pilot_group_guess: 리더십·역사적 선택}
+  - {"no": 17, title: "알렉산드로스의 리더십", source: "아리아노스, 《알렉산드로스 원정기》", page: "156-166 (본문은 159까지 판독)", persons: [아리아노스, 알렉산드로스], asset_type_guess: history, pilot_group_guess: 리더십·역사적 선택}
+  - {"no": 18, title: "정치인이 민심을 얻는 법", source: "키케로, 《후대 경세가들에게 보내는 로마인의 편지》", page: "167-172", persons: [키케로], asset_type_guess: choice, pilot_group_guess: 정치·법}
+  - {"no": 19, title: "철인 황제의 경건한 자기 성찰", source: "마르쿠스 아우렐리우스, 《명상록》", page: "173-182", persons: [마르쿠스 아우렐리우스], asset_type_guess: concept, pilot_group_guess: 철학}
+  - {"no": 20, title: "플라톤의 이상국가 실험과 실패", source: "플라톤, 《편지들》", page: "183-190", persons: [플라톤], asset_type_guess: history, pilot_group_guess: 리더십·역사적 선택}
+  - {"no": 21, title: "이상향 아틀란티스의 부활을 꿈꾸다", source: "플라톤, 《크리티아스》", page: "191-200", persons: [플라톤], asset_type_guess: literature, pilot_group_guess: 정치·법}
+  - {"no": 22, title: "그리스인이 꿈꾸던 이상국가", source: "플라톤, 《국가》", page: "201-212", persons: [플라톤], asset_type_guess: concept, pilot_group_guess: 철학}
+  - {"no": 23, title: "법치로 만드는 차선의 국가", source: "플라톤, 《법률》", page: "213-223", persons: [플라톤], asset_type_guess: policy, pilot_group_guess: 정치·법}
+  - {"no": 24, title: "선동가를 막아야 민주주의가 산다", source: "아리스토텔레스, 《정치학》", page: "224-230", persons: [아리스토텔레스], asset_type_guess: policy, pilot_group_guess: 정치·법}
+  - {"no": 25, title: "법치를 세워야 자유가 산다", source: "키케로, 《국가론》", page: "231-238", persons: [키케로], asset_type_guess: concept, pilot_group_guess: 정치·법}
+  - {"no": 26, title: "에로스는 아름다움에 대한 사랑이다", source: "플라톤, 《향연》", page: "239-251", persons: [플라톤], asset_type_guess: concept, pilot_group_guess: 철학}
+  - {"no": 27, title: "영혼을 이끄는 절제 있는 마중사랑", source: "플라톤, 《파이드로스》", page: "252-257", persons: [플라톤], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 28, title: "사랑받기 위한 필요조건", source: "플라톤, 《뤼시스》", page: "258-262", persons: [플라톤], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 29, title: "좋은 생각과 행동이 행복을 부른다", source: "아리스토텔레스, 《니코마코스 윤리학》", page: "263-272", persons: [아리스토텔레스], asset_type_guess: concept, pilot_group_guess: 철학}
+  - {"no": 30, title: "중용의 덕이 행복을 만든다", source: "아리스토텔레스, 《에우데모스 윤리학》", page: "273-278", persons: [아리스토텔레스], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 31, title: "마음의 평정이 진정한 쾌락이다", source: "에피쿠로스, 《쾌락》", page: "279-285", persons: [에피쿠로스], asset_type_guess: concept, pilot_group_guess: 철학}
+  - {"no": 32, title: "도덕적 행위 기준의 바이블", source: "키케로, 《의무론》", page: "286-298", persons: [키케로], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 33, title: "쾌락과 이성의 조화가 행복한 삶이다", source: "키케로, 《최고선악론》", page: "299-306", persons: [키케로], asset_type_guess: concept, pilot_group_guess: 철학}
+  - {"no": 34, title: "나와 이웃을 살리는 은혜 사용설명서", source: "세네카, 《베풂의 즐거움》", page: "307-313", persons: [세네카], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 35, title: "짧은 인생 값지게 사는 법", source: "세네카, 《인생이 왜 짧은가》", page: "314-320", persons: [세네카], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 36, title: "화내는 격정을 피하는 방법", source: "세네카, 《화에 대하여》", page: "321-328", persons: [세네카], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}
+  - {"no": 37, title: "마지막 그리스인 플루타르코스의 도덕론", source: "플루타르코스, 《모랄리아》", page: "329-", persons: [플루타르코스], asset_type_guess: concept, pilot_group_guess: 인간관계·윤리}

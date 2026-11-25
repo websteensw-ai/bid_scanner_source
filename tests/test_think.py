@@ -162,8 +162,8 @@ def test_pilot_batches_and_catalog():
     assert len(real) >= 50 and all(s.public != "full" for s in real)
     assert sum(p["done"] for p in KB.pilot_progress()) >= 50
     books = catalog()
-    assert len(books) == 5 and sum(b["count"] for b in books) >= 285
-    assert all(b["structured"] >= 5 for b in books)
+    assert len(books) >= 6 and sum(b["count"] for b in books) >= 322      # 『지혜 사용설명서』 37편 포함
+    assert sum(1 for b in books if b["structured"] >= 5) == 5               # 시범 구조화는 5권에서
     real_topics = [t for t in KB.approved_topics() if t.id.startswith(("TOP-J", "TOP-H", "TOP-G", "TOP-C", "TOP-K"))]
     assert len(real_topics) >= 70
 
