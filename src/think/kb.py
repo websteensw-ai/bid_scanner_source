@@ -9,6 +9,7 @@
 분류의 기본 단위는 문서가 아니라 문서 안의 개념·명제·가치충돌·사고원형이다 (2절).
 그래서 자료 → 개념 → 가치충돌 → 사고원형 → 논제 → 사고역량을 잇는 그래프로 읽는다 (10절).
 """
+import re
 from collections import defaultdict
 from functools import lru_cache
 from pathlib import Path
@@ -306,7 +307,14 @@ def inventory() -> dict:
             if x.get("asset_type_guess") in ASSET_TYPES:
                 types[ASSET_TYPES[x["asset_type_guess"]]] += 1
     # 같은 고전을 다룬 편이 여러 책에 실린 경우(예: 고전평론 185편 ↔ 『행복한 고전읽기 101』·『지혜 사용설명서』)는 한 번만 센다
-    dup = sum(1 for b in books for x in b["pieces"] if x.get("overlap_h101") or x.get("overlap_wisdom"))
+    dup = 0
+    for b in books:
+        seen: set[str] = set()
+        for x in b["pieces"]:
+            key = re.sub(r"\s+", "", str(x.get("title", "")))
+            if x.get("overlap_h101") or x.get("overlap_wisdom") or x.get("overlap") or (key and key in seen):
+                dup += 1          # 다른 책과 같은 평론이거나 같은 묶음 안에서 제목이 반복됨
+            seen.add(key)
     total = sum(b["count"] for b in books)
     return {"books": books, "total": total, "duplicates": dup, "unique": total - dup,
             "classified": sum(b["classified"] for b in books),

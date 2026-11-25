@@ -162,7 +162,7 @@ def test_pilot_batches_and_catalog():
     assert len(real) >= 50 and all(s.public != "full" for s in real)
     assert sum(p["done"] for p in KB.pilot_progress()) >= 50
     books = catalog()
-    assert len(books) >= 7 and sum(b["count"] for b in books) >= 520      # 고전평론 185편(198개 원고)·『지혜 사용설명서』 포함
+    assert len(books) >= 8 and sum(b["count"] for b in books) >= 633      # 고전평론 185편·현대명저 평설·『지혜 사용설명서』 포함
     from src.think.kb import inventory
     inv = inventory()
     assert inv["unique"] == inv["total"] - inv["duplicates"] and inv["duplicates"] > 0   # 같은 고전 평론은 한 번만
