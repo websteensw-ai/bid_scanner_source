@@ -481,3 +481,4 @@ mark.ann.on{background:var(--warning-50)}
 .think-yaml{background:#0F1A33;color:#E6ECFF;padding:1rem;border-radius:10px;font-size:.82rem;overflow:auto;white-space:pre-wrap;max-height:420px}
 @media (max-width:720px){.tp-row{grid-template-columns:6rem 1fr 3.8rem}}
 .think-chip input{width:auto;min-width:0;margin:0;padding:0;height:auto}
+.inv-flow{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin:.4rem 0}.inv-flow div{display:flex;flex-direction:column;align-items:center;min-width:7rem}.inv-flow span{font-size:.82rem;color:var(--text-muted)}.inv-flow i{font-style:normal;color:var(--text-muted);font-size:1.3rem}

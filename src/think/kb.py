@@ -284,10 +284,32 @@ def catalog() -> list[dict]:
         book = d.get("book")
         title = book.get("title", "") if isinstance(book, dict) else str(book or f.stem)
         prefix = f.stem.split("_")[0]
-        out.append({"key": f.stem, "title": title.split(" — ")[0].split(" (")[0], "pieces": d.get("pieces") or [],
-                    "count": int(d.get("piece_count") or len(d.get("pieces") or [])),
-                    "structured": sum(1 for s in kb.sources if s.id.startswith(f"SRC-{prefix}"))})
+        pieces = d.get("pieces") or []
+        src = [s for s in kb.sources if s.id.startswith(f"SRC-{prefix}")]
+        out.append({"key": f.stem, "title": title.split(" — ")[0].split(" (")[0], "pieces": pieces,
+                    "count": int(d.get("piece_count") or len(pieces)),
+                    "classified": sum(1 for x in pieces if x.get("asset_type_guess") or x.get("pilot_group_guess")),
+                    "structured": len(src),
+                    "approved": sum(1 for s in src if s.review.get("status") == "approved")})
     return out
+
+
+def inventory() -> dict:
+    """원천 지식자산 전체 현황: 보유 → 목록 등재 → 1차 분류 → 2차 사고구조화 → 전문가 검수 (기본계획 23·24절)."""
+    books = catalog()
+    groups: dict[str, int] = defaultdict(int)
+    types: dict[str, int] = defaultdict(int)
+    for b in books:
+        for x in b["pieces"]:
+            if x.get("pilot_group_guess"):
+                groups[x["pilot_group_guess"]] += 1
+            if x.get("asset_type_guess") in ASSET_TYPES:
+                types[ASSET_TYPES[x["asset_type_guess"]]] += 1
+    return {"books": books, "total": sum(b["count"] for b in books),
+            "classified": sum(b["classified"] for b in books),
+            "structured": sum(b["structured"] for b in books),
+            "approved": sum(b["approved"] for b in books),
+            "groups": dict(sorted(groups.items(), key=lambda x: -x[1])), "types": dict(types)}
 
 
 if __name__ == "__main__":       # python -m src.think.kb : 형식·참조 검사와 50편 구축 현황

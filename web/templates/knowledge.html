@@ -3,6 +3,16 @@
 {% block content %}
 <h1 class="h1">지식자산 · 사고원형 DB</h1>
 <p class="muted">원천 자료 → 개념·명제 → 가치충돌 → 사고원형 → 논제 → 사고역량을 잇는 ‘사고의 지도’. 시범 DB 50편은 원천 저작에서 구조화해 <b>전문가 검수를 마친 자료</b>예요. 검수 완료(approved) 논제만 학생 추천에 써요.</p>
+{% if inv %}<div class="card"><div class="nx-label">원천 지식자산 전체 현황 (보유 → 목록 등재 → 1차 분류 → 2차 사고구조화 → 전문가 검수)</div>
+  <div class="inv-flow">
+    <div><b class="big">{{ inv.total }}</b><span>목록 등재 (편)</span></div><i>→</i>
+    <div><b class="big">{{ inv.classified }}</b><span>1차 분류 (유형·분야)</span></div><i>→</i>
+    <div><b class="big">{{ inv.structured }}</b><span>2차 사고구조화</span></div><i>→</i>
+    <div><b class="big">{{ inv.approved }}</b><span>전문가 검수 완료</span></div>
+  </div>
+  <p class="small">{% for b in inv.books %}<span class="think-chip">{{ b.title }} {{ b.count }}편</span>{% endfor %}</p>
+  <p class="small muted">분야(1차 분류): {% for k, v in inv.groups.items() %}{{ k }} {{ v }}{{ ' · ' if not loop.last }}{% endfor %}</p>
+</div>{% endif %}
 <div class="nx-stats" style="--n:4">
   <div class="card"><div class="nx-label">① 원천 지식자산</div><b class="big">{{ st.sources }}</b> 편</div>
   <div class="card"><div class="nx-label">② 사고원형</div><b class="big">{{ st.archetypes }}</b> 개</div>

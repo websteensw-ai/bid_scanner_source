@@ -10,7 +10,7 @@ from fastapi.responses import HTMLResponse, Response
 import web.main as _main
 from src.mvp import ai as roles_mod
 from src.think.adaptive import Adaptive, LLMDiagnoser, ThinkState, demo_diagnose, structure_draft
-from src.think.kb import ASSET_TYPES, COPYRIGHT, MODES, PUBLIC, TOPIC_FORMS, catalog, knowledge
+from src.think.kb import ASSET_TYPES, COPYRIGHT, MODES, PUBLIC, TOPIC_FORMS, catalog, inventory, knowledge
 from web.main import env, redirect, render, require
 
 router = APIRouter()
@@ -145,7 +145,7 @@ def kb_home(request: Request, src: str = ""):
     kb = knowledge()
     sel = next((s for s in kb.sources if s.id == src), None)
     return render(request, "knowledge.html", kb=kb, st=kb.stats(), pilot=kb.pilot_progress(), sel=sel,
-                  smap=kb.source_map(sel.id) if sel else [], cross=kb.cross_candidates(), draft=None, books=catalog())
+                  smap=kb.source_map(sel.id) if sel else [], cross=kb.cross_candidates(), draft=None, books=catalog(), inv=inventory())
 
 
 @router.post("/teacher/knowledge/structure", response_class=HTMLResponse)
@@ -161,7 +161,7 @@ async def kb_structure(request: Request):
         except Exception as e:  # noqa: BLE001 — 초안 도구는 실패를 화면에 알린다
             draft = {"title": title, "_error": f"구조화에 실패했어요: {type(e).__name__}"}
     return render(request, "knowledge.html", kb=kb, st=kb.stats(), pilot=kb.pilot_progress(), sel=None, smap=[],
-                  cross=kb.cross_candidates(), draft=draft, books=catalog(), draft_yaml=yaml.safe_dump(draft, allow_unicode=True, sort_keys=False) if draft else "",
+                  cross=kb.cross_candidates(), draft=draft, books=catalog(), inv=inventory(), draft_yaml=yaml.safe_dump(draft, allow_unicode=True, sort_keys=False) if draft else "",
                   title=title, text=text, short=bool(title or text) and not draft)
 
 
