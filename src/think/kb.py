@@ -305,7 +305,10 @@ def inventory() -> dict:
                 groups[x["pilot_group_guess"]] += 1
             if x.get("asset_type_guess") in ASSET_TYPES:
                 types[ASSET_TYPES[x["asset_type_guess"]]] += 1
-    return {"books": books, "total": sum(b["count"] for b in books),
+    # 같은 고전을 다룬 편이 여러 책에 실린 경우(예: 고전평론 185편 ↔ 『행복한 고전읽기 101』·『지혜 사용설명서』)는 한 번만 센다
+    dup = sum(1 for b in books for x in b["pieces"] if x.get("overlap_h101") or x.get("overlap_wisdom"))
+    total = sum(b["count"] for b in books)
+    return {"books": books, "total": total, "duplicates": dup, "unique": total - dup,
             "classified": sum(b["classified"] for b in books),
             "structured": sum(b["structured"] for b in books),
             "approved": sum(b["approved"] for b in books),

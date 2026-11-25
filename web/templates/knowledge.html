@@ -5,7 +5,8 @@
 <p class="muted">원천 자료 → 개념·명제 → 가치충돌 → 사고원형 → 논제 → 사고역량을 잇는 ‘사고의 지도’. 시범 DB 50편은 원천 저작에서 구조화해 <b>전문가 검수를 마친 자료</b>예요. 검수 완료(approved) 논제만 학생 추천에 써요.</p>
 {% if inv %}<div class="card"><div class="nx-label">원천 지식자산 전체 현황 (보유 → 목록 등재 → 1차 분류 → 2차 사고구조화 → 전문가 검수)</div>
   <div class="inv-flow">
-    <div><b class="big">{{ inv.total }}</b><span>목록 등재 (편)</span></div><i>→</i>
+    <div><b class="big">{{ inv.unique }}</b><span>보유 자산 (중복 제외, 편)</span></div><i>→</i>
+    <div><b class="big">{{ inv.total }}</b><span>목록 등재 (책별 수록 기준)</span></div><i>→</i>
     <div><b class="big">{{ inv.classified }}</b><span>1차 분류 (유형·분야)</span></div><i>→</i>
     <div><b class="big">{{ inv.structured }}</b><span>2차 사고구조화</span></div><i>→</i>
     <div><b class="big">{{ inv.approved }}</b><span>전문가 검수 완료</span></div>
